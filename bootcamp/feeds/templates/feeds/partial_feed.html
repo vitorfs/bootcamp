@@ -1,0 +1,14 @@
+{% load humanize %}
+
+<li feed-id="{{ feed.pk }}">
+  <a href="#"><img src="http://vitorfs.com/img/picture.jpg" class="user"></a>
+  <div class="post">
+    <h3><a href="#">{{ feed.user.get_full_name }}</a> <small>{{ feed.date|naturaltime }}</small></h3>
+    <p>{{ feed.post }}</p>
+    <div class="interaction">
+      <a href="#"><span class="glyphicon glyphicon-thumbs-up"></span> Like (0)</a>
+      <a href="#"><span class="glyphicon glyphicon-comment"></span> Comment (0)</a>
+      <a href="#"><span class="glyphicon glyphicon-flag"></span> Flag (0)</a>
+    </div>
+  </div>
+</li>

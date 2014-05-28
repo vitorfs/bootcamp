@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block head %}
+  <script src="{{ STATIC_URL }}js/feeds.js"></script>
+{% endblock head %}
+
+{% block main %}
+  <div class="page-header">
+    <button type="button" class="btn btn-primary btn-compose">
+      <span class="glyphicon glyphicon-share-alt"></span> Compose
+    </button>
+    <h1>Feeds</h1>
+  </div>
+  <div class="compose">
+    <h2>Compose a new post</h2>
+    <form role="form" id="compose-form">
+      {% csrf_token %}
+      <div class="form-group">
+        <textarea class="form-control" rows="3" name="post"></textarea>
+      </div>
+      <div class="form-group">
+        <button type="button" class="btn btn-primary btn-post">
+          <span class="glyphicon glyphicon-ok"></span> Post
+        </button>
+        <button type="button" class="btn btn-default btn-cancel-compose">Cancel</button>
+      </div>
+    </form>
+  </div>
+  <div class="stream-update">
+    <a href="#">6 new posts</a>
+  </div>
+  <ul class="stream">
+    {% for feed in feeds %}
+      {% include 'feeds/partial_feed.html' with feed=feed %}
+    {% endfor %}
+  </ul>
+{% endblock main %}
