@@ -9,6 +9,7 @@ class Question(models.Model):
     create_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now_add=True)
     favorites = models.IntegerField(default=0)
+    has_accepted_answer = models.BooleanField(default=False)
     
     class Meta:
         verbose_name = 'Question'
@@ -18,11 +19,31 @@ class Question(models.Model):
     def __unicode__(self):
         return self.title
 
+    @staticmethod
+    def get_unanswered():
+        return Question.objects.filter(has_accepted_answer=False)
+
+    @staticmethod
+    def get_answered():
+        return Question.objects.filter(has_accepted_answer=True)
+
     def get_answers(self):
         return Answer.objects.filter(question=self)
 
+    def get_answers_count(self):
+        return Answer.objects.filter(question=self).count()
+
     def get_accepted_answer(self):
         return Answer.objects.get(question=self, is_accepted=True)
+
+    def get_tag_list(self):
+        return self.tags.split(' ')
+
+    def get_description_preview(self):
+        if len(self.description) > 255:
+            return u'{0}...'.format(self.description[:255])
+        else:
+            return self.description
 
 class Answer(models.Model):
     user = models.ForeignKey(User)

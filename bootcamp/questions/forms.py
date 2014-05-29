@@ -9,7 +9,8 @@ class QuestionForm(forms.ModelForm):
         max_length=2000)
     tags = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}),
         max_length=255,
-        help_text="Use commas to separe the tags.")
+        required=False,
+        help_text='Use spaces to separate the tags, such as "asp.net mvc5 javascript"')
 
     class Meta:
         model = Question

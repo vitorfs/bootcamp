@@ -1,15 +1,25 @@
 {% extends 'base.html' %}
 
+{% block head %}
+  <link href="{{ STATIC_URL }}css/questions.css" rel="stylesheet">
+  <script src="{{ STATIC_URL }}js/questions.js"></script>
+{% endblock head %}
+
 {% block main %}
   <div class="page-header">
-    <a href="{% url 'ask' %}" class="btn btn-primary btn-page-header">
+    <a href="{% url 'ask' %}" class="btn btn-primary pull-right">
       <span class="glyphicon glyphicon-share-alt"></span> Ask Question
     </a>
     <h1>Questions</h1>
   </div>
-  <ul class="questions">
+  <div class="questions">
+    <ul class="nav nav-tabs" style="margin-bottom: 1em">
+      <li{% if active == 'all' %} class="active"{% endif %}><a href="{% url 'questions' %}">All Questions</a></li>
+      <li{% if active == 'unanswered' %} class="active"{% endif %}><a href="{% url 'unanswered' %}">Unanswered</a></li>
+      <li{% if active == 'answered' %} class="active"{% endif %}><a href="{% url 'answered' %}">Answered</a></li>
+    </ul>
     {% for question in questions %}
-      
+      {% include 'questions/partial_question.html' with question=question %}
     {% endfor %}
-  </ul>
+  </div>
 {% endblock main %}

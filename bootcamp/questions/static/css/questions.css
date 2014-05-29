@@ -1,0 +1,29 @@
+.questions {
+  margin-top: 1em;
+}
+
+.questions .user {
+  width: 25px;
+  border-radius: 3px;
+}
+
+.questions .asked {
+  color: #aaaaaa;
+  float: right;
+  font-size: .8em;
+}
+
+.questions .username {
+  margin-left: .3em;
+  font-weight: 500;
+  font-size: 0.8em;
+}
+
+.questions .panel-body:hover {
+  background-color: #f5f8fa;
+  cursor: pointer;
+}
+
+.questions .question-user {
+  margin-bottom: .6em;
+}

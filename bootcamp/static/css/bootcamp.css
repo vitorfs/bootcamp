@@ -15,7 +15,6 @@ header h1 {
   font-weight: 200;
   font-family: "Audiowide", cursive;
   margin: 0;
-  text-shadow: 1px 1px 0 #333333;
   float: left;
 }
 
@@ -35,7 +34,7 @@ header ul.menu {
 }
 
 header ul.menu li.active a {
-  
+  color: #00b1cf;
 }
 
 header ul.settings {
@@ -53,7 +52,6 @@ header ul li {
   display: inline;
   list-style: none;
   margin-left: .8em;
-  text-shadow: 1px 1px 0 #333333;
 }
 
 header ul li a {
@@ -62,7 +60,7 @@ header ul li a {
 }
 
 header ul li a:hover {
-  color: #f6f6f6;
+  color: #92c35e;
   text-decoration: none;
 }
 
@@ -88,8 +86,4 @@ main .container {
 .page-header h1 {
   margin: 0;
   font-weight: 100;
-}
-
-.btn-page-header {
-  float: right;
 }

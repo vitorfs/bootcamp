@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 
 {% block main %}
-
+  <ol class="breadcrumb">
+    <li><a href="{% url 'questions' %}">Questions</a></li>
+    <li class="active">{{ question.title }}</li>
+  </ol>
 {% endblock main %}
