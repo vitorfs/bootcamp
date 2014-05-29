@@ -2,19 +2,19 @@
 
 <div class="panel panel-default question" question-id="{{ question.id }}">
   <div class="panel-heading">
-    <span class="asked">asked {{ question.update_date|naturaltime }}</span>
     <h3 class="panel-title">
       {% if question.has_accepted_answer %}
         <span class="glyphicon glyphicon-ok"></span>
       {% endif %}
       <a href="{% url 'question' question.pk %}">{{ question.title }}</a>
-      <span class="badge">{{ question.get_answers_count }}</span>
+      <span class="badge pull-right">{{ question.get_answers_count }}</span>
     </h3>
   </div>
   <div class="panel-body">
     <div class="question-user">
       <a href="#"><img src="http://vitorfs.com/img/picture.jpg" class="user"></a>
       <a href="#" class="username">{{ question.user.get_full_name }}</a>
+      <span class="asked">asked {{ question.update_date|naturaltime }}</span>
     </div>
     <p>{{ question.get_description_preview }}</p>
     {% if question.get_tag_list %}
