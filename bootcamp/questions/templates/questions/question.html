@@ -1,8 +1,84 @@
 {% extends 'base.html' %}
 
+{% load humanize %}
+
+{% block head %}
+  <link href="{{ STATIC_URL }}css/questions.css" rel="stylesheet">
+{% endblock head %}
+
 {% block main %}
   <ol class="breadcrumb">
     <li><a href="{% url 'questions' %}">Questions</a></li>
-    <li class="active">{{ question.title }}</li>
+    <li class="active">Question</li>
   </ol>
+  <div class="row question">
+    <div class="col-md-1 options">
+      <span class="glyphicon glyphicon-star-empty favorite"></span>
+      <span>0</span>
+    </div>
+    <div class="col-md-11">
+      <h2>{{ question.title }}</h2>
+      <div class="question-user">
+        <a href="#"><img src="http://vitorfs.com/img/picture.jpg" class="user"></a>
+        <a href="#" class="username">{{ question.user.get_full_name }}</a>
+        <small class="asked">asked {{ question.update_date|naturaltime }}</small>
+      </div>
+      <p>{{ question.description }}</p>
+      {% if question.get_tag_list %}
+        <p>
+          {% for tag in question.get_tag_list %}
+            <span class="label label-primary">{{ tag }}</span>
+          {% endfor %}
+        </p>
+      {% endif %}
+    </div>
+  </div>
+  <h4 class="page-header">Answers</h4>
+  <div class="answers">
+    <div class="row answer">
+      <div class="col-md-1 options">
+        <span class="glyphicon glyphicon-chevron-up vote"></span>
+        <span>0</span>
+        <span class="glyphicon glyphicon-chevron-down vote"></span>
+        <span class="glyphicon glyphicon-ok accept"></span>
+      </div>
+      <div class="col-md-11">
+        <div class="answer-user">
+          <a href="#"><img src="http://vitorfs.com/img/picture.jpg" class="user"></a>
+          <a href="#" class="username">{{ question.user.get_full_name }}</a>
+          <small class="answered">answered {{ question.update_date|naturaltime }}</small>
+        </div>
+        <p>{{ question.description }}</p>
+      </div>
+    </div>
+    <hr>
+    <div class="row answer">
+      <div class="col-md-1 options">
+        <span class="glyphicon glyphicon-chevron-up vote"></span>
+        <span>0</span>
+        <span class="glyphicon glyphicon-chevron-down vote"></span>
+        <span class="glyphicon glyphicon-ok accept"></span>
+      </div>
+      <div class="col-md-11">
+        <div class="answer-user">
+          <a href="#"><img src="http://vitorfs.com/img/picture.jpg" class="user"></a>
+          <a href="#" class="username">{{ question.user.get_full_name }}</a>
+          <small class="answered">answered {{ question.update_date|naturaltime }}</small>
+        </div>
+        <p>{{ question.description }}</p>
+      </div>
+    </div>
+    <hr>
+    <h4>Your Answer</h4>
+    <form action="." method="post" role="form">
+      {% csrf_token %}
+      <input type="hidden" name="question" value="{{ question.pk }}">
+      <div class="form-group">
+        <textarea class="form-control" rows="4"></textarea>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">Post Your Answer</button>
+      </div>
+    </form>
+  </div>
 {% endblock main %}

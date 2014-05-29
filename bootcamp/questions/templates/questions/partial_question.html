@@ -4,8 +4,8 @@
   <div class="panel-heading">
     <span class="asked">asked {{ question.update_date|naturaltime }}</span>
     <h3 class="panel-title">
-      <span class="badge">{{ question.get_answers_count }}</span>
       <a href="{% url 'question' question.pk %}">{{ question.title }}</a>
+      <span class="badge">{{ question.get_answers_count }}</span>
     </h3>
   </div>
   <div class="panel-body">
