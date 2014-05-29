@@ -4,6 +4,7 @@
 
 {% block head %}
   <link href="{{ STATIC_URL }}css/questions.css" rel="stylesheet">
+  <script src="{{ STATIC_URL }}js/questions.js"></script>
 {% endblock head %}
 
 {% block main %}
@@ -11,7 +12,7 @@
     <li><a href="{% url 'questions' %}">Questions</a></li>
     <li class="active">Question</li>
   </ol>
-  <div class="row question">
+  <div class="row question" question-id="{{ question.id }}">
     <div class="col-md-1 options">
       <span class="glyphicon glyphicon-star-empty favorite"></span>
       <span>0</span>
@@ -35,49 +36,19 @@
   </div>
   <h4 class="page-header">Answers</h4>
   <div class="answers">
-    <div class="row answer">
-      <div class="col-md-1 options">
-        <span class="glyphicon glyphicon-chevron-up vote"></span>
-        <span>0</span>
-        <span class="glyphicon glyphicon-chevron-down vote"></span>
-        <span class="glyphicon glyphicon-ok accept"></span>
-      </div>
-      <div class="col-md-11">
-        <div class="answer-user">
-          <a href="#"><img src="http://vitorfs.com/img/picture.jpg" class="user"></a>
-          <a href="#" class="username">{{ question.user.get_full_name }}</a>
-          <small class="answered">answered {{ question.update_date|naturaltime }}</small>
-        </div>
-        <p>{{ question.description }}</p>
-      </div>
-    </div>
-    <hr>
-    <div class="row answer">
-      <div class="col-md-1 options">
-        <span class="glyphicon glyphicon-chevron-up vote"></span>
-        <span>0</span>
-        <span class="glyphicon glyphicon-chevron-down vote"></span>
-        <span class="glyphicon glyphicon-ok accept"></span>
-      </div>
-      <div class="col-md-11">
-        <div class="answer-user">
-          <a href="#"><img src="http://vitorfs.com/img/picture.jpg" class="user"></a>
-          <a href="#" class="username">{{ question.user.get_full_name }}</a>
-          <small class="answered">answered {{ question.update_date|naturaltime }}</small>
-        </div>
-        <p>{{ question.description }}</p>
-      </div>
-    </div>
-    <hr>
+    {% for answer in question.get_answers %}
+      {% include 'questions/partial_answer.html' with question=question answer=answer %}
+    {% endfor %}
     <h4>Your Answer</h4>
-    <form action="." method="post" role="form">
+    <form action="{% url 'answer' %}" method="post" role="form">
       {% csrf_token %}
-      <input type="hidden" name="question" value="{{ question.pk }}">
+      {{ form.question }}
       <div class="form-group">
-        <textarea class="form-control" rows="4"></textarea>
+        {{ form.description }}
       </div>
       <div class="form-group">
         <button type="submit" class="btn btn-primary">Post Your Answer</button>
+        <button type="button" class="btn btn-default">Preview</button>
       </div>
     </form>
   </div>

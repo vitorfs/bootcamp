@@ -53,6 +53,15 @@
   margin-top: .2em;
 }
 
+.options span.accept:hover {
+  cursor: pointer;
+  color: #5cb85c;
+}
+
+.options span.accepted {
+  color: #5cb85c;
+}
+
 .answer {
   margin-top: 1em;
 }

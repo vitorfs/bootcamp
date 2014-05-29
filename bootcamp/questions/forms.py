@@ -1,8 +1,7 @@
 from django import forms
-from bootcamp.questions.models import Question
+from bootcamp.questions.models import Question, Answer
 
 class QuestionForm(forms.ModelForm):
-
     title = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}), 
         max_length=255)
     description = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}), 
@@ -15,3 +14,12 @@ class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
         fields = ['title', 'description', 'tags']
+
+class AnswerForm(forms.ModelForm):
+    question = forms.ModelChoiceField(widget=forms.HiddenInput(), queryset=Question.objects.all())
+    description = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}), 
+        max_length=2000)
+
+    class Meta:
+        model = Answer
+        fields = ['question', 'description']

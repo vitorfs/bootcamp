@@ -11,5 +11,7 @@ urlpatterns = patterns('',
     url(r'^questions/answered/$', 'bootcamp.questions.views.answered', name='answered'),
     url(r'^questions/unanswered/$', 'bootcamp.questions.views.unanswered', name='unanswered'),
     url(r'^questions/ask/$', 'bootcamp.questions.views.ask', name='ask'),
+    url(r'^questions/answer/$', 'bootcamp.questions.views.answer', name='answer'),
+    url(r'^questions/answer/accept/$', 'bootcamp.questions.views.accept', name='accept'),
     url(r'^admin/', include(admin.site.urls)),
 )
