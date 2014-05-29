@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block main %}
+  <ol class="breadcrumb">
+    <li><a href="{% url 'questions' %}">Questions</a></li>
+    <li class="active">Ask Question</li>
+  </ol>
+  <form action="{% url 'ask' %}" method="post" class="form-horizontal" role="form">
+    {% csrf_token %}
+    {% for field in form.visible_fields %}
+      <div class="form-group">
+        <label for="{{ field.label }}" class="col-sm-2 control-label">{{ field.label }}</label>
+        <div class="col-sm-10">
+          {{ field }}
+          {% if field.help_text %}
+            <span class="help-block">{{ field.help_text }}</span>
+          {% endif %}
+          {{ field.errors }}
+        </div>
+      </div>
+    {% endfor %}
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-primary">Post Your Question</button>
+        <a href="{% url 'questions' %}" class="btn btn-default">Cancel</a>
+      </div>
+    </div>
+  </form>
+{% endblock main %}

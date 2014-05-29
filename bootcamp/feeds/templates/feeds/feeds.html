@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 
 {% block head %}
+  <link href="{{ STATIC_URL }}css/feeds.css" rel="stylesheet">
   <script src="{{ STATIC_URL }}js/feeds.js"></script>
 {% endblock head %}
 
 {% block main %}
   <div class="page-header">
-    <button type="button" class="btn btn-primary btn-compose">
+    <button type="button" class="btn btn-primary btn-page-header">
       <span class="glyphicon glyphicon-share-alt"></span> Compose
     </button>
     <h1>Feeds</h1>

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block main %}
+  <div class="page-header">
+    <a href="{% url 'ask' %}" class="btn btn-primary btn-page-header">
+      <span class="glyphicon glyphicon-share-alt"></span> Ask Question
+    </a>
+    <h1>Questions</h1>
+  </div>
+  <ul class="questions">
+    {% for question in questions %}
+      
+    {% endfor %}
+  </ul>
+{% endblock main %}

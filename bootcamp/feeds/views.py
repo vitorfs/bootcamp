@@ -1,6 +1,10 @@
 from django.shortcuts import render
 from bootcamp.feeds.models import Feed
 
+def feeds(request):
+    feeds = Feed.objects.all()
+    return render(request, 'feeds/feeds.html', {'feeds': feeds})
+
 def post(request):
     feed = Feed()
     feed.user = request.user

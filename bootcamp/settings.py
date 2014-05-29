@@ -27,9 +27,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'bootcamp.articles',
     'bootcamp.auth',
-    'bootcamp.core',
     'bootcamp.feeds',
+    'bootcamp.questions',
 )
 
 MIDDLEWARE_CLASSES = (
