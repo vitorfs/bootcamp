@@ -21,27 +21,17 @@
       {% endif %}
       <a href="#" class="comment">
         <span class="glyphicon glyphicon-comment"></span> Comment 
-        (<span class="comment-count">0</span>)
+        (<span class="comment-count">{{ feed.comments }}</span>)
       </a>
     </div>
     <div class="comments">
-      <form role="form">
+      <form role="form" method="post" action="{{ comment }}" onsubmit="return false">
         {% csrf_token %}
-        <input type="text" class="form-control input-sm" placeholder="Write a comment...">
+        <input type="hidden" name="feed" value="{{ feed.pk }}">
+        <input type="text" class="form-control input-sm" placeholder="Write a comment..." name="post">
       </form>
       <ol class="clearfix">
-        <li>
-          <a href="#"><img src="http://vitorfs.com/img/picture.jpg" class="user-comment"></a>
-          <h4><a href="">Vitor Freitas</a> <small>3 minutes ago</small></h4>
-          <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua.</div>
-        </li>
-        <li>
-          <a href="#"><img src="http://vitorfs.com/img/picture.jpg" class="user-comment"></a>
-          <h4><a href="">Vitor Freitas</a> <small>3 minutes ago</small></h4>
-          <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua.</div>
-        </li>
+        {% include 'feeds/partial_feed_comments.html' with feed=feed %}
       </ol>
     </div>
   </div>

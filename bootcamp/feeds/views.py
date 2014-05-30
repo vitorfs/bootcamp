@@ -25,3 +25,11 @@ def like(request):
         like = Activity(activity_type=Activity.LIKE, feed=feed_id, user=user)
         like.save()
     return HttpResponse(feed.calculate_likes())
+
+def comment(request):
+    feed_id = request.POST['feed']
+    feed = Feed.objects.get(pk=feed_id)
+    post = request.POST['post']
+    user = request.user
+    feed.do_comment(user=user, post=post)
+    return render(request, 'feeds/partial_feed_comments.html', {'feed': feed})

@@ -1,9 +1,31 @@
 $(function () {
+  $("body").keydown(function (evt) {
+    var keyCode = evt.which?evt.which:evt.keyCode;
+    if (evt.ctrlKey && keyCode == 80) {
+      $(".btn-compose").click();
+      return false;
+    }
+  });
+
+  $("#compose-form textarea[name='post']").keydown(function (evt) {
+    var keyCode = evt.which?evt.which:evt.keyCode;
+    if (evt.ctrlKey && (keyCode == 10 || keyCode == 13)) {
+      $(".btn-post").click();
+    }
+  });
+
   $(".btn-compose").click(function () {
-    $(".compose textarea").val("");
-    $(".compose").slideDown(400, function () {
-      $(".compose textarea").focus();
-    });
+    if ($(".compose").hasClass("composing")) {
+      $(".compose").removeClass("composing");
+      $(".compose").slideUp();
+    }
+    else {
+      $(".compose").addClass("composing");
+      $(".compose textarea").val("");
+      $(".compose").slideDown(400, function () {
+        $(".compose textarea").focus();
+      });
+    }
   });
 
   $(".btn-cancel-compose").click(function () {
@@ -52,7 +74,40 @@ $(function () {
 
   $("ul.stream").on("click", ".comment", function () { 
     var post = $(this).closest(".post");
-    $(".comments", post).slideDown();
+    if ($(".comments", post).hasClass("tracking")) {
+      $(".comments", post).slideUp();
+      $(".comments", post).removeClass("tracking");
+    }
+    else {
+      $(".comments", post).slideDown(400, function () {
+        $(".comments", post).addClass("tracking");
+        $(".comments input[name='post']", post).focus();
+      });
+    }
     return false;
+  });
+
+  $(".comments").on("keydown", "input[name='post']", function (evt) {
+    var keyCode = evt.which?evt.which:evt.keyCode;
+    if (keyCode == 13) {
+      var form = $(this).closest("form");
+      var container = $(this).closest(".comments");
+      var input = $(this);
+      $.ajax({
+        url: '/feeds/comment/',
+        data: $(form).serialize(),
+        type: 'post',
+        cache: false,
+        beforeSend: function () {
+          $(input).val("");
+        },
+        success: function (data) {
+          $("ol", container).html(data);
+          var post_container = $(container).closest(".post");
+          $(".comment-count", post_container).text($("ol li", container).length);
+        }
+      });
+      return false;
+    }
   });
 });
