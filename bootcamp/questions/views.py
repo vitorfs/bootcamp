@@ -70,6 +70,18 @@ def vote(request):
     if activity:
         activity.delete()
     if vote in [Activity.UP_VOTE, Activity.DOWN_VOTE]:
-        activity = Activity(user=user, answer=answer_id, activity_type=vote)
+        activity = Activity(activity_type=vote, user=user, answer=answer_id)
         activity.save()
     return HttpResponse(answer.calculate_votes())
+
+def favorite(request):
+    question_id = request.POST['question']
+    question = Question.objects.get(pk=question_id)
+    user = request.user
+    activity = Activity.objects.filter(activity_type=Activity.FAVORITE, user=user, question=question_id)
+    if activity:
+        activity.delete()
+    else:
+        activity = Activity(activity_type=Activity.FAVORITE, user=user, question=question_id)
+        activity.save()
+    return HttpResponse(question.calculate_favorites())

@@ -20,7 +20,9 @@ $(function () {
       cache: false,
       success: function (data) {
         $(".accept").removeClass("accepted");
+        $(".accept").prop("title", "Click to accept the answer");
         $(span).addClass("accepted");
+        $(span).prop("title", "Click to unaccept the answer");
       }
     });
   });
@@ -59,5 +61,33 @@ $(function () {
     });
   });
 
-  $("[data-toggle='tooltip']").tooltip();
+  $(".favorite").click(function () {
+    var span = $(this);
+    var question = $(this).closest(".question").attr("question-id");
+    var csrf = $("input[name='csrfmiddlewaretoken']", $(this).closest(".question")).val();
+
+    $.ajax({
+      url: '/questions/favorite/',
+      data: {
+        'question': question,
+        'csrfmiddlewaretoken': csrf
+      },
+      type: 'post',
+      cache: false,
+      success: function (data) {
+        if ($(span).hasClass("favorited")) {
+          $(span).removeClass("glyphicon-star")
+            .removeClass("favorited")
+            .addClass("glyphicon-star-empty");
+        }
+        else {
+          $(span).removeClass("glyphicon-star-empty")
+            .addClass("glyphicon-star")
+            .addClass("favorited");
+        }
+        $(".favorite-count").text(data);
+      }
+    });
+
+  });
 });

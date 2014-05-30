@@ -46,6 +46,19 @@ class Question(models.Model):
         else:
             return self.description
 
+    def calculate_favorites(self):
+        favorites = Activity.objects.filter(activity_type=Activity.FAVORITE, question=self.pk).count()
+        self.favorites = favorites
+        self.save()
+        return self.favorites
+
+    def get_favoriters(self):
+        favorites = Activity.objects.filter(activity_type=Activity.FAVORITE, question=self.pk)
+        favoriters = []
+        for favorite in favorites:
+            favoriters.append(favorite.user)
+        return favoriters
+
 class Answer(models.Model):
     user = models.ForeignKey(User)
     question = models.ForeignKey(Question)

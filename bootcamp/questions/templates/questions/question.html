@@ -13,9 +13,14 @@
     <li class="active">Question</li>
   </ol>
   <div class="row question" question-id="{{ question.id }}">
+    {% csrf_token %}
     <div class="col-md-1 options">
-      <span class="glyphicon glyphicon-star-empty favorite"></span>
-      <span>0</span>
+      {% if user in question.get_favoriters %}
+        <span class="glyphicon glyphicon-star favorite favorited" title="Click to mark this question as favorite; click again to toggle"></span>
+      {% else %}
+        <span class="glyphicon glyphicon-star-empty favorite" title="Click to mark this question as favorite; click again to toggle"></span>
+      {% endif %}
+      <span class="favorite-count">{{ question.favorites }}</span>
     </div>
     <div class="col-md-11">
       <h2>{{ question.title }}</h2>

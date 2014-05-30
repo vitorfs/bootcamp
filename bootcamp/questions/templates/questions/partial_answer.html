@@ -3,11 +3,15 @@
 <div class="row answer" answer-id="{{ answer.id }}">
   {% csrf_token %}
   <div class="col-md-1 options">
-    <span class="glyphicon glyphicon-chevron-up vote up-vote{% if user in answer.get_up_voters %} voted{% endif %}"></span>
+    <span class="glyphicon glyphicon-chevron-up vote up-vote{% if user in answer.get_up_voters %} voted{% endif %}" title="Click to up vote; click again to toggle"></span>
     <span class="votes">{{ answer.votes }}</span>
-    <span class="glyphicon glyphicon-chevron-down vote down-vote{% if user in answer.get_down_voters %} voted{% endif %}"></span>
-    {% if user == question.user %}
-      <span class="glyphicon glyphicon-ok accept{% if answer.is_accepted %} accepted{% endif %}" data-toggle="tooltip" data-placement="bottom" title="Click to accept the answer"></span>
+    <span class="glyphicon glyphicon-chevron-down vote down-vote{% if user in answer.get_down_voters %} voted{% endif %}" title="Click to down vote; click again to toggle"></span>
+    {% if answer.is_accepted and user == question.user %}
+      <span class="glyphicon glyphicon-ok accept accepted" title="Click to unaccept the answer"></span>
+    {% elif answer.is_accepted %}
+      <span class="glyphicon glyphicon-ok accept accepted" style="cursor: default"></span>
+    {% elif user == question.user %}
+      <span class="glyphicon glyphicon-ok accept" title="Click to accept the answer"></span>
     {% endif %}
   </div>
   <div class="col-md-11">

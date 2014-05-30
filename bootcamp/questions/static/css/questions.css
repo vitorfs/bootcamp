@@ -44,6 +44,7 @@
 
 .options span.vote {
   font-size: 2em;
+  color: #ddd;
 }
 
 .options span.vote:hover {
@@ -52,7 +53,7 @@
 }
 
 .options span.voted {
-  color: #428bca;
+  color: #333;
 }
 
 .options span.accept {
@@ -92,6 +93,14 @@
   margin-left: .6em;
 }
 
-.tooltip {
-  font-size: .8em;
+.favorite {
+  cursor: pointer;
+}
+
+.favorite:hover {
+  color: #f0ad4e;
+}
+
+.favorited {
+  color: #f0ad4e; 
 }
