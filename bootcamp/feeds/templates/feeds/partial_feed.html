@@ -1,13 +1,25 @@
 {% load humanize %}
 
-<li feed-id="{{ feed.pk }}">
+<li feed-id="{{ feed.pk }}" csrf="{{ csrf_token }}">
   <a href="#"><img src="http://vitorfs.com/img/picture.jpg" class="user"></a>
   <div class="post">
     <h3><a href="#">{{ feed.user.get_full_name }}</a> <small>{{ feed.date|naturaltime }}</small></h3>
     <p>{{ feed.post }}</p>
     <div class="interaction">
-      <a href="#"><span class="glyphicon glyphicon-thumbs-up"></span> Like (0)</a>
-      <a href="#"><span class="glyphicon glyphicon-comment"></span> Comment (0)</a>
+      {% if user in feed.get_likers %}
+        <a href="#" class="like unlike">
+          <span class="glyphicon glyphicon-thumbs-up"></span>
+          <span class="text">Unlike</span>
+          (<span class="like-count">{{ feed.likes }}</span>)
+        </a>
+      {% else %}
+        <a href="#" class="like">
+          <span class="glyphicon glyphicon-thumbs-up"></span>
+          <span class="text">Like</span>
+          (<span class="like-count">{{ feed.likes }}</span>)
+        </a>
+      {% endif %}
+      <a href="#"><span class="glyphicon glyphicon-comment comment"></span> Comment (<span class="comment-count">0</span>)</a>
     </div>
   </div>
 </li>

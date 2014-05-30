@@ -5,7 +5,9 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^$', 'bootcamp.feeds.views.feeds', name='feeds'),
-    url(r'^post/$', 'bootcamp.feeds.views.post', name='post'),
+    url(r'^feeds/$', 'bootcamp.feeds.views.feeds', name='feeds'),
+    url(r'^feeds/post/$', 'bootcamp.feeds.views.post', name='post'),
+    url(r'^feeds/like/$', 'bootcamp.feeds.views.like', name='like'),
     url(r'^questions/$', 'bootcamp.questions.views.questions', name='questions'),
     url(r'^questions/(\d+)/$', 'bootcamp.questions.views.question', name='question'),
     url(r'^questions/answered/$', 'bootcamp.questions.views.answered', name='answered'),

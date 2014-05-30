@@ -12,7 +12,7 @@ $(function () {
 
   $(".btn-post").click(function () {
     $.ajax({
-      url: '/post/',
+      url: '/feeds/post/',
       data: $("#compose-form").serialize(),
       type: 'post',
       cache: false,
@@ -21,5 +21,32 @@ $(function () {
         $(".compose").slideUp();
       }
     });
+  });
+
+  $("ul.stream").on("click", ".like", function () {
+    var li = $(this).closest("li");
+    var feed = $(li).attr("feed-id");
+    var csrf = $(li).attr("csrf");
+    $.ajax({
+      url: '/feeds/like/',
+      data: {
+        'feed': feed,
+        'csrfmiddlewaretoken': csrf
+      },
+      type: 'post',
+      cache: false,
+      success: function (data) {
+        if ($(".like", li).hasClass("unlike")) {
+          $(".like", li).removeClass("unlike");
+          $(".like .text", li).text("Like");
+        }
+        else {
+          $(".like", li).addClass("unlike");
+          $(".like .text", li).text("Unlike");
+        }
+        $(".like .like-count", li).text(data);
+      }
+    });
+    return false;
   });
 });
