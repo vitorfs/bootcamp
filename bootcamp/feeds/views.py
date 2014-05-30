@@ -4,7 +4,7 @@ from bootcamp.feeds.models import Feed
 from bootcamp.activities.models import Activity
 
 def feeds(request):
-    feeds = Feed.objects.all()
+    feeds = Feed.objects.filter(parent=None)
     return render(request, 'feeds/feeds.html', {'feeds': feeds})
 
 def post(request):

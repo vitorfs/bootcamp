@@ -49,4 +49,10 @@ $(function () {
     });
     return false;
   });
+
+  $("ul.stream").on("click", ".comment", function () { 
+    var post = $(this).closest(".post");
+    $(".comments", post).slideDown();
+    return false;
+  });
 });

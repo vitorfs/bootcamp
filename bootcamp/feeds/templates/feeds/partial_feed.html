@@ -19,7 +19,30 @@
           (<span class="like-count">{{ feed.likes }}</span>)
         </a>
       {% endif %}
-      <a href="#"><span class="glyphicon glyphicon-comment comment"></span> Comment (<span class="comment-count">0</span>)</a>
+      <a href="#" class="comment">
+        <span class="glyphicon glyphicon-comment"></span> Comment 
+        (<span class="comment-count">0</span>)
+      </a>
+    </div>
+    <div class="comments">
+      <form role="form">
+        {% csrf_token %}
+        <input type="text" class="form-control input-sm" placeholder="Write a comment...">
+      </form>
+      <ol class="clearfix">
+        <li>
+          <a href="#"><img src="http://vitorfs.com/img/picture.jpg" class="user-comment"></a>
+          <h4><a href="">Vitor Freitas</a> <small>3 minutes ago</small></h4>
+          <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua.</div>
+        </li>
+        <li>
+          <a href="#"><img src="http://vitorfs.com/img/picture.jpg" class="user-comment"></a>
+          <h4><a href="">Vitor Freitas</a> <small>3 minutes ago</small></h4>
+          <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua.</div>
+        </li>
+      </ol>
     </div>
   </div>
 </li>

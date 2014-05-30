@@ -71,7 +71,7 @@ class Answer(models.Model):
     class Meta:
         verbose_name = 'Answer'
         verbose_name_plural = 'Answers'
-        ordering = ('-is_accepted', 'votes', 'create_date',)
+        ordering = ('-is_accepted', '-votes', 'create_date',)
 
     def __unicode__(self):
         return self.description
