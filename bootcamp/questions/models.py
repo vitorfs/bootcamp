@@ -79,3 +79,17 @@ class Answer(models.Model):
         self.votes = up_votes - down_votes
         self.save()
         return self.votes
+
+    def get_up_voters(self):
+        votes = Activity.objects.filter(activity_type=Activity.UP_VOTE, answer=self.pk)
+        voters = []
+        for vote in votes:
+            voters.append(vote.user)
+        return voters
+
+    def get_down_voters(self):
+        votes = Activity.objects.filter(activity_type=Activity.DOWN_VOTE, answer=self.pk)
+        voters = []
+        for vote in votes:
+            voters.append(vote.user)
+        return voters

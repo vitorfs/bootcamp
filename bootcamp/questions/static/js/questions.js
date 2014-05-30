@@ -30,7 +30,10 @@ $(function () {
     var answer = $(this).closest(".answer").attr("answer-id");
     var csrf = $("input[name='csrfmiddlewaretoken']", $(this).closest(".answer")).val();
     var vote = "";
-    if ($(this).hasClass("up-vote")) {
+    if ($(this).hasClass("voted")) {
+      var vote = "R";
+    }
+    else if ($(this).hasClass("up-vote")) {
       vote = "U";
     }
     else if ($(this).hasClass("down-vote")) {
