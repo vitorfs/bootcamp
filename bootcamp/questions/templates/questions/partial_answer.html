@@ -3,9 +3,9 @@
 <div class="row answer" answer-id="{{ answer.id }}">
   {% csrf_token %}
   <div class="col-md-1 options">
-    <span class="glyphicon glyphicon-chevron-up vote"></span>
-    <span>0</span>
-    <span class="glyphicon glyphicon-chevron-down vote"></span>
+    <span class="glyphicon glyphicon-chevron-up vote up-vote"></span>
+    <span class="votes">{{ answer.votes }}</span>
+    <span class="glyphicon glyphicon-chevron-down vote down-vote"></span>
     {% if user == question.user %}
       <span class="glyphicon glyphicon-ok accept{% if answer.is_accepted %} accepted{% endif %}" data-toggle="tooltip" data-placement="bottom" title="Click to accept the answer"></span>
     {% endif %}

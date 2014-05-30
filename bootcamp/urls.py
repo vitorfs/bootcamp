@@ -13,5 +13,6 @@ urlpatterns = patterns('',
     url(r'^questions/ask/$', 'bootcamp.questions.views.ask', name='ask'),
     url(r'^questions/answer/$', 'bootcamp.questions.views.answer', name='answer'),
     url(r'^questions/answer/accept/$', 'bootcamp.questions.views.accept', name='accept'),
+    url(r'^questions/answer/vote/$', 'bootcamp.questions.views.vote', name='vote'),
     url(r'^admin/', include(admin.site.urls)),
 )

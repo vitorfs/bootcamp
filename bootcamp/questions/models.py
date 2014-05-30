@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from bootcamp.activities.models import Activity
 
 class Question(models.Model):
     user = models.ForeignKey(User)
@@ -71,3 +72,10 @@ class Answer(models.Model):
         self.save()
         self.question.has_accepted_answer = True
         self.question.save()
+
+    def calculate_votes(self):
+        up_votes = Activity.objects.filter(activity_type=Activity.UP_VOTE, answer=self.pk).count()
+        down_votes = Activity.objects.filter(activity_type=Activity.DOWN_VOTE, answer=self.pk).count()
+        self.votes = up_votes - down_votes
+        self.save()
+        return self.votes

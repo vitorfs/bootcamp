@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from bootcamp.questions.models import Question, Answer
 from bootcamp.questions.forms import QuestionForm, AnswerForm
+from bootcamp.activities.models import Activity
+from django.db.models import Q
 
 def questions(request):
     questions = Question.objects.all()
@@ -58,3 +60,16 @@ def accept(request):
     answer = Answer.objects.get(pk=answer_id)
     answer.accept()
     return HttpResponse('')
+
+def vote(request):
+    answer_id = request.POST['answer']
+    answer = Answer.objects.get(pk=answer_id)
+    vote = request.POST['vote']
+    user = request.user
+    activity = Activity.objects.filter(Q(activity_type=Activity.UP_VOTE) | Q(activity_type=Activity.DOWN_VOTE), user=user, answer=answer_id)
+    if activity:
+        activity.delete()
+    if vote in [Activity.UP_VOTE, Activity.DOWN_VOTE]:
+        activity = Activity(user=user, answer=answer_id, activity_type=vote)
+        activity.save()
+    return HttpResponse(answer.calculate_votes())
