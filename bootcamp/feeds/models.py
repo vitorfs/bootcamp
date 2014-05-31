@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from bootcamp.activities.models import Activity
+from datetime import datetime
 
 class Feed(models.Model):
     user = models.ForeignKey(User)
@@ -17,6 +18,14 @@ class Feed(models.Model):
 
     def __unicode__(self):
         return self.post
+
+    @staticmethod
+    def get_feeds(from_feed=None):
+        if from_feed is not None:
+            feeds = Feed.objects.filter(parent=None, id__lt=from_feed)
+        else:
+            feeds = Feed.objects.filter(parent=None)
+        return feeds
 
     def get_comments(self):
         return Feed.objects.filter(parent=self)

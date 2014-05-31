@@ -41,6 +41,7 @@ $(function () {
       success: function (data) {
         $("ul.stream").prepend(data);
         $(".compose").slideUp();
+        $(".compose").removeClass("composing");
       }
     });
   });
@@ -79,9 +80,21 @@ $(function () {
       $(".comments", post).removeClass("tracking");
     }
     else {
-      $(".comments", post).slideDown(400, function () {
-        $(".comments", post).addClass("tracking");
-        $(".comments input[name='post']", post).focus();
+      $(".comments", post).show();
+      $(".comments", post).addClass("tracking");
+      $(".comments input[name='post']", post).focus();
+      var feed = $(post).closest("li").attr("feed-id");
+      $.ajax({
+        url: '/feeds/comment/',
+        data: { 'feed': feed },
+        cache: false,
+        beforeSend: function () {
+          $("ol", post).html("<li class='loadcomment'><img src='/static/img/loading.gif'></li>");
+        },
+        success: function (data) {
+          $("ol", post).html(data);
+          $(".comment-count", post).text($("ol li", post).not(".empty").length);
+        }
       });
     }
     return false;
@@ -110,4 +123,21 @@ $(function () {
       return false;
     }
   });
+
+  //$("ul.stream").waypoint("infinite");
+
+  $(".loadtest").click(function () {
+    var page = parseInt($("#load_feed input[name='page']").val()) + 1;
+    $("#load_feed input[name='page']").val(page);
+    $.ajax({
+      url: '/feeds/load/',
+      data: $("#load_feed").serialize(),
+      cache: false,
+      success: function (data) {
+        $("ul.stream").append(data)
+      }
+    });
+    return false;
+  });
+
 });

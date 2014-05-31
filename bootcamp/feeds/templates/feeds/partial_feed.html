@@ -25,13 +25,13 @@
       </a>
     </div>
     <div class="comments">
-      <form role="form" method="post" action="{{ comment }}" onsubmit="return false">
+      <form role="form" method="post" action="{{ comment }}">
         {% csrf_token %}
         <input type="hidden" name="feed" value="{{ feed.pk }}">
         <input type="text" class="form-control input-sm" placeholder="Write a comment..." name="post">
       </form>
       <ol class="clearfix">
-        {% include 'feeds/partial_feed_comments.html' with feed=feed %}
+        {% comment %} Place holder to load feed comments {% endcomment %}
       </ol>
     </div>
   </div>

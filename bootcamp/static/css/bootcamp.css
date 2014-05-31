@@ -59,7 +59,7 @@ header ul li a {
   font-weight: 500;
 }
 
-header ul li a:hover {
+header ul li a:hover, header ul li a:focus {
   color: #92c35e;
   text-decoration: none;
 }

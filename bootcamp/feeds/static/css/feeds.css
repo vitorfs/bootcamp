@@ -129,3 +129,14 @@ ul.stream li div.post div.interaction a {
   margin: 0 .8em;
   font-size: .9em;
 }
+
+.load {
+  text-align: center;
+  padding-top: 1em;
+  border-top: 1px solid #eeeeee;
+  display: none;
+}
+
+.loadcomment {
+  text-align: center;
+}
