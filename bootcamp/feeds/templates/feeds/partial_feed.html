@@ -25,7 +25,7 @@
       </a>
     </div>
     <div class="comments">
-      <form role="form" method="post" action="{{ comment }}">
+      <form role="form" method="post" action="{{ comment }}" onsubmit="return false">
         {% csrf_token %}
         <input type="hidden" name="feed" value="{{ feed.pk }}">
         <input type="text" class="form-control input-sm" placeholder="Write a comment..." name="post">

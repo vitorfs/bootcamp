@@ -33,11 +33,13 @@ def load(request):
     except EmptyPage:
         feeds = []
     html = u''
+    csrf_token = unicode(csrf(request)['csrf_token'])
     for feed in feeds:
         html = u'{0}{1}'.format(html, render_to_string('feeds/partial_feed.html', {
             'feed': feed,
-            'csrf_token': unicode(csrf(request)['csrf_token'])
-            }))
+            'csrf_token': csrf_token
+            })
+        )
     return HttpResponse(html)
 
 def post(request):

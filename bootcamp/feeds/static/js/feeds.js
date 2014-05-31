@@ -100,7 +100,7 @@ $(function () {
     return false;
   });
 
-  $(".comments").on("keydown", "input[name='post']", function (evt) {
+  $("ul.stream").on("keydown", ".comments input[name='post']", function (evt) {
     var keyCode = evt.which?evt.which:evt.keyCode;
     if (keyCode == 13) {
       var form = $(this).closest("form");
