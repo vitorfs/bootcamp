@@ -12,7 +12,7 @@ class Article(models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, null=True, blank=True)
     content = models.TextField(max_length=4000)
-    status = models.CharField(max_length=1, choices=STATUS)
+    status = models.CharField(max_length=1, choices=STATUS, default=DRAFT)
     create_user = models.ForeignKey(User)
     create_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(blank=True, null=True)
@@ -22,11 +22,12 @@ class Article(models.Model):
     class Meta:
         verbose_name = "Article"
         verbose_name_plural = "Articles"
+        ordering = ("-create_date",)
 
     def __unicode__(self):
         return self.title
 
     @staticmethod
     def get_published():
-        articles = Article.objects.filter(status=Article.PUBLISHED)
+        articles = Article.objects.filter()
         return articles

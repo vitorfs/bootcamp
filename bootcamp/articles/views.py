@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from bootcamp.articles.models import Article
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from bootcamp.articles.forms import ArticleForm
 
 def articles(request):
     all_articles = Article.get_published()
@@ -29,7 +30,22 @@ def articles(request):
         })
 
 def write(request):
-    return render(request, 'articles/articles.html')
+    if request.method == 'POST':
+        form = ArticleForm(request.POST)
+        if form.is_valid():
+            article = Article()
+            article.create_user = request.user
+            article.title = form.cleaned_data.get('title')
+            article.content = form.cleaned_data.get('content')
+            article.tags = form.cleaned_data.get('tags')
+            status = form.cleaned_data.get('status')
+            if status in [Article.PUBLISHED, Article.DRAFT]:
+                article.status = form.cleaned_data.get('status')
+            article.save()
+            return redirect('/articles/')
+    else:
+        form = ArticleForm()
+    return render(request, 'articles/write.html', {'form': form})
 
 def drafts(request):
     return render(request, 'articles/articles.html')
