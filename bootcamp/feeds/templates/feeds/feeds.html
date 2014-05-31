@@ -2,8 +2,7 @@
 
 {% block head %}
   <link href="{{ STATIC_URL }}css/feeds.css" rel="stylesheet">
-  <script src="{{ STATIC_URL }}js/waypoints.min.js"></script>
-  <script src="{{ STATIC_URL }}js/waypoints-infinite.min.js"></script>
+  <script src="{{ STATIC_URL }}js/jquery.bullseye-1.0-min.js"></script>
   <script src="{{ STATIC_URL }}js/feeds.js"></script>
 {% endblock head %}
 
@@ -44,5 +43,4 @@
     <input type="hidden" name="from_feed" value="{{ from_feed }}">
     <input type="hidden" name="page" value="{{ page }}">
   </form>
-  <a href="#" class="loadtest">more</a>
 {% endblock main %}

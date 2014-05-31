@@ -124,20 +124,33 @@ $(function () {
     }
   });
 
-  //$("ul.stream").waypoint("infinite");
+  function load_feeds () {
+    var page = $("#load_feed input[name='page']").val();
+    if (page != "-1") {
+      var next_page = parseInt($("#load_feed input[name='page']").val()) + 1;
+      $("#load_feed input[name='page']").val(next_page);
+      $.ajax({
+        url: '/feeds/load/',
+        data: $("#load_feed").serialize(),
+        cache: false,
+        beforeSend: function () {
+          $(".load").show();
+        },
+        success: function (data) {
+          if (data.length > 0) {
+            $("ul.stream").append(data)
+          }
+          else {
+            $("#load_feed input[name='page']").val("-1");
+          }
+        },
+        complete: function () {
+          $(".load").hide();
+        }
+      });
+    }
+  };
 
-  $(".loadtest").click(function () {
-    var page = parseInt($("#load_feed input[name='page']").val()) + 1;
-    $("#load_feed input[name='page']").val(page);
-    $.ajax({
-      url: '/feeds/load/',
-      data: $("#load_feed").serialize(),
-      cache: false,
-      success: function (data) {
-        $("ul.stream").append(data)
-      }
-    });
-    return false;
-  });
+  $('#load_feed').bind('enterviewport', load_feeds).bullseye();
 
 });

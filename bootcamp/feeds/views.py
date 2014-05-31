@@ -31,9 +31,9 @@ def load(request):
         return HttpResponseBadRequest()
     except EmptyPage:
         feeds = []
-    html = ''
+    html = u''
     for feed in feeds:
-        html = html + render_to_string('feeds/partial_feed.html', {'feed': feed})
+        html = u'{0}{1}'.format(html, render_to_string('feeds/partial_feed.html', {'feed': feed}))
     return HttpResponse(html)
 
 def post(request):
