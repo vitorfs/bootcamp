@@ -27,6 +27,11 @@ class Feed(models.Model):
             feeds = Feed.objects.filter(parent=None)
         return feeds
 
+    @staticmethod
+    def get_feeds_after(feed):
+        feeds = Feed.objects.filter(parent=None, id__gt=feed)
+        return feeds
+
     def get_comments(self):
         return Feed.objects.filter(parent=self)
 

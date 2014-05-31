@@ -17,6 +17,7 @@
     <h2>Compose a new post</h2>
     <form role="form" id="compose-form">
       {% csrf_token %}
+      <input type="hidden" name="last_feed">
       <div class="form-group">
         <textarea class="form-control" rows="3" name="post"></textarea>
       </div>
@@ -29,7 +30,7 @@
     </form>
   </div>
   <div class="stream-update">
-    <a href="#"><span class="new-posts">0</span> new posts</a>
+    <a href="#"><span class="new-posts"></span> new posts</a>
   </div>
   <ul class="stream">
     {% for feed in feeds %}

@@ -1,4 +1,12 @@
 $(function () {
+  var page_title = $(document).attr("title");
+
+  function hide_stream_update() {
+    $(".stream-update").hide();
+    $(".stream-update .new-posts").text("");
+    $(document).attr("title", page_title);
+  };
+
   $("body").keydown(function (evt) {
     var keyCode = evt.which?evt.which:evt.keyCode;
     if (evt.ctrlKey && keyCode == 80) {
@@ -33,6 +41,8 @@ $(function () {
   });
 
   $(".btn-post").click(function () {
+    var last_feed = $(".stream li:first-child").attr("feed-id");
+    $("#compose-form input[name='last_feed']").val(last_feed);
     $.ajax({
       url: '/feeds/post/',
       data: $("#compose-form").serialize(),
@@ -42,6 +52,7 @@ $(function () {
         $("ul.stream").prepend(data);
         $(".compose").slideUp();
         $(".compose").removeClass("composing");
+        hide_stream_update();
       }
     });
   });
@@ -124,7 +135,7 @@ $(function () {
     }
   });
 
-  function load_feeds () {
+  var load_feeds = function () {
     var page = $("#load_feed input[name='page']").val();
     if (page != "-1") {
       var next_page = parseInt($("#load_feed input[name='page']").val()) + 1;
@@ -152,6 +163,43 @@ $(function () {
   };
 
   $("#load_feed").bind("enterviewport", load_feeds).bullseye();
+
+  function check_new_feeds () {
+    var last_feed = $(".stream li:first-child").attr("feed-id");
+    $.ajax({
+      url: '/feeds/check/',
+      data: { 'last_feed': last_feed },
+      cache: false,
+      success: function (data) {
+        if (parseInt(data) > 0) {
+          $(".stream-update .new-posts").text(data);
+          $(".stream-update").show();
+          $(document).attr("title", "(" + data + ") " + page_title);
+        }
+      },
+      complete: function() {
+        window.setTimeout(check_new_feeds, 30000);
+      }
+    });
+  };
+
+  check_new_feeds();
+
+  $(".stream-update a").click(function () {
+    var last_feed = $(".stream li:first-child").attr("feed-id");
+    $.ajax({
+      url: '/feeds/load_new/',
+      data: { 'last_feed': last_feed },
+      cache: false,
+      success: function (data) {
+        $("ul.stream").prepend(data);
+      },
+      complete: function () {
+        hide_stream_update();
+      }
+    });
+    return false;
+  });
 
   $("input,textarea").attr("autocomplete", "off");
 

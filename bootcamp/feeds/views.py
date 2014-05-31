@@ -37,17 +37,46 @@ def load(request):
     for feed in feeds:
         html = u'{0}{1}'.format(html, render_to_string('feeds/partial_feed.html', {
             'feed': feed,
+            'user': request.user,
             'csrf_token': csrf_token
             })
         )
     return HttpResponse(html)
 
+def _html_feeds(last_feed, user, csrf_token):
+    feeds = Feed.get_feeds_after(last_feed)
+    html = u''
+    for feed in feeds:
+        html = u'{0}{1}'.format(html, render_to_string('feeds/partial_feed.html', {
+            'feed': feed,
+            'user': user,
+            'csrf_token': csrf_token
+            })
+        )
+    return html
+
+def load_new(request):
+    last_feed = request.GET.get('last_feed')
+    user = request.user
+    csrf_token = unicode(csrf(request)['csrf_token'])
+    html = _html_feeds(last_feed, user, csrf_token)
+    return HttpResponse(html)
+
+def check(request):
+    last_feed = request.GET.get('last_feed')
+    count = Feed.get_feeds_after(last_feed).count()
+    return HttpResponse(count)
+
 def post(request):
+    last_feed = request.POST.get('last_feed')
+    user = request.user
+    csrf_token = unicode(csrf(request)['csrf_token'])
     feed = Feed()
-    feed.user = request.user
+    feed.user = user
     feed.post = request.POST['post']
     feed.save()
-    return render(request, 'feeds/partial_feed.html', {'feed': feed})
+    html = _html_feeds(last_feed, user, csrf_token)
+    return HttpResponse(html)
 
 def like(request):
     feed_id = request.POST['feed']
