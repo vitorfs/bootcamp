@@ -5,6 +5,7 @@ from bootcamp.activities.models import Activity
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template.loader import render_to_string
 from django.core.context_processors import csrf
+from django.utils import simplejson
 
 FEEDS_NUM_PAGES = 10
 
@@ -102,3 +103,13 @@ def comment(request):
         feed_id = request.GET.get('feed')
         feed = Feed.objects.get(pk=feed_id)
         return render(request, 'feeds/partial_feed_comments.html', {'feed': feed})
+
+def update(request):
+    first_feed = request.GET.get('first_feed')
+    last_feed = request.GET.get('last_feed')
+    feeds = Feed.get_feeds().filter(id__range=(last_feed, first_feed))
+    dump = {}
+    for feed in feeds:
+        dump[feed.pk] = {'likes': feed.likes, 'comments': feed.comments}
+    data = simplejson.dumps(dump)
+    return HttpResponse(data, mimetype='application/json')

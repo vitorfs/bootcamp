@@ -203,4 +203,32 @@ $(function () {
 
   $("input,textarea").attr("autocomplete", "off");
 
+  function update_feeds () {
+    var first_feed = $(".stream li:first-child").attr("feed-id");
+    var last_feed = $(".stream li:last-child").attr("feed-id");
+
+    if (first_feed != "" && last_feed != "") {
+      $.ajax({
+        url: '/feeds/update/',
+        data: {
+          'first_feed': first_feed,
+          'last_feed': last_feed
+        },
+        cache: false,
+        success: function (data) {
+          $.each(data, function(id, feed) {
+              var li = $("li[feed-id='" + id + "']");
+              $(".like-count", li).text(feed.likes);
+              $(".comment-count", li).text(feed.comments);
+          });
+        },
+        complete: function () {
+          window.setTimeout(update_feeds, 30000);
+        }
+      });
+    }
+
+  };
+  update_feeds();
+
 });
