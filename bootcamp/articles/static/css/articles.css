@@ -1,0 +1,31 @@
+.articles article {
+  padding-bottom: 1.4em;
+  border-bottom: 1px solid #eeeeee;
+  margin-top: 2.4em;
+}
+
+.articles article p {
+  font-size: 1.2em;
+}
+
+.articles article:last-child {
+  border-bottom: none;
+}
+
+.articles .info {
+  margin-bottom: .5em;
+  color: #a0a0a0;
+}
+
+.articles .info a {
+  color: #a0a0a0;
+}
+
+.articles .info > span {
+  margin-right: 1em;
+}
+
+.articles .info .user img {
+  width: 20px;
+  border-radius: 3px;
+}

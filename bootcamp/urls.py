@@ -23,5 +23,8 @@ urlpatterns = patterns('',
     url(r'^questions/answer/$', 'bootcamp.questions.views.answer', name='answer'),
     url(r'^questions/answer/accept/$', 'bootcamp.questions.views.accept', name='accept'),
     url(r'^questions/answer/vote/$', 'bootcamp.questions.views.vote', name='vote'),
+    url(r'^articles/$', 'bootcamp.articles.views.articles', name='articles'),
+    url(r'^articles/write/$', 'bootcamp.articles.views.write', name='write'),
+    url(r'^articles/drafts/$', 'bootcamp.articles.views.drafts', name='drafts'),
     url(r'^admin/', include(admin.site.urls)),
 )

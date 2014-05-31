@@ -42,6 +42,9 @@ $(function () {
 
   $(".btn-post").click(function () {
     var last_feed = $(".stream li:first-child").attr("feed-id");
+    if (last_feed == undefined) {
+      last_feed = "0";
+    }
     $("#compose-form input[name='last_feed']").val(last_feed);
     $.ajax({
       url: '/feeds/post/',
@@ -166,21 +169,26 @@ $(function () {
 
   function check_new_feeds () {
     var last_feed = $(".stream li:first-child").attr("feed-id");
-    $.ajax({
-      url: '/feeds/check/',
-      data: { 'last_feed': last_feed },
-      cache: false,
-      success: function (data) {
-        if (parseInt(data) > 0) {
-          $(".stream-update .new-posts").text(data);
-          $(".stream-update").show();
-          $(document).attr("title", "(" + data + ") " + page_title);
+    if (last_feed != undefined) {
+      $.ajax({
+        url: '/feeds/check/',
+        data: { 'last_feed': last_feed },
+        cache: false,
+        success: function (data) {
+          if (parseInt(data) > 0) {
+            $(".stream-update .new-posts").text(data);
+            $(".stream-update").show();
+            $(document).attr("title", "(" + data + ") " + page_title);
+          }
+        },
+        complete: function() {
+          window.setTimeout(check_new_feeds, 30000);
         }
-      },
-      complete: function() {
-        window.setTimeout(check_new_feeds, 30000);
-      }
-    });
+      });
+    }
+    else {
+      window.setTimeout(check_new_feeds, 30000);
+    }
   };
 
   check_new_feeds();
@@ -207,7 +215,7 @@ $(function () {
     var first_feed = $(".stream li:first-child").attr("feed-id");
     var last_feed = $(".stream li:last-child").attr("feed-id");
 
-    if (first_feed != "" && last_feed != "") {
+    if (first_feed != undefined && last_feed != undefined) {
       $.ajax({
         url: '/feeds/update/',
         data: {
@@ -226,6 +234,9 @@ $(function () {
           window.setTimeout(update_feeds, 30000);
         }
       });
+    }
+    else {
+      window.setTimeout(update_feeds, 30000);
     }
 
   };

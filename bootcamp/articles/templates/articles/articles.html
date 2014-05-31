@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %} Articles {% endblock %}
+
+{% block head %}
+  <link href="{{ STATIC_URL }}css/articles.css" rel="stylesheet">
+{% endblock head %}
+
+{% block main %}
+  <div class="page-header">
+    <a href="{% url 'write' %}" class="btn btn-primary pull-right">
+      <span class="glyphicon glyphicon-pencil"></span> Write Article
+    </a>
+    <a href="{% url 'drafts' %}" class="btn btn-default pull-right" style="margin-right: .8em">Drafts</a>
+    <h1>Articles</h1>
+  </div>
+  <section class="articles">
+    {% for article in articles %}
+      {% include 'articles/partial_article.html' with article=article %}
+    {% endfor %}
+  </section>
+  {% if num_pages > 1 %}
+    <ul class="pagination">
+      <li><a href="#">&laquo;</a></li>
+      {% for i in page_loop_times %}
+        <li><a href="#">{{ i }}</a></li>
+      {% endfor %}
+      <li><a href="#">&raquo;</a></li>
+    </ul>
+  {% endif %}
+{% endblock main %}
