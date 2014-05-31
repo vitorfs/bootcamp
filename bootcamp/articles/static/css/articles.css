@@ -29,3 +29,7 @@
   width: 20px;
   border-radius: 3px;
 }
+
+.articles article .tags {
+  font-size: 1em;
+}

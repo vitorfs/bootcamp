@@ -11,4 +11,11 @@
     </span>
   </div>
   <p>{{ article.content }}</p>
+  {% if article.get_tag_list %}
+    <div class="tags">
+      {% for tag in article.get_tag_list %}
+        <span class="label label-default">{{ tag }}</span>
+      {% endfor %}
+    </div>
+  {% endif %}
 </article>

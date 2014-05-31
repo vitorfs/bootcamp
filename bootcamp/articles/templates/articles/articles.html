@@ -11,12 +11,14 @@
     <a href="{% url 'write' %}" class="btn btn-primary pull-right">
       <span class="glyphicon glyphicon-pencil"></span> Write Article
     </a>
-    <a href="{% url 'drafts' %}" class="btn btn-default pull-right" style="margin-right: .8em">Drafts</a>
+    <a href="{% url 'drafts' %}" class="btn btn-default pull-right" style="margin-right: .8em">My Drafts</a>
     <h1>Articles</h1>
   </div>
   <section class="articles">
     {% for article in articles %}
       {% include 'articles/partial_article.html' with article=article %}
+    {% empty %}
+      <h4 class="no-data">There is no published article yet. <a href="{% url 'write' %}">Be the first one to publish!</a></h4>
     {% endfor %}
   </section>
   {% if num_pages > 1 %}

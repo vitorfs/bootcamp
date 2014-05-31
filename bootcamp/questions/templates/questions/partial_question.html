@@ -17,9 +17,9 @@
       <span class="asked">asked {{ question.update_date|naturaltime }}</span>
     </div>
     <p>{{ question.get_description_preview }}</p>
-    {% if question.get_tag_list %}
+    {% if question.get_tags %}
       <p>
-        {% for tag in question.get_tag_list %}
+        {% for tag in question.get_tags %}
           <span class="label label-primary">{{ tag }}</span>
         {% endfor %}
       </p>

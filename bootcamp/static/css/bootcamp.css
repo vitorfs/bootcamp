@@ -87,3 +87,8 @@ main .container {
   margin: 0;
   font-weight: 100;
 }
+
+.no-data {
+  text-align: center; 
+  padding: 1em 0;
+}

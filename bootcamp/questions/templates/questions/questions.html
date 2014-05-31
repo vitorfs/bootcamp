@@ -21,7 +21,7 @@
     {% for question in questions %}
       {% include 'questions/partial_question.html' with question=question %}
     {% empty %}
-      <h4 style="text-align: center; padding: 1em 0;">No question to display</h4>
+      <h4 class="no-data">No question to display</h4>
     {% endfor %}
   </div>
 {% endblock main %}

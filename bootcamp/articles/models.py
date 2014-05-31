@@ -17,7 +17,6 @@ class Article(models.Model):
     create_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(blank=True, null=True)
     update_user = models.ForeignKey(User, null=True, blank=True, related_name="+")
-    tags = models.CharField(max_length=255, null=True, blank=True)
 
     class Meta:
         verbose_name = "Article"
@@ -29,5 +28,18 @@ class Article(models.Model):
 
     @staticmethod
     def get_published():
-        articles = Article.objects.filter()
+        articles = Article.objects.filter(status=Article.PUBLISHED)
         return articles
+
+    def get_tags(self):
+        return Tag.objects.filter(tag=self)
+
+class Tag(models.Model):
+    tag = models.CharField(max_length=50)
+    article = models.ForeignKey(Article)
+
+    class Meta:
+        verbose_name = 'Tag'
+        verbose_name_plural = 'Tags'
+        unique_together = (('tag', 'article'),)
+        index_together = [['tag', 'article'],]

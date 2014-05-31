@@ -6,7 +6,6 @@ class Question(models.Model):
     user = models.ForeignKey(User)
     title = models.CharField(max_length=255)
     description = models.TextField(max_length=2000)
-    tags = models.CharField(max_length=255, null=True, blank=True)
     create_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now_add=True)
     favorites = models.IntegerField(default=0)
@@ -37,9 +36,6 @@ class Question(models.Model):
     def get_accepted_answer(self):
         return Answer.objects.get(question=self, is_accepted=True)
 
-    def get_tag_list(self):
-        return self.tags.split(' ')
-
     def get_description_preview(self):
         if len(self.description) > 255:
             return u'{0}...'.format(self.description[:255])
@@ -58,6 +54,16 @@ class Question(models.Model):
         for favorite in favorites:
             favoriters.append(favorite.user)
         return favoriters
+
+    def create_tags(self, tags):
+        tags = tags.strip()
+        tag_list = tags.split(' ')
+        for tag in tag_list:
+            t, created = Tag.objects.get_or_create(tag=tag.lower(), question=self)
+
+    def get_tags(self):
+        return Tag.objects.filter(question=self)
+
 
 class Answer(models.Model):
     user = models.ForeignKey(User)
@@ -106,3 +112,17 @@ class Answer(models.Model):
         for vote in votes:
             voters.append(vote.user)
         return voters
+
+
+class Tag(models.Model):
+    tag = models.CharField(max_length=50)
+    question = models.ForeignKey(Question)
+
+    class Meta:
+        verbose_name = 'Tag'
+        verbose_name_plural = 'Tags'
+        unique_together = (('tag', 'question'),)
+        index_together = [['tag', 'question'],]
+    
+    def __unicode__(self):
+        return self.tag
