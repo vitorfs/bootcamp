@@ -151,6 +151,8 @@ $(function () {
     }
   };
 
-  $('#load_feed').bind('enterviewport', load_feeds).bullseye();
+  $("#load_feed").bind("enterviewport", load_feeds).bullseye();
+
+  $("input,textarea").attr("autocomplete", "off");
 
 });
