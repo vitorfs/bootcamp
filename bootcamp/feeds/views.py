@@ -113,3 +113,8 @@ def update(request):
         dump[feed.pk] = {'likes': feed.likes, 'comments': feed.comments}
     data = simplejson.dumps(dump)
     return HttpResponse(data, mimetype='application/json')
+
+def track_comments(request):
+    feed_id = request.GET.get('feed')
+    feed = Feed.objects.get(pk=feed_id)
+    return render(request, 'feeds/partial_feed_comments.html', {'feed': feed})

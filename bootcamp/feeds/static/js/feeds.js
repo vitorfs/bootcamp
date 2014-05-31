@@ -231,4 +231,24 @@ $(function () {
   };
   update_feeds();
 
+  function track_comments () {
+    $(".tracking").each(function () {
+      var container = $(this);
+      var feed = $(this).closest("li").attr("feed-id");
+      $.ajax({
+        url: '/feeds/track_comments/',
+        data: {'feed': feed},
+        cache: false,
+        success: function (data) {
+          $("ol", container).html(data);
+          var post_container = $(container).closest(".post");
+          $(".comment-count", post_container).text($("ol li", container).length);
+        }
+      });
+    });
+    window.setTimeout(track_comments, 30000);
+  };
+
+  track_comments();
+
 });
