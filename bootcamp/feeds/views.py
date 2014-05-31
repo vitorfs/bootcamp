@@ -4,6 +4,7 @@ from bootcamp.feeds.models import Feed
 from bootcamp.activities.models import Activity
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template.loader import render_to_string
+from django.core.context_processors import csrf
 
 FEEDS_NUM_PAGES = 10
 
@@ -33,7 +34,10 @@ def load(request):
         feeds = []
     html = u''
     for feed in feeds:
-        html = u'{0}{1}'.format(html, render_to_string('feeds/partial_feed.html', {'feed': feed}))
+        html = u'{0}{1}'.format(html, render_to_string('feeds/partial_feed.html', {
+            'feed': feed,
+            'csrf_token': unicode(csrf(request)['csrf_token'])
+            }))
     return HttpResponse(html)
 
 def post(request):

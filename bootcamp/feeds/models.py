@@ -22,7 +22,7 @@ class Feed(models.Model):
     @staticmethod
     def get_feeds(from_feed=None):
         if from_feed is not None:
-            feeds = Feed.objects.filter(parent=None, id__lt=from_feed)
+            feeds = Feed.objects.filter(parent=None, id__lte=from_feed)
         else:
             feeds = Feed.objects.filter(parent=None)
         return feeds
