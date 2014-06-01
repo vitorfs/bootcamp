@@ -67,12 +67,12 @@ def drafts(request):
     return render(request, 'articles/drafts.html', {'drafts': drafts})
 
 def edit(request, id):
+    tags = ''
     if id:
         article = get_object_or_404(Article, pk=id)
-        tags = ''
         for tag in article.get_tags():
             tags = u'{0} {1}'.format(tags, tag.tag)
-        article.tags = tags.strip()
+        tags = tags.strip()
     else:
         article = Article(create_user=request.user)
 
@@ -82,5 +82,5 @@ def edit(request, id):
             form.save()
             return redirect('/articles/')
     else:
-        form = ArticleForm(instance=article)
-        return render(request, 'articles/edit.html', {'form': form})
+        form = ArticleForm(instance=article, initial={'tags': tags})
+    return render(request, 'articles/edit.html', {'form': form})

@@ -44,6 +44,6 @@
   line-height: 2;
 }
 
-.popular-tags a:hover {
+.popular-tags a:hover, .tags a:hover {
   text-decoration: none;
 }
