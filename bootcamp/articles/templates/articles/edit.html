@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block head %}
+  <script src="{{ STATIC_URL }}js/articles.js"></script>
+{% endblock head %}
+
+{% block main %}
+  <ol class="breadcrumb">
+    <li><a href="{% url 'articles' %}">Articles</a></li>
+    <li><a href="{% url 'drafts' %}">Drafts</a></li>
+    <li class="active">Edit</li>
+  </ol>
+  <form action="{% url 'edit_article' form.instance.pk %}" method="post" role="form">
+    {% csrf_token %}
+    {{ form.status }}
+    {% for field in form.visible_fields %}
+      <div class="form-group{% if field.errors %} has-error{% endif %}">
+        <label for="{{ field.label }}" class="control-label">{{ field.label }}</label>
+        {{ field }}
+        {% if field.help_text %}
+          <span class="help-block">{{ field.help_text }}</span>
+        {% endif %}
+        {% for error in field.errors %}
+          <label class="control-label">{{ error }}</label>
+        {% endfor %}
+      </div>
+    {% endfor %}
+    <div class="form-group">
+      <button type="button" class="btn btn-primary publish">Publish</button>
+      <button type="button" class="btn btn-default draft">Save Draft</button>
+      <a href="{% url 'drafts' %}" class="btn btn-default">Cancel</a>
+    </div>
+  </form>
+{% endblock main %}

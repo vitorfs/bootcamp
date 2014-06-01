@@ -37,7 +37,8 @@ class Article(models.Model):
         tags = tags.strip()
         tag_list = tags.split(' ')
         for tag in tag_list:
-            t, created = Tag.objects.get_or_create(tag=tag.lower(), article=self)
+            if tag:
+                t, created = Tag.objects.get_or_create(tag=tag.lower(), article=self)
 
     def get_tags(self):
         return Tag.objects.filter(article=self)
@@ -63,5 +64,13 @@ class Tag(models.Model):
 
     @staticmethod
     def get_popular_tags():
-        tags_count = Tag.objects.values('tag').annotate(count=Count('tag')).order_by('-count')[:20]
-        return tags_count
+        tags = Tag.objects.all()
+        count = {}
+        for tag in tags:
+            if tag.article.status == Article.PUBLISHED:
+                if tag.tag in count:
+                    count[tag.tag] = count[tag.tag] + 1
+                else:
+                    count[tag.tag] = 1
+        sorted_count = sorted(count.items(), key=lambda t: t[1], reverse=True)
+        return sorted_count

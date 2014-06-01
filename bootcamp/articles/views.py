@@ -83,4 +83,4 @@ def edit(request, id):
             return redirect('/articles/')
     else:
         form = ArticleForm(instance=article)
-        return render(request, 'articles/write.html', {'form': form})
+        return render(request, 'articles/edit.html', {'form': form})

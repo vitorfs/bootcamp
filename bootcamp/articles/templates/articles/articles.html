@@ -11,7 +11,7 @@
     <a href="{% url 'write' %}" class="btn btn-primary pull-right">
       <span class="glyphicon glyphicon-pencil"></span> Write Article
     </a>
-    <a href="{% url 'drafts' %}" class="btn btn-default pull-right" style="margin-right: .8em">My Drafts</a>
+    <a href="{% url 'drafts' %}" class="btn btn-default pull-right" style="margin-right: .8em">Drafts</a>
     <h1>Articles</h1>
   </div>
   <div class="row">
@@ -26,8 +26,8 @@
     </div>
     <div class="col-md-2 popular-tags">
       <h4>Popular Tags</h4>
-      {% for tag in popular_tags %}
-        <a href="{% url 'tag' tag.tag %}"><span class="label label-default">{{ tag.count }} {{ tag.tag }}</span></a>
+      {% for tag, count in popular_tags %}
+        <a href="{% url 'tag' tag %}"><span class="label label-default">{{ count }} {{ tag }}</span></a>
       {% endfor %}
     </div>
   </div>
