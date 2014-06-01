@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block head %}
+  <script src="{{ STATIC_URL }}js/articles.js"></script>
+{% endblock head %}
+
+{% block main %}
+  <ol class="breadcrumb">
+    <li><a href="{% url 'articles' %}">Articles</a></li>
+    <li class="active">My Drafts</li>
+  </ol>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Content</th>
+        <th>Tags</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for article in drafts %}
+        <tr>
+          <td><a href="{% url 'edit_article' article.pk %}">{{ article.title }}</a></td>
+          <td>{{ article.get_summary }}</td>
+          <td>
+            {% for tag in article.get_tags %}
+              <span class="label label-default">{{ tag }}</span>
+            {% endfor %}
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="4" style="text-align: center">
+            No draft to display
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock main %}

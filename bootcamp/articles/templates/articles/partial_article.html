@@ -11,9 +11,9 @@
     </span>
   </div>
   <p>{{ article.content }}</p>
-  {% if article.get_tag_list %}
+  {% if article.get_tags %}
     <div class="tags">
-      {% for tag in article.get_tag_list %}
+      {% for tag in article.get_tags %}
         <span class="label label-default">{{ tag }}</span>
       {% endfor %}
     </div>

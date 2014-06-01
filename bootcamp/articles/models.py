@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models import Count
+import operator
 
 class Article(models.Model):
     DRAFT = 'D'
@@ -31,8 +33,20 @@ class Article(models.Model):
         articles = Article.objects.filter(status=Article.PUBLISHED)
         return articles
 
+    def create_tags(self, tags):
+        tags = tags.strip()
+        tag_list = tags.split(' ')
+        for tag in tag_list:
+            t, created = Tag.objects.get_or_create(tag=tag.lower(), article=self)
+
     def get_tags(self):
-        return Tag.objects.filter(tag=self)
+        return Tag.objects.filter(article=self)
+
+    def get_summary(self):
+        if len(self.content) > 255:
+            return u'{0}...'.format(self.content[:255])
+        else:
+            return self.content
 
 class Tag(models.Model):
     tag = models.CharField(max_length=50)
@@ -43,3 +57,11 @@ class Tag(models.Model):
         verbose_name_plural = 'Tags'
         unique_together = (('tag', 'article'),)
         index_together = [['tag', 'article'],]
+
+    def __unicode__(self):
+        return self.tag
+
+    @staticmethod
+    def get_popular_tags():
+        tags_count = Tag.objects.values('tag').annotate(count=Count('tag')).order_by('-count')[:20]
+        return tags_count

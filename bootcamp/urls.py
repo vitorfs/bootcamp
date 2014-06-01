@@ -26,5 +26,7 @@ urlpatterns = patterns('',
     url(r'^articles/$', 'bootcamp.articles.views.articles', name='articles'),
     url(r'^articles/write/$', 'bootcamp.articles.views.write', name='write'),
     url(r'^articles/drafts/$', 'bootcamp.articles.views.drafts', name='drafts'),
+    url(r'^articles/tag/(?P<tag_name>.+)/$', 'bootcamp.articles.views.tag', name='tag'),
+    url(r'^articles/edit/(?P<id>\d+)/$', 'bootcamp.articles.views.edit', name='edit_article'),
     url(r'^admin/', include(admin.site.urls)),
 )

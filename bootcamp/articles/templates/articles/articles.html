@@ -14,20 +14,38 @@
     <a href="{% url 'drafts' %}" class="btn btn-default pull-right" style="margin-right: .8em">My Drafts</a>
     <h1>Articles</h1>
   </div>
-  <section class="articles">
-    {% for article in articles %}
-      {% include 'articles/partial_article.html' with article=article %}
-    {% empty %}
-      <h4 class="no-data">There is no published article yet. <a href="{% url 'write' %}">Be the first one to publish!</a></h4>
-    {% endfor %}
-  </section>
-  {% if num_pages > 1 %}
-    <ul class="pagination">
-      <li><a href="#">&laquo;</a></li>
-      {% for i in page_loop_times %}
-        <li><a href="#">{{ i }}</a></li>
+  <div class="row">
+    <div class="col-md-10">
+      <section class="articles">
+        {% for article in articles %}
+          {% include 'articles/partial_article.html' with article=article %}
+        {% empty %}
+          <h4 class="no-data">There is no published article yet. <a href="{% url 'write' %}">Be the first one to publish!</a></h4>
+        {% endfor %}
+      </section>
+    </div>
+    <div class="col-md-2 popular-tags">
+      <h4>Popular Tags</h4>
+      {% for tag in popular_tags %}
+        <a href="{% url 'tag' tag.tag %}"><span class="label label-default">{{ tag.count }} {{ tag.tag }}</span></a>
       {% endfor %}
-      <li><a href="#">&raquo;</a></li>
-    </ul>
-  {% endif %}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      {% if num_pages > 1 %}
+        <ul class="pagination">
+          {% for i in page_loop_times %}
+            <li class="{% if i == page %}active{% endif %}">
+              {% if i == page %}
+                <span>{{ i }} <span class="sr-only">(current)</span></span>
+              {% else %}
+                <a href="?page={{ i }}">{{ i }}</a>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+  </div>
 {% endblock main %}

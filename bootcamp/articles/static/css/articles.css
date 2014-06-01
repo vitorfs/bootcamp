@@ -33,3 +33,17 @@
 .articles article .tags {
   font-size: 1em;
 }
+
+.popular-tags h4 {
+  margin-top: 2em;
+}
+
+.popular-tags .label {
+  margin-top: .4em;
+  font-size: .8em;
+  line-height: 2;
+}
+
+.popular-tags a:hover {
+  text-decoration: none;
+}
