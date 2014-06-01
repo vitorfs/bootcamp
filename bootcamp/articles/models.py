@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models import Count
-import operator
+from datetime import datetime
+from django.template.defaultfilters import slugify
 
 class Article(models.Model):
     DRAFT = 'D'
@@ -27,6 +27,16 @@ class Article(models.Model):
 
     def __unicode__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            super(Article, self).save(*args, **kwargs)
+        else:
+            self.update_date = datetime.now()
+        if not self.slug:
+            slug_str = "%s %s" % (self.pk, self.title.lower()) 
+            self.slug = slugify(slug_str)
+        super(Article, self).save(*args, **kwargs)
 
     @staticmethod
     def get_published():
