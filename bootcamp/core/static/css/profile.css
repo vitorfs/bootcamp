@@ -1,0 +1,11 @@
+.profile {
+  margin-top: 1em;
+}
+
+.profile .picture {
+  text-align: center;
+}
+
+.profile .picture img {
+  border-radius: 1000px;
+}

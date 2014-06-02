@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from bootcamp.feeds.views import feeds
 from django.contrib.auth.models import User
+from bootcamp.feeds.models import Feed
 
 def home(request):
     if request.user.is_authenticated():
@@ -13,5 +14,6 @@ def network(request):
     return render(request, 'core/network.html', {'users': users})
 
 def profile(request, username):
-    user = User.objects.get(username=username)
-    return render(request, 'core/profile.html', {'user': user})
+    page_user = User.objects.get(username=username)
+    feeds = Feed.get_feeds().filter(user=page_user)
+    return render(request, 'core/profile.html', {'page_user': page_user, 'feeds': feeds})
