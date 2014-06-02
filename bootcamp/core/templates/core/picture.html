@@ -2,6 +2,12 @@
 
 {% block title %}Account Settings{% endblock %}
 
+{% block head %}
+  <link href="{{ STATIC_URL }}css/jquery.Jcrop.min.css" rel="stylesheet">
+  <script src="{{ STATIC_URL }}js/jquery.Jcrop.min.js"></script>
+  <script src="{{ STATIC_URL }}js/picture.js"></script>
+{% endblock head %}
+
 {% block main %}
   <div class="page-header">
     <h1>Account Settings</h1>
@@ -20,6 +26,48 @@
         {% endfor %}
       {% endif %}
       <h3 style="margin-top: 0">Change Picture</h3>
+      <img src="{{ user.profile.get_picture }}" style="width: 150px; border-radius: 5px; margin-bottom: 1em;">
+      <form enctype="multipart/form-data" method="post" action="{% url 'upload_picture' %}" id="picture-upload-form">
+        {% csrf_token %}
+        <input type="file" name="picture" style="display: none">
+        <button type="button" class="btn btn-default" id="btn-upload-picture">Upload new picture</button>
+      </form>
+
+      {% if uploaded_picture %}
+        <form method="post" action="{% url 'save_uploaded_picture' %}">
+          {% csrf_token %}
+          <div class="modal fade" id="modal-upload-picture">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 class="modal-title">Crop Picture</h4>
+                </div>
+                <div class="modal-body">
+                  <div class="selected-picture">
+                    <p>Crop the profile picture and then click on the <strong>Save Picture</strong> button</p>
+                    <img src="{{ MEDIA_URL }}profile_pictures/{{ user.username }}_tmp.jpg?_={% now 'U' %}" id="crop-picture">
+                    <input type="hidden" id="x" name="x" />
+                    <input type="hidden" id="y" name="y" />
+                    <input type="hidden" id="w" name="w" />
+                    <input type="hidden" id="h" name="h" />
+                  </div>
+                  <script type="text/javascript">
+                    $(function () {
+                      $("#modal-upload-picture").modal();
+                      window.history.pushState("", "", "/settings/picture/");
+                    });
+                  </script>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      {% endif %}
     </div>
   </div>
 {% endblock main %}

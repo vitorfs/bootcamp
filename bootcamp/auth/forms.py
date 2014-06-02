@@ -1,6 +1,16 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
+from bootcamp.settings import ALLOWED_SIGNUP_DOMAINS
+
+def SignupDomainValidator(value):
+    if '*' not in ALLOWED_SIGNUP_DOMAINS:
+        try:
+            domain = value[value.index("@"):]
+            if domain not in ALLOWED_SIGNUP_DOMAINS:
+                raise ValidationError(u'Invalid domain. Allowed domains on this network: {0}'.format(','.join(ALLOWED_SIGNUP_DOMAINS)))
+        except Exception, e:
+            raise ValidationError(u'Invalid domain. Allowed domains on this network: {0}'.format(','.join(ALLOWED_SIGNUP_DOMAINS)))
 
 def ForbiddenUsernamesValidator(value):
     forbidden_usernames = ['admin', 'settings', 'news', 'about', 'help', 'signin', 'signup', 
@@ -51,6 +61,7 @@ class SignUpForm(forms.ModelForm):
         self.fields['username'].validators.append(InvalidUsernameValidator)
         self.fields['username'].validators.append(UniqueUsernameIgnoreCaseValidator)
         self.fields['email'].validators.append(UniqueEmailValidator)
+        self.fields['email'].validators.append(SignupDomainValidator)
 
     def clean(self):
         super(SignUpForm, self).clean()

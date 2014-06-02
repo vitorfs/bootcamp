@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from bootcamp.feeds.views import feeds
 from django.contrib.auth.models import User
 from bootcamp.feeds.models import Feed
@@ -7,6 +7,9 @@ from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from bootcamp.core.forms import ProfileForm, ChangePasswordForm
 from django.contrib import messages
+from django.conf import settings as django_settings
+from PIL import Image
+import os
 
 def home(request):
     if request.user.is_authenticated():
@@ -59,7 +62,13 @@ def settings(request):
 
 @login_required
 def picture(request):
-    return render(request, 'core/picture.html')
+    uploaded_picture = False
+    try:
+        if request.GET.get('upload_picture') == 'uploaded':
+            uploaded_picture = True
+    except Exception, e:
+        pass
+    return render(request, 'core/picture.html', {'uploaded_picture': uploaded_picture})
 
 @login_required
 def password(request):
@@ -74,3 +83,41 @@ def password(request):
     else:
         form = ChangePasswordForm(instance=user)
     return render(request, 'core/password.html', {'form':form})
+
+@login_required
+def upload_picture(request):
+    profile_pictures = django_settings.MEDIA_ROOT + '/profile_pictures/'
+    if not os.path.exists(profile_pictures):
+        os.makedirs(profile_pictures)
+    f = request.FILES['picture']
+    filename = profile_pictures + request.user.username + '_tmp.jpg'
+    with open(filename, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)    
+    im = Image.open(filename)
+    width, height = im.size
+    if width > 350:
+        new_width = 350
+        new_height = (height * 350) / width
+        new_size = new_width, new_height
+        im.thumbnail(new_size, Image.ANTIALIAS)
+        im.save(filename)
+    return redirect('/settings/picture/?upload_picture=uploaded')
+
+@login_required
+def save_uploaded_picture(request):
+    try:
+        x = int(request.POST.get('x'))
+        y = int(request.POST.get('y'))
+        w = int(request.POST.get('w'))
+        h = int(request.POST.get('h'))
+        tmp_filename = django_settings.MEDIA_ROOT + '/profile_pictures/' + request.user.username + '_tmp.jpg'
+        filename = django_settings.MEDIA_ROOT + '/profile_pictures/' + request.user.username + '.jpg'
+        im = Image.open(tmp_filename)
+        cropped_im = im.crop((x, y, w+x, h+y))
+        cropped_im.thumbnail((200, 200), Image.ANTIALIAS)
+        cropped_im.save(filename)
+        os.remove(tmp_filename)
+    except Exception, e:
+        pass
+    return redirect('/settings/picture/')

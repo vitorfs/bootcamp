@@ -1,3 +1,6 @@
+from unipath import Path
+PROJECT_DIR = Path(__file__).parent.parent
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(__file__)
@@ -81,8 +84,13 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
+MEDIA_ROOT = PROJECT_DIR.child('media')
+MEDIA_URL = '/media/'
+
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
 
 LOGIN_URL = '/'
+
+ALLOWED_SIGNUP_DOMAINS = ['*']
