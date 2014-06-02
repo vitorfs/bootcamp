@@ -1,4 +1,5 @@
 <div class="list-group">
   <a href="{% url 'settings' %}" class="list-group-item{% if active == 'profile' %} active{% endif %}">Profile</a>
+  <a href="{% url 'picture' %}" class="list-group-item{% if active == 'picture' %} active{% endif %}">Picture</a>
   <a href="{% url 'password' %}" class="list-group-item{% if active == 'password' %} active{% endif %}">Password</a>
 </div>

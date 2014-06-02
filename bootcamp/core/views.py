@@ -58,6 +58,10 @@ def settings(request):
     return render(request, 'core/settings.html', {'form':form})
 
 @login_required
+def picture(request):
+    pass
+
+@login_required
 def password(request):
     user = request.user
     if request.method == 'POST':

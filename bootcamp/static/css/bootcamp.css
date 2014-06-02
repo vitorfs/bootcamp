@@ -86,6 +86,7 @@ main .container {
 .page-header h1 {
   margin: 0;
   font-weight: 100;
+  font-size: 2em;
 }
 
 .no-data {
