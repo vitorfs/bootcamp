@@ -12,25 +12,25 @@
   border-bottom: none;
 }
 
-.articles .info {
+.info {
   margin-bottom: .5em;
   color: #a0a0a0;
 }
 
-.articles .info a {
+.info a {
   color: #a0a0a0;
 }
 
-.articles .info > span {
+.info > span {
   margin-right: 1em;
 }
 
-.articles .info .user img {
+.info .user img {
   width: 20px;
   border-radius: 3px;
 }
 
-.articles article .tags {
+article .tags {
   font-size: 1em;
 }
 

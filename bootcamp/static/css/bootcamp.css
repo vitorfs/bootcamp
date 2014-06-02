@@ -22,7 +22,7 @@ header h1 a {
   color: #92c35e;
 }
 
-header h1 a:hover {
+header h1 a:hover, header h1 a:focus {
   text-decoration: none;
   color: #a0dc7a;
 }

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Account Settings{% endblock %}
+
+{% block main %}
+  <div class="page-header">
+    <h1>Account Settings</h1>
+  </div>
+  <div class="row" style="margin-top: 2em">
+    <div class="col-md-3">
+      {% include 'core/partial_settings_menu.html' with active='picture' %}
+    </div>
+    <div class="col-md-9">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-success alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+      <h3 style="margin-top: 0">Change Picture</h3>
+    </div>
+  </div>
+{% endblock main %}

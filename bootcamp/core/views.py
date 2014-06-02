@@ -59,7 +59,7 @@ def settings(request):
 
 @login_required
 def picture(request):
-    pass
+    return render(request, 'core/picture.html')
 
 @login_required
 def password(request):
