@@ -2,10 +2,16 @@
   margin-top: 1em;
 }
 
-.profile .picture {
-  text-align: center;
+.user-profile .picture {
+  width: 200px;
+  border-radius: 5px;
 }
 
-.profile .picture img {
-  border-radius: 1000px;
+.user-profile ul {
+  padding: 0;
+  margin-top: .6em;
+}
+
+.user-profile ul li {
+  list-style: none;
 }

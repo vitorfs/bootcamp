@@ -12,27 +12,29 @@
   </div>
   <div class="profile">
     <div class="row">
-      <div class="col-md-2 picture">
-        <img src="{{ page_user.profile.get_picture }}">
+      <div class="col-md-3 user-profile">
+        <img src="{{ page_user.profile.get_picture }}" class="picture">
+        <ul>
+          {% if page_user.profile.job_title %}
+          <li><span class="glyphicon glyphicon-briefcase"></span> {{ page_user.profile.job_title }}</li>
+          {% endif %}
+          {% if page_user.profile.location %}
+          <li><span class="glyphicon glyphicon-map-marker"></span> {{ page_user.profile.location }}</li>
+          {% endif %}
+          <li><span class="glyphicon glyphicon-envelope"></span> {{ page_user.email }}</li>
+          {% if page_user.profile.url %}
+          <li><span class="glyphicon glyphicon-globe"></span> <a href="{{ page_user.profile.get_url }}" target="_blank">{{ page_user.profile.get_url }}</a></li>
+          {% endif %}
+        </ul>
       </div>
-      <div class="col-md-10">
-        {% if page_user.profile.job_title %}
-          <p><strong>Job Title:</strong> {{ page_user.profile.job_title }}</p>
-        {% endif %}
-        <p><strong>Email:</strong> {{ page_user.email }}</p>
-        {% if page_user.profile.location %}
-          <p><strong>Location:</strong> {{ page_user.profile.location }}</p>
-        {% endif %}
-        {% if page_user.profile.url %}
-          <p><strong>Url:</strong> <a href="{{ page_user.profile.get_url }}">{{ page_user.profile.get_url }}</a></p>
-        {% endif %}
+      <div class="col-md-9">
+        <h4>Last Feeds by {{ page_user.profile.get_screen_name }}</h4>
+        <ul class="stream">
+          {% for feed in feeds %}
+            {% include 'feeds/partial_feed.html' with feed=feed %}
+          {% endfor %}
+        </ul>
       </div>
     </div>
   </div>
-  <h4>Last Feeds by {{ page_user.profile.get_screen_name }}</h4>
-  <ul class="stream">
-    {% for feed in feeds %}
-      {% include 'feeds/partial_feed.html' with feed=feed %}
-    {% endfor %}
-  </ul>
 {% endblock main %}
