@@ -9,11 +9,6 @@ ul.stream li {
   padding: 1em 0;
 }
 
-/*ul.stream li:hover {
-  cursor: pointer;
-  background-color: #f5f8fa;
-}*/
-
 ul.stream li:last-child {
   border-bottom: none;
 }

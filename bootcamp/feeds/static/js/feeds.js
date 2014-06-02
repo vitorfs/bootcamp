@@ -139,8 +139,8 @@ $(function () {
   });
 
   var load_feeds = function () {
-    var page = $("#load_feed input[name='page']").val();
-    if (page != "-1") {
+    if (!$("#load_feed").hasClass("no-more-feeds")) {
+      var page = $("#load_feed input[name='page']").val();
       var next_page = parseInt($("#load_feed input[name='page']").val()) + 1;
       $("#load_feed input[name='page']").val(next_page);
       $.ajax({
@@ -155,7 +155,7 @@ $(function () {
             $("ul.stream").append(data)
           }
           else {
-            $("#load_feed input[name='page']").val("-1");
+            $("#load_feed").addClass("no-more-feeds");
           }
         },
         complete: function () {
@@ -169,10 +169,14 @@ $(function () {
 
   function check_new_feeds () {
     var last_feed = $(".stream li:first-child").attr("feed-id");
+    var feed_source = $("#feed_source").val();
     if (last_feed != undefined) {
       $.ajax({
         url: '/feeds/check/',
-        data: { 'last_feed': last_feed },
+        data: {
+          'last_feed': last_feed,
+          'feed_source': feed_source
+        },
         cache: false,
         success: function (data) {
           if (parseInt(data) > 0) {
@@ -190,14 +194,17 @@ $(function () {
       window.setTimeout(check_new_feeds, 30000);
     }
   };
-
   check_new_feeds();
 
   $(".stream-update a").click(function () {
     var last_feed = $(".stream li:first-child").attr("feed-id");
+    var feed_source = $("#feed_source").val();
     $.ajax({
       url: '/feeds/load_new/',
-      data: { 'last_feed': last_feed },
+      data: { 
+        'last_feed': last_feed,
+        'feed_source': feed_source
+      },
       cache: false,
       success: function (data) {
         $("ul.stream").prepend(data);
@@ -214,13 +221,15 @@ $(function () {
   function update_feeds () {
     var first_feed = $(".stream li:first-child").attr("feed-id");
     var last_feed = $(".stream li:last-child").attr("feed-id");
+    var feed_source = $("#feed_source").val();
 
     if (first_feed != undefined && last_feed != undefined) {
       $.ajax({
         url: '/feeds/update/',
         data: {
           'first_feed': first_feed,
-          'last_feed': last_feed
+          'last_feed': last_feed,
+          'feed_source': feed_source
         },
         cache: false,
         success: function (data) {
@@ -238,7 +247,6 @@ $(function () {
     else {
       window.setTimeout(update_feeds, 30000);
     }
-
   };
   update_feeds();
 
@@ -259,7 +267,6 @@ $(function () {
     });
     window.setTimeout(track_comments, 30000);
   };
-
   track_comments();
 
 });

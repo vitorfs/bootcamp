@@ -3,6 +3,7 @@
 {% block head %}
   <link href="{{ STATIC_URL }}css/profile.css" rel="stylesheet">
   <link href="{{ STATIC_URL }}css/feeds.css" rel="stylesheet">
+  <script src="{{ STATIC_URL }}js/jquery.bullseye-1.0-min.js"></script>
   <script src="{{ STATIC_URL }}js/feeds.js"></script>
 {% endblock head %}
 
@@ -29,11 +30,22 @@
       </div>
       <div class="col-md-9">
         <h4>Last Feeds by {{ page_user.profile.get_screen_name }}</h4>
+        <div class="stream-update">
+          <a href="#"><span class="new-posts"></span> new posts</a>
+        </div>
         <ul class="stream">
           {% for feed in feeds %}
             {% include 'feeds/partial_feed.html' with feed=feed %}
           {% endfor %}
         </ul>
+        <div class="load">
+          <img src="{{ STATIC_URL }}img/loading.gif">
+        </div>
+        <form method="get" action="{% url 'load' %}" id="load_feed" autocomplete="off">
+          <input type="hidden" name="feed_source" id="feed_source" value="{{ page_user.pk }}">
+          <input type="hidden" name="from_feed" value="{{ from_feed }}">
+          <input type="hidden" name="page" value="{{ page }}">
+        </form>
       </div>
     </div>
   </div>

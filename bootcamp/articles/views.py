@@ -4,6 +4,7 @@ from bootcamp.articles.models import Article, Tag
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from bootcamp.articles.forms import ArticleForm
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
 
 def _articles(request, articles):
     paginator = Paginator(articles, 10)
@@ -31,10 +32,12 @@ def _articles(request, articles):
         'popular_tags': popular_tags
         })    
 
+@login_required
 def articles(request):
     all_articles = Article.get_published()
     return _articles(request, all_articles)
 
+@login_required
 def tag(request, tag_name):
     tags = Tag.objects.filter(tag=tag_name)
     articles = []
@@ -43,6 +46,7 @@ def tag(request, tag_name):
             articles.append(tag.article)
     return _articles(request, articles)
 
+@login_required
 def write(request):
     if request.method == 'POST':
         form = ArticleForm(request.POST)
@@ -62,10 +66,12 @@ def write(request):
         form = ArticleForm()
     return render(request, 'articles/write.html', {'form': form})
 
+@login_required
 def drafts(request):
     drafts = Article.objects.filter(create_user=request.user, status=Article.DRAFT)
     return render(request, 'articles/drafts.html', {'drafts': drafts})
 
+@login_required
 def edit(request, id):
     tags = ''
     if id:

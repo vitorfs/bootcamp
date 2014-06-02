@@ -1,22 +1,28 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from bootcamp.questions.models import Question, Answer
 from bootcamp.questions.forms import QuestionForm, AnswerForm
 from bootcamp.activities.models import Activity
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
+from bootcamp.decorators import ajax_required
 
+@login_required
 def questions(request):
     questions = Question.objects.all()
     return render(request, 'questions/questions.html', {'questions': questions, 'active': 'all'})
 
+@login_required
 def answered(request):
     questions = Question.get_answered()
     return render(request, 'questions/questions.html', {'questions': questions, 'active': 'answered'})
 
+@login_required
 def unanswered(request):
     questions = Question.get_unanswered()
     return render(request, 'questions/questions.html', {'questions': questions, 'active': 'unanswered'})
 
+@login_required
 def ask(request):
     if request.method == 'POST':
         form = QuestionForm(request.POST)
@@ -36,11 +42,13 @@ def ask(request):
         form = QuestionForm()
     return render(request, 'questions/ask.html', {'form': form})
 
+@login_required
 def question(request, pk):
     question = Question.objects.get(pk=pk)
     form = AnswerForm(initial={'question': question})
     return render(request, 'questions/question.html', {'question': question, 'form': form})
 
+@login_required
 def answer(request):
     if request.method == 'POST':
         form = AnswerForm(request.POST)
@@ -57,12 +65,19 @@ def answer(request):
     else:
         return redirect('/questions/')
 
+@login_required
+@ajax_required
 def accept(request):
     answer_id = request.POST['answer']
     answer = Answer.objects.get(pk=answer_id)
-    answer.accept()
-    return HttpResponse('')
+    if answer.question.user == request.user:
+        answer.accept()
+        return HttpResponse()
+    else:
+        return HttpResponseForbidden()
 
+@login_required
+@ajax_required
 def vote(request):
     answer_id = request.POST['answer']
     answer = Answer.objects.get(pk=answer_id)
@@ -76,6 +91,8 @@ def vote(request):
         activity.save()
     return HttpResponse(answer.calculate_votes())
 
+@login_required
+@ajax_required
 def favorite(request):
     question_id = request.POST['question']
     question = Question.objects.get(pk=question_id)

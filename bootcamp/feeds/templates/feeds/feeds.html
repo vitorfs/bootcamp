@@ -41,6 +41,7 @@
     <img src="{{ STATIC_URL }}img/loading.gif">
   </div>
   <form method="get" action="{% url 'load' %}" id="load_feed" autocomplete="off">
+    <input type="hidden" name="feed_source" id="feed_source" value="all">
     <input type="hidden" name="from_feed" value="{{ from_feed }}">
     <input type="hidden" name="page" value="{{ page }}">
   </form>

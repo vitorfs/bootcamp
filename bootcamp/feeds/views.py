@@ -6,9 +6,12 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template.loader import render_to_string
 from django.core.context_processors import csrf
 import json
+from django.contrib.auth.decorators import login_required
+from bootcamp.decorators import ajax_required
 
 FEEDS_NUM_PAGES = 10
 
+@login_required
 def feeds(request):
     all_feeds = Feed.get_feeds()
     paginator = Paginator(all_feeds, FEEDS_NUM_PAGES)
@@ -22,10 +25,15 @@ def feeds(request):
         'page': 1,
         })
 
+@login_required
+@ajax_required
 def load(request):
     from_feed = request.GET.get('from_feed')
     page = request.GET.get('page')
+    feed_source = request.GET.get('feed_source')
     all_feeds = Feed.get_feeds(from_feed)
+    if feed_source != 'all':
+        all_feeds = all_feeds.filter(user__id=feed_source)
     paginator = Paginator(all_feeds, FEEDS_NUM_PAGES)
     try:
         feeds = paginator.page(page)
@@ -44,8 +52,10 @@ def load(request):
         )
     return HttpResponse(html)
 
-def _html_feeds(last_feed, user, csrf_token):
+def _html_feeds(last_feed, user, csrf_token, feed_source='all'):
     feeds = Feed.get_feeds_after(last_feed)
+    if feed_source != 'all':
+        feeds = feeds.filter(user__id=feed_source)
     html = u''
     for feed in feeds:
         html = u'{0}{1}'.format(html, render_to_string('feeds/partial_feed.html', {
@@ -56,6 +66,8 @@ def _html_feeds(last_feed, user, csrf_token):
         )
     return html
 
+@login_required
+@ajax_required
 def load_new(request):
     last_feed = request.GET.get('last_feed')
     user = request.user
@@ -63,11 +75,19 @@ def load_new(request):
     html = _html_feeds(last_feed, user, csrf_token)
     return HttpResponse(html)
 
+@login_required
+@ajax_required
 def check(request):
     last_feed = request.GET.get('last_feed')
-    count = Feed.get_feeds_after(last_feed).count()
+    feed_source = request.GET.get('feed_source')
+    feeds = Feed.get_feeds_after(last_feed)
+    if feed_source != 'all':
+        feeds = feeds.filter(user__id=feed_source)
+    count = feeds.count()
     return HttpResponse(count)
 
+@login_required
+@ajax_required
 def post(request):
     last_feed = request.POST.get('last_feed')
     user = request.user
@@ -79,6 +99,8 @@ def post(request):
     html = _html_feeds(last_feed, user, csrf_token)
     return HttpResponse(html)
 
+@login_required
+@ajax_required
 def like(request):
     feed_id = request.POST['feed']
     feed = Feed.objects.get(pk=feed_id)
@@ -91,6 +113,8 @@ def like(request):
         like.save()
     return HttpResponse(feed.calculate_likes())
 
+@login_required
+@ajax_required
 def comment(request):
     if request.method == 'POST':
         feed_id = request.POST['feed']
@@ -104,16 +128,23 @@ def comment(request):
         feed = Feed.objects.get(pk=feed_id)
         return render(request, 'feeds/partial_feed_comments.html', {'feed': feed})
 
+@login_required
+@ajax_required
 def update(request):
     first_feed = request.GET.get('first_feed')
     last_feed = request.GET.get('last_feed')
+    feed_source = request.GET.get('feed_source')
     feeds = Feed.get_feeds().filter(id__range=(last_feed, first_feed))
+    if feed_source != 'all':
+        feeds = feeds.filter(user__id=feed_source)
     dump = {}
     for feed in feeds:
         dump[feed.pk] = {'likes': feed.likes, 'comments': feed.comments}
     data = json.dumps(dump)
     return HttpResponse(data, mimetype='application/json')
 
+@login_required
+@ajax_required
 def track_comments(request):
     feed_id = request.GET.get('feed')
     feed = Feed.objects.get(pk=feed_id)
