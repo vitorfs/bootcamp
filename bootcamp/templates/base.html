@@ -18,27 +18,29 @@
     {% endblock head %}
   </head>
   <body>
-    <header>
-      <div class="container">
-        <h1><a href="{% url 'home' %}">Bootcamp</a></h1>
-        <ul class="menu">
-          <li><a href="{% url 'feeds' %}">Feeds</a></li>
-          <li><a href="{% url 'articles' %}">Articles</a></li>
-          <li><a href="{% url 'questions' %}">Q&A</a></li>
-          <li><a href="#">Network</a></li>
-        </ul>
-        <ul class="settings">
-          <li class="user"><a href="#">vitorfs</a></li>
-          <li><a href="#">Account Settings</a></li>
-          <li><a href="#">Sign Out</a></li>
-        </ul>
-      </div>
-    </header>
-    <main>  
-      <div class="container">
-        {% block main %}
-        {% endblock main %}
-      </div>
-    </main>
+    {% block body %}
+      <header>
+        <div class="container">
+          <h1><a href="{% url 'home' %}">Bootcamp</a></h1>
+          <ul class="menu">
+            <li><a href="{% url 'feeds' %}">Feeds</a></li>
+            <li><a href="{% url 'articles' %}">Articles</a></li>
+            <li><a href="{% url 'questions' %}">Q&A</a></li>
+            <li><a href="#">Network</a></li>
+          </ul>
+          <ul class="settings">
+            <li class="user"><a href="#">{{ user.username }}</a></li>
+            <li><a href="#">Account Settings</a></li>
+            <li><a href="{% url 'logout' %}">Sign Out</a></li>
+          </ul>
+        </div>
+      </header>
+      <main>  
+        <div class="container">
+          {% block main %}
+          {% endblock main %}
+        </div>
+      </main>
+    {% endblock body %}
   </body>
 </html>

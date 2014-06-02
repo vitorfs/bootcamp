@@ -30,6 +30,7 @@ INSTALLED_APPS = (
     'bootcamp.activities',
     'bootcamp.articles',
     'bootcamp.auth',
+    'bootcamp.core',
     'bootcamp.feeds',
     'bootcamp.questions',
 )

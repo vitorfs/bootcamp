@@ -4,7 +4,10 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^$', 'bootcamp.feeds.views.feeds', name='home'),
+    url(r'^$', 'bootcamp.core.views.home', name='home'),
+    url(r'^login/$', 'bootcamp.auth.views.login', name='login'),
+    url(r'^logout/$', 'bootcamp.auth.views.logout', name='logout'),
+    url(r'^signup/$', 'bootcamp.auth.views.signup', name='signup'),
     url(r'^feeds/$', 'bootcamp.feeds.views.feeds', name='feeds'),
     url(r'^feeds/post/$', 'bootcamp.feeds.views.post', name='post'),
     url(r'^feeds/like/$', 'bootcamp.feeds.views.like', name='like'),
