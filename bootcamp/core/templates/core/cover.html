@@ -9,8 +9,8 @@
     <h1 class="logo">Bootcamp</h1>
     {% if messages %}
       {% for message in messages %}
-        <div class="alert alert-danger">
-          <a href="#" class="pull-right" onclick="$(this).closest('div').fadeOut(); return false;">×</a>
+        <div class="alert alert-danger alert-dismissable">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
           {{ message }}
         </div>
       {% endfor %}

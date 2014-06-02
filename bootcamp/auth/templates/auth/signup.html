@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block head %}
+  <link href="{{ STATIC_URL }}css/signup.css" rel="stylesheet">
+{% endblock head %}
+
+{% block body %}
+  <h1 class="logo"><a href="{% url 'home' %}">Bootcamp</a></h1>
+  <div class="signup">
+    <h2>Sign up for Bootcamp</h2>
+    <form action="{% url 'signup' %}" method="post" role="form">
+      {% csrf_token %}
+      {% for field in form.visible_fields %}
+        <div class="form-group{% if field.errors %} has-error{% endif %}">
+          <label for="{{ field.label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.help_text %}
+            <span class="help-block">{{ field.help_text|safe }}</span>
+          {% endif %}
+          {% for error in field.errors %}
+            <label class="control-label">{{ error }}</label>
+          {% endfor %}
+        </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-primary btn-lg">Create an account</button>
+    </form>
+  </div>
+{% endblock body %}
