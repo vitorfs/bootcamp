@@ -1,0 +1,11 @@
+Django==1.6.5
+dj-database-url==0.2.2
+dj-static==0.0.5
+gunicorn==18.0
+psycopg2==2.5.1
+static==0.4
+wsgiref==0.1.2
+Unipath==1.0
+pytz
+python-decouple
+Pillow

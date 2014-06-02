@@ -1,18 +1,27 @@
 from unipath import Path
 PROJECT_DIR = Path(__file__).parent
 
+from decouple import config
+
+import dj_database_url
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'qq1!i8h(8+o%&c9^y4*^5$-qglriy#mee3k(&_hkoa&s%0fxts'
+
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool) 
+TEMPLATE_DEBUG = DEBUG
 
-TEMPLATE_DEBUG = True
+DATABASES = {
+    'default': dj_database_url.config(
+      default = config('DATABASE_URL'))
+}
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -44,17 +53,6 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'bootcamp.urls'
 
 WSGI_APPLICATION = 'bootcamp.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': PROJECT_DIR.parent.child('db.sqlite3'),
-    }
-}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
