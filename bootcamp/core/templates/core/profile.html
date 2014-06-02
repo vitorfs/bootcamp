@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% block title %}{{ page_user.profile.get_screen_name }}{% endblock %}
+
 {% block head %}
   <link href="{{ STATIC_URL }}css/profile.css" rel="stylesheet">
   <link href="{{ STATIC_URL }}css/feeds.css" rel="stylesheet">
