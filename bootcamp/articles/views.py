@@ -39,16 +39,11 @@ def articles(request):
 
 @login_required
 def article(request, slug):
-    all_articles = Article.get_published()
-    return _articles(request, all_articles)
-
-@login_required
-def article(request, slug):
     try:
         article = Article.objects.get(slug=slug, status=Article.PUBLISHED)
+        return render(request, 'articles/article.html', {'article': article})
     except Article.DoesNotExist:
-        raise Http404
-    return render(request, 'articles/article.html', {'article': article})
+        return redirect('/articles/')
 
 @login_required
 def tag(request, tag_name):
