@@ -11,7 +11,7 @@ def ForbiddenUsernamesValidator(value):
         'campaign', 'config', 'delete', 'remove', 'forum', 'forums', 'download', 'downloads', 
         'contact', 'blogs', 'feed', 'feeds', 'faq', 'intranet', 'log', 'registration', 'search', 
         'explore', 'rss', 'support', 'status', 'static', 'media', 'setting', 'css', 'js',
-        'follow', 'activity', 'questions', 'articles',]
+        'follow', 'activity', 'questions', 'articles', 'network',]
     if value.lower() in forbidden_usernames:
         raise ValidationError('This is a reserved word.')
 

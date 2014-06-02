@@ -4,6 +4,7 @@ from bootcamp.feeds.views import feeds
 from django.contrib import messages
 from bootcamp.auth.forms import SignUpForm
 from django.contrib.auth.models import User
+from bootcamp.feeds.models import Feed
 
 def login(request):
     if request.user.is_authenticated():
@@ -45,6 +46,9 @@ def signup(request):
             User.objects.create_user(username=username, password=password, email=email)
             user = authenticate(username=username, password=password)
             django_login(request, user)
-            return feeds(request)
+            welcome_post = u'{0} has joined the network.'.format(user.username, user.username)
+            feed = Feed(user=user, post=welcome_post)
+            feed.save()
+            return redirect('/')
     else:
         return render(request, 'auth/signup.html', {'form': SignUpForm()})

@@ -6,8 +6,8 @@
       {{ article.create_date }}
     </span>
     <span class="user">
-      <a href="#"><img src="http://vitorfs.com/img/picture.jpg"></a>
-      <a href="#">{{ article.create_user }}</a>
+      <a href="{% url 'profile' article.create_user.username %}"><img src="{{ article.create_user.profile.get_picture }}"></a>
+      <a href="{% url 'profile' article.create_user.username %}">{{ article.create_user.profile.get_screen_name }}</a>
     </span>
   </div>
   <p>{{ article.content }}</p>

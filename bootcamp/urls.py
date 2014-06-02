@@ -1,8 +1,5 @@
 from django.conf.urls import patterns, include, url
 
-from django.contrib import admin
-admin.autodiscover()
-
 urlpatterns = patterns('',
     url(r'^$', 'bootcamp.core.views.home', name='home'),
     url(r'^login/$', 'bootcamp.auth.views.login', name='login'),
@@ -31,5 +28,6 @@ urlpatterns = patterns('',
     url(r'^articles/drafts/$', 'bootcamp.articles.views.drafts', name='drafts'),
     url(r'^articles/tag/(?P<tag_name>.+)/$', 'bootcamp.articles.views.tag', name='tag'),
     url(r'^articles/edit/(?P<id>\d+)/$', 'bootcamp.articles.views.edit', name='edit_article'),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^network/$', 'bootcamp.core.views.network', name='network'),
+    url(r'^(?P<username>[^/]+)/$', 'bootcamp.core.views.profile', name='profile'),
 )

@@ -1,9 +1,9 @@
 {% load humanize %}
 
 <li feed-id="{{ feed.pk }}" csrf="{{ csrf_token }}">
-  <a href="#"><img src="http://vitorfs.com/img/picture.jpg" class="user"></a>
+  <a href="{% url 'profile' feed.user.username %}"><img src="{{ user.profile.get_picture }}" class="user"></a>
   <div class="post">
-    <h3><a href="#">{{ feed.user.get_full_name }}</a> <small>{{ feed.date|naturaltime }}</small></h3>
+    <h3><a href="{% url 'profile' feed.user.username %}">{{ feed.user.profile.get_screen_name }}</a> <small>{{ feed.date|naturaltime }}</small></h3>
     <p>{{ feed.post }}</p>
     <div class="interaction">
       {% if user in feed.get_likers %}

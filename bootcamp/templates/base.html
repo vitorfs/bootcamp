@@ -26,10 +26,10 @@
             <li><a href="{% url 'feeds' %}">Feeds</a></li>
             <li><a href="{% url 'articles' %}">Articles</a></li>
             <li><a href="{% url 'questions' %}">Q&A</a></li>
-            <li><a href="#">Network</a></li>
+            <li><a href="{% url 'network' %}">Network</a></li>
           </ul>
           <ul class="settings">
-            <li class="user"><a href="#">{{ user.username }}</a></li>
+            <li class="user"><a href="{% url 'profile' user.username %}">{{ user.profile.get_screen_name }}</a></li>
             <li><a href="#">Account Settings</a></li>
             <li><a href="{% url 'logout' %}">Log out</a></li>
           </ul>
