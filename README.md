@@ -21,7 +21,7 @@ The Articles app is a basic blog, with articles pagination, tag filtering and dr
 
 Question & Answers App
 ----
-The Question & Aanswers app works just as StackOverflow, you can favorite a question, vote up or vote down answers, aceept an answer and so on.
+The Question & Aanswers app works just as StackOverflow, you can favorite a question, vote up or vote down answers, accept an answer and so on.
 
 
 Technology Stack:
