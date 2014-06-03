@@ -94,7 +94,8 @@ def post(request):
     csrf_token = unicode(csrf(request)['csrf_token'])
     feed = Feed()
     feed.user = user
-    feed.post = request.POST['post']
+    post = request.POST['post']
+    feed.post = post[:255]
     feed.save()
     html = _html_feeds(last_feed, user, csrf_token)
     return HttpResponse(html)
