@@ -29,8 +29,7 @@ O código fonte está disponível lá no meu **[github][0]**!
 A aplicação pode ser vista rodando **[aqui][1]**.
 
 
-**Bootcamp** é uma rede social corporativa open source feita em Django
-App: http://trybootcamp.vitorfs.com
+**[Bootcamp][0]** é uma rede social corporativa open source feita em Django.
 
 
 [0]: http://trybootcamp.vitorfs.com
