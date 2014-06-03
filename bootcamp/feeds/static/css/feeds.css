@@ -135,3 +135,16 @@ ul.stream li div.post div.interaction a {
 .loadcomment {
   text-align: center;
 }
+
+.remove-feed {
+  color: #bbbbbb; 
+  font-size: .8em; 
+  padding-top: .2em;
+  float: right;
+  display: none;
+  cursor: pointer;
+}
+
+.remove-feed:hover {
+  color: #333333;
+}

@@ -269,4 +269,32 @@ $(function () {
   };
   track_comments();
 
+  $("ul.stream").on("mouseenter", "li", function () {
+    var li = $(this);
+    $(".remove-feed", li).show();
+  });
+
+  $("ul.stream").on("mouseleave", "li", function () {
+    var li = $(this);
+    $(".remove-feed", li).hide();
+  });
+
+  $("ul.stream").on("click", ".remove-feed", function () {
+    var li = $(this).closest("li");
+    var feed = $(li).attr("feed-id");
+    var csrf = $(li).attr("csrf");
+    $.ajax({
+      url: '/feeds/remove/',
+      data: {
+        'feed': feed,
+        'csrfmiddlewaretoken': csrf
+      },
+      type: 'post',
+      cache: false,
+      success: function (data) {
+        $(li).fadeOut();
+      }
+    });
+  });
+
 });

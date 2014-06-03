@@ -41,8 +41,12 @@ class Feed(models.Model):
         self.save()
         return self.likes
 
-    def get_likers(self):
+    def get_likes(self):
         likes = Activity.objects.filter(activity_type=Activity.LIKE, feed=self.pk)
+        return likes
+
+    def get_likers(self):
+        likes = self.get_likes()
         likers = []
         for like in likes:
             likers.append(like.user)

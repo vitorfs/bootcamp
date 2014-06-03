@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from bootcamp.feeds.models import Feed
 from bootcamp.activities.models import Activity
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -150,3 +150,20 @@ def track_comments(request):
     feed_id = request.GET.get('feed')
     feed = Feed.objects.get(pk=feed_id)
     return render(request, 'feeds/partial_feed_comments.html', {'feed': feed})
+
+@login_required
+@ajax_required
+def remove(request):
+    try:
+        feed_id = request.POST.get('feed')
+        feed = Feed.objects.get(pk=feed_id)
+        if feed.user == request.user:
+            likes = feed.get_likes()
+            for like in likes:
+                like.delete()
+            feed.delete()
+            return HttpResponse()
+        else:
+            return HttpResponseForbidden()
+    except Exception, e:
+        return HttpResponseBadRequest()

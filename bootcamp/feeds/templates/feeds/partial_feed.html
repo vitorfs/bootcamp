@@ -3,6 +3,9 @@
 <li feed-id="{{ feed.pk }}" csrf="{{ csrf_token }}">
   <a href="{% url 'profile' feed.user.username %}"><img src="{{ feed.user.profile.get_picture }}" class="user"></a>
   <div class="post">
+    {% if feed.user == user %}
+      <span class="glyphicon glyphicon-remove remove-feed" title="Click to remove this feed"></span>
+    {% endif %}
     <h3><a href="{% url 'profile' feed.user.username %}">{{ feed.user.profile.get_screen_name }}</a> <small>{{ feed.date|naturaltime }}</small></h3>
     <p>{{ feed.post }}</p>
     <div class="interaction">

@@ -10,4 +10,5 @@ urlpatterns = patterns('bootcamp.feeds.views',
     url(r'^load_new/$', 'load_new', name='load_new'),
     url(r'^update/$', 'update', name='update'),
     url(r'^track_comments/$', 'track_comments', name='track_comments'),
+    url(r'^remove/$', 'remove', name='remove_feed'),
 )
