@@ -4,68 +4,10 @@ body {
   background-color: #f6f6f6;
 }
 
-header {
-  border-bottom: 3px solid #00b1cf;
-  background-color: #006389;
-  padding: .4em 0;
-}
-
-header h1 {
-  font-size: 1.8em;
+header .navbar-brand {
+  font-size: 1.4em;
   font-weight: 200;
   font-family: "Audiowide", cursive;
-  margin: 0;
-  float: left;
-}
-
-header h1 a {
-  color: #92c35e;
-}
-
-header h1 a:hover, header h1 a:focus {
-  text-decoration: none;
-  color: #a0dc7a;
-}
-
-header ul.menu {
-  float: left;
-  font-size: 1em;
-  margin-left: 1em;
-}
-
-header ul.menu li.active a {
-  color: #00b1cf;
-}
-
-header ul.settings {
-  float: right;
-  font-size: 0.8em;
-}
-
-header ul {
-  float: right;
-  margin: 0;
-  padding: .3em 0 0 0;
-}
-
-header ul li {
-  display: inline;
-  list-style: none;
-  margin-left: .8em;
-}
-
-header ul li a {
-  color: #f6f6f6;
-  font-weight: 500;
-}
-
-header ul li a:hover, header ul li a:focus {
-  color: #92c35e;
-  text-decoration: none;
-}
-
-header ul.settings li.user {
-  font-size: 1.2em;
 }
 
 main .container {
