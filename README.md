@@ -1,6 +1,8 @@
 Bootcamp
 ========
 
+**[Bootcamp][0]** é uma rede social corporativa open source feita em Django.
+
 O projeto é composto por três apps básicas:
 * feeds (twitter)
 * articles (blog)
@@ -27,9 +29,6 @@ O projeto está em desenvolvimento ainda, quem quiser contribuir!
 O código fonte está disponível: **[github][0]**! 
 
 A aplicação pode ser vista rodando **[aqui][1]**.
-
-
-**[Bootcamp][0]** é uma rede social corporativa open source feita em Django.
 
 
 [0]: http://trybootcamp.vitorfs.com
