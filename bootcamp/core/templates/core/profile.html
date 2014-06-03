@@ -11,7 +11,7 @@
 
 {% block main %}
   <div class="page-header">
-    <h1>{{ page_user.profile.get_screen_name }} {% if page_user.get_full_name %}<small>({{ user.username }})</small>{% endif %}</h1>
+    <h1>{{ page_user.profile.get_screen_name }} {% if page_user.get_full_name %}<small>({{ page_user.username }})</small>{% endif %}</h1>
   </div>
   <div class="profile">
     <div class="row">
