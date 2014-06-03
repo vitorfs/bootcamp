@@ -1,35 +1,41 @@
 Bootcamp
 ========
 
-**[Bootcamp][0]** é uma rede social corporativa open source feita em Django.
+Bootcamp is an open source enterprise social network built with **[Python][0]** using **[Django Web Framework][1]**
 
-O projeto é composto por três apps básicas:
-* feeds (twitter)
-* articles (blog)
-* question & answers (stackoverflow)
+The project have three basic apps:
 
-Já tem bastante coisa implementada, e o projeto é open source! 
-Quem tiver interesse de contribuir ou fazer um fork.
+* Feed (A twitter-like microblogging)
+* Articles (A collaborative blog)
+* Question & Answers (A stackoverflow-like platform)
 
-> Na app feeds tem monitor de atualizações, scroll infinito para ver feeds antigos, atualização automática de likes e  comentários, tracking de comentários...
+Feed App
+----
+The Feed app have a infinite-scroll to load old feeds, new feeds notification, automated likes and comments update, comments tracking.
 
-> articles é um blogzinho básico, falta colocar markdown ainda. Mas já tem tags, paginação usando Paginator do django, filtros por tags etc. (falta fazer edição tbm..)
 
-> Q&A é uma imitação mesmo do stackoverflow, tem favorite question, vote up, vote down.. falta o markdown também, edição etc
+Articles App
+----
+The Articles app is a basic blog, with articles pagination, tag filtering and draft management.
 
-========================
-O projeto foi feito com:
+
+Question & Answers App
+----
+The Question & Aanswers app works just as StackOverflow, you can favorite a question, vote up or vote down answers, aceept an answer and so on.
+
+
+Technology Stack:
+----
 * Python 2.7  
 * Django 1.6.5
-* Componentes de interface construídos por cima do Twitter Bootstrap 3
-E os scritps foram feitos com jquery
+* Twitter Bootstrap 3
+* jQuery 2
 
 
-O projeto está em desenvolvimento ainda, quem quiser contribuir!
-O código fonte está disponível: **[github][0]**! 
+Try Bootcamp
+----
+Try Bootcamp now at **[http://trybootcamp.vitorfs.com][2]**
 
-A aplicação pode ser vista rodando **[aqui][1]**.
-
-
-[0]: http://trybootcamp.vitorfs.com
-[1]: https://github.com/vitorfs/bootcamp
+[0]: https://www.python.org
+[1]: https://www.djangoproject.com
+[2]: http://trybootcamp.vitorfs.com
