@@ -44,12 +44,12 @@ def settings(request):
     if request.method == 'POST':
         form = ProfileForm(request.POST)
         if form.is_valid():
-            user.first_name = form.cleaned_data.get('first_name')
-            user.last_name = form.cleaned_data.get('last_name')
-            user.profile.job_title = form.cleaned_data.get('job_title')
-            user.email = form.cleaned_data.get('email')
-            user.profile.url = form.cleaned_data.get('url')
-            user.profile.location = form.cleaned_data.get('location')
+            user.first_name = form.cleaned_data.get('first_name').strip()
+            user.last_name = form.cleaned_data.get('last_name').strip()
+            user.profile.job_title = form.cleaned_data.get('job_title').strip()
+            user.email = form.cleaned_data.get('email').strip()
+            user.profile.url = form.cleaned_data.get('url').strip()            
+            user.profile.location = form.cleaned_data.get('location').strip()
             user.save()
             messages.add_message(request, messages.SUCCESS, 'Your profile were successfully edited.')
     else:
