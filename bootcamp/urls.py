@@ -17,4 +17,5 @@ urlpatterns = patterns('',
     url(r'^questions/', include('bootcamp.questions.urls')),
     url(r'^articles/', include('bootcamp.articles.urls')),
     url(r'^(?P<username>[^/]+)/$', 'bootcamp.core.views.profile', name='profile'),
+    url(r'^i18n/', include('django.conf.urls.i18n', namespace='i18n')),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
