@@ -27,6 +27,8 @@ class ProfileForm(forms.ModelForm):
         fields = ['first_name', 'last_name', 'job_title', 'email', 'url', 'location',]
 
 
+
+
 class ChangePasswordForm(forms.ModelForm):
     id = forms.CharField(widget=forms.HiddenInput())
     old_password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control'}), 

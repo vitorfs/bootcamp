@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from bootcamp.feeds.models import Feed
-from bootcamp.activities.models import Activity
+from bootcamp.activities.models import Activity, Notification
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template.loader import render_to_string
 from django.core.context_processors import csrf
@@ -108,10 +108,12 @@ def like(request):
     user = request.user
     like = Activity.objects.filter(activity_type=Activity.LIKE, feed=feed_id, user=user)
     if like:
+        user.profile.unotify_liked(feed)
         like.delete()
     else:
         like = Activity(activity_type=Activity.LIKE, feed=feed_id, user=user)
         like.save()
+        user.profile.notify_liked(feed)
     return HttpResponse(feed.calculate_likes())
 
 @login_required
@@ -122,7 +124,9 @@ def comment(request):
         feed = Feed.objects.get(pk=feed_id)
         post = request.POST['post']
         user = request.user
-        feed.do_comment(user=user, post=post)
+        feed.comment(user=user, post=post)
+        user.profile.notify_commented(feed)
+        user.profile.notify_also_commented(feed)
         return render(request, 'feeds/partial_feed_comments.html', {'feed': feed})
     else:
         feed_id = request.GET.get('feed')

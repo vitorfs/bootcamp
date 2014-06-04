@@ -3,6 +3,7 @@ from django.db.models.signals import post_save
 from django.db import models
 from django.conf import settings
 import os.path
+from bootcamp.activities.models import Notification
 
 class Profile(models.Model):
     user = models.OneToOneField(User)
@@ -36,6 +37,40 @@ class Profile(models.Model):
                 return self.user.username
         except:
             return self.user.username
+
+    def notify_liked(self, feed):
+        if self.user != feed.user:
+            Notification(notification_type=Notification.LIKED,
+                from_user=self.user,
+                to_user=feed.user,
+                feed=feed).save()
+
+    def unotify_liked(self, feed):
+        if self.user != feed.user:
+            Notification.objects.filter(notification_type=Notification.LIKED,
+                from_user=self.user, 
+                to_user=feed.user, 
+                feed=feed).delete()
+
+    def notify_commented(self, feed):
+        if self.user != feed.user:
+            Notification(notification_type=Notification.COMMENTED,
+                        from_user=self.user,
+                        to_user=feed.user,
+                        feed=feed).save()
+
+    def notify_also_commented(self, feed):
+        comments = feed.get_comments()
+        users = []
+        for comment in comments:
+            if comment.user != self.user and comment.user != feed.user:
+                users.append(comment.user.pk)
+        users = list(set(users))
+        for user in users:
+            Notification(notification_type=Notification.ALSO_COMMENTED,
+                from_user=self.user,
+                to_user=User(id=user),
+                feed=feed).save()
 
 
 def create_user_profile(sender, instance, created, **kwargs):

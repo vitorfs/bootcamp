@@ -39,6 +39,23 @@
                 <li><a href="{% url 'network' %}">Network</a></li>
               </ul>
               <ul class="nav navbar-nav navbar-right">
+                <li>
+                  <a href="#" style="font-size: 1.5em; padding: 13px" id="pop" data-container="body" data-toggle="popover" data-placement="bottom" title="Notifications" data-content="<h1>Teste</h1><p>asdaaaaaaaaaaaaaaaadasd</p>">
+                    <span class="glyphicon glyphicon-bell" style="color: #dddddd"></span>
+                  </a>
+                  <script type="text/javascript">
+                    $("#pop").popover({html: true});
+                    $(function () {
+                      $.ajax({
+                        url: '/notifications/',
+                        cache: false,
+                        success: function (data) {
+                          $("#pop").attr("data-content", data);
+                        }
+                      });
+                    });
+                  </script>
+                </li>
                 <li><a href="{% url 'profile' user.username %}">{{ user.profile.get_screen_name }}</a></li>
                 <li><a href="{% url 'settings' %}">Account Settings</a></li>
                 <li><a href="{% url 'logout' %}">Log out</a></li>

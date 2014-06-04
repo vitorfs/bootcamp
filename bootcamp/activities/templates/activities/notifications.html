@@ -1,0 +1,3 @@
+{% for notification in notifications %}
+  <p>{{ notification.date }} - {{ notification }} ({{ notification.to_user.profile.get_screen_name }})</p>
+{% endfor %}

@@ -16,5 +16,6 @@ urlpatterns = patterns('',
     url(r'^feeds/', include('bootcamp.feeds.urls')),
     url(r'^questions/', include('bootcamp.questions.urls')),
     url(r'^articles/', include('bootcamp.articles.urls')),
+    url(r'^notifications/$', 'bootcamp.activities.views.notifications', name='notifications'),
     url(r'^(?P<username>[^/]+)/$', 'bootcamp.core.views.profile', name='profile'),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
