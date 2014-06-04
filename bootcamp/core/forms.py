@@ -26,6 +26,16 @@ class ProfileForm(forms.ModelForm):
         model = User
         fields = ['first_name', 'last_name', 'job_title', 'email', 'url', 'location',]
 
+    def full_clean(self):
+        "Strip whitespace automatically in all form fields"
+        data = self.data.copy()
+        for k, vs in self.data.lists():
+            new_vs = []
+            for v in vs:
+                new_vs.append(v.strip())
+            data.setlist(k, new_vs)
+        self.data = data
+        super(ProfileForm, self).full_clean()
 
 
 
