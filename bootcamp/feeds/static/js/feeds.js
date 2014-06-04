@@ -292,7 +292,9 @@ $(function () {
       type: 'post',
       cache: false,
       success: function (data) {
-        $(li).fadeOut();
+        $(li).fadeOut(400, function () {
+          $(li).remove();
+        });
       }
     });
   });
