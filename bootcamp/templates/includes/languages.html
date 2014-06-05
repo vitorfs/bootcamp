@@ -1,12 +1,23 @@
 {% load i18n %}
 {% get_available_languages as LANGUAGES %}
+{% get_current_language as CURRENT_LANGUAGE %}
 
-<form action="{% url 'i18n:set_language' %}" method="POST">{% csrf_token %}
+<form id="formlang" action="{% url 'i18n:set_language' %}" method="POST">
+  {% csrf_token %}
   <input name="next" type="hidden" value="/" />
-  <select name="language">
-    {% for lang in LANGUAGES %}
+  <select id="selectlang" name="language">
+      {% for lang in LANGUAGES %}
       <option value="{{ lang.0 }}">{{ lang.1 }}</option>
-    {% endfor %}
+      {% endfor %}
   </select>
-  <input type="submit" value="Go" />
 </form>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    var lang = '{{ CURRENT_LANGUAGE }}';
+    $('#selectlang').val(lang);
+});
+$("#selectlang").change(function() {
+     $("#formlang").submit();
+});
+</script>
