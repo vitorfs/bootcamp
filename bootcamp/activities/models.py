@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.html import escape
 
 class Activity(models.Model):
     FAVORITE = 'F'
@@ -45,13 +46,13 @@ class Notification(models.Model):
         (ALSO_COMMENTED, 'Also Commented'),
         )
 
-    _LIKED_TEMPLATE = u'{0} liked your post: {1}'
-    _COMMENTED_TEMPLATE = u'{0} commented on your post: {1}'
-    _FAVORITED_TEMPLATE = u'{0} favorited your question: {1}'
-    _ANSWERED_TEMPLATE = u'{0} answered your question: {1}'
-    _ACCEPTED_ANSWER_TEMPLATE = u'{0} accepted your answer: {1}'
-    _EDITED_ARTICLE_TEMPLATE = u'{0} edited your article: {1}'
-    _ALSO_COMMENTED_TEMPLATE = u'{0} also commentend on the post: {1}'
+    _LIKED_TEMPLATE = u'<a href="/{0}/">{1}</a> liked your post: <a href="/feeds/{2}/">{3}</a>'
+    _COMMENTED_TEMPLATE = u'<a href="/{0}/">{1}</a> commented on your post: <a href="/feeds/{2}/">{3}</a>'
+    _FAVORITED_TEMPLATE = u'<a href="/{0}/">{1}</a> favorited your question: <a href="/questions/{2}/">{3}</a>'
+    _ANSWERED_TEMPLATE = u'<a href="/{0}/">{1}</a> answered your question: <a href="/questions/{2}/">{3}</a>'
+    _ACCEPTED_ANSWER_TEMPLATE = u'<a href="/{0}/">{1}</a> accepted your answer: <a href="/questions/{2}/">{3}</a>'
+    _EDITED_ARTICLE_TEMPLATE = u'<a href="/{0}/">{1}</a> edited your article: <a href="/article/{2}/">{3}</a>'
+    _ALSO_COMMENTED_TEMPLATE = u'<a href="/{0}/">{1}</a> also commentend on the post: <a href="/feeds/{2}/">{3}</a>'
 
     from_user = models.ForeignKey(User, related_name='+')
     to_user = models.ForeignKey(User, related_name='+')
@@ -71,38 +72,52 @@ class Notification(models.Model):
     def __unicode__(self):
         if self.notification_type == self.LIKED:
             return self._LIKED_TEMPLATE.format(
-                self.from_user.profile.get_screen_name(),
-                self.get_summary(self.feed.post)
+                escape(self.from_user.username),
+                escape(self.from_user.profile.get_screen_name()),
+                self.feed.pk,
+                escape(self.get_summary(self.feed.post))
                 )
         elif self.notification_type == self.COMMENTED:
             return self._COMMENTED_TEMPLATE.format(
-                self.from_user.profile.get_screen_name(),
-                self.get_summary(self.feed.post)
+                escape(self.from_user.username),
+                escape(self.from_user.profile.get_screen_name()),
+                self.feed.pk,
+                escape(self.get_summary(self.feed.post))
                 )
         elif self.notification_type == self.FAVORITED:
             return self._FAVORITED_TEMPLATE.format(
-                self.from_user.profile.get_screen_name(),
-                self.get_summary(self.question.title)
+                escape(self.from_user.username),
+                escape(self.from_user.profile.get_screen_name()),
+                self.question.pk,
+                escape(self.get_summary(self.question.title))
                 )
         elif self.notification_type == self.ANSWERED:
             return self._ANSWERED_TEMPLATE.format(
-                self.from_user.profile.get_screen_name(),
-                self.get_summary(self.question.title)
+                escape(self.from_user.username),
+                escape(self.from_user.profile.get_screen_name()),
+                self.question.pk,
+                escape(self.get_summary(self.question.title))
                 )
         elif self.notification_type == self.ACCEPTED_ANSWER:
             return self._ACCEPTED_ANSWER_TEMPLATE.format(
-                self.from_user.profile.get_screen_name(),
-                self.get_summary(self.answer.description)
+                escape(self.from_user.username),
+                escape(self.from_user.profile.get_screen_name()),
+                self.answer.question.pk,
+                escape(self.get_summary(self.answer.description))
                 )
         elif self.notification_type == self.EDITED_ARTICLE:
             return self._EDITED_ARTICLE_TEMPLATE.format(
-                self.from_user.profile.get_screen_name(),
-                self.get_summary(self.article.title)
+                escape(self.from_user.username),
+                escape(self.from_user.profile.get_screen_name()),
+                self.article.slug,
+                escape(self.get_summary(self.article.title))
                 )
         elif self.notification_type == self.ALSO_COMMENTED:
             return self._ALSO_COMMENTED_TEMPLATE.format(
-                self.from_user.profile.get_screen_name(),
-                self.get_summary(self.feed.post)
+                escape(self.from_user.username),
+                escape(self.from_user.profile.get_screen_name()),
+                self.feed.pk,
+                escape(self.get_summary(self.feed.post))
                 )
         else:
             return 'Ooops! Something went wrong.'

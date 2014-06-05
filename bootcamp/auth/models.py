@@ -72,6 +72,40 @@ class Profile(models.Model):
                 to_user=User(id=user),
                 feed=feed).save()
 
+    def notify_favorited(self, question):
+        if self.user != question.user:
+            Notification(notification_type=Notification.FAVORITED,
+                from_user=self.user, 
+                to_user=question.user, 
+                question=question).save()
+
+    def unotify_favorited(self, question):
+        if self.user != question.user:
+            Notification.objects.filter(notification_type=Notification.FAVORITED,
+                from_user=self.user, 
+                to_user=question.user, 
+                question=question).delete()
+
+    def notify_answered(self, question):
+        if self.user != question.user:
+            Notification(notification_type=Notification.ANSWERED,
+                from_user=self.user, 
+                to_user=question.user, 
+                question=question).save()
+    
+    def notify_accepted(self, answer):
+        if self.user != answer.user:
+            Notification(notification_type=Notification.ACCEPTED_ANSWER,
+                from_user=self.user, 
+                to_user=answer.user, 
+                answer=answer).save()
+    
+    def unotify_accepted(self, answer):
+        if self.user != answer.user:
+            Notification.objects.filter(notification_type=Notification.ACCEPTED_ANSWER,
+                from_user=self.user, 
+                to_user=answer.user, 
+                answer=answer).delete()
 
 def create_user_profile(sender, instance, created, **kwargs):
     if created:

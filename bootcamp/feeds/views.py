@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from bootcamp.feeds.models import Feed
 from bootcamp.activities.models import Activity, Notification
@@ -24,6 +24,13 @@ def feeds(request):
         'from_feed': from_feed, 
         'page': 1,
         })
+
+def feed(request, pk):
+    try:
+        feed = Feed.objects.get(pk=pk)
+        return render(request, 'feeds/feed.html', {'feed': feed})
+    except Exception, e:
+        return redirect('/')
 
 @login_required
 @ajax_required

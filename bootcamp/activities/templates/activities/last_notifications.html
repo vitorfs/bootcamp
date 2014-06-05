@@ -1,0 +1,14 @@
+{% load humanize %}
+
+<ul>
+  {% for notification in notifications %}
+    <li class="clearfix">
+      <img src="{{ notification.from_user.profile.get_picture }}" class="user-picture">
+      <p>{{ notification|safe }}</p>
+      <p><small>{{ notification.date|naturaltime }}</small></p>
+    </li>
+  {% empty %}
+    <li style="text-align: center">You have no unread notification</li>
+  {% endfor %}
+    <li style="text-align: center"><a href="{% url 'notifications' %}">See all</a></li>
+</ul>

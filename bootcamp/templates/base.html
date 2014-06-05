@@ -14,6 +14,7 @@
     <![endif]-->
     <script src="{{ STATIC_URL }}js/jquery-2.1.1.min.js"></script>
     <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+    <script src="{{ STATIC_URL }}js/notifications.js"></script>
     {% block head %}
     {% endblock head %}
   </head>
@@ -39,6 +40,11 @@
                 <li><a href="{% url 'network' %}">Network</a></li>
               </ul>
               <ul class="nav navbar-nav navbar-right">
+                <li>
+                  <a href="#" id="notifications" data-container="body" data-toggle="popover" data-placement="bottom" title="Notifications">
+                    <span class="glyphicon glyphicon-bell"></span>
+                  </a>
+                </li>
                 <li><a href="{% url 'profile' user.username %}">{{ user.profile.get_screen_name }}</a></li>
                 <li><a href="{% url 'settings' %}">Account Settings</a></li>
                 <li><a href="{% url 'logout' %}">Log out</a></li>
