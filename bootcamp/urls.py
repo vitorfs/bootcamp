@@ -4,8 +4,8 @@ from django.conf.urls.static import static
 
 urlpatterns = patterns('',
     url(r'^$', 'bootcamp.core.views.home', name='home'),
-    url(r'^login/$', 'bootcamp.auth.views.login', name='login'),
-    url(r'^logout/$', 'bootcamp.auth.views.logout', name='logout'),
+    url(r'^login', 'django.contrib.auth.views.login', {'template_name': 'core/cover.html'}, name='login'),
+    url(r'^logout', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='logout'),
     url(r'^signup/$', 'bootcamp.auth.views.signup', name='signup'),
     url(r'^settings/$', 'bootcamp.core.views.settings', name='settings'),
     url(r'^settings/picture/$', 'bootcamp.core.views.picture', name='picture'),
