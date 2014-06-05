@@ -1,7 +1,10 @@
 from django.shortcuts import render
 from bootcamp.activities.models import Notification
 from django.http import HttpResponse, HttpResponseBadRequest
+from django.contrib.auth.decorators import login_required
+from bootcamp.decorators import ajax_required
 
+@login_required
 def notifications(request):
     user = request.user
     notifications = Notification.objects.filter(to_user=user)
@@ -11,6 +14,8 @@ def notifications(request):
         notification.save()        
     return render(request, 'activities/notifications.html', {'notifications': notifications})
 
+@login_required
+@ajax_required
 def last_notifications(request):
     user = request.user
     notifications = Notification.objects.filter(to_user=user, is_read=False)[:5]
@@ -19,6 +24,8 @@ def last_notifications(request):
         notification.save()
     return render(request, 'activities/last_notifications.html', {'notifications': notifications})
 
+@login_required
+@ajax_required
 def check_notifications(request):
     user = request.user
     notifications = Notification.objects.filter(to_user=user, is_read=False)[:5]
