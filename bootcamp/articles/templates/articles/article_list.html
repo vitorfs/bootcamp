@@ -31,21 +31,26 @@
       {% endfor %}
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-12">
-      {% if num_pages > 1 %}
-        <ul class="pagination">
-          {% for i in page_loop_times %}
-            <li class="{% if i == page %}active{% endif %}">
-              {% if i == page %}
-                <span>{{ i }} <span class="sr-only">(current)</span></span>
-              {% else %}
-                <a href="?page={{ i }}">{{ i }}</a>
-              {% endif %}
-            </li>
-          {% endfor %}
-        </ul>
-      {% endif %}
+
+  <div class='row'>
+    <div class='col-md-12'>
+      <ul class="pagination center">
+	<li>
+	  {% if page_obj.has_previous %}
+	  <a href="?page={{ page_obj.previous_page_number }}">prev</a>
+	  {% endif %}
+	</li>
+        {% for page in page_obj.paginator.page_range %}
+        <li class="{% if i == page_obj.number %}active{% endif %}">
+          <a href="?page={{ page }}">{{ page }}</a>
+        </li>
+        {% endfor %}
+	<li>
+	  {% if page_obj.has_next %}
+	  <a href="?page={{ page_obj.next_page_number }}">next</a>
+	  {% endif %}
+	</li>
+      </ul>
     </div>
   </div>
 {% endblock main %}

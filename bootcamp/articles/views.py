@@ -5,32 +5,18 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from bootcamp.articles.forms import ArticleForm
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.views.generic.list import ListView
 
-def _articles(request, articles):
-    paginator = Paginator(articles, 10)
-    if 'page' not in request.GET:
-        page = 1
-    else:
-        try:
-            page = int(request.GET.get('page'))
-        except:
-            page = 1
-    try:
-        articles = paginator.page(page)
-    except PageNotAnInteger:
-        page = 1
-        articles = paginator.page(page)
-    except EmptyPage:
-        articles = paginator.page(paginator.num_pages)
-    page_loop_times = [i+1 for i in range(paginator.num_pages)]
-    popular_tags = Tag.get_popular_tags()
-    return render(request, 'articles/articles.html', {
-        'articles': articles,
-        'page': page,
-        'num_pages': paginator.num_pages,
-        'page_loop_times': page_loop_times,
-        'popular_tags': popular_tags
-        })    
+class ArticlesList(ListView):
+    model = Article
+    queryset = Article.get_published()
+    paginate_by = 1
+    context_object_name = 'articles'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ArticlesList, self).get_context_data(*args, **kwargs)
+        context.update({'popular_tags': Tag.get_popular_tags()})
+        return context
 
 @login_required
 def articles(request):
