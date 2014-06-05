@@ -22,6 +22,7 @@ ul.stream li a img.user {
 ul.stream li div.post {
   margin-left: 60px;
   padding: 0 1.2em;
+  overflow-x: auto;
 }
 
 ul.stream li div.post h3 {
@@ -84,6 +85,7 @@ ul.stream li div.post div.interaction a {
   padding: .2em 0;
   background-color: #f4f4f4;
   border-radius: 3px;
+  overflow-x: auto;
 }
 
 .comments ol li {

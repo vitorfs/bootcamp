@@ -27,7 +27,7 @@ class ProfileForm(forms.ModelForm):
         fields = ['first_name', 'last_name', 'job_title', 'email', 'url', 'location',]
 
     def full_clean(self):
-        "Strip whitespace automatically in all form fields"
+        'Strip whitespace automatically in all form fields'
         data = self.data.copy()
         for k, vs in self.data.lists():
             new_vs = []
@@ -36,6 +36,7 @@ class ProfileForm(forms.ModelForm):
             data.setlist(k, new_vs)
         self.data = data
         super(ProfileForm, self).full_clean()
+
 
 class ChangePasswordForm(forms.ModelForm):
     id = forms.CharField(widget=forms.HiddenInput())

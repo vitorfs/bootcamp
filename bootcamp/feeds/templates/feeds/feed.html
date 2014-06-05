@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% block title %} Feed {% endblock %}
+
+{% block head %}
+  <link href="{{ STATIC_URL }}css/feeds.css" rel="stylesheet">
+  <script src="{{ STATIC_URL }}js/jquery.bullseye-1.0-min.js"></script>
+  <script src="{{ STATIC_URL }}js/feeds.js"></script>
+{% endblock head %}
+
+{% block main %}
+  <div class="page-header">
+    <h1>Feed</h1>
+  </div>
+  <ul class="stream">
+    {% include 'feeds/partial_feed.html' with feed=feed %}
+  </ul>
+{% endblock main %}
