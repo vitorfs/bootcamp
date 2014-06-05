@@ -130,6 +130,7 @@ def comment(request):
         feed_id = request.POST['feed']
         feed = Feed.objects.get(pk=feed_id)
         post = request.POST['post']
+        post = post[:255]
         user = request.user
         feed.comment(user=user, post=post)
         user.profile.notify_commented(feed)
