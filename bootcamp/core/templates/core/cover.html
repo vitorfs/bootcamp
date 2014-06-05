@@ -20,14 +20,14 @@
       <form method="post" action="{% url 'login' %}" role="form">
         {% csrf_token %}
         <div class="form-group{% if form.username.errors %} has-error{% endif %}">
-          <label for="username">{{ form.username.label }}</label>
+          <label for="username">Username</label>
           <input type="text" class="form-control" id="username" name="username">
           {% for error in form.username.errors %}
             <label class="control-label">{{ error }}</label>
           {% endfor %}
         </div>
         <div class="form-group{% if form.password.errors %} has-error{% endif %}">
-          <label for="password">{{ form.password.label }}</label>
+          <label for="password">Password</label>
           <input type="password" class="form-control" id="password" name="password">
           {% for error in form.password.errors %}
             <label class="control-label">{{ error }}</label>
