@@ -86,23 +86,26 @@ def password(request):
 
 @login_required
 def upload_picture(request):
-    profile_pictures = django_settings.MEDIA_ROOT + '/profile_pictures/'
-    if not os.path.exists(profile_pictures):
-        os.makedirs(profile_pictures)
-    f = request.FILES['picture']
-    filename = profile_pictures + request.user.username + '_tmp.jpg'
-    with open(filename, 'wb+') as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)    
-    im = Image.open(filename)
-    width, height = im.size
-    if width > 350:
-        new_width = 350
-        new_height = (height * 350) / width
-        new_size = new_width, new_height
-        im.thumbnail(new_size, Image.ANTIALIAS)
-        im.save(filename)
-    return redirect('/settings/picture/?upload_picture=uploaded')
+    try:
+        profile_pictures = django_settings.MEDIA_ROOT + '/profile_pictures/'
+        if not os.path.exists(profile_pictures):
+            os.makedirs(profile_pictures)
+        f = request.FILES['picture']
+        filename = profile_pictures + request.user.username + '_tmp.jpg'
+        with open(filename, 'wb+') as destination:
+            for chunk in f.chunks():
+                destination.write(chunk)    
+        im = Image.open(filename)
+        width, height = im.size
+        if width > 350:
+            new_width = 350
+            new_height = (height * 350) / width
+            new_size = new_width, new_height
+            im.thumbnail(new_size, Image.ANTIALIAS)
+            im.save(filename)
+        return redirect('/settings/picture/?upload_picture=uploaded')
+    except Exception, e:
+        return redirect('/settings/picture/')
 
 @login_required
 def save_uploaded_picture(request):

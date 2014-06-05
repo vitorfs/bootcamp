@@ -40,6 +40,11 @@
                 <li><a href="{% url 'network' %}">{% trans 'Network' %}</a></li>
               </ul>
               <ul class="nav navbar-nav navbar-right">
+                <li>
+                  <a href="#" id="notifications" data-container="body" data-toggle="popover" data-placement="bottom" title="Notifications">
+                    <span class="glyphicon glyphicon-bell"></span>
+                  </a>
+                </li>
                 <li><a href="{% url 'profile' user.username %}">{{ user.profile.get_screen_name }}</a></li>
                 <li><a href="{% url 'settings' %}">{% trans 'Account Settings' %}</a></li>
                 <li><a href="{% url 'logout' %}">{% trans 'Log out' %}</a></li>
@@ -48,32 +53,16 @@
           </div>
         </nav>
       </header>
-
-      <!--header>
-        <div class="container">
-          <h1><a href="{% url 'home' %}">Bootcamp</a></h1>
-          <ul class="menu">
-            <li><a href="{% url 'feeds' %}">Feed</a></li>
-            <li><a href="{% url 'articles' %}">Articles</a></li>
-            <li><a href="{% url 'questions' %}">Q&A</a></li>
-            <li><a href="{% url 'network' %}">Network</a></li>
-          </ul>
-          <ul class="settings">
-            <li class="user"><a href="{% url 'profile' user.username %}">{{ user.profile.get_screen_name }}</a></li>
-            <li><a href="{% url 'settings' %}">Account Settings</a></li>
-            <li><a href="{% url 'logout' %}">Log out</a></li>
-          </ul>
-        </div>
-      </header-->
       <main>
         <div class="container">
           {% block main %}
           {% endblock main %}
         </div>
-        <footer>
-        {% include 'includes/languages.html' %}
-        </footer>
       </main>
+      <footer>
+        {% include 'includes/languages.html' %}
+      </footer>
+      <script src="{{ STATIC_URL }}js/notifications.js"></script>
     {% endblock body %}
     <script src="{{ STATIC_URL }}js/ga.js"></script>
   </body>

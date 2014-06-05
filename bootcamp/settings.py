@@ -23,7 +23,6 @@ DATABASES = {
 
 ALLOWED_HOSTS = ['127.0.0.1']
 
-
 # Application definition
 
 INSTALLED_APPS = (
@@ -94,6 +93,7 @@ TEMPLATE_DIRS = (
 )
 
 LOGIN_URL = '/'
+LOGIN_REDIRECT_URL = '/feeds/'
 
 ALLOWED_SIGNUP_DOMAINS = ['*']
 

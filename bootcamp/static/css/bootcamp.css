@@ -35,3 +35,45 @@ main .container {
   text-align: center; 
   padding: 1em 0;
 }
+
+#notifications {
+  font-size: 1.5em; 
+  padding: 13px;
+  color: #dddddd;
+}
+
+#notifications.new-notifications {
+  color: #428bca;
+}
+
+.popover {
+  max-width: 350px;
+  width: 350px;
+}
+
+.popover ul {
+  padding: 0;
+  margin: 0;
+}
+
+.popover ul li {
+  list-style: none;
+  border-bottom: 1px solid #eeeeee;
+  padding: .4em 0;
+}
+
+.popover ul li:last-child {
+  border-bottom: none;
+}
+
+.popover ul li .user-picture {
+  width: 45px;
+  float: left;
+}
+
+.popover ul li p {
+  font-size: .9em;
+  padding: 0 0 0 .6em;
+  margin-left: 45px;
+  margin-bottom: 0;
+}

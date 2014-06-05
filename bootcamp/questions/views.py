@@ -53,11 +53,13 @@ def answer(request):
     if request.method == 'POST':
         form = AnswerForm(request.POST)
         if form.is_valid():
+            user = request.user
             answer = Answer()
             answer.user = request.user
             answer.question = form.cleaned_data.get('question')
             answer.description = form.cleaned_data.get('description')
             answer.save()
+            user.profile.notify_answered(answer.question)
             return redirect(u'/questions/{0}/'.format(answer.question.pk))
         else:
             question = form.cleaned_data.get('question')
@@ -70,8 +72,14 @@ def answer(request):
 def accept(request):
     answer_id = request.POST['answer']
     answer = Answer.objects.get(pk=answer_id)
-    if answer.question.user == request.user:
+    user = request.user
+    try:
+        user.profile.unotify_accepted(answer.question.get_accepted_answer()) # answer.accept cleans previous accepted answer
+    except Exception, e:
+        pass
+    if answer.question.user == user:
         answer.accept()
+        user.profile.notify_accepted(answer)
         return HttpResponse()
     else:
         return HttpResponseForbidden()
@@ -100,7 +108,9 @@ def favorite(request):
     activity = Activity.objects.filter(activity_type=Activity.FAVORITE, user=user, question=question_id)
     if activity:
         activity.delete()
+        user.profile.unotify_favorited(question)
     else:
         activity = Activity(activity_type=Activity.FAVORITE, user=user, question=question_id)
         activity.save()
+        user.profile.notify_favorited(question)
     return HttpResponse(question.calculate_favorites())
