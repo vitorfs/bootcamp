@@ -24,14 +24,14 @@
       </div>
       <div class="form-group">
         <button type="button" class="btn btn-primary btn-post">
-          <span class="glyphicon glyphicon-send"></span> Post
+          <span class="glyphicon glyphicon-send"></span> {% trans 'Post' %}
         </button>
-        <button type="button" class="btn btn-default btn-cancel-compose">Cancel</button>
+        <button type="button" class="btn btn-default btn-cancel-compose">{% trans 'Cancel' %}</button>
       </div>
     </form>
   </div>
   <div class="stream-update">
-    <a href="#"><span class="new-posts"></span> new posts</a>
+    <a href="#"><span class="new-posts"></span> {% trans 'new posts' %}</a>
   </div>
   <ul class="stream">
     {% for feed in feeds %}

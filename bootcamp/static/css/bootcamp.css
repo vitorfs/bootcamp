@@ -32,12 +32,12 @@ main .container {
 }
 
 .no-data {
-  text-align: center; 
+  text-align: center;
   padding: 1em 0;
 }
 
 #notifications {
-  font-size: 1.5em; 
+  font-size: 1.5em;
   padding: 13px;
   color: #dddddd;
 }

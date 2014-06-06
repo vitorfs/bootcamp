@@ -15,6 +15,7 @@
     <![endif]-->
     <script src="{{ STATIC_URL }}js/jquery-2.1.1.min.js"></script>
     <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+
     {% block head %}
     {% endblock head %}
   </head>
@@ -48,6 +49,7 @@
                 <li><a href="{% url 'profile' user.username %}">{{ user.profile.get_screen_name }}</a></li>
                 <li><a href="{% url 'settings' %}">{% trans 'Account Settings' %}</a></li>
                 <li><a href="{% url 'logout' %}">{% trans 'Log out' %}</a></li>
+                <li>{% include 'includes/change_language.html' %}</li>
               </ul>
             </div>
           </div>
@@ -59,9 +61,6 @@
           {% endblock main %}
         </div>
       </main>
-      <footer>
-        {% include 'includes/languages.html' %}
-      </footer>
       <script src="{{ STATIC_URL }}js/notifications.js"></script>
     {% endblock body %}
     <script src="{{ STATIC_URL }}js/ga.js"></script>

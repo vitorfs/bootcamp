@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %} Articles {% endblock %}
+{% block title %} {% trans 'Articles' %} {% endblock %}
 
 {% block head %}
   <link href="{{ STATIC_URL }}css/articles.css" rel="stylesheet">
@@ -9,10 +10,10 @@
 {% block main %}
   <div class="page-header">
     <a href="{% url 'write' %}" class="btn btn-primary pull-right">
-      <span class="glyphicon glyphicon-pencil"></span> Write Article
+      <span class="glyphicon glyphicon-pencil"></span> {% trans 'Write Article' %}
     </a>
-    <a href="{% url 'drafts' %}" class="btn btn-default pull-right" style="margin-right: .8em">Drafts</a>
-    <h1>Articles</h1>
+    <a href="{% url 'drafts' %}" class="btn btn-default pull-right" style="margin-right: .8em">{% trans 'Drafts' %}</a>
+    <h1>{% trans 'Articles' %}</h1>
   </div>
   <div class="row">
     <div class="col-md-10">
@@ -20,12 +21,12 @@
         {% for article in articles %}
           {% include 'articles/partial_article.html' with article=article %}
         {% empty %}
-          <h4 class="no-data">There is no published article yet. <a href="{% url 'write' %}">Be the first one to publish!</a></h4>
+          <h4 class="no-data">{% trans 'There is no published article yet' %}. <a href="{% url 'write' %}">{% trans 'Be the first one to publish' %}!</a></h4>
         {% endfor %}
       </section>
     </div>
     <div class="col-md-2 popular-tags">
-      <h4>Popular Tags</h4>
+      <h4>{% trans 'Popular Tags' %}</h4>
       {% for tag, count in popular_tags %}
         <a href="{% url 'tag' tag %}"><span class="label label-default">{{ count }} {{ tag }}</span></a>
       {% endfor %}

@@ -1,10 +1,8 @@
 {% load i18n %}
 {% get_available_languages as LANGUAGES %}
 {% get_current_language as CURRENT_LANGUAGE %}
-
-<form id="formlang" action="{% url 'i18n:set_language' %}" method="POST">
+<form id="formlang" action="{% url 'i18n:set_language' %}"  style="margin: 15px 0px 15px 5px;" method="POST">
   {% csrf_token %}
-  <input name="next" type="hidden" value="/" />
   <select id="selectlang" name="language">
       {% for lang in LANGUAGES %}
       <option value="{{ lang.0 }}">{{ lang.1 }}</option>
