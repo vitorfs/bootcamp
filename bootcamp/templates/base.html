@@ -36,6 +36,11 @@
             </div>
             <div class="collapse navbar-collapse" id="menu">
               <ul class="nav navbar-nav">
+                <li>
+                  <a href="#" id="notifications" data-container="body" data-toggle="popover" data-placement="bottom" title="Notifications">
+                    <span class="glyphicon glyphicon-bell"></span>
+                  </a>
+                </li>
                 <li><a href="{% url 'feeds' %}">{% trans 'Feed' %}</a></li>
                 <li><a href="{% url 'articles' %}">{% trans 'Articles' %}</a></li>
                 <li><a href="{% url 'questions' %}">{% trans 'Q&A' %}</a></li>
@@ -52,11 +57,6 @@
                 </form>
               {% endif %}
               <ul class="nav navbar-nav navbar-right">
-                <li>
-                  <a href="#" id="notifications" data-container="body" data-toggle="popover" data-placement="bottom" title="Notifications">
-                    <span class="glyphicon glyphicon-bell"></span>
-                  </a>
-                </li>
                 <li>
                   <a href="{% url 'profile' user.username %}">{{ user.profile.get_screen_name }}</a>
                 </li>
