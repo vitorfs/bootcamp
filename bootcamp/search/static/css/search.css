@@ -4,15 +4,63 @@ main ul {
 
 main ul li {
   list-style: none;
-  padding: .4em;
+  padding: .8em .4em;
   border-bottom: 1px solid #eeeeee;
 }
 
 main ul li:last-child {
-
+  border-bottom: none;
 }
 
 main ul li img {
   width: 45px;
   border-radius: 5px;
+}
+
+.feed-results h3 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.feed-results .post {
+  margin-left: 55px;
+  padding-top: .2em;
+}
+
+.feed-results .post p {
+  margin: 0;
+  margin-top: .2em;
+}
+
+[class$='-results'] li:hover {
+  cursor: pointer;
+  background-color: #f5f8fa;
+}
+
+.info {
+  margin-bottom: .5em;
+  color: #a0a0a0;
+}
+
+.info a {
+  color: #a0a0a0;
+}
+
+.info > span {
+  margin-right: 1em;
+}
+
+.info .user img {
+  width: 20px;
+  border-radius: 3px;
+}
+
+.no-result {
+  margin-top: 2em;
+}
+
+.result-user {
+  width: 20px;
+  border-radius: 4px;
+  margin-right: .2em;
 }

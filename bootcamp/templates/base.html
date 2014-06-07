@@ -38,6 +38,7 @@
                 <li><a href="{% url 'questions' %}">Q&A</a></li>
                 <li><a href="{% url 'network' %}">Network</a></li>
               </ul>
+              {% if not hide_search %}
               <form class="navbar-form navbar-left" role="search" action="{% url 'search' %}">
                 <div class="input-group">
                   <input type="text" class="form-control" name="q" placeholder="Search">
@@ -46,6 +47,7 @@
                   </span>
                 </div>
               </form>
+              {% endif %}
               <ul class="nav navbar-nav navbar-right">
                 <li>
                   <a href="#" id="notifications" data-container="body" data-toggle="popover" data-placement="bottom" title="Notifications">

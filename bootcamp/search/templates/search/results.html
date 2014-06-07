@@ -6,42 +6,42 @@
 
 {% block head %}
   <link href="{{ STATIC_URL }}css/search.css" rel="stylesheet">
+  <script src="{{ STATIC_URL }}js/search.js"></script>
 {% endblock head %}
 
 {% block main %}
   <div class="page-header">
-    <h1>Search</h1>
+    <div class="row">
+      <div class="col-md-3">
+        <h1>Search</h1>
+      </div>
+      <div class="col-md-9">
+        <form role="search" action="{% url 'search' %}">
+          <input type="hidden" name="type" value="{{ active }}">
+          <div class="input-group">
+            <input type="text" class="form-control" name="q" placeholder="Search Feed, Articles, Questions and Users" value="{{ querystring }}">
+            <span class="input-group-btn">
+              <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+            </span>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
   <div class="row">
     <div class="col-md-3">
-      <div class="list-group">
-        <a href="#" class="list-group-item active">
-          Feed
-          <span class="badge">{{ results.count }}</span>
-        </a>
-        <a href="#" class="list-group-item">
-          Articles
-          <span class="badge">0</span>
-        </a>
-        <a href="#" class="list-group-item">
-          Questions
-          <span class="badge">0</span>
-        </a>
-      </div>
+      {% include 'search/partial_results_menu.html' with active=active count=count querystring=querystring %}
     </div>
     <div class="col-md-9">
-      <h2>Feed</h2>
-      <ul class="feed-search">
-        {% for feed in results %}
-          <li>
-            <a href="{% url 'profile' feed.user.username %}">
-              <img src="{{ feed.user.profile.get_picture }}" class="pull-left">
-            </a>
-            <h3>{{ feed.user.profile.get_screen_name }}</h3>
-            {{ feed.post }}
-          </li>
-        {% endfor %}
-      </ul>
+      {% if active == 'feed' %}
+        {% include 'search/partial_feed_results.html' with results=results %}
+      {% elif active == 'articles' %}
+        {% include 'search/partial_articles_results.html' with results=results %}
+      {% elif active == 'questions' %}
+        {% include 'search/partial_questions_results.html' with results=results %}
+      {% elif active == 'users' %}
+        {% include 'search/partial_users_results.html' with results=results %}
+      {% endif %}
     </div>
   </div>
 {% endblock main %}
