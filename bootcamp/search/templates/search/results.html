@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% block title %} Search {% endblock %}
+
+{% block head %}
+  <link href="{{ STATIC_URL }}css/search.css" rel="stylesheet">
+{% endblock head %}
+
+{% block main %}
+  <div class="page-header">
+    <h1>Search</h1>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="list-group">
+        <a href="#" class="list-group-item active">
+          Feed
+          <span class="badge">{{ results.count }}</span>
+        </a>
+        <a href="#" class="list-group-item">
+          Articles
+          <span class="badge">0</span>
+        </a>
+        <a href="#" class="list-group-item">
+          Questions
+          <span class="badge">0</span>
+        </a>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <h2>Feed</h2>
+      <ul class="feed-search">
+        {% for feed in results %}
+          <li>
+            <a href="{% url 'profile' feed.user.username %}">
+              <img src="{{ feed.user.profile.get_picture }}" class="pull-left">
+            </a>
+            <h3>{{ feed.user.profile.get_screen_name }}</h3>
+            {{ feed.post }}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+{% endblock main %}

@@ -26,6 +26,10 @@
         <span class="glyphicon glyphicon-comment"></span> Comment 
         (<span class="comment-count">{{ feed.comments }}</span>)
       </a>
+      <a href="{% url 'feed' feed.pk %}" class="share" target="_blank">
+        <span class="glyphicon glyphicon-heart"></span> Favorite
+        (<span>0</span>)
+      </a>
     </div>
     <div class="comments">
       <form role="form" method="post" action="{{ comment }}" onsubmit="return false">

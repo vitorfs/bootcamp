@@ -2,6 +2,7 @@
 
 body {
   background-color: #f6f6f6;
+  padding-top: 70px;
 }
 
 header .navbar-brand {
@@ -11,7 +12,6 @@ header .navbar-brand {
 }
 
 main .container {
-  margin-top: 2em;
   margin-bottom: 2em;
   border: 1px solid #ddd;
   background-color: #ffffff;
@@ -23,6 +23,7 @@ main .container {
 
 .page-header {
   margin: 0;
+  margin-bottom: 1em;
 }
 
 .page-header h1 {

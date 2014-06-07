@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'bootcamp.core',
     'bootcamp.feeds',
     'bootcamp.questions',
+    'bootcamp.search',
 )
 
 MIDDLEWARE_CLASSES = (

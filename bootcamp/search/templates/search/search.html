@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% block title %} Search {% endblock %}
+
+{% block head %}
+  <link href="{{ STATIC_URL }}css/search.css" rel="stylesheet">
+{% endblock head %}
+
+{% block main %}
+  <div class="page-header">
+    <h1>Search</h1>
+  </div>
+  <form role="form">
+    <input class="form-control input-lg" type="text" placeholder="Search">
+  </form>
+{% endblock main %}

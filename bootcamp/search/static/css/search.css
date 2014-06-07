@@ -1,0 +1,18 @@
+main ul {
+  padding: 0;
+}
+
+main ul li {
+  list-style: none;
+  padding: .4em;
+  border-bottom: 1px solid #eeeeee;
+}
+
+main ul li:last-child {
+
+}
+
+main ul li img {
+  width: 45px;
+  border-radius: 5px;
+}
