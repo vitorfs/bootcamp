@@ -40,17 +40,36 @@
                 <li><a href="{% url 'articles' %}">{% trans 'Articles' %}</a></li>
                 <li><a href="{% url 'questions' %}">{% trans 'Q&A' %}</a></li>
                 <li><a href="{% url 'network' %}">{% trans 'Network' %}</a></li>
-                <li><a href="{% url 'search' %}">{% trans 'Search' %}</a></li>
               </ul>
+              {% if not hide_search %}
+                <form class="navbar-form navbar-left" role="search" action="{% url 'search' %}">
+                  <div class="input-group" style="width:210px">
+                    <input type="text" class="form-control" name="q" placeholder="Search">
+                    <span class="input-group-btn">
+                      <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+                    </span>
+                  </div>
+                </form>
+              {% endif %}
               <ul class="nav navbar-nav navbar-right">
                 <li>
                   <a href="#" id="notifications" data-container="body" data-toggle="popover" data-placement="bottom" title="Notifications">
                     <span class="glyphicon glyphicon-bell"></span>
                   </a>
                 </li>
-                <li><a href="{% url 'profile' user.username %}">{{ user.profile.get_screen_name }}</a></li>
-                <li><a href="{% url 'settings' %}">{% trans 'Account Settings' %}</a></li>
-                <li><a href="{% url 'logout' %}">{% trans 'Log out' %}</a></li>
+                <li>
+                  <a href="{% url 'profile' user.username %}">{{ user.profile.get_screen_name }}</a>
+                </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a href="{% url 'settings' %}">{% trans 'Account Settings' %}</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li><a href="{% url 'logout' %}">{% trans 'Log out' %}</a></li>
+                  </ul>
+                </li>
               </ul>
             </div>
           </div>
