@@ -32,7 +32,7 @@
       <form role="form" method="post" action="{{ comment }}" onsubmit="return false">
         {% csrf_token %}
         <input type="hidden" name="feed" value="{{ feed.pk }}">
-        <input type="text" class="form-control input-sm" placeholder="{% trans 'Write a comment...' %}" name="post">
+        <input type="text" class="form-control input-sm" placeholder="{% trans 'Write a comment...' %}" name="post" maxlength="255">
       </form>
       <ol class="clearfix">
         {% comment %} Place holder to load feed comments {% endcomment %}

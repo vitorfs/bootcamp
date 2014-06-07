@@ -102,8 +102,10 @@ def post(request):
     feed = Feed()
     feed.user = user
     post = request.POST['post']
-    feed.post = post[:255]
-    feed.save()
+    post = post.strip()
+    if len(post) > 0:
+        feed.post = post[:255]
+        feed.save()
     html = _html_feeds(last_feed, user, csrf_token)
     return HttpResponse(html)
 
@@ -130,11 +132,13 @@ def comment(request):
         feed_id = request.POST['feed']
         feed = Feed.objects.get(pk=feed_id)
         post = request.POST['post']
-        post = post[:255]
-        user = request.user
-        feed.comment(user=user, post=post)
-        user.profile.notify_commented(feed)
-        user.profile.notify_also_commented(feed)
+        post = post.strip()
+        if len(post) > 0:
+            post = post[:255]
+            user = request.user
+            feed.comment(user=user, post=post)
+            user.profile.notify_commented(feed)
+            user.profile.notify_also_commented(feed)
         return render(request, 'feeds/partial_feed_comments.html', {'feed': feed})
     else:
         feed_id = request.GET.get('feed')

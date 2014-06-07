@@ -299,4 +299,8 @@ $(function () {
     });
   });
 
+  $("#compose-form textarea[name='post']").keyup(function () {
+    $(this).count(255);
+  });
+
 });
