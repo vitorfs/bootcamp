@@ -1,3 +1,4 @@
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -14,6 +15,7 @@
     <![endif]-->
     <script src="{{ STATIC_URL }}js/jquery-2.1.1.min.js"></script>
     <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+
     {% block head %}
     {% endblock head %}
   </head>
@@ -33,11 +35,11 @@
             </div>
             <div class="collapse navbar-collapse" id="menu">
               <ul class="nav navbar-nav">
-                <li><a href="{% url 'feeds' %}">Feed</a></li>
-                <li><a href="{% url 'articles' %}">Articles</a></li>
-                <li><a href="{% url 'questions' %}">Q&A</a></li>
-                <li><a href="{% url 'network' %}">Network</a></li>
-                <li><a href="{% url 'search' %}">Search</a></li>
+                <li><a href="{% url 'feeds' %}">{% trans 'Feed' %}</a></li>
+                <li><a href="{% url 'articles' %}">{% trans 'Articles' %}</a></li>
+                <li><a href="{% url 'questions' %}">{% trans 'Q&A' %}</a></li>
+                <li><a href="{% url 'network' %}">{% trans 'Network' %}</a></li>
+                <li><a href="{% url 'search' %}">{% trans 'Search' %}</a></li>
               </ul>
               <ul class="nav navbar-nav navbar-right">
                 <li>
@@ -46,14 +48,14 @@
                   </a>
                 </li>
                 <li><a href="{% url 'profile' user.username %}">{{ user.profile.get_screen_name }}</a></li>
-                <li><a href="{% url 'settings' %}">Account Settings</a></li>
-                <li><a href="{% url 'logout' %}">Log out</a></li>
+                <li><a href="{% url 'settings' %}">{% trans 'Account Settings' %}</a></li>
+                <li><a href="{% url 'logout' %}">{% trans 'Log out' %}</a></li>
               </ul>
             </div>
           </div>
         </nav>
       </header>
-      <main>  
+      <main>
         <div class="container">
           {% block main %}
           {% endblock main %}

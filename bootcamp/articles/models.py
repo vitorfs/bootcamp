@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from datetime import datetime
 from django.template.defaultfilters import slugify
@@ -21,8 +22,8 @@ class Article(models.Model):
     update_user = models.ForeignKey(User, null=True, blank=True, related_name="+")
 
     class Meta:
-        verbose_name = "Article"
-        verbose_name_plural = "Articles"
+        verbose_name = _("Article")
+        verbose_name_plural = _("Articles")
         ordering = ("-create_date",)
 
     def __unicode__(self):
@@ -34,7 +35,7 @@ class Article(models.Model):
         else:
             self.update_date = datetime.now()
         if not self.slug:
-            slug_str = "%s %s" % (self.pk, self.title.lower()) 
+            slug_str = "%s %s" % (self.pk, self.title.lower())
             self.slug = slugify(slug_str)
         super(Article, self).save(*args, **kwargs)
 
@@ -64,8 +65,8 @@ class Tag(models.Model):
     article = models.ForeignKey(Article)
 
     class Meta:
-        verbose_name = 'Tag'
-        verbose_name_plural = 'Tags'
+        verbose_name = _('Tag')
+        verbose_name_plural = _('Tags')
         unique_together = (('tag', 'article'),)
         index_together = [['tag', 'article'],]
 

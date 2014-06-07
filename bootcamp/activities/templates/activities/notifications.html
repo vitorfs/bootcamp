@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% load humanize %}
 
@@ -22,7 +23,7 @@
         </div>
       </li>
     {% empty %}
-      <li>You have no notification</li>
+      <li>{% trans 'You have no notification' %}</li>
     {% endfor %}
   </ul>
 {% endblock main %}

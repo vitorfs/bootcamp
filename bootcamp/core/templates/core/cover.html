@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block head %}
   <link href="{{ STATIC_URL }}css/cover.css" rel="stylesheet">
@@ -16,26 +17,26 @@
       {% endfor %}
     {% endif %}
     <div class="login">
-      <h2>Log in</h2>
+      <h2>{% trans 'Log in' %}</h2>
       <form method="post" action="{% url 'login' %}" role="form">
         {% csrf_token %}
         <div class="form-group{% if form.username.errors %} has-error{% endif %}">
-          <label for="username">Username</label>
+          <label for="username">{% trans 'Username' %}</label>
           <input type="text" class="form-control" id="username" name="username">
           {% for error in form.username.errors %}
             <label class="control-label">{{ error }}</label>
           {% endfor %}
         </div>
         <div class="form-group{% if form.password.errors %} has-error{% endif %}">
-          <label for="password">Password</label>
+          <label for="password">{% trans 'Password' %}</label>
           <input type="password" class="form-control" id="password" name="password">
           {% for error in form.password.errors %}
             <label class="control-label">{{ error }}</label>
           {% endfor %}
         </div>
         <div class="form-group">
-          <button type="submit" class="btn btn-default">Log in</button>
-          <a href="{% url 'signup' %}" class="btn btn-link">Sign up for Bootcamp</a>
+          <button type="submit" class="btn btn-default">{% trans 'Log in' %}</button>
+          <a href="{% url 'signup' %}" class="btn btn-link">{% trans 'Sign up for Bootcamp' %}</a>
         </div>
       </form>
     </div>

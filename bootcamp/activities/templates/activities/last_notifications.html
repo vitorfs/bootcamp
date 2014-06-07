@@ -1,3 +1,4 @@
+{% load i18n %}
 {% load humanize %}
 
 <ul>
@@ -8,7 +9,7 @@
       <p><small>{{ notification.date|naturaltime }}</small></p>
     </li>
   {% empty %}
-    <li style="text-align: center">You have no unread notification</li>
+    <li style="text-align: center">{% trans 'You have no unread notification' %}</li>
   {% endfor %}
-    <li style="text-align: center"><a href="{% url 'notifications' %}">See all</a></li>
+    <li style="text-align: center"><a href="{% url 'notifications' %}">{% trans 'See all' %}</a></li>
 </ul>
