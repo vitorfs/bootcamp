@@ -34,7 +34,7 @@ class Feed(models.Model):
         return feeds
 
     def get_comments(self):
-        return Feed.objects.filter(parent=self)
+        return Feed.objects.filter(parent=self).order_by('date')
 
     def calculate_likes(self):
         likes = Activity.objects.filter(activity_type=Activity.LIKE, feed=self.pk).count()
