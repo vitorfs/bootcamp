@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %}Network{% endblock %}
+{% block title %}{% trans 'Network' %}{% endblock %}
 
 {% block head %}
   <link href="{{ STATIC_URL }}css/network.css" rel="stylesheet">
@@ -21,15 +22,15 @@
             </div>
             <div class="panel-body">
               {% if user.profile.job_title %}
-                <p><strong>Job Title:</strong> {{ user.profile.job_title }}</p>
+                <p><strong>{% trans 'Job Title' %}:</strong> {{ user.profile.job_title }}</p>
               {% endif %}
-              <p><strong>Username: </strong> {{ user.username }}</p>
-              <p><strong>Email:</strong> {{ user.email }}</p>
+              <p><strong>{% trans 'Username' %}: </strong> {{ user.username }}</p>
+              <p><strong>{% trans 'Email' %}:</strong> {{ user.email }}</p>
               {% if user.profile.location %}
-                <p><strong>Location:</strong> {{ user.profile.location }}</p>
+                <p><strong>{% trans 'Location' %}:</strong> {{ user.profile.location }}</p>
               {% endif %}
               {% if user.profile.url %}
-                <p><strong>Url:</strong> {{ user.profile.get_url }}</p>
+                <p><strong>{% trans 'Url' %}:</strong> {{ user.profile.get_url }}</p>
               {% endif %}
             </div>
           </div>

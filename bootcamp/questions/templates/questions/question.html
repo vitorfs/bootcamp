@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% load humanize %}
 
@@ -9,8 +10,8 @@
 
 {% block main %}
   <ol class="breadcrumb">
-    <li><a href="{% url 'questions' %}">Questions</a></li>
-    <li class="active">Question</li>
+    <li><a href="{% url 'questions' %}">{% trans "Questions" %}</a></li>
+    <li class="active">{% trans "Question" %}</li>
   </ol>
   <div class="row question" question-id="{{ question.id }}">
     {% csrf_token %}
@@ -52,7 +53,7 @@
         {{ form.description }}
       </div>
       <div class="form-group">
-        <button type="submit" class="btn btn-primary">Post Your Answer</button>
+        <button type="submit" class="btn btn-primary">{% trans "Post Your Answer"%}</button>
       </div>
     </form>
   </div>

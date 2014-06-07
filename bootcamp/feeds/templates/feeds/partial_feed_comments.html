@@ -1,4 +1,5 @@
 {% load humanize %}
+{% load i18n %}
 
 {% for comment in feed.get_comments %}
   <li>
@@ -7,5 +8,5 @@
     <div>{{ comment.post }}</div>
   </li>
 {% empty %}
-  <li class="empty">Be the first one to comment</li>
+  <li class="empty">{% trans 'Be the first one to comment' %}</li>
 {% endfor %}

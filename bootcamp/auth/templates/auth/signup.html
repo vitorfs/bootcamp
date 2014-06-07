@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block head %}
   <link href="{{ STATIC_URL }}css/signup.css" rel="stylesheet">
@@ -7,7 +8,7 @@
 {% block body %}
   <h1 class="logo"><a href="{% url 'home' %}">Bootcamp</a></h1>
   <div class="signup">
-    <h2>Sign up for Bootcamp</h2>
+    <h2>{% trans 'Sign up for Bootcamp' %}</h2>
     <form action="{% url 'signup' %}" method="post" role="form">
       {% csrf_token %}
       {% for field in form.visible_fields %}
@@ -22,7 +23,7 @@
           {% endfor %}
         </div>
       {% endfor %}
-      <button type="submit" class="btn btn-primary btn-lg">Create an account</button>
+      <button type="submit" class="btn btn-primary btn-lg">{% trans 'Create an account' %}</button>
     </form>
   </div>
 {% endblock body %}

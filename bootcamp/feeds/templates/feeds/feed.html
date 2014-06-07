@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% load humanize %}
 
-{% block title %} Feed {% endblock %}
+{% block title %} {% trans 'Feed' %} {% endblock %}
 
 {% block head %}
   <link href="{{ STATIC_URL }}css/feeds.css" rel="stylesheet">

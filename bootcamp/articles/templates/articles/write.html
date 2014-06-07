@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block head %}
   <script src="{{ STATIC_URL }}js/articles.js"></script>
@@ -6,8 +7,8 @@
 
 {% block main %}
   <ol class="breadcrumb">
-    <li><a href="{% url 'articles' %}">Articles</a></li>
-    <li class="active">Write Article</li>
+    <li><a href="{% url 'articles' %}">{% trans 'Articles' %}</a></li>
+    <li class="active">{% trans 'Write Article' %}</li>
   </ol>
   <form action="{% url 'write' %}" method="post" role="form">
     {% csrf_token %}
@@ -25,9 +26,9 @@
       </div>
     {% endfor %}
     <div class="form-group">
-      <button type="button" class="btn btn-primary publish">Publish</button>
-      <button type="button" class="btn btn-default draft">Save Draft</button>
-      <a href="{% url 'articles' %}" class="btn btn-default">Cancel</a>
+      <button type="button" class="btn btn-primary publish">{% trans 'Publish' %}</button>
+      <button type="button" class="btn btn-default draft">{% trans 'Save Draft' %}</button>
+      <a href="{% url 'articles' %}" class="btn btn-default">{% trans 'Cancel' %}</a>
     </div>
   </form>
 {% endblock main %}

@@ -1,7 +1,8 @@
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from bootcamp.activities.models import Activity
-from datetime import datetime
+
 
 class Feed(models.Model):
     user = models.ForeignKey(User)
@@ -12,8 +13,8 @@ class Feed(models.Model):
     comments = models.IntegerField(default=0)
 
     class Meta:
-        verbose_name = 'Feed'
-        verbose_name_plural = 'Feeds'
+        verbose_name = _('Feed')
+        verbose_name_plural = _('Feeds')
         ordering = ('-date',)
 
     def __unicode__(self):
