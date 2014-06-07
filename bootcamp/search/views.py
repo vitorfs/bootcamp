@@ -33,7 +33,6 @@ def search(request):
         count['users'] = results['users'].count()
 
         return render(request, 'search/results.html', {
-            'hide_search': True,
             'querystring': querystring,
             'active': search_type,
             'count': count,
