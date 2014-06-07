@@ -1,6 +1,7 @@
+{% load i18n %}
 {% load humanize %}
 
-<h2>Feed</h2>
+<h2>{% trans 'Feed' %}</h2>
 {% if results %}
   <ul class="feed-results">
     {% for feed in results %}
@@ -19,5 +20,5 @@
     {% endfor %}
   </ul>
 {% else %}
-  <h4 class="no-result">No feed found :(</h4>
+  <h4 class="no-result">{% trans 'No feed found' %} :(</h4>
 {% endif %}

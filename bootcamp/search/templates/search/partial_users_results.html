@@ -1,5 +1,6 @@
-<h2>Users</h2>
+{% load i18n %}
 
+<h2>{% trans 'Users' %}</h2>
 {% if results %}
   <ul class="users-results">
     {% for user_result in results %}
@@ -15,5 +16,5 @@
     {% endfor %}
   </ul>
 {% else %}
-  <h4 class="no-result">No user found :(</h4>
+  <h4 class="no-result">{% trans 'No user found' %} :(</h4>
 {% endif %}
