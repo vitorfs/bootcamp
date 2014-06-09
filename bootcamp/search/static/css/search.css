@@ -69,10 +69,16 @@
   margin-top: 1em;
 }
 
-.article-content ul, .question-description ul {
+.article-content ul, 
+.article-content ol, 
+.question-description ul,
+.question-description ol {
   padding-left: 20px;
 }
-.article-content ul li, .question-description ul li {
+.article-content ul li, 
+.article-content ol li, 
+.question-description ol li,
+.question-description ul li {
   border-bottom: none;
   list-style: disc;
 }
