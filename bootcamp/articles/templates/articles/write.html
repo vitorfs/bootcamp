@@ -16,6 +16,9 @@
     {% for field in form.visible_fields %}
       <div class="form-group{% if field.errors %} has-error{% endif %}">
         <label for="{{ field.label }}" class="control-label">{{ field.label }}</label>
+        {% if field.label == 'Content' %}
+          {% include 'markdown_editor.html' with textarea='id_content' %}
+        {% endif %}
         {{ field }}
         {% if field.help_text %}
           <span class="help-block">{{ field.help_text }}</span>
