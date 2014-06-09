@@ -30,7 +30,9 @@
         <a href="{% url 'profile' question.user.username %}" class="username">{{ question.user.profile.get_screen_name }}</a>
         <small class="asked">asked {{ question.update_date|naturaltime }}</small>
       </div>
-      <p>{{ question.description }}</p>
+      <div class="question-description">
+        {{ question.get_description_as_markdown|safe }}
+      </div>
       {% if question.get_tag_list %}
         <p>
           {% for tag in question.get_tag_list %}

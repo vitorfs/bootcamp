@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from bootcamp.activities.models import Activity
+import markdown
 
 class Question(models.Model):
     user = models.ForeignKey(User)
@@ -36,11 +37,17 @@ class Question(models.Model):
     def get_accepted_answer(self):
         return Answer.objects.get(question=self, is_accepted=True)
 
+    def get_description_as_markdown(self):
+        return markdown.markdown(self.description, safe_mode='escape')
+
     def get_description_preview(self):
         if len(self.description) > 255:
             return u'{0}...'.format(self.description[:255])
         else:
             return self.description
+
+    def get_description_preview_as_markdown(self):
+        return markdown.markdown(self.get_description_preview(), safe_mode='escape')
 
     def calculate_favorites(self):
         favorites = Activity.objects.filter(activity_type=Activity.FAVORITE, question=self.pk).count()
@@ -112,6 +119,9 @@ class Answer(models.Model):
         for vote in votes:
             voters.append(vote.user)
         return voters
+
+    def get_description_as_markdown(self):
+        return markdown.markdown(self.description, safe_mode='escape')
 
 
 class Tag(models.Model):

@@ -22,7 +22,7 @@
       {% for article in drafts %}
         <tr>
           <td><a href="{% url 'edit_article' article.pk %}">{{ article.title }}</a></td>
-          <td>{{ article.get_summary }}</td>
+          <td>{{ article.get_summary_as_markdown|safe }}</td>
           <td>
             {% for tag in article.get_tags %}
               <span class="label label-default">{{ tag }}</span>

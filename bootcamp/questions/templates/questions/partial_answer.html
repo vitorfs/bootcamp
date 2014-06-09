@@ -21,7 +21,9 @@
       <a href="{% url 'profile' answer.user.username %}" class="username">{{ answer.user.profile.get_screen_name }}</a>
       <small class="answered">{% trans "answered" %} {{ answer.create_date|naturaltime }}</small>
     </div>
-    <p>{{ answer.description }}</p>
+    <div class="answer-description">
+      {{ answer.get_description_as_markdown|safe }}
+    </div>
   </div>
 </div>
 <hr>
