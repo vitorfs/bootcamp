@@ -76,9 +76,15 @@
   padding-left: 20px;
 }
 .article-content ul li, 
-.article-content ol li, 
-.question-description ol li,
 .question-description ul li {
   border-bottom: none;
   list-style: disc;
+  padding: 0;
+}
+
+.article-content ol li, 
+.question-description ol li {
+  border-bottom: none;
+  list-style: decimal;
+  padding: 0;
 }
