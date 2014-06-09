@@ -33,7 +33,6 @@ def ask(request):
            question.description = form.cleaned_data.get('description')
            question.save()
            tags = form.cleaned_data.get('tags')
-           print tags
            question.create_tags(tags)
            return redirect('/questions/')
         else:
