@@ -52,6 +52,7 @@
       {% csrf_token %}
       {{ form.question }}
       <div class="form-group">
+        {% include 'markdown_editor.html' with textarea='id_description' %}
         {{ form.description }}
       </div>
       <div class="form-group">
