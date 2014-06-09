@@ -8,5 +8,6 @@ wsgiref==0.1.2
 Unipath==1.0
 python-decouple==2.2
 Pillow==2.4.0
+South==0.8.4
 Markdown==2.4.1
 bleach==1.4
