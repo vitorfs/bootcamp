@@ -10,7 +10,9 @@
       <a href="{% url 'profile' article.create_user.username %}">{{ article.create_user.profile.get_screen_name }}</a>
     </span>
   </div>
-  <p>{{ article.content }}</p>
+  <div class="content">
+    {{ article.get_content_as_markdown|safe }}
+  </div>
   {% if article.get_tags %}
     <div class="tags">
       {% for tag in article.get_tags %}

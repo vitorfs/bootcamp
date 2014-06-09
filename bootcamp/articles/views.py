@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, HttpResponseBadRequest, HttpResponse
 from bootcamp.articles.models import Article, Tag
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from bootcamp.articles.forms import ArticleForm
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
+from bootcamp.decorators import ajax_required
+import markdown
 
 def _articles(request, articles):
     paginator = Paginator(articles, 10)
@@ -98,3 +100,19 @@ def edit(request, id):
     else:
         form = ArticleForm(instance=article, initial={'tags': tags})
     return render(request, 'articles/edit.html', {'form': form})
+
+
+@login_required
+@ajax_required
+def preview(request):
+    try:
+        if request.method == 'POST':
+            content = request.POST.get('content')
+            html = 'Nothing to display :('
+            if len(content.strip()) > 0:
+                html = markdown.markdown(content, safe_mode='escape')
+            return HttpResponse(html)
+        else:
+            return HttpResponseBadRequest()
+    except Exception, e:
+        return HttpResponseBadRequest()
