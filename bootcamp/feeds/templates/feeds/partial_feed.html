@@ -8,7 +8,7 @@
       <span class="glyphicon glyphicon-remove remove-feed" title="{% trans 'Click to remove this feed' %}"></span>
     {% endif %}
     <h3><a href="{% url 'profile' feed.user.username %}">{{ feed.user.profile.get_screen_name }}</a> <small>{{ feed.date|naturaltime }}</small></h3>
-    <p>{{ feed.post }}</p>
+    <p>{{ feed.linkfy_post|safe }}</p>
     <div class="interaction">
       {% if user in feed.get_likers %}
         <a href="#" class="like unlike">
