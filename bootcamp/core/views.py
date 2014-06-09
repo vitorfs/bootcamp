@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from bootcamp.feeds.views import feeds
 from django.contrib.auth.models import User
 from bootcamp.feeds.models import Feed
@@ -24,7 +24,7 @@ def network(request):
 
 @login_required
 def profile(request, username):
-    page_user = User.objects.get(username=username)
+    page_user = get_object_or_404(User, username=username)
     all_feeds = Feed.get_feeds().filter(user=page_user)
     paginator = Paginator(all_feeds, FEEDS_NUM_PAGES)
     feeds = paginator.page(1)

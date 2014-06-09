@@ -16,7 +16,7 @@
             <a href="{% url 'profile' article.create_user.username %}">{{ article.create_user.profile.get_screen_name }}</a>
           </span>
         </div>
-        <p>{{ article.get_summary }}</p>
+        <div class="article-content">{{ article.get_summary_as_markdown|safe }}</div>
       </li>
     {% endfor %}
   </ul>

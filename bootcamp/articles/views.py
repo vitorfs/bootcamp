@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseForbidden, HttpResponseBadRequest, HttpResponse
 from bootcamp.articles.models import Article, Tag
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -41,11 +41,8 @@ def articles(request):
 
 @login_required
 def article(request, slug):
-    try:
-        article = Article.objects.get(slug=slug, status=Article.PUBLISHED)
-        return render(request, 'articles/article.html', {'article': article})
-    except Article.DoesNotExist:
-        return redirect('/articles/')
+    article = get_object_or_404(Article, slug=slug, status=Article.PUBLISHED)
+    return render(request, 'articles/article.html', {'article': article})
 
 @login_required
 def tag(request, tag_name):

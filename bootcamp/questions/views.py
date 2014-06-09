@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseForbidden
 from bootcamp.questions.models import Question, Answer
 from bootcamp.questions.forms import QuestionForm, AnswerForm
@@ -43,7 +43,7 @@ def ask(request):
 
 @login_required
 def question(request, pk):
-    question = Question.objects.get(pk=pk)
+    question = get_object_or_404(Question, pk=pk)
     form = AnswerForm(initial={'question': question})
     return render(request, 'questions/question.html', {'question': question, 'form': form})
 

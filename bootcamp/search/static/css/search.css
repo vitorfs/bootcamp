@@ -1,18 +1,18 @@
-main ul {
+.results ul {
   padding: 0;
 }
 
-main ul li {
+.results ul li {
   list-style: none;
   padding: .8em .4em;
   border-bottom: 1px solid #eeeeee;
 }
 
-main ul li:last-child {
+.results ul li:last-child {
   border-bottom: none;
 }
 
-main ul li img {
+.results ul li img {
   width: 45px;
   border-radius: 5px;
 }
@@ -63,4 +63,29 @@ main ul li img {
   width: 20px;
   border-radius: 4px;
   margin-right: .2em;
+}
+
+.results {
+  margin-top: 1em;
+}
+
+.article-content ul, 
+.article-content ol, 
+.question-description ul,
+.question-description ol {
+  padding-left: 20px;
+}
+
+.article-content ul li, 
+.question-description ul li {
+  border-bottom: none;
+  list-style: disc;
+  padding: 0;
+}
+
+.article-content ol li, 
+.question-description ol li {
+  border-bottom: none;
+  list-style: decimal;
+  padding: 0;
 }
