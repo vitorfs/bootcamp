@@ -14,7 +14,7 @@
           <small>asked {{ question.create_date|naturaltime }}</small>
         </h5>
         <h4><a href="{% url 'question' question.pk %}">{{ question.title }}</a></h4>
-        <p>{{ question.description }}</p>
+        <div class="question-description">{{ question.get_description_preview_as_markdown|safe }}</div>
       </li>
     {% endfor %}
   </ul>
