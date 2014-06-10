@@ -91,4 +91,4 @@ class Tag(models.Model):
                 else:
                     count[tag.tag] = 1
         sorted_count = sorted(count.items(), key=lambda t: t[1], reverse=True)
-        return sorted_count
+        return sorted_count[:20]
