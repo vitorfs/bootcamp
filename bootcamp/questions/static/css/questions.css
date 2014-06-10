@@ -104,3 +104,18 @@
 .favorited {
   color: #f0ad4e; 
 }
+
+.question-info {
+  text-align: center;
+  float: right;
+  padding: 0 1em;
+}
+
+.question-info h5 {
+  margin: 0;
+  margin-bottom: .2em;
+}
+
+.question-info .info:first-child {
+  margin-bottom: 1.2em;
+}
