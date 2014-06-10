@@ -2,6 +2,10 @@
   margin-top: 1em;
 }
 
+.questions .pagination {
+  margin: 0;
+}
+
 .questions .user {
   width: 25px;
   border-radius: 3px;

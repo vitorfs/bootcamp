@@ -34,19 +34,7 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      {% if num_pages > 1 %}
-        <ul class="pagination">
-          {% for i in page_loop_times %}
-            <li class="{% if i == page %}active{% endif %}">
-              {% if i == page %}
-                <span>{{ i }} <span class="sr-only">(current)</span></span>
-              {% else %}
-                <a href="?page={{ i }}">{{ i }}</a>
-              {% endif %}
-            </li>
-          {% endfor %}
-        </ul>
-      {% endif %}
+      {% include 'paginator.html' with paginator=articles %}
     </div>
   </div>
 {% endblock main %}

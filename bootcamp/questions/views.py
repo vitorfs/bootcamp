@@ -6,6 +6,19 @@ from bootcamp.activities.models import Activity
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from bootcamp.decorators import ajax_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+@login_required
+def _questions(request, questions, active):
+    paginator = Paginator(questions, 10)
+    page = request.GET.get('page')
+    try:
+        questions = paginator.page(page)
+    except PageNotAnInteger:
+        questions = paginator.page(1)
+    except EmptyPage:
+        questions = paginator.page(paginator.num_pages)
+    return render(request, 'questions/questions.html', {'questions': questions, 'active': active})
 
 @login_required
 def questions(request):
@@ -14,17 +27,17 @@ def questions(request):
 @login_required
 def answered(request):
     questions = Question.get_answered()
-    return render(request, 'questions/questions.html', {'questions': questions, 'active': 'answered'})
+    return _questions(request, questions, 'answered')
 
 @login_required
 def unanswered(request):
     questions = Question.get_unanswered()
-    return render(request, 'questions/questions.html', {'questions': questions, 'active': 'unanswered'})
+    return _questions(request, questions, 'unanswered')
 
 @login_required
 def all(request):
     questions = Question.objects.all()
-    return render(request, 'questions/questions.html', {'questions': questions, 'active': 'all'})
+    return _questions(request, questions, 'all')
 
 @login_required
 def ask(request):
