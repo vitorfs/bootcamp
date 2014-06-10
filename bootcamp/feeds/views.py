@@ -155,7 +155,7 @@ def update(request):
     for feed in feeds:
         dump[feed.pk] = {'likes': feed.likes, 'comments': feed.comments}
     data = json.dumps(dump)
-    return HttpResponse(data, mimetype='application/json')
+    return HttpResponse(data, content_type='application/json')
 
 @login_required
 @ajax_required
