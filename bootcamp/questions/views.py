@@ -9,8 +9,7 @@ from bootcamp.decorators import ajax_required
 
 @login_required
 def questions(request):
-    questions = Question.objects.all()
-    return render(request, 'questions/questions.html', {'questions': questions, 'active': 'all'})
+    return unanswered(request)
 
 @login_required
 def answered(request):
@@ -21,6 +20,11 @@ def answered(request):
 def unanswered(request):
     questions = Question.get_unanswered()
     return render(request, 'questions/questions.html', {'questions': questions, 'active': 'unanswered'})
+
+@login_required
+def all(request):
+    questions = Question.objects.all()
+    return render(request, 'questions/questions.html', {'questions': questions, 'active': 'all'})
 
 @login_required
 def ask(request):

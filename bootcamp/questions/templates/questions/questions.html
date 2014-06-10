@@ -17,9 +17,9 @@
   </div>
   <div class="questions">
     <ul class="nav nav-tabs" style="margin-bottom: 1.4em">
-      <li{% if active == 'all' %} class="active"{% endif %}><a href="{% url 'questions' %}">{% trans "All Questions" %}</a></li>
       <li{% if active == 'unanswered' %} class="active"{% endif %}><a href="{% url 'unanswered' %}">{% trans "Unanswered" %}</a></li>
       <li{% if active == 'answered' %} class="active"{% endif %}><a href="{% url 'answered' %}">{% trans "Answered" %}</a></li>
+      <li{% if active == 'all' %} class="active"{% endif %}><a href="{% url 'all' %}">{% trans "All Questions" %}</a></li>
     </ul>
     {% for question in questions %}
       {% include 'questions/partial_question.html' with question=question %}
