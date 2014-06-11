@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans 'Compose' %}{% endblock %}
+
+{% block head %}
+  <link href="{{ STATIC_URL }}css/messages.css" rel="stylesheet">
+  <script src="{{ STATIC_URL }}js/messages.js"></script>
+{% endblock head %}
+
+{% block main %}
+  <div class="page-header">
+    <h1>{% trans 'Compose' %}</h1>
+  </div>
+{% endblock main %}
