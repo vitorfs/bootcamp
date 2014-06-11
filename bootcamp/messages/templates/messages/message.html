@@ -1,15 +1,10 @@
-{% extends 'base.html' %}
+{% extends 'messages/base_messages.html' %}
 {% load i18n %}
 
 {% block title %}{% trans 'Message' %}{% endblock %}
 
-{% block head %}
-  <link href="{{ STATIC_URL }}css/messages.css" rel="stylesheet">
-  <script src="{{ STATIC_URL }}js/messages.js"></script>
-{% endblock head %}
+{% block page_header %}{% trans 'Message' %}{% endblock %}
 
-{% block main %}
-  <div class="page-header">
-    <h1>{% trans 'Message' %}</h1>
-  </div>
-{% endblock main %}
+{% block container %}
+  message
+{% endblock container %}

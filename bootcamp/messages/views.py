@@ -6,15 +6,15 @@ from bootcamp.decorators import ajax_required
 
 @login_required
 def inbox(request):
-    return render(request, 'messages/inbox.html')
+    return render(request, 'messages/inbox.html', {'active': 'inbox'})
 
 @login_required
 def sent(request):
-    return render(request, 'messages/sent.html')
+    return render(request, 'messages/sent.html', {'active': 'sent'})
 
 @login_required
 def compose(request):
-    return render(request, 'messages/compose.html')
+    return render(request, 'messages/compose.html', {'active': 'compose'})
 
 @login_required
 @ajax_required
@@ -27,4 +27,4 @@ def reply(request):
 
 @login_required
 def message(request, id):
-    return render(request, 'messages/message.html')
+    return render(request, 'messages/message.html', {'active': 'inbox'})

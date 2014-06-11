@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block head %}
+  <link href="{{ STATIC_URL }}css/messages.css" rel="stylesheet">
+  <script src="{{ STATIC_URL }}js/messages.js"></script>
+{% endblock head %}
+
+{% block main %}
+  <div class="page-header">
+    <h1>{% block page_header %}{% endblock %}</h1>
+  </div>
+  <div class="row" style="margin-top: 1em">
+    <div class="col-md-3">
+      {% include 'messages/includes/partial_menu.html' with active=active %}
+    </div>
+    <div class="col-md-9">
+      {% block container %}
+      {% endblock container %}
+    </div>
+  </div>
+{% endblock main %}
