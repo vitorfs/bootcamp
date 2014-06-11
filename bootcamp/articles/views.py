@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseForbidden, HttpResponseBadRequest, HttpResponse
-from bootcamp.articles.models import Article, Tag
+from bootcamp.articles.models import Article, Tag, ArticleComment
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from bootcamp.articles.forms import ArticleForm
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from bootcamp.decorators import ajax_required
 import markdown
+from django.template.loader import render_to_string
 
 def _articles(request, articles):
     paginator = Paginator(articles, 10)
@@ -94,6 +95,27 @@ def preview(request):
             html = 'Nothing to display :('
             if len(content.strip()) > 0:
                 html = markdown.markdown(content, safe_mode='escape')
+            return HttpResponse(html)
+        else:
+            return HttpResponseBadRequest()
+    except Exception, e:
+        return HttpResponseBadRequest()
+
+@login_required
+@ajax_required
+def comment(request):
+    try:
+        if request.method == 'POST':
+            article_id = request.POST.get('article')
+            article = Article.objects.get(pk=article_id)
+            comment = request.POST.get('comment')
+            comment = comment.strip()
+            if len(comment) > 0:
+                article_comment = ArticleComment(user=request.user, article=article, comment=comment)
+                article_comment.save()
+            html = u''
+            for comment in article.get_comments():
+                html = u'{0}{1}'.format(html, render_to_string('articles/partial_article_comment.html', {'comment': comment}))
             return HttpResponse(html)
         else:
             return HttpResponseBadRequest()

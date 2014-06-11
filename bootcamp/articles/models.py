@@ -67,6 +67,9 @@ class Article(models.Model):
     def get_summary_as_markdown(self):
         return markdown.markdown(self.get_summary(), safe_mode='escape')
 
+    def get_comments(self):
+        return ArticleComment.objects.filter(article=self)
+
 class Tag(models.Model):
     tag = models.CharField(max_length=50)
     article = models.ForeignKey(Article)
@@ -92,3 +95,17 @@ class Tag(models.Model):
                     count[tag.tag] = 1
         sorted_count = sorted(count.items(), key=lambda t: t[1], reverse=True)
         return sorted_count[:20]
+
+class ArticleComment(models.Model):
+    article = models.ForeignKey(Article)
+    comment = models.CharField(max_length=500)
+    date = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User)
+
+    class Meta:
+        verbose_name = _("Article Comment")
+        verbose_name_plural = _("Article Comments")
+        ordering = ("date",)
+
+    def __unicode__(self):
+        return u'{0} - {1}'.format(self.user.username, self.article.title)
