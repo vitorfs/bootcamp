@@ -55,6 +55,11 @@ class Feed(models.Model):
             likers.append(like.user)
         return likers
 
+    def calculate_comments(self):
+        self.comments = Feed.objects.filter(parent=self).count()
+        self.save()
+        return self.comments
+
     def comment(self, user, post):
         feed_comment = Feed(user=user, post=post, parent=self)
         feed_comment.save()

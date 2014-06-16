@@ -269,14 +269,24 @@ $(function () {
   };
   track_comments();
 
-  $("ul.stream").on("mouseenter", "li", function () {
+  $("main").on("mouseenter", "ul.stream > li", function (event) {
     var li = $(this);
-    $(".remove-feed", li).show();
+    $(li).children(".post").children(".remove-feed").show();
   });
 
-  $("ul.stream").on("mouseleave", "li", function () {
+  $("main").on("mouseleave", "ul.stream > li", function (event) {
     var li = $(this);
-    $(".remove-feed", li).hide();
+    $(li).children(".post").children(".remove-feed").hide();
+  });
+
+  $("ul.stream").on("mouseenter", "li div.post div.comments ol > li", function (event) {
+    var li = $(this);
+    $(li).children(".remove-feed").show();
+  });
+
+  $("ul.stream").on("mouseleave", "li div.post div.comments ol > li", function (event) {
+    var li = $(this);
+    $(li).children(".remove-feed").hide();
   });
 
   $("ul.stream").on("click", ".remove-feed", function () {

@@ -172,9 +172,12 @@ def remove(request):
         feed = Feed.objects.get(pk=feed_id)
         if feed.user == request.user:
             likes = feed.get_likes()
+            parent = feed.parent
             for like in likes:
                 like.delete()
             feed.delete()
+            if parent:
+                parent.calculate_comments()
             return HttpResponse()
         else:
             return HttpResponseForbidden()
