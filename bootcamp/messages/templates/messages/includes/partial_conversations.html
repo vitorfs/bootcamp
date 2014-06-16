@@ -1,0 +1,11 @@
+{% load i18n %}
+
+<div class="list-group">
+  {% comment %}
+  <a href="{% url 'inbox' %}" class="list-group-item{% if active == 'inbox' %} active{% endif %}">
+    <span>{% trans 'Inbox' %}</span>
+    <span class="badge">0</span>
+  </a>
+  {% endcomment %}
+  <a href="#" class="list-group-item">{% trans 'Start a conversation' %}</a>
+</div>

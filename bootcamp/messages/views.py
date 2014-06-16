@@ -3,18 +3,20 @@ from django.http import HttpResponse, HttpResponseBadRequest
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
 from bootcamp.decorators import ajax_required
+from django.contrib.auth.models import User
 
 @login_required
 def inbox(request):
-    return render(request, 'messages/inbox.html', {'active': 'inbox'})
+    return render(request, 'messages/inbox.html')
 
 @login_required
-def sent(request):
-    return render(request, 'messages/sent.html', {'active': 'sent'})
+def new(request):
+    users = User.objects.filter(is_active=True)
+    return render(request, 'messages/new.html', {'users': users})
 
 @login_required
-def compose(request):
-    return render(request, 'messages/compose.html', {'active': 'compose'})
+def conversation(request, username):
+    return render(request, 'messages/conversation.html')
 
 @login_required
 @ajax_required
@@ -22,9 +24,6 @@ def delete(request):
     return HttpResponse()
 
 @login_required
-def reply(request):
+@ajax_required
+def send(request):
     return HttpResponse()
-
-@login_required
-def message(request, id):
-    return render(request, 'messages/message.html', {'active': 'inbox'})
