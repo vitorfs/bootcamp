@@ -46,8 +46,17 @@ def new(request):
     if request.method == 'POST':
         from_user = request.user
         to_user_username = request.POST.get('to')
-        to_user = User.objects.get(username=to_user_username)
+        try:
+            to_user = User.objects.get(username=to_user_username)
+        except Exception, e:
+            try:
+                to_user_username = to_user_username[to_user_username.rfind('(')+1:len(to_user_username)-1]
+                to_user = User.objects.get(username=to_user_username)
+            except Exception, e:
+                return redirect('/messages/new/')
         message = request.POST.get('message')
+        if len(message.strip()) == 0:
+            return redirect('/messages/new/')
         if from_user != to_user:
             Message.send_message(from_user, to_user, message)
         return redirect(u'/messages/{0}/'.format(to_user_username))
@@ -68,6 +77,8 @@ def send(request):
         to_user_username = request.POST.get('to')
         to_user = User.objects.get(username=to_user_username)
         message = request.POST.get('message')
+        if len(message.strip()) == 0:
+            return HttpResponse()
         if from_user != to_user:
             msg = Message.send_message(from_user, to_user, message)
             return render(request, 'messages/includes/partial_message.html', {'message': msg})
