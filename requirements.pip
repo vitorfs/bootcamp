@@ -11,3 +11,4 @@ Pillow==2.4.0
 South==0.8.4
 Markdown==2.4.1
 bleach==1.4
+MySQL-python==1.2.5
