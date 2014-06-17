@@ -32,9 +32,24 @@
       {% endfor %}
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-12">
-      {% include 'paginator.html' with paginator=articles %}
+
+  {% if page_obj.paginator.num_pages %}
+  <div class='row'>
+    <div class='col-md-12'>
+      <ul class="pagination center">
+	{% if page_obj.has_previous %}
+	<li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+	{% endif %}
+        {% for page in page_obj.paginator.page_range %}
+        <li class="{% if page == page_obj.number %}active{% endif %}">
+          <a href="?page={{ page }}">{{ page }}</a>
+        </li>
+        {% endfor %}
+	  {% if page_obj.has_next %}
+	    <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+	  {% endif %}
+      </ul>
     </div>
   </div>
+  {% endif %}
 {% endblock main %}

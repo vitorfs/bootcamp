@@ -29,8 +29,8 @@
       </div>
     {% endfor %}
     <div class="form-group">
-      <button type="button" class="btn btn-primary publish">{% trans 'Publish' %}</button>
-      <button type="button" class="btn btn-default draft">{% trans 'Save Draft' %}</button>
+      <button type="submit" class="btn btn-primary publish" name="action" value="publish">{% trans 'Publish' %}</button>
+      <button type="submit" class="btn btn-default draft" name="action" value="draft">{% trans 'Save Draft' %}</button>
       <button type="button" class="btn btn-default preview" data-toggle="modal" data-target="#preview">{% trans 'Preview' %}</button>
       <a href="{% url 'articles' %}" class="btn btn-default">{% trans 'Cancel' %}</a>
     </div>
