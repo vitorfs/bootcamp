@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
+{% load i18n %}
+{% get_available_languages as LANGUAGES %}
+{% get_current_language as CURRENT_LANGUAGE %}
 
 {% block title %}Account Settings{% endblock %}
 
 {% block main %}
   <div class="page-header">
-    <h1>Account Settings</h1>
+    <h1>{% trans 'Account Settings' %}</h1>
   </div>
   <div class="row" style="margin-top: 2em">
     <div class="col-md-3">
@@ -19,7 +22,7 @@
           </div>
         {% endfor %}
       {% endif %}
-      <h3 style="margin-top: 0">Edit Profile</h3>
+      <h3 style="margin-top: 0">{% trans 'Edit Profile' %}</h3>
       <form role="form" class="form-horizontal" method="post" action="{% url 'settings' %}">
         {% csrf_token %}
         {% for field in form.visible_fields %}
@@ -36,9 +39,21 @@
             </div>
           </div>
         {% endfor %}
+        {% comment %}
+        <div class="form-group">
+          <label for="language" class="col-sm-2 control-label">Language</label>
+          <div class="col-sm-10">
+            <select id="language" name="language" class="form-control">
+              {% for lang in LANGUAGES %}
+                <option value="{{ lang.0 }}">{{ lang.1 }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        {% endcomment %}
         <div class="form-group">
           <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
           </div>
         </div>
       </form>

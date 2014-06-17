@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block head %}
   <link href="{{ STATIC_URL }}css/feeds.css" rel="stylesheet">
@@ -8,13 +9,13 @@
 
 {% block main %}
   <div class="page-header">
-    <button type="button" class="btn btn-primary pull-right btn-compose" title="Press Ctrl + P to compose">
-      <span class="glyphicon glyphicon-share-alt"></span> Compose
+    <button type="button" class="btn btn-primary pull-right btn-compose" title="{% trans 'Press Ctrl + P to compose' %}">
+      <span class="glyphicon glyphicon-share-alt"></span> {% trans 'Compose' %}
     </button>
-    <h1>Feed</h1>
+    <h1>{% trans 'Feed' %}</h1>
   </div>
   <div class="compose">
-    <h2>Compose a new post</h2>
+    <h2>{% trans "Compose a new post" %}</h2>
     <form role="form" id="compose-form">
       {% csrf_token %}
       <input type="hidden" name="last_feed">
@@ -23,14 +24,15 @@
       </div>
       <div class="form-group">
         <button type="button" class="btn btn-primary btn-post">
-          <span class="glyphicon glyphicon-send"></span> Post
+          <span class="glyphicon glyphicon-send"></span> {% trans 'Post' %}
         </button>
-        <button type="button" class="btn btn-default btn-cancel-compose">Cancel</button>
+        <button type="button" class="btn btn-default btn-cancel-compose">{% trans 'Cancel' %}</button>
+        <span class="help-block help-count pull-right">255</span>
       </div>
     </form>
   </div>
   <div class="stream-update">
-    <a href="#"><span class="new-posts"></span> new posts</a>
+    <a href="#"><span class="new-posts"></span> {% trans 'new posts' %}</a>
   </div>
   <ul class="stream">
     {% for feed in feeds %}

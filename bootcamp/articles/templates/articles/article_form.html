@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block head %}
   <script src="{{ STATIC_URL }}js/articles.js"></script>
@@ -6,8 +7,8 @@
 
 {% block main %}
   <ol class="breadcrumb">
-    <li><a href="{% url 'articles' %}">Articles</a></li>
-    <li class="active">Write Article</li>
+    <li><a href="{% url 'articles' %}">{% trans 'Articles' %}</a></li>
+    <li class="active">{% trans 'Write Article' %}</li>
   </ol>
   <form action="{% url 'write' %}" method="post" role="form">
     {% csrf_token %}
@@ -15,6 +16,9 @@
     {% for field in form.visible_fields %}
       <div class="form-group{% if field.errors %} has-error{% endif %}">
         <label for="{{ field.label }}" class="control-label">{{ field.label }}</label>
+        {% if field.label == 'Content' %}
+          {% include 'markdown_editor.html' with textarea='id_content' %}
+        {% endif %}
         {{ field }}
         {% if field.help_text %}
           <span class="help-block">{{ field.help_text }}</span>
@@ -25,9 +29,26 @@
       </div>
     {% endfor %}
     <div class="form-group">
-      <input type="submit" class="btn btn-primary publish" name="action" value="Publish">
-      <input type="submit" class="btn btn-default draft" name="action" value="Save Draft">
-      <a href="{% url 'articles' %}" class="btn btn-default">Cancel</a>
+      <button type="submit" class="btn btn-primary publish" name="action" value="publish">{% trans 'Publish' %}</button>
+      <button type="submit" class="btn btn-default draft" name="action" value="draft">{% trans 'Save Draft' %}</button>
+      <button type="button" class="btn btn-default preview" data-toggle="modal" data-target="#preview">{% trans 'Preview' %}</button>
+      <a href="{% url 'articles' %}" class="btn btn-default">{% trans 'Cancel' %}</a>
     </div>
   </form>
+
+  <div class="modal fade" id="preview">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Article Preview</h4>
+        </div>
+        <div class="modal-body"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 {% endblock main %}

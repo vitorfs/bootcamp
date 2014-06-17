@@ -28,6 +28,15 @@ class Activity(models.Model):
     def __unicode__(self):
         return self.activity_type
 
+#    def save(self, *args, **kwargs):
+#        super(Activity, self).save(*args, **kwargs)
+#        if self.activity_type == Activity.FAVORITE:
+#            Question = models.get_model('questions', 'Question')
+#            question = Question.objects.get(pk=self.question)
+#            user = question.user
+#            user.profile.reputation = user.profile.reputation + 5
+#            user.save()
+
 class Notification(models.Model):
     LIKED = 'L'
     COMMENTED = 'C'

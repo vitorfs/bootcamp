@@ -1,5 +1,5 @@
 <article>
-  <h2><a href="{{ article.slug }}">{{ article.title }}</a></h2>
+  <h2><a href="{% url 'article' article.slug %}">{{ article.title }}</a></h2>
   <div class="info">
     <span class="date">
       <span class="glyphicon glyphicon-calendar"></span>
@@ -9,8 +9,14 @@
       <a href="{% url 'profile' article.create_user.username %}"><img src="{{ article.create_user.profile.get_picture }}"></a>
       <a href="{% url 'profile' article.create_user.username %}">{{ article.create_user.profile.get_screen_name }}</a>
     </span>
+    <span class="comments">
+      <span class="glyphicon glyphicon-comment"></span>
+      {{ article.get_comments.count }} Comments
+    </span>
   </div>
-  <p>{{ article.content }}</p>
+  <div class="content">
+    {{ article.get_content_as_markdown|safe }}
+  </div>
   {% if article.get_tags %}
     <div class="tags">
       {% for tag in article.get_tags %}

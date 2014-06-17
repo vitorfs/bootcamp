@@ -9,6 +9,10 @@ ul.all-notifications li {
   padding: .8em 0;
 }
 
+ul.all-notifications li:last-child {
+  border-bottom: none;
+}
+
 ul.all-notifications li small {
   color: #cccccc;
   font-size: .8em;

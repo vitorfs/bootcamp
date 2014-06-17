@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseForbidden
 from bootcamp.questions.models import Question, Answer
 from bootcamp.questions.forms import QuestionForm, AnswerForm
@@ -6,21 +6,38 @@ from bootcamp.activities.models import Activity
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from bootcamp.decorators import ajax_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+@login_required
+def _questions(request, questions, active):
+    paginator = Paginator(questions, 10)
+    page = request.GET.get('page')
+    try:
+        questions = paginator.page(page)
+    except PageNotAnInteger:
+        questions = paginator.page(1)
+    except EmptyPage:
+        questions = paginator.page(paginator.num_pages)
+    return render(request, 'questions/questions.html', {'questions': questions, 'active': active})
 
 @login_required
 def questions(request):
-    questions = Question.objects.all()
-    return render(request, 'questions/questions.html', {'questions': questions, 'active': 'all'})
+    return unanswered(request)
 
 @login_required
 def answered(request):
     questions = Question.get_answered()
-    return render(request, 'questions/questions.html', {'questions': questions, 'active': 'answered'})
+    return _questions(request, questions, 'answered')
 
 @login_required
 def unanswered(request):
     questions = Question.get_unanswered()
-    return render(request, 'questions/questions.html', {'questions': questions, 'active': 'unanswered'})
+    return _questions(request, questions, 'unanswered')
+
+@login_required
+def all(request):
+    questions = Question.objects.all()
+    return _questions(request, questions, 'all')
 
 @login_required
 def ask(request):
@@ -33,7 +50,6 @@ def ask(request):
            question.description = form.cleaned_data.get('description')
            question.save()
            tags = form.cleaned_data.get('tags')
-           print tags
            question.create_tags(tags)
            return redirect('/questions/')
         else:
@@ -44,7 +60,7 @@ def ask(request):
 
 @login_required
 def question(request, pk):
-    question = Question.objects.get(pk=pk)
+    question = get_object_or_404(Question, pk=pk)
     form = AnswerForm(initial={'question': question})
     return render(request, 'questions/question.html', {'question': question, 'form': form})
 

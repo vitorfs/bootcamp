@@ -1,7 +1,10 @@
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from bootcamp.activities.models import Activity
-from datetime import datetime
+from django.utils.html import escape
+import bleach
+
 
 class Feed(models.Model):
     user = models.ForeignKey(User)
@@ -12,8 +15,8 @@ class Feed(models.Model):
     comments = models.IntegerField(default=0)
 
     class Meta:
-        verbose_name = 'Feed'
-        verbose_name_plural = 'Feeds'
+        verbose_name = _('Feed')
+        verbose_name_plural = _('Feeds')
         ordering = ('-date',)
 
     def __unicode__(self):
@@ -33,7 +36,7 @@ class Feed(models.Model):
         return feeds
 
     def get_comments(self):
-        return Feed.objects.filter(parent=self)
+        return Feed.objects.filter(parent=self).order_by('date')
 
     def calculate_likes(self):
         likes = Activity.objects.filter(activity_type=Activity.LIKE, feed=self.pk).count()
@@ -52,9 +55,17 @@ class Feed(models.Model):
             likers.append(like.user)
         return likers
 
+    def calculate_comments(self):
+        self.comments = Feed.objects.filter(parent=self).count()
+        self.save()
+        return self.comments
+
     def comment(self, user, post):
         feed_comment = Feed(user=user, post=post, parent=self)
         feed_comment.save()
         self.comments = Feed.objects.filter(parent=self).count()
         self.save()
         return feed_comment
+
+    def linkfy_post(self):
+        return bleach.linkify(escape(self.post))

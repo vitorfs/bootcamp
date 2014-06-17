@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block title %}{{ page_user.profile.get_screen_name }}{% endblock %}
 
@@ -33,7 +34,7 @@
         </ul>
       </div>
       <div class="col-md-9">
-        <h4>Last Feeds by {{ page_user.profile.get_screen_name }}</h4>
+        <h4>{% trans 'Last Feeds by' %} {{ page_user.profile.get_screen_name }}</h4>
         <div class="stream-update">
           <a href="#"><span class="new-posts"></span> new posts</a>
         </div>

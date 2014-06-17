@@ -2,6 +2,7 @@
 
 body {
   background-color: #f6f6f6;
+  padding-top: 70px;
 }
 
 header .navbar-brand {
@@ -11,7 +12,6 @@ header .navbar-brand {
 }
 
 main .container {
-  margin-top: 2em;
   margin-bottom: 2em;
   border: 1px solid #ddd;
   background-color: #ffffff;
@@ -32,12 +32,12 @@ main .container {
 }
 
 .no-data {
-  text-align: center; 
+  text-align: center;
   padding: 1em 0;
 }
 
 #notifications {
-  font-size: 1.5em; 
+  font-size: 1.5em;
   padding: 13px;
   color: #dddddd;
 }
@@ -76,4 +76,8 @@ main .container {
   padding: 0 0 0 .6em;
   margin-left: 45px;
   margin-bottom: 0;
+}
+
+.markdown {
+  margin-bottom: .8em;
 }

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from bootcamp.feeds.models import Feed
 from bootcamp.activities.models import Activity, Notification
@@ -26,11 +26,8 @@ def feeds(request):
         })
 
 def feed(request, pk):
-    try:
-        feed = Feed.objects.get(pk=pk)
-        return render(request, 'feeds/feed.html', {'feed': feed})
-    except Exception, e:
-        return redirect('/')
+    feed = get_object_or_404(Feed, pk=pk)
+    return render(request, 'feeds/feed.html', {'feed': feed})
 
 @login_required
 @ajax_required
@@ -102,8 +99,10 @@ def post(request):
     feed = Feed()
     feed.user = user
     post = request.POST['post']
-    feed.post = post[:255]
-    feed.save()
+    post = post.strip()
+    if len(post) > 0:
+        feed.post = post[:255]
+        feed.save()
     html = _html_feeds(last_feed, user, csrf_token)
     return HttpResponse(html)
 
@@ -130,11 +129,13 @@ def comment(request):
         feed_id = request.POST['feed']
         feed = Feed.objects.get(pk=feed_id)
         post = request.POST['post']
-        post = post[:255]
-        user = request.user
-        feed.comment(user=user, post=post)
-        user.profile.notify_commented(feed)
-        user.profile.notify_also_commented(feed)
+        post = post.strip()
+        if len(post) > 0:
+            post = post[:255]
+            user = request.user
+            feed.comment(user=user, post=post)
+            user.profile.notify_commented(feed)
+            user.profile.notify_also_commented(feed)
         return render(request, 'feeds/partial_feed_comments.html', {'feed': feed})
     else:
         feed_id = request.GET.get('feed')
@@ -154,7 +155,7 @@ def update(request):
     for feed in feeds:
         dump[feed.pk] = {'likes': feed.likes, 'comments': feed.comments}
     data = json.dumps(dump)
-    return HttpResponse(data, mimetype='application/json')
+    return HttpResponse(data, content_type='application/json')
 
 @login_required
 @ajax_required
@@ -171,9 +172,12 @@ def remove(request):
         feed = Feed.objects.get(pk=feed_id)
         if feed.user == request.user:
             likes = feed.get_likes()
+            parent = feed.parent
             for like in likes:
                 like.delete()
             feed.delete()
+            if parent:
+                parent.calculate_comments()
             return HttpResponse()
         else:
             return HttpResponseForbidden()

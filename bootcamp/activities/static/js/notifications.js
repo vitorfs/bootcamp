@@ -10,7 +10,7 @@ $(function () {
       $.ajax({
         url: '/notifications/last/',
         beforeSend: function () {
-          $(".popover-content").html("Loading...");
+          $(".popover-content").html("<div style='text-align:center'><img src='/static/img/loading.gif'></div>");
           $("#notifications").removeClass("new-notifications");
         },
         success: function (data) {

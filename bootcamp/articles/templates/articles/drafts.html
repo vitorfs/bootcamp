@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block head %}
   <script src="{{ STATIC_URL }}js/articles.js"></script>
@@ -6,22 +7,22 @@
 
 {% block main %}
   <ol class="breadcrumb">
-    <li><a href="{% url 'articles' %}">Articles</a></li>
-    <li class="active">Drafts</li>
+    <li><a href="{% url 'articles' %}">{% trans 'Articles' %}</a></li>
+    <li class="active">{% trans 'Drafts' %}</li>
   </ol>
   <table class="table table-striped">
     <thead>
       <tr>
-        <th>Title</th>
-        <th>Content</th>
-        <th>Tags</th>
+        <th>{% trans 'Title' %}</th>
+        <th>{% trans 'Content' %}</th>
+        <th>{% trans 'Tags' %}</th>
       </tr>
     </thead>
     <tbody>
       {% for article in drafts %}
         <tr>
           <td><a href="{% url 'edit_article' article.pk %}">{{ article.title }}</a></td>
-          <td>{{ article.get_summary }}</td>
+          <td>{{ article.get_summary_as_markdown|safe }}</td>
           <td>
             {% for tag in article.get_tags %}
               <span class="label label-default">{{ tag }}</span>
@@ -31,7 +32,7 @@
       {% empty %}
         <tr>
           <td colspan="4" style="text-align: center">
-            No draft to display
+            {% trans 'No draft to display' %}
           </td>
         </tr>
       {% endfor %}

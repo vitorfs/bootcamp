@@ -2,6 +2,10 @@
   margin-top: 1em;
 }
 
+.questions .pagination {
+  margin: 0;
+}
+
 .questions .user {
   width: 25px;
   border-radius: 3px;
@@ -103,4 +107,19 @@
 
 .favorited {
   color: #f0ad4e; 
+}
+
+.question-info {
+  text-align: center;
+  float: right;
+  padding: 0 1em;
+}
+
+.question-info h5 {
+  margin: 0;
+  margin-bottom: .2em;
+}
+
+.question-info .info:first-child {
+  margin-bottom: 1.2em;
 }

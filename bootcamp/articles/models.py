@@ -1,7 +1,9 @@
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from datetime import datetime
 from django.template.defaultfilters import slugify
+import markdown
 
 class Article(models.Model):
     DRAFT = 'D'
@@ -21,8 +23,8 @@ class Article(models.Model):
     update_user = models.ForeignKey(User, null=True, blank=True, related_name="+")
 
     class Meta:
-        verbose_name = "Article"
-        verbose_name_plural = "Articles"
+        verbose_name = _("Article")
+        verbose_name_plural = _("Articles")
         ordering = ("-create_date",)
 
     def __unicode__(self):
@@ -34,9 +36,12 @@ class Article(models.Model):
         else:
             self.update_date = datetime.now()
         if not self.slug:
-            slug_str = "%s %s" % (self.pk, self.title.lower()) 
+            slug_str = "%s %s" % (self.pk, self.title.lower())
             self.slug = slugify(slug_str)
         super(Article, self).save(*args, **kwargs)
+
+    def get_content_as_markdown(self):
+        return markdown.markdown(self.content, safe_mode='escape')
 
     @staticmethod
     def get_published():
@@ -59,13 +64,19 @@ class Article(models.Model):
         else:
             return self.content
 
+    def get_summary_as_markdown(self):
+        return markdown.markdown(self.get_summary(), safe_mode='escape')
+
+    def get_comments(self):
+        return ArticleComment.objects.filter(article=self)
+
 class Tag(models.Model):
     tag = models.CharField(max_length=50)
     article = models.ForeignKey(Article)
 
     class Meta:
-        verbose_name = 'Tag'
-        verbose_name_plural = 'Tags'
+        verbose_name = _('Tag')
+        verbose_name_plural = _('Tags')
         unique_together = (('tag', 'article'),)
         index_together = [['tag', 'article'],]
 
@@ -83,4 +94,18 @@ class Tag(models.Model):
                 else:
                     count[tag.tag] = 1
         sorted_count = sorted(count.items(), key=lambda t: t[1], reverse=True)
-        return sorted_count
+        return sorted_count[:20]
+
+class ArticleComment(models.Model):
+    article = models.ForeignKey(Article)
+    comment = models.CharField(max_length=500)
+    date = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User)
+
+    class Meta:
+        verbose_name = _("Article Comment")
+        verbose_name_plural = _("Article Comments")
+        ordering = ("date",)
+
+    def __unicode__(self):
+        return u'{0} - {1}'.format(self.user.username, self.article.title)

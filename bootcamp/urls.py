@@ -19,5 +19,7 @@ urlpatterns = patterns('',
     url(r'^notifications/$', 'bootcamp.activities.views.notifications', name='notifications'),
     url(r'^notifications/last/$', 'bootcamp.activities.views.last_notifications', name='last_notifications'),
     url(r'^notifications/check/$', 'bootcamp.activities.views.check_notifications', name='check_notifications'),
+    url(r'^search/$', 'bootcamp.search.views.search', name='search'),
     url(r'^(?P<username>[^/]+)/$', 'bootcamp.core.views.profile', name='profile'),
+    url(r'^i18n/', include('django.conf.urls.i18n', namespace='i18n')),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
