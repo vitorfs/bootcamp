@@ -6,17 +6,18 @@
 {% block page_header %}{% trans 'New message' %}{% endblock %}
 
 {% block container %}
-  <form class="form-horizontal" role="form">
+  <form class="form-horizontal" role="form" method="post">
+    {% csrf_token %}
     <div class="form-group">
       <label for="to" class="col-sm-1 control-label">To</label>
       <div class="col-sm-11">
-        <input class="form-control typeahead" type="text" id="to">
+        <input class="form-control typeahead" type="text" id="to" name="to">
       </div>
     </div>
     <div class="form-group">
       <label for="to" class="col-sm-1 control-label">Message</label>
       <div class="col-sm-11">
-        <textarea class="form-control" id="message" placeholder="Write a message" rows="4"></textarea>
+        <textarea class="form-control" id="message" name="message" placeholder="Write a message" rows="4"></textarea>
       </div>
     </div>
     <div class="form-group">
@@ -25,43 +26,5 @@
       </div>
     </div>
   </form>
-  <script type="text/javascript">
-    $(function () {
-      var substringMatcher = function(strs) {
-        return function findMatches(q, cb) {
-          var matches, substringRegex;
-          matches = [];
-          substrRegex = new RegExp(q, 'i');
-          $.each(strs, function(i, str) {
-            if (substrRegex.test(str)) {
-              matches.push({ value: str });
-            }
-          });
-          cb(matches);
-          };
-      };
-
-      var states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
-        'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
-        'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
-        'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
-        'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
-        'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-        'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
-        'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
-        'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
-      ];
-       
-      $('#to').typeahead({
-        hint: true,
-        highlight: true,
-        minLength: 1
-      },
-      {
-        name: 'states',
-        displayKey: 'value',
-        source: substringMatcher(states)
-      });
-    });
-  </script>
+  <script src="{{ STATIC_URL }}js/messages.typehead.js"></script>
 {% endblock container %}

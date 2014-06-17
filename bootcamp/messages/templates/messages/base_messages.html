@@ -13,7 +13,7 @@
   </div>
   <div class="row" style="margin-top: 1em">
     <div class="col-md-3">
-      {% include 'messages/includes/partial_conversations.html' with active=active %}
+      {% include 'messages/includes/partial_conversations.html' with conversations=conversations active=active %}
     </div>
     <div class="col-md-9">
       {% block container %}
