@@ -109,8 +109,8 @@ msgid "Cancel"
 msgstr "取消"
 
 #: auth/templates/auth/signup.html:11 core/templates/core/cover.html:39
-msgid "Sign up for idetail"
-msgstr "注册idetail"
+msgid "Sign up for Bootcamp"
+msgstr "注册Bootcamp"
 
 #: auth/templates/auth/signup.html:26
 msgid "Create an account"
