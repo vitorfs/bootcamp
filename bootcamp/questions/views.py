@@ -18,7 +18,10 @@ def _questions(request, questions, active):
         questions = paginator.page(1)
     except EmptyPage:
         questions = paginator.page(paginator.num_pages)
-    return render(request, 'questions/questions.html', {'questions': questions, 'active': active})
+    return render(request, 'questions/questions.html', {
+        'questions': questions,
+        'active': active
+    })
 
 @login_required
 def questions(request):
@@ -53,7 +56,7 @@ def ask(request):
            question.create_tags(tags)
            return redirect('/questions/')
         else:
-            return render(request, 'questions/ask.html', {'form': form})        
+            return render(request, 'questions/ask.html', {'form': form})
     else:
         form = QuestionForm()
     return render(request, 'questions/ask.html', {'form': form})
@@ -62,7 +65,10 @@ def ask(request):
 def question(request, pk):
     question = get_object_or_404(Question, pk=pk)
     form = AnswerForm(initial={'question': question})
-    return render(request, 'questions/question.html', {'question': question, 'form': form})
+    return render(request, 'questions/question.html', {
+        'question': question,
+        'form': form
+    })
 
 @login_required
 def answer(request):
@@ -79,7 +85,10 @@ def answer(request):
             return redirect(u'/questions/{0}/'.format(answer.question.pk))
         else:
             question = form.cleaned_data.get('question')
-            return render(request, 'questions/question.html', {'question': question, 'form': form})
+            return render(request, 'questions/question.html', {
+                'question': question,
+                'form': form
+            })
     else:
         return redirect('/questions/')
 

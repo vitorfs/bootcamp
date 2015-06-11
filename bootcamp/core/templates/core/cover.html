@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 {% load i18n %}
 
 {% block head %}
-  <link href="{{ STATIC_URL }}css/cover.css" rel="stylesheet">
+  <link href="{% static 'css/cover.css' %}" rel="stylesheet">
 {% endblock head %}
 
 {% block body %}

@@ -1,4 +1,5 @@
 {% extends 'messages/base_messages.html' %}
+{% load staticfiles %}
 {% load i18n %}
 
 {% block title %}{% trans 'New message' %}{% endblock %}
@@ -26,5 +27,5 @@
       </div>
     </div>
   </form>
-  <script src="{{ STATIC_URL }}js/messages.typehead.js"></script>
+  <script src="{% static 'js/messages.typehead.js' %}"></script>
 {% endblock container %}

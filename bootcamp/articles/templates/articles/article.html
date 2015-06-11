@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 {% load i18n %}
 
 {% block title %}{{ article.title }}{% endblock %}
 
 {% block head %}
-  <link href="{{ STATIC_URL }}css/articles.css" rel="stylesheet">
-  <script src="{{ STATIC_URL }}js/articles.js"></script>
+  <link href="{% static 'css/articles.css' %}" rel="stylesheet">
+  <script src="{% static 'js/articles.js' %}"></script>
 {% endblock head %}
 
 {% block main %}

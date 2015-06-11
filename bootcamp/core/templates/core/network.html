@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 {% load i18n %}
 
 {% block title %}{% trans 'Network' %}{% endblock %}
 
 {% block head %}
-  <link href="{{ STATIC_URL }}css/network.css" rel="stylesheet">
+  <link href="{% static 'css/network.css' %}" rel="stylesheet">
 {% endblock head %}
 
 {% block main %}

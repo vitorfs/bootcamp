@@ -19,7 +19,10 @@ def _articles(request, articles):
     except EmptyPage:
         articles = paginator.page(paginator.num_pages)
     popular_tags = Tag.get_popular_tags()
-    return render(request, 'articles/articles.html', {'articles': articles, 'popular_tags': popular_tags})
+    return render(request, 'articles/articles.html', {
+        'articles': articles,
+        'popular_tags': popular_tags
+    })
 
 @login_required
 def articles(request):
