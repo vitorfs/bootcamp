@@ -9,61 +9,72 @@ from bootcamp.decorators import ajax_required
 import markdown
 from django.template.loader import render_to_string
 
-def _articles(request, articles):
-    paginator = Paginator(articles, 10)
-    page = request.GET.get('page')
-    try:
-        articles = paginator.page(page)
-    except PageNotAnInteger:
-        articles = paginator.page(1)
-    except EmptyPage:
-        articles = paginator.page(paginator.num_pages)
-    popular_tags = Tag.get_popular_tags()
-    return render(request, 'articles/articles.html', {'articles': articles, 'popular_tags': popular_tags})
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import FormView
 
-@login_required
-def articles(request):
-    all_articles = Article.get_published()
-    return _articles(request, all_articles)
+class ArticlesList(ListView):
+    model = Article
+    queryset = Article.get_published()
+    paginate_by = 10
+    context_object_name = 'articles'
 
-@login_required
-def article(request, slug):
-    article = get_object_or_404(Article, slug=slug, status=Article.PUBLISHED)
-    return render(request, 'articles/article.html', {'article': article})
+    def get_context_data(self, *args, **kwargs):
+        context = super(ArticlesList, self).get_context_data(*args, **kwargs)
+        context.update({'popular_tags': Tag.get_popular_tags()})
+        return context
 
-@login_required
-def tag(request, tag_name):
-    tags = Tag.objects.filter(tag=tag_name)
-    articles = []
-    for tag in tags:
-        if tag.article.status == Article.PUBLISHED:
-            articles.append(tag.article)
-    return _articles(request, articles)
+class ArticleView(DetailView):
+    model = Article
+    context_obj_name = 'article'
 
-@login_required
-def write(request):
-    if request.method == 'POST':
-        form = ArticleForm(request.POST)
+
+class ArticleCreateView(FormView):
+    model = Article
+    form_class = ArticleForm
+    template_name = 'articles/article_form.html'
+    success_url = '/articles/'
+
+    def post(self, request):
+        form = ArticleForm(request.POST, request.FILES)
+        a = request.POST.get('action').lower()
         if form.is_valid():
-            article = Article()
-            article.create_user = request.user
-            article.title = form.cleaned_data.get('title')
-            article.content = form.cleaned_data.get('content')
-            status = form.cleaned_data.get('status')
-            if status in [Article.PUBLISHED, Article.DRAFT]:
-                article.status = form.cleaned_data.get('status')
+            if a == 'publish':
+                status = Article.PUBLISHED
+            elif a == 'draft':
+                status = Article.DRAFT
+            article = Article(
+                title = form.cleaned_data.get('title'),
+                content = form.cleaned_data.get('content'),
+                create_user = request.user,
+                status = status
+            )
             article.save()
             tags = form.cleaned_data.get('tags')
             article.create_tags(tags)
-            return redirect('/articles/')
-    else:
-        form = ArticleForm()
-    return render(request, 'articles/write.html', {'form': form})
+            return redirect(self.success_url)
+        else:
+            return super(ArticleCreateView, self).form_invalid(form) 
 
-@login_required
-def drafts(request):
-    drafts = Article.objects.filter(create_user=request.user, status=Article.DRAFT)
-    return render(request, 'articles/drafts.html', {'drafts': drafts})
+
+class ArticleTagView(ArticlesList):
+    model = Tag
+    template_name = 'articles/article_list.html'
+    context_object_name = 'articles'
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = Tag.objects.filter(article__status = Article.PUBLISHED, 
+                                      tag = self.kwargs.get('tag_name'))
+        return [t.article for t in queryset]
+    
+
+class ArticlesDraftListView(ArticlesList):
+    context_object_name = 'drafts'
+    template_name  = 'articles/drafts.html' 
+
+    def get_queryset(self):
+        return Article.objects.filter(create_user = self.request.user,
+                                      status = Article.DRAFT)
 
 @login_required
 def edit(request, id):
@@ -84,7 +95,6 @@ def edit(request, id):
     else:
         form = ArticleForm(instance=article, initial={'tags': tags})
     return render(request, 'articles/edit.html', {'form': form})
-
 
 @login_required
 @ajax_required
