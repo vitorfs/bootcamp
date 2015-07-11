@@ -1,5 +1,5 @@
-from unipath import Path
-PROJECT_DIR = Path(__file__).parent
+import os
+PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
 
 from decouple import config
 
@@ -30,6 +30,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.admin',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'south',
@@ -41,6 +42,11 @@ INSTALLED_APPS = (
     'bootcamp.messages',
     'bootcamp.questions',
     'bootcamp.search',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.messages.context_processors.messages',
+    'django.contrib.auth.context_processors.auth',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -76,23 +82,24 @@ LANGUAGES = (
     ('es', 'Spanish')
 )
 
-LOCALE_PATHS = (PROJECT_DIR.child('locale'), )
+LOCALE_PATHS = (
+    os.path.join(PROJECT_DIR, 'locale'),
+)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
-STATIC_ROOT = PROJECT_DIR.parent.child('staticfiles')
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    PROJECT_DIR.child('static'),
+    os.path.join(PROJECT_DIR, 'static'),
 )
 
-MEDIA_ROOT = PROJECT_DIR.parent.child('media')
+MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media')
 MEDIA_URL = '/media/'
 
 TEMPLATE_DIRS = (
-    PROJECT_DIR.child('templates'),
+    os.path.join(PROJECT_DIR, 'templates'),
 )
 
 LOGIN_URL = '/'

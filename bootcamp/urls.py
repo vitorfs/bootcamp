@@ -1,9 +1,12 @@
 from django.conf.urls import patterns, include, url
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib import admin
+admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^$', 'bootcamp.core.views.home', name='home'),
+    url(r'^siteadmin/', include(admin.site.urls)),
     url(r'^login', 'django.contrib.auth.views.login', {'template_name': 'core/cover.html'}, name='login'),
     url(r'^logout', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='logout'),
     url(r'^signup/$', 'bootcamp.auth.views.signup', name='signup'),

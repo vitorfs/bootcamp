@@ -1,3 +1,5 @@
+from django.core.cache import cache
+
 from django.shortcuts import render, redirect, get_object_or_404
 from bootcamp.feeds.views import feeds
 from django.contrib.auth.models import User
@@ -12,6 +14,7 @@ from PIL import Image
 import os
 
 def home(request):
+    # cache.clear()
     if request.user.is_authenticated():
         return feeds(request)
     else:
@@ -32,7 +35,7 @@ def profile(request, username):
     if feeds:
         from_feed = feeds[0].id
     return render(request, 'core/profile.html', {
-        'page_user': page_user, 
+        'page_user': page_user,
         'feeds': feeds,
         'from_feed': from_feed,
         'page': 1

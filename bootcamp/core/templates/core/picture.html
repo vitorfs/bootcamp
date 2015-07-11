@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 {% load i18n %}
 
 {% block title %}{% trans 'Account Settings' %}{% endblock %}
 
 {% block head %}
-  <link href="{{ STATIC_URL }}css/jquery.Jcrop.min.css" rel="stylesheet">
-  <script src="{{ STATIC_URL }}js/jquery.Jcrop.min.js"></script>
-  <script src="{{ STATIC_URL }}js/picture.js"></script>
+  <link href="{% static 'css/jquery.Jcrop.min.css' %}" rel="stylesheet">
+  <script src="{% static 'js/jquery.Jcrop.min.js' %}"></script>
+  <script src="{% static 'js/picture.js' %}"></script>
 {% endblock head %}
 
 {% block main %}

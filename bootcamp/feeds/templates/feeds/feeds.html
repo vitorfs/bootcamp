@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 {% load i18n %}
 
 {% block head %}
-  <link href="{{ STATIC_URL }}css/feeds.css" rel="stylesheet">
-  <script src="{{ STATIC_URL }}js/jquery.bullseye-1.0-min.js"></script>
-  <script src="{{ STATIC_URL }}js/feeds.js"></script>
+  <link href="{% static 'css/feeds.css' %}" rel="stylesheet">
+  <script src="{% static 'js/jquery.bullseye-1.0-min.js' %}"></script>
+  <script src="{% static 'js/feeds.js' %}"></script>
 {% endblock head %}
 
 {% block main %}
@@ -40,7 +41,7 @@
     {% endfor %}
   </ul>
   <div class="load">
-    <img src="{{ STATIC_URL }}img/loading.gif">
+    <img src="{% static 'img/loading.gif' %}">
   </div>
   <form method="get" action="{% url 'load' %}" id="load_feed" autocomplete="off">
     <input type="hidden" name="feed_source" id="feed_source" value="all">
