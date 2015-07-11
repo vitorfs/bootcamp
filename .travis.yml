@@ -4,6 +4,6 @@ python:
 install: "pip install -r requirements.pip"
 before_script:
   - cp .env.example .env
-  - python manage.py syncdb
+  - python manage.py syncdb --noinput
 script:
   - python manage.py test
