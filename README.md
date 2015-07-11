@@ -1,5 +1,7 @@
 # Bootcamp
 
+[![Build Status](https://travis-ci.org/vitorfs/bootcamp.svg?branch=master)](https://travis-ci.org/vitorfs/bootcamp)
+
 Bootcamp is an open source **enterprise social network** built with [Python][0] using the [Django Web Framework][1].
 
 The project has three basic apps:
