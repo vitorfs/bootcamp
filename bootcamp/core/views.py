@@ -4,7 +4,7 @@ from PIL import Image
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.conf import settings as django_settings
 from django.shortcuts import render, redirect, get_object_or_404
 
@@ -22,8 +22,16 @@ def home(request):
 
 @login_required
 def network(request):
-    users = User.objects.filter(is_active=True).order_by('username')
-    return render(request, 'core/network.html', {'users': users})
+    users_list = User.objects.filter(is_active=True).order_by('username')
+    paginator = Paginator(users_list, 100)
+    page = request.GET.get('page')
+    try:
+        users = paginator.page(page)
+    except PageNotAnInteger:
+        users = paginator.page(1)
+    except EmptyPage:
+        users = paginator.page(paginator.num_pages)
+    return render(request, 'core/network.html', { 'users': users })
 
 @login_required
 def profile(request, username):

@@ -13,6 +13,7 @@
     <h1>Network</h1>
   </div>
   <div class="users">
+
     <div class="row">
       {% for user in users %}
         <div class="col-md-4">
@@ -26,7 +27,6 @@
                 <p><strong>{% trans 'Job Title' %}:</strong> {{ user.profile.job_title }}</p>
               {% endif %}
               <p><strong>{% trans 'Username' %}: </strong> {{ user.username }}</p>
-              <p><strong>{% trans 'Email' %}:</strong> {{ user.email }}</p>
               {% if user.profile.location %}
                 <p><strong>{% trans 'Location' %}:</strong> {{ user.profile.location }}</p>
               {% endif %}
@@ -39,5 +39,12 @@
         {% if forloop.counter|divisibleby:3 %}</div><div class="row">{% endif %}
       {% endfor %}
     </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        {% include 'paginator.html' with paginator=users %}
+      </div>
+    </div>
+
   </div>
 {% endblock main %}
