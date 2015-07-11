@@ -1,20 +1,20 @@
-from django.core.cache import cache
+import os
+from PIL import Image
 
-from django.shortcuts import render, redirect, get_object_or_404
-from bootcamp.feeds.views import feeds
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.core.paginator import Paginator
+from django.conf import settings as django_settings
+from django.shortcuts import render, redirect, get_object_or_404
+
+from bootcamp.core.forms import ProfileForm, ChangePasswordForm
 from bootcamp.feeds.models import Feed
 from bootcamp.feeds.views import FEEDS_NUM_PAGES
-from django.core.paginator import Paginator
-from django.contrib.auth.decorators import login_required
-from bootcamp.core.forms import ProfileForm, ChangePasswordForm
-from django.contrib import messages
-from django.conf import settings as django_settings
-from PIL import Image
-import os
+from bootcamp.feeds.views import feeds
+
 
 def home(request):
-    # cache.clear()
     if request.user.is_authenticated():
         return feeds(request)
     else:
