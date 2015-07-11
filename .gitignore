@@ -57,3 +57,5 @@ docs/_build/
 media/
 
 .env
+
+venv_bootcamp/
