@@ -37,6 +37,7 @@ def search(request):
             'querystring': querystring,
             'active': search_type,
             'count': count,
-            'results': results[search_type] })
+            'results': results[search_type],
+        })
     else:
-        return render(request, 'search/search.html', { 'hide_search': True })
+        return render(request, 'search/search.html', {'hide_search': True})

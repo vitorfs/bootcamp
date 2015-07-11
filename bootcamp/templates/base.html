@@ -1,3 +1,4 @@
+{% load static from staticfiles %}
 {% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
@@ -6,16 +7,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}Bootcamp{% endblock %}</title>
-    <link rel="icon" type="image/png" href="{{ STATIC_URL }}img/favicon.png">
-    <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet">
-    <link href="{{ STATIC_URL }}css/bootcamp.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootcamp.css' %}" rel="stylesheet">
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <script src="{{ STATIC_URL }}js/jquery-2.1.1.min.js"></script>
-    <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
-    <script src="{{ STATIC_URL }}js/bootcamp.js"></script>
+    <script src="{% static 'js/jquery-2.1.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/bootcamp.js' %}"></script>
 
     {% block head %}
     {% endblock head %}
@@ -80,9 +81,9 @@
           {% endblock main %}
         </div>
       </main>
-      <script src="{{ STATIC_URL }}js/notifications.js"></script>
-      <script src="{{ STATIC_URL }}js/check_messages.js"></script>
+      <script src="{% static 'js/notifications.js' %}"></script>
+      <script src="{% static 'js/check_messages.js' %}"></script>
     {% endblock body %}
-    <script src="{{ STATIC_URL }}js/ga.js"></script>
+    <script src="{% static 'js/ga.js' %}"></script>
   </body>
 </html>

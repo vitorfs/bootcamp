@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 
 {% block head %}
-  <link href="{{ STATIC_URL }}css/messages.css" rel="stylesheet">
-  <script src="{{ STATIC_URL }}js/messages.js"></script>
-  <script src="{{ STATIC_URL }}js/jquery.typeahead.bundle.js"></script>
+  <link href="{% static 'css/messages.css' %}" rel="stylesheet">
+  <script src="{% static 'js/messages.js' %}"></script>
+  <script src="{% static 'js/jquery.typeahead.bundle.js' %}"></script>
 {% endblock head %}
 
 {% block main %}

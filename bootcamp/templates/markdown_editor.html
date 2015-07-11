@@ -1,5 +1,6 @@
-<script src="{{ STATIC_URL }}js/jquery.selection.js"></script>
-<script src="{{ STATIC_URL }}js/bootcamp.markdown.js"></script>
+{% load staticfiles %}
+<script src="{% static 'js/jquery.selection.js' %}"></script>
+<script src="{% static 'js/bootcamp.markdown.js' %}"></script>
 
 <div class="markdown">
   <div class="modal fade" id="markdown_insert_link">

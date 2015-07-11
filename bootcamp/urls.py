@@ -2,6 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 urlpatterns = patterns('',
     url(r'^$', 'bootcamp.core.views.home', name='home'),
     url(r'^login', 'django.contrib.auth.views.login', {'template_name': 'core/cover.html'}, name='login'),
