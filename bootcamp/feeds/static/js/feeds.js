@@ -269,26 +269,6 @@ $(function () {
   };
   track_comments();
 
-  $("main").on("mouseenter", "ul.stream > li", function (event) {
-    var li = $(this);
-    $(li).children(".post").children(".remove-feed").show();
-  });
-
-  $("main").on("mouseleave", "ul.stream > li", function (event) {
-    var li = $(this);
-    $(li).children(".post").children(".remove-feed").hide();
-  });
-
-  $("ul.stream").on("mouseenter", "li div.post div.comments ol > li", function (event) {
-    var li = $(this);
-    $(li).children(".remove-feed").show();
-  });
-
-  $("ul.stream").on("mouseleave", "li div.post div.comments ol > li", function (event) {
-    var li = $(this);
-    $(li).children(".remove-feed").hide();
-  });
-
   $("ul.stream").on("click", ".remove-feed", function () {
     var li = $(this).closest("li");
     var feed = $(li).attr("feed-id");

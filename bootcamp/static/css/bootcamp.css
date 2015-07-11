@@ -1,7 +1,6 @@
-@import url(http://fonts.googleapis.com/css?family=Audiowide);
+@import url(https://fonts.googleapis.com/css?family=Audiowide);
 
 body {
-  background-color: #f6f6f6;
   padding-top: 70px;
 }
 
@@ -12,13 +11,7 @@ header .navbar-brand {
 }
 
 main .container {
-  margin-bottom: 2em;
-  border: 1px solid #ddd;
-  background-color: #ffffff;
-  padding-top: 1.2em;
-  padding-bottom: 1.2em;
-  border-radius: .3em;
-  box-shadow: 0 1px 3px #cccccc;
+
 }
 
 .page-header {

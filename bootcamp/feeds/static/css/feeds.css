@@ -15,7 +15,7 @@ ul.stream li:last-child {
 
 ul.stream li a img.user {
   width: 60px;
-  border-radius: 5px;
+  border-radius: 100px;
   float: left;
 }
 
@@ -69,6 +69,8 @@ ul.stream li div.post div.interaction a {
 .compose {
   display: none;
   border-bottom: 1px solid #eee;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .compose h2 {
@@ -143,10 +145,22 @@ ul.stream li div.post div.interaction a {
   font-size: .8em; 
   padding-top: .2em;
   float: right;
-  display: none;
   cursor: pointer;
 }
 
 .remove-feed:hover {
   color: #333333;
+}
+
+.panel-feed {
+  margin-top: 20px;
+}
+
+.panel-feed .panel-body {
+  padding: 0;
+}
+
+.feed-container {
+  padding-left: 15px;
+  padding-right: 15px;
 }
