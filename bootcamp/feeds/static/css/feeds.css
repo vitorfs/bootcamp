@@ -134,6 +134,7 @@ ul.stream li div.post div.interaction a {
   padding-top: 1em;
   border-top: 1px solid #eeeeee;
   display: none;
+  padding: 15px 0;
 }
 
 .loadcomment {
