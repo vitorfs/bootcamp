@@ -159,7 +159,7 @@ $(function () {
           }
         },
         complete: function () {
-          //$(".load").hide();
+          $(".load").hide();
         }
       });
     }
