@@ -21,7 +21,7 @@ DATABASES = {
       default = config('DATABASE_URL'))
 }
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['*',]
 
 # Application definition
 
@@ -32,7 +32,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+
     'south',
+
     'bootcamp.activities',
     'bootcamp.articles',
     'bootcamp.auth',
