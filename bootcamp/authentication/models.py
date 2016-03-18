@@ -14,6 +14,9 @@ class Profile(models.Model):
     #reputation = models.IntegerField(default=0)
     #language = models.CharField(max_length=5, default='en')
 
+    class Meta:
+        db_table = 'auth_profile'
+
     def get_url(self):
         url = self.url
         if "http://" not in self.url and "https://" not in self.url and len(self.url) > 0:

@@ -1,4 +1,4 @@
-{% extends 'messages/base_messages.html' %}
+{% extends 'messenger/base_messages.html' %}
 {% load i18n %}
 
 {% block title %}{% trans 'Inbox' %}{% endblock %}
@@ -9,7 +9,7 @@
   {% if messages %}
   <ul class="conversation">
     {% for message in messages %}
-      {% include 'messages/includes/partial_message.html' with message=message %}
+      {% include 'messenger/includes/partial_message.html' with message=message %}
     {% endfor %}
     <li class="send-message">
       <img src="{{ user.profile.get_picture }}" class="picture">

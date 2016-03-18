@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from bootcamp.decorators import ajax_required
 from django.contrib.auth.models import User
 import json
-from bootcamp.messages.models import Message
+from bootcamp.messenger.models import Message
 
 @login_required
 def inbox(request):
@@ -20,7 +20,7 @@ def inbox(request):
         for conversation in conversations:
             if conversation['user'].username == active_conversation:
                 conversation['unread'] = 0
-    return render(request, 'messages/inbox.html', {
+    return render(request, 'messenger/inbox.html', {
         'messages': messages,
         'conversations': conversations,
         'active': active_conversation
@@ -35,7 +35,7 @@ def messages(request, username):
     for conversation in conversations:
         if conversation['user'].username == username:
             conversation['unread'] = 0
-    return render(request, 'messages/inbox.html', {
+    return render(request, 'messenger/inbox.html', {
         'messages': messages,
         'conversations': conversations,
         'active': active_conversation
@@ -62,7 +62,7 @@ def new(request):
         return redirect(u'/messages/{0}/'.format(to_user_username))
     else:
         conversations = Message.get_conversations(user=request.user)
-        return render(request, 'messages/new.html', {'conversations': conversations})
+        return render(request, 'messenger/new.html', {'conversations': conversations})
 
 @login_required
 @ajax_required
@@ -81,7 +81,7 @@ def send(request):
             return HttpResponse()
         if from_user != to_user:
             msg = Message.send_message(from_user, to_user, message)
-            return render(request, 'messages/includes/partial_message.html', {'message': msg})
+            return render(request, 'messenger/includes/partial_message.html', {'message': msg})
         return HttpResponse()
     else:
         return HttpResponseBadRequest()

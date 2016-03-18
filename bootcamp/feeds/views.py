@@ -4,7 +4,7 @@ from bootcamp.feeds.models import Feed
 from bootcamp.activities.models import Activity, Notification
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template.loader import render_to_string
-from django.core.context_processors import csrf
+from django.template.context_processors import csrf
 import json
 from django.contrib.auth.decorators import login_required
 from bootcamp.decorators import ajax_required

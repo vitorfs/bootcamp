@@ -15,6 +15,7 @@ class Message(models.Model):
         verbose_name = _('Message')
         verbose_name_plural = _('Messages')
         ordering = ('date',)
+        db_table = 'messages_message'
 
     def __unicode__(self):
         return self.message
