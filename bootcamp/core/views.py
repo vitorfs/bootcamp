@@ -116,6 +116,7 @@ def upload_picture(request):
             im.save(filename)
         return redirect('/settings/picture/?upload_picture=uploaded')
     except Exception, e:
+        print e
         return redirect('/settings/picture/')
 
 @login_required

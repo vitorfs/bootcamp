@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
-{% load staticfiles %}
-{% load i18n %}
+
+{% load i18n static %}
 
 {% block title %}{% trans 'Account Settings' %}{% endblock %}
 
@@ -48,7 +48,7 @@
                 <div class="modal-body">
                   <div class="selected-picture">
                     <p>{% trans 'Crop the profile picture and then click on the' %} <strong>{% trans 'Save Picture' %}</strong> {% trans 'button' %}</p>
-                    <img src="{{ MEDIA_URL }}profile_pictures/{{ user.username }}_tmp.jpg?_={% now 'U' %}" id="crop-picture">
+                    <img src="{% get_media_prefix %}profile_pictures/{{ user.username }}_tmp.jpg?_={% now 'U' %}" id="crop-picture">
                     <input type="hidden" id="x" name="x" />
                     <input type="hidden" id="y" name="y" />
                     <input type="hidden" id="w" name="w" />
