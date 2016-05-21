@@ -62,7 +62,7 @@ def settings(request):
             user.profile.url = form.cleaned_data.get('url')
             user.profile.location = form.cleaned_data.get('location')
             user.save()
-            messages.add_message(request, messages.SUCCESS, 'Your profile were successfully edited.')
+            messages.add_message(request, messages.SUCCESS, 'Your profile was successfully edited.')
     else:
         form = ProfileForm(instance=user, initial={
             'job_title': user.profile.job_title,
@@ -90,7 +90,7 @@ def password(request):
             new_password = form.cleaned_data.get('new_password')
             user.set_password(new_password)
             user.save()
-            messages.add_message(request, messages.SUCCESS, 'Your password were successfully changed.')
+            messages.add_message(request, messages.SUCCESS, 'Your password was successfully changed.')
     else:
         form = ChangePasswordForm(instance=user)
     return render(request, 'core/password.html', {'form':form})
