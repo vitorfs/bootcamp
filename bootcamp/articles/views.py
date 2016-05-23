@@ -48,6 +48,8 @@ def write(request):
     if request.method == 'POST':
         form = ArticleForm(request.POST)
         if form.is_valid():
+            print "request:"
+            print vars(request)
             article = Article()
             article.create_user = request.user
             article.title = form.cleaned_data.get('title')
