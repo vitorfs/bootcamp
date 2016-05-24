@@ -11,26 +11,23 @@ class ArticleTest(TestCase):
 
     def test_validate_article_edition(self):
         c = Client()
-        c.login(username="teste123", password="secret")
 
-        user = User.objects.create_user(username="teste123",email="reallynice@gmail.com",
-                password="supersecret123")
+        user1 = User.objects.create_user(username="teste1234",email="reallynice@gmail.com", password="supersecret123")
+
+        user2 = User.objects.create_user(username="teste12345",email="reallynice2@gmail.com", password="supersecret123")
 
         article = Article()
         article.title = "nicetitle"
         article.content = "nicecontent"
-        article.create_user = user
+        article.create_user = user2
+        article.create_user.id = user2.id
         article.save()
 
-        response = self.client.get('/articles/edit/'+str(article.id), id=1 )
+        self.client.login(username="teste1234", password="supersecret123")
+        response = self.client.get(reverse('edit_article', kwargs = {'id':'1'} ))
+        self.assertEqual(response.status_code, 302)
+
+        self.client.login(username="teste12345", password="supersecret123")
+        response = self.client.get(reverse('edit_article', kwargs = {'id':'1'} ), user=user2)
         self.assertEqual(response.status_code, 200)
-        # request = self.factory.get('/articles/edit/1')
-        # response = my_view(request)
-        # self.assertEqual(request.status_code, 403)
-
-        # response = self.client.get('/articles/edit/1')
-        # self.assertEqual(response.status_code, 403)
-
-    # def test_validate_article_creation(self):
-    #     current
 
