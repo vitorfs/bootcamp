@@ -27,7 +27,12 @@ class ArticleTest(TestCase):
         response = self.client.get(reverse('edit_article', kwargs = {'id':'1'} ))
         self.assertEqual(response.status_code, 302)
 
+        response = self.client.post(reverse('edit_article', kwargs = {'id':'1'} ))
+        self.assertEqual(response.status_code, 302)
+
         self.client.login(username="teste12345", password="supersecret123")
         response = self.client.get(reverse('edit_article', kwargs = {'id':'1'} ), user=user2)
         self.assertEqual(response.status_code, 200)
 
+        response = self.client.post(reverse('edit_article', kwargs = {'id':'1'} ))
+        self.assertEqual(response.status_code, 200)

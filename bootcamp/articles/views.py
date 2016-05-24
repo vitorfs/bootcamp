@@ -75,13 +75,14 @@ def edit(request, id):
     tags = ''
     if id:
         article = get_object_or_404(Article, pk=id)
-        if article.create_user.id != request.user.id:
-            return redirect('/')
         for tag in article.get_tags():
             tags = u'{0} {1}'.format(tags, tag.tag)
         tags = tags.strip()
     else:
         article = Article(create_user=request.user)
+
+    if article.create_user.id != request.user.id:
+        return redirect('/')
 
     if request.POST:
         form = ArticleForm(request.POST, instance=article)
