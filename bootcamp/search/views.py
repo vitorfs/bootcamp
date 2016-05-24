@@ -18,7 +18,7 @@ def search(request):
                 search_type = 'feed'
         except Exception, e:
             search_type = 'feed'
-        
+
         count = {}
         results = {}
 
@@ -26,7 +26,7 @@ def search(request):
         results['articles'] = Article.objects.filter(Q(title__icontains=querystring) | Q(content__icontains=querystring))
         results['questions'] = Question.objects.filter(Q(title__icontains=querystring) | Q(description__icontains=querystring))
         results['users'] = User.objects.filter(Q(username__icontains=querystring) | Q(first_name__icontains=querystring) | Q(last_name__icontains=querystring))
-        
+
         count['feed'] = results['feed'].count()
         count['articles'] = results['articles'].count()
         count['questions'] = results['questions'].count()

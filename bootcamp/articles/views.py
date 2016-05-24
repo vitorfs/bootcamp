@@ -79,6 +79,9 @@ def edit(request, id):
     else:
         article = Article(create_user=request.user)
 
+    if article.create_user.id != request.user.id:
+        return redirect('home')
+
     if request.POST:
         form = ArticleForm(request.POST, instance=article)
         if form.is_valid():
