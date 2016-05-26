@@ -37,7 +37,8 @@ class FeedsTest(TestCase):
     def test_get_feeds_after(self):
         assert self.feed1.id < self.feed2.id
         assert self.feed1.id < self.feed3.id
-        feeds = self.feed1.get_feeds_after(self.feed1.id) # returns a list with the posterior feeds
+        # returns a list with the posterior feeds
+        feeds = self.feed1.get_feeds_after(self.feed1.id)
         posterior_feeds = []
         posterior_feeds.append(self.feed3)
         posterior_feeds.append(self.feed2)
@@ -45,7 +46,8 @@ class FeedsTest(TestCase):
 
     def test_get_comments(self):
         feed_comment = self.feed1.comment(self.feed2.user, self.feed2.post)
-        feed_test = Feed(user=self.user2, post="Commenting feed1", parent=self.feed1)
+        feed_test = Feed(
+            user=self.user2, post="Commenting feed1", parent=self.feed1)
         self.assertTrue(feed_comment.parent == feed_test.parent)
 
     def test_calculate_comments(self):
@@ -55,17 +57,29 @@ class FeedsTest(TestCase):
         self.assertEqual(self.feed1.calculate_comments(), comments_quantity)
 
     def test_calculate_likes(self):
-        like = Activity.objects.create(activity_type=Activity.LIKE, feed=self.feed1.id, user=self.feed1.user)
+        like = Activity.objects.create(
+            activity_type=Activity.LIKE,
+            feed=self.feed1.id,
+            user=self.feed1.user)
         assert self.feed1.calculate_likes() == 1
 
     def test_get_likes(self):
         like = []
-        like.append(Activity.objects.create(activity_type=Activity.LIKE, feed=self.feed1.id, user=self.feed1.user))
+        like.append(Activity.objects.create(
+            activity_type=Activity.LIKE,
+            feed=self.feed1.id,
+            user=self.feed1.user))
         self.assertItemsEqual(self.feed1.get_likes(), like)
 
     def test_get_likers(self):
-        Activity.objects.create(activity_type=Activity.LIKE, feed=self.feed1.id, user=self.user2)
-        Activity.objects.create(activity_type=Activity.LIKE, feed=self.feed1.id, user=self.user3)
+        Activity.objects.create(
+            activity_type=Activity.LIKE,
+            feed=self.feed1.id,
+            user=self.user2)
+        Activity.objects.create(
+            activity_type=Activity.LIKE,
+            feed=self.feed1.id,
+            user=self.user3)
         likers = []
         likers.append(self.user2)
         likers.append(self.user3)
