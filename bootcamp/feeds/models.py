@@ -32,6 +32,7 @@ class Feed(models.Model):
 
     @staticmethod
     def get_feeds_after(feed):
+        'Captures feeds greater then feed id'
         feeds = Feed.objects.filter(parent=None, id__gt=feed)
         return feeds
 
@@ -39,13 +40,15 @@ class Feed(models.Model):
         return Feed.objects.filter(parent=self).order_by('date')
 
     def calculate_likes(self):
-        likes = Activity.objects.filter(activity_type=Activity.LIKE, feed=self.pk).count()
+        likes = Activity.objects.filter(
+            activity_type=Activity.LIKE, feed=self.pk).count()
         self.likes = likes
         self.save()
         return self.likes
 
     def get_likes(self):
-        likes = Activity.objects.filter(activity_type=Activity.LIKE, feed=self.pk)
+        likes = Activity.objects.filter(
+            activity_type=Activity.LIKE, feed=self.pk)
         return likes
 
     def get_likers(self):
@@ -63,9 +66,11 @@ class Feed(models.Model):
     def comment(self, user, post):
         feed_comment = Feed(user=user, post=post, parent=self)
         feed_comment.save()
+        '.count returns how many  occurs in list.'
         self.comments = Feed.objects.filter(parent=self).count()
         self.save()
         return feed_comment
 
     def linkfy_post(self):
+        'Turns the post into a clickable link'
         return bleach.linkify(escape(self.post))

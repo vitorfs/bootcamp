@@ -26,11 +26,13 @@ def inbox(request):
         'active': active_conversation
         })
 
+
 @login_required
 def messages(request, username):
     conversations = Message.get_conversations(user=request.user)
     active_conversation = username
-    messages = Message.objects.filter(user=request.user, conversation__username=username)
+    messages = Message.objects.filter(
+        user=request.user, conversation__username=username)
     messages.update(is_read=True)
     for conversation in conversations:
         if conversation['user'].username == username:
@@ -41,6 +43,7 @@ def messages(request, username):
         'active': active_conversation
         })
 
+
 @login_required
 def new(request):
     if request.method == 'POST':
@@ -50,7 +53,8 @@ def new(request):
             to_user = User.objects.get(username=to_user_username)
         except Exception, e:
             try:
-                to_user_username = to_user_username[to_user_username.rfind('(')+1:len(to_user_username)-1]
+                to_user_username = to_user_username[
+                    to_user_username.rfind('(')+1:len(to_user_username)-1]
                 to_user = User.objects.get(username=to_user_username)
             except Exception, e:
                 return redirect('/messages/new/')
@@ -62,12 +66,15 @@ def new(request):
         return redirect(u'/messages/{0}/'.format(to_user_username))
     else:
         conversations = Message.get_conversations(user=request.user)
-        return render(request, 'messenger/new.html', {'conversations': conversations})
+        return render(
+            request, 'messenger/new.html', {'conversations': conversations})
+
 
 @login_required
 @ajax_required
 def delete(request):
     return HttpResponse()
+
 
 @login_required
 @ajax_required
@@ -81,10 +88,13 @@ def send(request):
             return HttpResponse()
         if from_user != to_user:
             msg = Message.send_message(from_user, to_user, message)
-            return render(request, 'messenger/includes/partial_message.html', {'message': msg})
+            return render(
+                request, 'messenger/includes/partial_message.html',
+                {'message': msg})
         return HttpResponse()
     else:
         return HttpResponseBadRequest()
+
 
 @login_required
 @ajax_required
@@ -94,11 +104,13 @@ def users(request):
     template = u'{0} ({1})'
     for user in users:
         if user.profile.get_screen_name() != user.username:
-            dump.append(template.format(user.profile.get_screen_name(), user.username))
+            dump.append(
+                template.format(user.profile.get_screen_name(), user.username))
         else:
             dump.append(user.username)
     data = json.dumps(dump)
     return HttpResponse(data, content_type='application/json')
+
 
 @login_required
 @ajax_required
