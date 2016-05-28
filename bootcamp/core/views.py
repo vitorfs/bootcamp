@@ -20,6 +20,7 @@ def home(request):
     else:
         return render(request, 'core/cover.html')
 
+
 @login_required
 def network(request):
     users_list = User.objects.filter(is_active=True).order_by('username')
@@ -31,7 +32,8 @@ def network(request):
         users = paginator.page(1)
     except EmptyPage:
         users = paginator.page(paginator.num_pages)
-    return render(request, 'core/network.html', { 'users': users })
+    return render(request, 'core/network.html', {'users': users})
+
 
 @login_required
 def profile(request, username):
@@ -49,6 +51,7 @@ def profile(request, username):
         'page': 1
         })
 
+
 @login_required
 def settings(request):
     user = request.user
@@ -62,14 +65,18 @@ def settings(request):
             user.profile.url = form.cleaned_data.get('url')
             user.profile.location = form.cleaned_data.get('location')
             user.save()
-            messages.add_message(request, messages.SUCCESS, 'Your profile was successfully edited.')
+            messages.add_message(request,
+                                 messages.SUCCESS,
+                                 'Your profile was successfully edited.')
+
     else:
         form = ProfileForm(instance=user, initial={
             'job_title': user.profile.job_title,
             'url': user.profile.url,
             'location': user.profile.location
             })
-    return render(request, 'core/settings.html', {'form':form})
+    return render(request, 'core/settings.html', {'form': form})
+
 
 @login_required
 def picture(request):
@@ -77,9 +84,13 @@ def picture(request):
     try:
         if request.GET.get('upload_picture') == 'uploaded':
             uploaded_picture = True
+
     except Exception, e:
         pass
-    return render(request, 'core/picture.html', {'uploaded_picture': uploaded_picture})
+
+    return render(request, 'core/picture.html',
+                  {'uploaded_picture': uploaded_picture})
+
 
 @login_required
 def password(request):
@@ -90,10 +101,14 @@ def password(request):
             new_password = form.cleaned_data.get('new_password')
             user.set_password(new_password)
             user.save()
-            messages.add_message(request, messages.SUCCESS, 'Your password was successfully changed.')
+            messages.add_message(request, messages.SUCCESS,
+                                 'Your password was successfully changed.')
+
     else:
         form = ChangePasswordForm(instance=user)
-    return render(request, 'core/password.html', {'form':form})
+
+    return render(request, 'core/password.html', {'form': form})
+
 
 @login_required
 def upload_picture(request):
@@ -105,7 +120,7 @@ def upload_picture(request):
         filename = profile_pictures + request.user.username + '_tmp.jpg'
         with open(filename, 'wb+') as destination:
             for chunk in f.chunks():
-                destination.write(chunk)    
+                destination.write(chunk)
         im = Image.open(filename)
         width, height = im.size
         if width > 350:
@@ -114,10 +129,13 @@ def upload_picture(request):
             new_size = new_width, new_height
             im.thumbnail(new_size, Image.ANTIALIAS)
             im.save(filename)
+
         return redirect('/settings/picture/?upload_picture=uploaded')
+
     except Exception, e:
         print e
         return redirect('/settings/picture/')
+
 
 @login_required
 def save_uploaded_picture(request):
@@ -133,6 +151,8 @@ def save_uploaded_picture(request):
         cropped_im.thumbnail((200, 200), Image.ANTIALIAS)
         cropped_im.save(filename)
         os.remove(tmp_filename)
+
     except Exception, e:
         pass
+
     return redirect('/settings/picture/')
