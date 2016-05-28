@@ -39,13 +39,15 @@ class Feed(models.Model):
         return Feed.objects.filter(parent=self).order_by('date')
 
     def calculate_likes(self):
-        likes = Activity.objects.filter(activity_type=Activity.LIKE, feed=self.pk).count()
+        likes = Activity.objects.filter(activity_type=Activity.LIKE,
+                                        feed=self.pk).count()
         self.likes = likes
         self.save()
         return self.likes
 
     def get_likes(self):
-        likes = Activity.objects.filter(activity_type=Activity.LIKE, feed=self.pk)
+        likes = Activity.objects.filter(activity_type=Activity.LIKE,
+                                        feed=self.pk)
         return likes
 
     def get_likers(self):
