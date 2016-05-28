@@ -1,9 +1,9 @@
 from unipath import Path
-PROJECT_DIR = Path(__file__).parent
-
 from decouple import config
-
 import dj_database_url
+
+
+PROJECT_DIR = Path(__file__).parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -17,8 +17,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 TEMPLATE_DEBUG = DEBUG
 
 DATABASES = {
-    'default': dj_database_url.config(
-      default = config('DATABASE_URL'))
+    'default': dj_database_url.config(default=config('DATABASE_URL'))
 }
 
 ALLOWED_HOSTS = ['*']
@@ -32,7 +31,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-
     'bootcamp.activities',
     'bootcamp.articles',
     'bootcamp.authentication',
