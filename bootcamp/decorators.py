@@ -1,5 +1,4 @@
-from django.http import HttpResponseBadRequest, HttpResponseRedirect
-from functools import wraps
+from django.http import HttpResponseBadRequest
 
 
 def ajax_required(f):
