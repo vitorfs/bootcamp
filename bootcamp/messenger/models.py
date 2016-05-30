@@ -54,7 +54,3 @@ class Message(models.Model):
                 })
 
         return users
-
-    # Message.objects.filter(is_read=False, user__username='vitorfs').values('to_user').annotate(Count('to_user')).order_by()
-    # Message.objects.filter(user__username='vitorfs').values('to_user', 'last').annotate(last=Max('date')).order_by()
-    # Message.objects.filter(user__username='vitorfs').values('to_user').annotate(last=Max('date')).order_by('last')
