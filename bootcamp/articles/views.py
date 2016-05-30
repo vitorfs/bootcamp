@@ -9,6 +9,7 @@ from bootcamp.decorators import ajax_required
 import markdown
 from django.template.loader import render_to_string
 
+
 def _articles(request, articles):
     paginator = Paginator(articles, 10)
     page = request.GET.get('page')
@@ -24,15 +25,18 @@ def _articles(request, articles):
         'popular_tags': popular_tags
     })
 
+
 @login_required
 def articles(request):
     all_articles = Article.get_published()
     return _articles(request, all_articles)
 
+
 @login_required
 def article(request, slug):
     article = get_object_or_404(Article, slug=slug, status=Article.PUBLISHED)
     return render(request, 'articles/article.html', {'article': article})
+
 
 @login_required
 def tag(request, tag_name):
@@ -42,6 +46,7 @@ def tag(request, tag_name):
         if tag.article.status == Article.PUBLISHED:
             articles.append(tag.article)
     return _articles(request, articles)
+
 
 @login_required
 def write(request):
@@ -63,10 +68,13 @@ def write(request):
         form = ArticleForm()
     return render(request, 'articles/write.html', {'form': form})
 
+
 @login_required
 def drafts(request):
-    drafts = Article.objects.filter(create_user=request.user, status=Article.DRAFT)
+    drafts = Article.objects.filter(create_user=request.user,
+                                    status=Article.DRAFT)
     return render(request, 'articles/drafts.html', {'drafts': drafts})
+
 
 @login_required
 def edit(request, id):
@@ -104,8 +112,10 @@ def preview(request):
             return HttpResponse(html)
         else:
             return HttpResponseBadRequest()
+
     except Exception, e:
         return HttpResponseBadRequest()
+
 
 @login_required
 @ajax_required
@@ -117,13 +127,17 @@ def comment(request):
             comment = request.POST.get('comment')
             comment = comment.strip()
             if len(comment) > 0:
-                article_comment = ArticleComment(user=request.user, article=article, comment=comment)
+                article_comment = ArticleComment(user=request.user,
+                                                 article=article,
+                                                 comment=comment)
                 article_comment.save()
             html = u''
             for comment in article.get_comments():
-                html = u'{0}{1}'.format(html, render_to_string('articles/partial_article_comment.html', {'comment': comment}))
+                html = u'{0}{1}'.format(html, render_to_string('articles/partial_article_comment.html',
+                                        {'comment': comment}))
             return HttpResponse(html)
         else:
             return HttpResponseBadRequest()
+
     except Exception, e:
         return HttpResponseBadRequest()
