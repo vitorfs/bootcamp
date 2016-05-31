@@ -1,10 +1,11 @@
+import urllib
+import hashlib
+import os.path
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.db import models
 from django.conf import settings
-import os.path
 from bootcamp.activities.models import Notification
-import urllib, hashlib
 
 
 class Profile(models.Model):

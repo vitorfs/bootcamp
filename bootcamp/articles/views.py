@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponseForbidden, HttpResponseBadRequest, HttpResponse
+from django.http import HttpResponseBadRequest, HttpResponse
 from bootcamp.articles.models import Article, Tag, ArticleComment
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from bootcamp.articles.forms import ArticleForm
-from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from bootcamp.decorators import ajax_required
 import markdown
@@ -135,7 +134,9 @@ def comment(request):
             for comment in article.get_comments():
                 html = u'{0}{1}'.format(html, render_to_string('articles/partial_article_comment.html',
                                         {'comment': comment}))
+
             return HttpResponse(html)
+
         else:
             return HttpResponseBadRequest()
 

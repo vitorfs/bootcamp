@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse, HttpResponseBadRequest,\
+                        HttpResponseForbidden
 from bootcamp.feeds.models import Feed
-from bootcamp.activities.models import Activity, Notification
+from bootcamp.activities.models import Activity
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template.loader import render_to_string
 from django.template.context_processors import csrf
