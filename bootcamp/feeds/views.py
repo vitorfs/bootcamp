@@ -49,10 +49,10 @@ def load(request):
         return HttpResponseBadRequest()
     except EmptyPage:
         feeds = []
-    html = u''
+    html = ''
     csrf_token = unicode(csrf(request)['csrf_token'])
     for feed in feeds:
-        html = u'{0}{1}'.format(html,
+        html = '{0}{1}'.format(html,
                                 render_to_string('feeds/partial_feed.html',
                                                  {
                                                     'feed': feed,
@@ -67,9 +67,9 @@ def _html_feeds(last_feed, user, csrf_token, feed_source='all'):
     feeds = Feed.get_feeds_after(last_feed)
     if feed_source != 'all':
         feeds = feeds.filter(user__id=feed_source)
-    html = u''
+    html = ''
     for feed in feeds:
-        html = u'{0}{1}'.format(html,
+        html = '{0}{1}'.format(html,
                                 render_to_string('feeds/partial_feed.html',
                                                  {
                                                     'feed': feed,

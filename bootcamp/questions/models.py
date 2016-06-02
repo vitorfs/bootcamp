@@ -43,7 +43,7 @@ class Question(models.Model):
 
     def get_description_preview(self):
         if len(self.description) > 255:
-            return u'{0}...'.format(self.description[:255])
+            return '{0}...'.format(self.description[:255])
         else:
             return self.description
 

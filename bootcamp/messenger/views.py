@@ -71,7 +71,7 @@ def new(request):
         if from_user != to_user:
             Message.send_message(from_user, to_user, message)
 
-        return redirect(u'/messages/{0}/'.format(to_user_username))
+        return redirect('/messages/{0}/'.format(to_user_username))
 
     else:
         conversations = Message.get_conversations(user=request.user)
@@ -110,7 +110,7 @@ def send(request):
 def users(request):
     users = User.objects.filter(is_active=True)
     dump = []
-    template = u'{0} ({1})'
+    template = '{0} ({1})'
     for user in users:
         if user.profile.get_screen_name() != user.username:
             dump.append(template.format(user.profile.get_screen_name(), user.username))
