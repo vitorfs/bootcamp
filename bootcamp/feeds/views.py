@@ -50,7 +50,7 @@ def load(request):
     except EmptyPage:
         feeds = []
     html = ''
-    csrf_token = unicode(csrf(request)['csrf_token'])
+    csrf_token = (csrf(request)['csrf_token'])
     for feed in feeds:
         html = '{0}{1}'.format(html,
                                 render_to_string('feeds/partial_feed.html',
@@ -85,7 +85,7 @@ def _html_feeds(last_feed, user, csrf_token, feed_source='all'):
 def load_new(request):
     last_feed = request.GET.get('last_feed')
     user = request.user
-    csrf_token = unicode(csrf(request)['csrf_token'])
+    csrf_token = (csrf(request)['csrf_token'])
     html = _html_feeds(last_feed, user, csrf_token)
     return HttpResponse(html)
 
@@ -107,7 +107,7 @@ def check(request):
 def post(request):
     last_feed = request.POST.get('last_feed')
     user = request.user
-    csrf_token = unicode(csrf(request)['csrf_token'])
+    csrf_token = (csrf(request)['csrf_token'])
     feed = Feed()
     feed.user = user
     post = request.POST['post']
