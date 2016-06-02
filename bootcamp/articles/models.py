@@ -29,7 +29,7 @@ class Article(models.Model):
         verbose_name_plural = _("Articles")
         ordering = ("-create_date",)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     def save(self, *args, **kwargs):
@@ -84,7 +84,7 @@ class Tag(models.Model):
         unique_together = (('tag', 'article'),)
         index_together = [['tag', 'article'], ]
 
-    def __unicode__(self):
+    def __str__(self):
         return self.tag
 
     @staticmethod
@@ -112,5 +112,5 @@ class ArticleComment(models.Model):
         verbose_name_plural = _("Article Comments")
         ordering = ("date",)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'{0} - {1}'.format(self.user.username, self.article.title)

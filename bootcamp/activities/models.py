@@ -26,7 +26,7 @@ class Activity(models.Model):
         verbose_name = 'Activity'
         verbose_name_plural = 'Activities'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.activity_type
 
 
@@ -72,7 +72,7 @@ class Notification(models.Model):
         verbose_name_plural = 'Notifications'
         ordering = ('-date',)
 
-    def __unicode__(self):
+    def __str__(self):
         if self.notification_type == self.LIKED:
             return self._LIKED_TEMPLATE.format(
                 escape(self.from_user.username),
