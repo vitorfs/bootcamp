@@ -55,13 +55,13 @@ def new(request):
         try:
             to_user = User.objects.get(username=to_user_username)
 
-        except Exception, e:
+        except Exception:
             try:
                 to_user_username = to_user_username[
                     to_user_username.rfind('(')+1:len(to_user_username)-1]
                 to_user = User.objects.get(username=to_user_username)
 
-            except Exception, e:
+            except Exception:
                 return redirect('/messages/new/')
 
         message = request.POST.get('message')

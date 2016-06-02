@@ -85,7 +85,7 @@ def picture(request):
         if request.GET.get('upload_picture') == 'uploaded':
             uploaded_picture = True
 
-    except Exception, e:
+    except Exception:
         pass
 
     return render(request, 'core/picture.html',
@@ -132,7 +132,7 @@ def upload_picture(request):
 
         return redirect('/settings/picture/?upload_picture=uploaded')
 
-    except Exception, e:
+    except Exception:
         print e
         return redirect('/settings/picture/')
 
@@ -152,7 +152,7 @@ def save_uploaded_picture(request):
         cropped_im.save(filename)
         os.remove(tmp_filename)
 
-    except Exception, e:
+    except Exception:
         pass
 
     return redirect('/settings/picture/')

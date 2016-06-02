@@ -114,7 +114,7 @@ def accept(request):
         # answer.accept cleans previous accepted answer
         user.profile.unotify_accepted(answer.question.get_accepted_answer())
 
-    except Exception, e:
+    except Exception:
         pass
 
     if answer.question.user == user:

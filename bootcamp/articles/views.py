@@ -112,7 +112,7 @@ def preview(request):
         else:
             return HttpResponseBadRequest()
 
-    except Exception, e:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -132,13 +132,14 @@ def comment(request):
                 article_comment.save()
             html = ''
             for comment in article.get_comments():
-                html = '{0}{1}'.format(html, render_to_string('articles/partial_article_comment.html',
-                                        {'comment': comment}))
+                html = '{0}{1}'.format(html, render_to_string(
+                    'articles/partial_article_comment.html',
+                    {'comment': comment}))
 
             return HttpResponse(html)
 
         else:
             return HttpResponseBadRequest()
 
-    except Exception, e:
+    except Exception:
         return HttpResponseBadRequest()

@@ -40,7 +40,7 @@ class Profile(models.Model):
                     )
                 return gravatar_url
 
-        except Exception, e:
+        except Exception:
             return no_picture
 
     def get_screen_name(self):
