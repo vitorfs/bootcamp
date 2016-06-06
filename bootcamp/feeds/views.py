@@ -70,8 +70,8 @@ def _html_feeds(last_feed, user, csrf_token, feed_source='all'):
     html = ''
     for feed in feeds:
         html = '{0}{1}'.format(html,
-                                render_to_string('feeds/partial_feed.html',
-                                                 {
+                               render_to_string('feeds/partial_feed.html',
+                                                {
                                                     'feed': feed,
                                                     'user': user,
                                                     'csrf_token': csrf_token
