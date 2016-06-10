@@ -57,7 +57,12 @@ def ask(request):
             question.user = request.user
             question.title = form.cleaned_data.get('title')
             question.description = form.cleaned_data.get('description')
+            caretaker = QuestionCareTaker()
+            caretaker.question = question
+            caretaker.save()
+            question.caretaker = caretaker
             question.save()
+            question.caretaker.save()
             tags = form.cleaned_data.get('tags')
             question.create_tags(tags)
             return redirect('/questions/')
