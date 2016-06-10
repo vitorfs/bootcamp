@@ -14,8 +14,17 @@
       {{ article.get_comments.count }} Comments
     </span>
   </div>
-  <div class="content">
-    {{ article.get_content_as_markdown|safe }}
+  <div class="row">
+    <div class="col-md-9">
+      <div class="content">
+        {{ article.get_content_as_markdown|safe }}
+      </div>
+    </div>
+    <div class="col-md-3">
+      {% if not article.caretaker.memento_stack.empty %}
+        <a class="btn btn-info" href="{% url 'articles.rollback' article_id=article.id %}">Rollback Article</a>
+      {% endif %}
+    </div>
   </div>
   {% if article.get_tags %}
     <div class="tags">

@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from bootcamp.activities.models import Activity
 import markdown
-
+import json
 
 class Question(models.Model):
     user = models.ForeignKey(User)
@@ -76,7 +76,6 @@ class Question(models.Model):
     def get_tags(self):
         return Tag.objects.filter(question=self)
 
-
 class Answer(models.Model):
     user = models.ForeignKey(User)
     question = models.ForeignKey(Question)
@@ -145,3 +144,5 @@ class Tag(models.Model):
 
     def __unicode__(self):
         return self.tag
+
+

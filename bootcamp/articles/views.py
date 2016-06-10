@@ -1,13 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseBadRequest, HttpResponse
-from bootcamp.articles.models import Article, Tag, ArticleComment
+from bootcamp.articles.models import Article, Tag, ArticleComment, ArticleMemento, ArticleCareTaker
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from bootcamp.articles.forms import ArticleForm
 from django.contrib.auth.decorators import login_required
 from bootcamp.decorators import ajax_required
 import markdown
 from django.template.loader import render_to_string
-
+from bootcamp.articles.models import ArticleCareTaker
+import json
 
 def _articles(request, articles):
     paginator = Paginator(articles, 10)
@@ -24,7 +25,6 @@ def _articles(request, articles):
         'popular_tags': popular_tags
     })
 
-
 @login_required
 def articles(request):
     all_articles = Article.get_published()
@@ -35,7 +35,6 @@ def articles(request):
 def article(request, slug):
     article = get_object_or_404(Article, slug=slug, status=Article.PUBLISHED)
     return render(request, 'articles/article.html', {'article': article})
-
 
 @login_required
 def tag(request, tag_name):
@@ -59,6 +58,10 @@ def write(request):
             status = form.cleaned_data.get('status')
             if status in [Article.PUBLISHED, Article.DRAFT]:
                 article.status = form.cleaned_data.get('status')
+            caretaker = ArticleCareTaker()
+            caretaker.article = article
+            caretaker.save()
+            article.caretaker = caretaker
             article.save()
             tags = form.cleaned_data.get('tags')
             article.create_tags(tags)
@@ -90,8 +93,13 @@ def edit(request, id):
         return redirect('home')
 
     if request.POST:
+        old_state = {'title': article.title, 'content': article.content}
         form = ArticleForm(request.POST, instance=article)
         if form.is_valid():
+            q_memento = ArticleMemento()
+            q_memento.state = json.dumps(old_state)
+            q_memento.caretaker = article.caretaker
+            q_memento.save()
             form.save()
             return redirect('/articles/')
     else:
@@ -142,3 +150,12 @@ def comment(request):
 
     except Exception, e:
         return HttpResponseBadRequest()
+
+@login_required
+def rollback(request, article_id):
+    article = get_object_or_404(Article, pk=article_id)
+    if article.create_user.id != request.user.id:
+        return redirect('home')
+    article.caretaker.rollback_memento()
+    return render(request, 'articles/article.html', {'article': article})
+

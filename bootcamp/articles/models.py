@@ -4,7 +4,25 @@ from django.contrib.auth.models import User
 from datetime import datetime
 from django.template.defaultfilters import slugify
 import markdown
+from bootcamp.core.models import CareTaker, Memento
+import json
 
+class ArticleCareTaker(models.Model):
+    def add_memento(self, q_memento):
+        pass
+
+    def rollback_memento(self):
+        mem = self.memento_stack.last()
+        if (mem):
+            mystate = json.loads(mem.state)
+            self.article.title = mystate['title']
+            self.article.content = mystate['content']
+            self.article.save()
+            mem.delete()
+
+class ArticleMemento(models.Model):
+    caretaker = models.ForeignKey(ArticleCareTaker, related_name='memento_stack')
+    state = models.TextField(max_length=2000)
 
 class Article(models.Model):
     DRAFT = 'D'
@@ -14,6 +32,7 @@ class Article(models.Model):
         (PUBLISHED, 'Published'),
     )
 
+    caretaker = models.OneToOneField(ArticleCareTaker)
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, null=True, blank=True)
     content = models.TextField(max_length=4000)
@@ -23,7 +42,6 @@ class Article(models.Model):
     update_date = models.DateTimeField(blank=True, null=True)
     update_user = models.ForeignKey(User, null=True, blank=True,
                                     related_name="+")
-
     class Meta:
         verbose_name = _("Article")
         verbose_name_plural = _("Articles")
