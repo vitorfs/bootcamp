@@ -78,14 +78,17 @@ LOCALE_PATHS = (PROJECT_DIR.child('locale'), )
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
-STATIC_ROOT = PROJECT_DIR.parent.parent.child('staticfiles')
+STATIC_ROOT = PROJECT_DIR.parent.child('staticfiles')
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
     PROJECT_DIR.child('static'),
 )
 
-MEDIA_ROOT = PROJECT_DIR.parent.parent.child('media')
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+
+MEDIA_ROOT = PROJECT_DIR.parent.child('media')
 MEDIA_URL = '/media/'
 
 TEMPLATE_DIRS = (
