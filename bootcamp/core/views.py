@@ -3,6 +3,7 @@ from PIL import Image
 
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.conf import settings as django_settings
@@ -101,8 +102,10 @@ def password(request):
             new_password = form.cleaned_data.get('new_password')
             user.set_password(new_password)
             user.save()
+            update_session_auth_hash(request, user)
             messages.add_message(request, messages.SUCCESS,
                                  'Your password was successfully changed.')
+            return redirect('password')
 
     else:
         form = ChangePasswordForm(instance=user)
