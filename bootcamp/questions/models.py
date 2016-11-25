@@ -1,9 +1,13 @@
+from __future__ import unicode_literals
+
 from django.db import models
 from django.contrib.auth.models import User
 from bootcamp.activities.models import Activity
+from django.utils.encoding import python_2_unicode_compatible
 import markdown
 
 
+@python_2_unicode_compatible
 class Question(models.Model):
     user = models.ForeignKey(User)
     title = models.CharField(max_length=255)
@@ -77,6 +81,7 @@ class Question(models.Model):
         return Tag.objects.filter(question=self)
 
 
+@python_2_unicode_compatible
 class Answer(models.Model):
     user = models.ForeignKey(User)
     question = models.ForeignKey(Question)
@@ -133,6 +138,7 @@ class Answer(models.Model):
         return markdown.markdown(self.description, safe_mode='escape')
 
 
+@python_2_unicode_compatible
 class Tag(models.Model):
     tag = models.CharField(max_length=50)
     question = models.ForeignKey(Question)

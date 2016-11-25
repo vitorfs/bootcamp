@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 import urllib
 import hashlib
 import os.path
@@ -5,19 +7,23 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.db import models
 from django.conf import settings
+from django.utils.encoding import python_2_unicode_compatible
+
 from bootcamp.activities.models import Notification
 
 
+@python_2_unicode_compatible
 class Profile(models.Model):
     user = models.OneToOneField(User)
     location = models.CharField(max_length=50, null=True, blank=True)
     url = models.CharField(max_length=50, null=True, blank=True)
     job_title = models.CharField(max_length=50, null=True, blank=True)
-    # reputation = models.IntegerField(default=0)
-    # language = models.CharField(max_length=5, default='en')
 
     class Meta:
         db_table = 'auth_profile'
+
+    def __str__(self):
+        return self.user.username
 
     def get_url(self):
         url = self.url

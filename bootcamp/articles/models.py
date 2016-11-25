@@ -1,11 +1,17 @@
+from __future__ import unicode_literals
+
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
+from django.utils.encoding import python_2_unicode_compatible
+
 from datetime import datetime
 from django.template.defaultfilters import slugify
+
 import markdown
 
 
+@python_2_unicode_compatible
 class Article(models.Model):
     DRAFT = 'D'
     PUBLISHED = 'P'
@@ -74,6 +80,7 @@ class Article(models.Model):
         return ArticleComment.objects.filter(article=self)
 
 
+@python_2_unicode_compatible
 class Tag(models.Model):
     tag = models.CharField(max_length=50)
     article = models.ForeignKey(Article)
@@ -101,6 +108,7 @@ class Tag(models.Model):
         return sorted_count[:20]
 
 
+@python_2_unicode_compatible
 class ArticleComment(models.Model):
     article = models.ForeignKey(Article)
     comment = models.CharField(max_length=500)
