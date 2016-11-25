@@ -34,13 +34,13 @@ class Profile(models.Model):
             if os.path.isfile(filename):
                 return picture_url
             else:
-                gravatar_url = u'http://www.gravatar.com/avatar/{0}?{1}'.format(
+                gravatar_url = 'http://www.gravatar.com/avatar/{0}?{1}'.format(
                     hashlib.md5(self.user.email.lower()).hexdigest(),
                     urllib.urlencode({'d': no_picture, 's': '256'})
                     )
                 return gravatar_url
 
-        except Exception, e:
+        except Exception:
             return no_picture
 
     def get_screen_name(self):

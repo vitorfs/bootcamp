@@ -93,7 +93,7 @@ def answer(request):
             answer.description = form.cleaned_data.get('description')
             answer.save()
             user.profile.notify_answered(answer.question)
-            return redirect(u'/questions/{0}/'.format(answer.question.pk))
+            return redirect('/questions/{0}/'.format(answer.question.pk))
         else:
             question = form.cleaned_data.get('question')
             return render(request, 'questions/question.html', {
@@ -114,7 +114,7 @@ def accept(request):
         # answer.accept cleans previous accepted answer
         user.profile.unotify_accepted(answer.question.get_accepted_answer())
 
-    except Exception, e:
+    except Exception:
         pass
 
     if answer.question.user == user:

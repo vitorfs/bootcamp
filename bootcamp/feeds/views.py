@@ -49,10 +49,10 @@ def load(request):
         return HttpResponseBadRequest()
     except EmptyPage:
         feeds = []
-    html = u''
-    csrf_token = unicode(csrf(request)['csrf_token'])
+    html = ''
+    csrf_token = (csrf(request)['csrf_token'])
     for feed in feeds:
-        html = u'{0}{1}'.format(html,
+        html = '{0}{1}'.format(html,
                                 render_to_string('feeds/partial_feed.html',
                                                  {
                                                     'feed': feed,
@@ -67,11 +67,11 @@ def _html_feeds(last_feed, user, csrf_token, feed_source='all'):
     feeds = Feed.get_feeds_after(last_feed)
     if feed_source != 'all':
         feeds = feeds.filter(user__id=feed_source)
-    html = u''
+    html = ''
     for feed in feeds:
-        html = u'{0}{1}'.format(html,
-                                render_to_string('feeds/partial_feed.html',
-                                                 {
+        html = '{0}{1}'.format(html,
+                               render_to_string('feeds/partial_feed.html',
+                                                {
                                                     'feed': feed,
                                                     'user': user,
                                                     'csrf_token': csrf_token
@@ -85,7 +85,7 @@ def _html_feeds(last_feed, user, csrf_token, feed_source='all'):
 def load_new(request):
     last_feed = request.GET.get('last_feed')
     user = request.user
-    csrf_token = unicode(csrf(request)['csrf_token'])
+    csrf_token = (csrf(request)['csrf_token'])
     html = _html_feeds(last_feed, user, csrf_token)
     return HttpResponse(html)
 
@@ -107,7 +107,7 @@ def check(request):
 def post(request):
     last_feed = request.POST.get('last_feed')
     user = request.user
-    csrf_token = unicode(csrf(request)['csrf_token'])
+    csrf_token = (csrf(request)['csrf_token'])
     feed = Feed()
     feed.user = user
     post = request.POST['post']
@@ -204,5 +204,5 @@ def remove(request):
             return HttpResponse()
         else:
             return HttpResponseForbidden()
-    except Exception, e:
+    except Exception:
         return HttpResponseBadRequest()
