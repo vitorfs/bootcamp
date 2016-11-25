@@ -81,7 +81,7 @@ def edit(request, id):
     if id:
         article = get_object_or_404(Article, pk=id)
         for tag in article.get_tags():
-            tags = u'{0} {1}'.format(tags, tag.tag)
+            tags = '{0} {1}'.format(tags, tag.tag)
         tags = tags.strip()
     else:
         article = Article(create_user=request.user)
@@ -112,7 +112,7 @@ def preview(request):
         else:
             return HttpResponseBadRequest()
 
-    except Exception, e:
+    except Exception:
         return HttpResponseBadRequest()
 
 
@@ -130,15 +130,16 @@ def comment(request):
                                                  article=article,
                                                  comment=comment)
                 article_comment.save()
-            html = u''
+            html = ''
             for comment in article.get_comments():
-                html = u'{0}{1}'.format(html, render_to_string('articles/partial_article_comment.html',
-                                        {'comment': comment}))
+                html = '{0}{1}'.format(html, render_to_string(
+                    'articles/partial_article_comment.html',
+                    {'comment': comment}))
 
             return HttpResponse(html)
 
         else:
             return HttpResponseBadRequest()
 
-    except Exception, e:
+    except Exception:
         return HttpResponseBadRequest()

@@ -19,7 +19,7 @@ def search(request):
             if search_type not in ['feed', 'articles', 'questions', 'users']:
                 search_type = 'feed'
 
-        except Exception, e:
+        except Exception:
             search_type = 'feed'
 
         count = {}

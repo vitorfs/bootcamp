@@ -18,7 +18,7 @@ class Message(models.Model):
         ordering = ('date',)
         db_table = 'messages_message'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.message
 
     @staticmethod
