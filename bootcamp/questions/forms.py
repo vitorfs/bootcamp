@@ -1,5 +1,6 @@
 from django import forms
-from bootcamp.questions.models import Question, Answer
+
+from bootcamp.questions.models import Answer, Question
 
 
 class QuestionForm(forms.ModelForm):

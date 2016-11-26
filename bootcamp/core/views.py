@@ -1,18 +1,17 @@
 import os
-from PIL import Image
 
-from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import update_session_auth_hash
-from django.contrib import messages
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.conf import settings as django_settings
-from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.shortcuts import get_object_or_404, redirect, render
 
-from bootcamp.core.forms import ProfileForm, ChangePasswordForm
+from bootcamp.core.forms import ChangePasswordForm, ProfileForm
 from bootcamp.feeds.models import Feed
-from bootcamp.feeds.views import FEEDS_NUM_PAGES
-from bootcamp.feeds.views import feeds
+from bootcamp.feeds.views import FEEDS_NUM_PAGES, feeds
+from PIL import Image
 
 
 def home(request):
