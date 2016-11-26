@@ -22,6 +22,6 @@ before_script:
   - python manage.py collectstatic --noinput
 # command to run tests
 script:
-    - coverage python manage.py test
+    - coverage run manage.py test
 #after_success:
 #    - coveralls
