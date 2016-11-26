@@ -1,12 +1,13 @@
 from __future__ import unicode_literals
 
-import urllib
 import hashlib
 import os.path
-from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.db import models
+import urllib
+
 from django.conf import settings
+from django.contrib.auth.models import User
+from django.db import models
+from django.db.models.signals import post_save
 from django.utils.encoding import python_2_unicode_compatible
 
 from bootcamp.activities.models import Notification

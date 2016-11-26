@@ -1,7 +1,8 @@
-from django.test import TestCase, Client, RequestFactory
-from django.core.urlresolvers import reverse
-from bootcamp.articles.models import Article
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
+from django.test import Client, RequestFactory, TestCase
+
+from bootcamp.articles.models import Article
 
 
 class ArticleTest(TestCase):
