@@ -23,6 +23,5 @@ before_script:
 # command to run tests
 script:
     - coverage python manage.py test
-
-after_success:
-- coveralls
+#after_success:
+#    - coveralls
