@@ -9,4 +9,3 @@ Markdown==2.6.6
 bleach==1.4.3
 psycopg2==2.6.2
 whitenoise==3.2
-coverage==4.2
