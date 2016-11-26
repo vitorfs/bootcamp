@@ -1,10 +1,27 @@
 language: python
 python:
   - "2.7"
-install: "pip install -r requirements.txt"
+  - "3.5"
+env:
+  matrix:
+   - DJANGO="Django<1.9"
+   - DJANGO="Django<1.10"
+   - DJANGO="Django<1.11"
+branches:
+    only:
+        - master
+# command to install dependencies
+install:
+  - pip install -r requirements.txt
+  - pip install "$DJANGO"
+  - pip install python-coveralls
+  - pip install coverage
 before_script:
   - cp .env.example .env
   - python manage.py migrate
   - python manage.py collectstatic --noinput
+# command to run tests
 script:
-  - python manage.py test
+    - coverage run manage.py test
+after_success:
+    - coveralls
