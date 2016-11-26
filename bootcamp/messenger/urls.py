@@ -1,8 +1,8 @@
 
 
 from django.conf.urls import url
-from bootcamp.messenger import views
 
+from bootcamp.messenger import views
 
 urlpatterns = [
     url(r'^$', views.inbox, name='inbox'),
