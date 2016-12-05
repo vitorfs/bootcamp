@@ -1,6 +1,6 @@
 # Bootcamp
 
-[![Build Status](https://travis-ci.org/vitorfs/bootcamp.svg?branch=master)](https://travis-ci.org/vitorfs/bootcamp) [![Coverage Status](https://coveralls.io/repos/github/vitorfs/bootcamp/badge.svg?branch=master)](https://coveralls.io/github/vitorfs/bootcamp?branch=master)
+[![Build Status](https://travis-ci.org/vitorfs/bootcamp.svg?branch=master)](https://travis-ci.org/vitorfs/bootcamp) [![Coverage Status](https://coveralls.io/repos/github/vitorfs/bootcamp/badge.svg?branch=master)](https://coveralls.io/github/vitorfs/bootcamp?branch=master) [![Requirements Status](https://requires.io/github/vitorfs/bootcamp/requirements.svg?branch=master)](https://requires.io/github/vitorfs/bootcamp/requirements/?branch=master)
 
 Bootcamp is an open source **enterprise social network** built with [Python][0] using the [Django Web Framework][1].
 
