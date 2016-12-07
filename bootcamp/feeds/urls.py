@@ -1,5 +1,3 @@
-
-
 from django.conf.urls import url
 
 from bootcamp.feeds import views

@@ -135,7 +135,7 @@ def vote(request):
     vote = request.POST['vote']
     user = request.user
     activity = Activity.objects.filter(
-        Q(activity_type=Activity.UP_VOTE) | Q(activity_type=Activity.DOWN_VOTE),
+        Q(activity_type=Activity.UP_VOTE) | Q(activity_type=Activity.DOWN_VOTE),   # noqa: E501
         user=user, answer=answer_id)
     if activity:
         activity.delete()

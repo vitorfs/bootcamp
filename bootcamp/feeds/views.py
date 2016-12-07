@@ -55,8 +55,8 @@ def load(request):
     csrf_token = (csrf(request)['csrf_token'])
     for feed in feeds:
         html = '{0}{1}'.format(html,
-                                render_to_string('feeds/partial_feed.html',
-                                                 {
+                               render_to_string('feeds/partial_feed.html',
+                                                {
                                                     'feed': feed,
                                                     'user': request.user,
                                                     'csrf_token': csrf_token
