@@ -146,8 +146,10 @@ def save_uploaded_picture(request):
         y = int(request.POST.get('y'))
         w = int(request.POST.get('w'))
         h = int(request.POST.get('h'))
-        tmp_filename = django_settings.MEDIA_ROOT + '/profile_pictures/' + request.user.username + '_tmp.jpg'
-        filename = django_settings.MEDIA_ROOT + '/profile_pictures/' + request.user.username + '.jpg'
+        tmp_filename = django_settings.MEDIA_ROOT + '/profile_pictures/' +\
+            request.user.username + '_tmp.jpg'
+        filename = django_settings.MEDIA_ROOT + '/profile_pictures/' +\
+            request.user.username + '.jpg'
         im = Image.open(tmp_filename)
         cropped_im = im.crop((x, y, w+x, h+y))
         cropped_im.thumbnail((200, 200), Image.ANTIALIAS)

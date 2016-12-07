@@ -28,7 +28,7 @@ class Profile(models.Model):
 
     def get_url(self):
         url = self.url
-        if "http://" not in self.url and "https://" not in self.url and len(self.url) > 0:
+        if "http://" not in self.url and "https://" not in self.url and len(self.url) > 0:  # noqa: E501
             url = "http://" + str(self.url)
 
         return url
@@ -36,8 +36,10 @@ class Profile(models.Model):
     def get_picture(self):
         no_picture = 'http://trybootcamp.vitorfs.com/static/img/user.png'
         try:
-            filename = settings.MEDIA_ROOT + '/profile_pictures/' + self.user.username + '.jpg'
-            picture_url = settings.MEDIA_URL + 'profile_pictures/' + self.user.username + '.jpg'
+            filename = settings.MEDIA_ROOT + '/profile_pictures/' +\
+                self.user.username + '.jpg'
+            picture_url = settings.MEDIA_URL + 'profile_pictures/' +\
+                self.user.username + '.jpg'
             if os.path.isfile(filename):
                 return picture_url
             else:

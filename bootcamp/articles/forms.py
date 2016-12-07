@@ -14,7 +14,7 @@ class ArticleForm(forms.ModelForm):
     tags = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=255, required=False,
-        help_text='Use spaces to separate the tags, such as "java jsf primefaces"')
+        help_text='Use spaces to separate the tags, such as "java jsf primefaces"')  # noqa: E501
 
     class Meta:
         model = Article
