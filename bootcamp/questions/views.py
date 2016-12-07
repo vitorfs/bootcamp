@@ -1,12 +1,13 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse, HttpResponseForbidden
-from bootcamp.questions.models import Question, Answer
-from bootcamp.questions.forms import QuestionForm, AnswerForm
-from bootcamp.activities.models import Activity
-from django.db.models import Q
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.db.models import Q
+from django.http import HttpResponse, HttpResponseForbidden
+from django.shortcuts import get_object_or_404, redirect, render
+
+from bootcamp.activities.models import Activity
 from bootcamp.decorators import ajax_required
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from bootcamp.questions.forms import AnswerForm, QuestionForm
+from bootcamp.questions.models import Answer, Question
 
 
 @login_required
@@ -134,7 +135,7 @@ def vote(request):
     vote = request.POST['vote']
     user = request.user
     activity = Activity.objects.filter(
-        Q(activity_type=Activity.UP_VOTE) | Q(activity_type=Activity.DOWN_VOTE),
+        Q(activity_type=Activity.UP_VOTE) | Q(activity_type=Activity.DOWN_VOTE),   # noqa: E501
         user=user, answer=answer_id)
     if activity:
         activity.delete()

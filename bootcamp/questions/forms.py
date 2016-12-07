@@ -1,5 +1,6 @@
 from django import forms
-from bootcamp.questions.models import Question, Answer
+
+from bootcamp.questions.models import Answer, Question
 
 
 class QuestionForm(forms.ModelForm):
@@ -13,7 +14,7 @@ class QuestionForm(forms.ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=255,
         required=False,
-        help_text='Use spaces to separate the tags, such as "asp.net mvc5 javascript"')
+        help_text='Use spaces to separate the tags, such as "asp.net mvc5 javascript"')  # noqa: E501
 
     class Meta:
         model = Question

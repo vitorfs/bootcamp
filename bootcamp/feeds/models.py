@@ -1,12 +1,13 @@
 from __future__ import unicode_literals
 
-from django.db import models
-from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
-from bootcamp.activities.models import Activity
-from django.utils.html import escape
+from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.html import escape
+from django.utils.translation import ugettext_lazy as _
+
 import bleach
+from bootcamp.activities.models import Activity
 
 
 @python_2_unicode_compatible

@@ -1,7 +1,8 @@
-from django.test import TestCase, Client, RequestFactory
-from django.core.urlresolvers import reverse
-from bootcamp.articles.models import Article
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
+from django.test import Client, RequestFactory, TestCase
+
+from bootcamp.articles.models import Article
 
 
 class ArticleTest(TestCase):
@@ -10,10 +11,6 @@ class ArticleTest(TestCase):
         self.factory = RequestFactory()
 
     def test_validate_article_edition(self):
-        c = Client()
-        user1 = User.objects.create_user(username="teste1234",
-                                         email="reallynice@gmail.com",
-                                         password="supersecret123")
         user2 = User.objects.create_user(username="teste12345",
                                          email="reallynice2@gmail.com",
                                          password="supersecret123")

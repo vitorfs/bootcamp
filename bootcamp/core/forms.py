@@ -63,7 +63,9 @@ class ChangePasswordForm(forms.ModelForm):
         id = self.cleaned_data.get('id')
         user = User.objects.get(pk=id)
         if not user.check_password(old_password):
-            self._errors['old_password'] = self.error_class(['Old password don\'t match'])
+            self._errors['old_password'] = self.error_class([
+                'Old password don\'t match'])
         if new_password and new_password != confirm_password:
-            self._errors['new_password'] = self.error_class(['Passwords don\'t match'])
+            self._errors['new_password'] = self.error_class([
+                'Passwords don\'t match'])
         return self.cleaned_data

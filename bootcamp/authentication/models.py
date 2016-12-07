@@ -1,12 +1,13 @@
 from __future__ import unicode_literals
 
-import urllib
 import hashlib
 import os.path
-from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.db import models
+import urllib
+
 from django.conf import settings
+from django.contrib.auth.models import User
+from django.db import models
+from django.db.models.signals import post_save
 from django.utils.encoding import python_2_unicode_compatible
 
 from bootcamp.activities.models import Notification
@@ -27,7 +28,7 @@ class Profile(models.Model):
 
     def get_url(self):
         url = self.url
-        if "http://" not in self.url and "https://" not in self.url and len(self.url) > 0:
+        if "http://" not in self.url and "https://" not in self.url and len(self.url) > 0:  # noqa: E501
             url = "http://" + str(self.url)
 
         return url
@@ -35,8 +36,10 @@ class Profile(models.Model):
     def get_picture(self):
         no_picture = 'http://trybootcamp.vitorfs.com/static/img/user.png'
         try:
-            filename = settings.MEDIA_ROOT + '/profile_pictures/' + self.user.username + '.jpg'
-            picture_url = settings.MEDIA_URL + 'profile_pictures/' + self.user.username + '.jpg'
+            filename = settings.MEDIA_ROOT + '/profile_pictures/' +\
+                self.user.username + '.jpg'
+            picture_url = settings.MEDIA_URL + 'profile_pictures/' +\
+                self.user.username + '.jpg'
             if os.path.isfile(filename):
                 return picture_url
             else:

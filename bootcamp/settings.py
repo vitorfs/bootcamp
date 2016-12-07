@@ -1,7 +1,6 @@
-from unipath import Path
-from decouple import config, Csv
 import dj_database_url
-
+from decouple import Csv, config
+from unipath import Path
 
 PROJECT_DIR = Path(__file__).parent
 

@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from bootcamp.authentication.forms import SignUpForm
 from django.contrib.auth.models import User
+from django.shortcuts import redirect, render
+
+from bootcamp.authentication.forms import SignUpForm
 from bootcamp.feeds.models import Feed
 
 
@@ -21,7 +22,7 @@ def signup(request):
             user = authenticate(username=username, password=password)
             login(request, user)
             welcome_post = '{0} has joined the network.'.format(user.username,
-                                                                 user.username)
+                                                                user.username)
             feed = Feed(user=user, post=welcome_post)
             feed.save()
             return redirect('/')
