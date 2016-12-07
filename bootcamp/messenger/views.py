@@ -1,9 +1,11 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseBadRequest
-from django.contrib.auth.decorators import login_required
-from bootcamp.decorators import ajax_required
-from django.contrib.auth.models import User
 import json
+
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.http import HttpResponse, HttpResponseBadRequest
+from django.shortcuts import redirect, render
+
+from bootcamp.decorators import ajax_required
 from bootcamp.messenger.models import Message
 
 
@@ -113,7 +115,8 @@ def users(request):
     template = '{0} ({1})'
     for user in users:
         if user.profile.get_screen_name() != user.username:
-            dump.append(template.format(user.profile.get_screen_name(), user.username))
+            dump.append(template.format(user.profile.get_screen_name(),
+                                        user.username))
         else:
             dump.append(user.username)
     data = json.dumps(dump)

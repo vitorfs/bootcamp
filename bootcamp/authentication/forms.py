@@ -1,6 +1,7 @@
 from django import forms
-from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+
 from bootcamp.settings import ALLOWED_SIGNUP_DOMAINS
 
 
@@ -9,10 +10,10 @@ def SignupDomainValidator(value):
         try:
             domain = value[value.index("@"):]
             if domain not in ALLOWED_SIGNUP_DOMAINS:
-                raise ValidationError('Invalid domain. Allowed domains on this network: {0}'.format(','.join(ALLOWED_SIGNUP_DOMAINS)))
+                raise ValidationError('Invalid domain. Allowed domains on this network: {0}'.format(','.join(ALLOWED_SIGNUP_DOMAINS)))  # noqa: E501
 
         except Exception:
-            raise ValidationError('Invalid domain. Allowed domains on this network: {0}'.format(','.join(ALLOWED_SIGNUP_DOMAINS)))
+            raise ValidationError('Invalid domain. Allowed domains on this network: {0}'.format(','.join(ALLOWED_SIGNUP_DOMAINS)))  # noqa: E501
 
 
 def ForbiddenUsernamesValidator(value):
@@ -56,7 +57,7 @@ class SignUpForm(forms.ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=30,
         required=True,
-        help_text='Usernames may contain <strong>alphanumeric</strong>, <strong>_</strong> and <strong>.</strong> characters')
+        help_text='Usernames may contain <strong>alphanumeric</strong>, <strong>_</strong> and <strong>.</strong> characters')  # noqa: E261
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     confirm_password = forms.CharField(

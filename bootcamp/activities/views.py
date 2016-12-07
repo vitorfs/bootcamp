@@ -1,7 +1,8 @@
-from django.shortcuts import render
-from bootcamp.activities.models import Notification
-from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from django.shortcuts import render
+
+from bootcamp.activities.models import Notification
 from bootcamp.decorators import ajax_required
 
 

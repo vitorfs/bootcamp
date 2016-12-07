@@ -1,12 +1,13 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponseBadRequest, HttpResponse
-from bootcamp.articles.models import Article, Tag, ArticleComment
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from bootcamp.articles.forms import ArticleForm
 from django.contrib.auth.decorators import login_required
-from bootcamp.decorators import ajax_required
-import markdown
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.http import HttpResponse, HttpResponseBadRequest
+from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
+
+import markdown
+from bootcamp.articles.forms import ArticleForm
+from bootcamp.articles.models import Article, ArticleComment, Tag
+from bootcamp.decorators import ajax_required
 
 
 def _articles(request, articles):
