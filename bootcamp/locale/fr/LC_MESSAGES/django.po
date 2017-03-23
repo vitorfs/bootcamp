@@ -143,7 +143,7 @@ msgstr "Précédent"
 #: authentication/templates/authentication/signup.html:12
 #: core/templates/core/cover.html:41
 msgid "Sign up for Bootcamp"
-msgstr "S'inscrire à Be Agri"
+msgstr "S'inscrire à Bootcamp"
 
 #: authentication/templates/authentication/signup.html:27
 msgid "Create an account"
