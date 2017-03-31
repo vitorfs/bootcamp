@@ -1,0 +1,430 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-03-22 12:08+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: activities/templates/activities/last_notifications.html:12
+msgid "You have no unread notification"
+msgstr "Vous n'avez pas de notifications non lues"
+
+#: activities/templates/activities/last_notifications.html:14
+msgid "See all"
+msgstr "Tout voir"
+
+#: activities/templates/activities/notifications.html:27
+msgid "You have no notification"
+msgstr "Vous n'avez pas de notification"
+
+#: articles/models.py:34 articles/templates/articles/article.html:15
+msgid "Article"
+msgstr ""
+
+#: articles/models.py:35 articles/templates/articles/article.html:14
+#: articles/templates/articles/articles.html:5
+#: articles/templates/articles/articles.html:17
+#: articles/templates/articles/drafts.html:11
+#: articles/templates/articles/edit.html:11
+#: articles/templates/articles/write.html:11
+#: search/templates/search/partial_articles_results.html:3
+#: search/templates/search/partial_results_menu.html:9 templates/base.html:42
+msgid "Articles"
+msgstr ""
+
+#: articles/models.py:89
+msgid "Tag"
+msgstr "Sujet"
+
+#: articles/models.py:90 articles/templates/articles/drafts.html:19
+msgid "Tags"
+msgstr "Sujets"
+
+#: articles/models.py:119
+#, fuzzy
+msgid "Article Comment"
+msgstr "Commentaire de l'article"
+
+#: articles/models.py:120
+msgid "Article Comments"
+msgstr ""
+
+#: articles/templates/articles/articles.html:14
+#: articles/templates/articles/write.html:12
+msgid "Write Article"
+msgstr "Ecrire un article"
+
+#: articles/templates/articles/articles.html:16
+#: articles/templates/articles/drafts.html:12
+#: articles/templates/articles/edit.html:12
+msgid "Drafts"
+msgstr "Brouillons"
+
+#: articles/templates/articles/articles.html:25
+msgid "There is no published article yet"
+msgstr "Il n'y a pas encore d'artcile de publié"
+
+#: articles/templates/articles/articles.html:25
+msgid "Be the first one to publish"
+msgstr "Soyez le premier à publier"
+
+#: articles/templates/articles/articles.html:30
+msgid "Popular Tags"
+msgstr "Sujets populaires"
+
+#: articles/templates/articles/drafts.html:17
+msgid "Title"
+msgstr "Titre"
+
+#: articles/templates/articles/drafts.html:18
+msgid "Content"
+msgstr "Contenu"
+
+#: articles/templates/articles/drafts.html:36
+msgid "No draft to display"
+msgstr "Pas de brouillon disponible"
+
+#: articles/templates/articles/edit.html:13
+msgid "Edit"
+msgstr "Modifier"
+
+#: articles/templates/articles/edit.html:34
+#: articles/templates/articles/write.html:33
+msgid "Publish"
+msgstr "Publier"
+
+#: articles/templates/articles/edit.html:35
+#: articles/templates/articles/write.html:34
+msgid "Save Draft"
+msgstr "Sauvegarder brouillon"
+
+#: articles/templates/articles/edit.html:36
+#: articles/templates/articles/write.html:36
+#: feeds/templates/feeds/feeds.html:41
+#: questions/templates/questions/ask.html:31
+msgid "Cancel"
+msgstr "Annuler"
+
+#: articles/templates/articles/partial_article_comments.html:3
+msgid "Press Ctrl + Enter to post"
+msgstr "Pressez Ctrl + Entrer pour publier"
+
+#: articles/templates/articles/partial_article_comments.html:4
+msgid "Comments"
+msgstr "Commentaires"
+
+#: articles/templates/articles/partial_article_comments.html:13
+#: feeds/templates/feeds/partial_feed.html:36
+msgid "Write a comment..."
+msgstr "Commenter"
+
+#: articles/templates/articles/partial_article_comments.html:21
+msgid "Be the first one to comment!"
+msgstr "Soyez le premier à commenter"
+
+#: articles/templates/articles/write.html:35
+#, fuzzy
+msgid "Preview"
+msgstr "Précédent"
+
+#: authentication/templates/authentication/signup.html:12
+#: core/templates/core/cover.html:41
+msgid "Sign up for Bootcamp"
+msgstr "S'inscrire à Bootcamp"
+
+#: authentication/templates/authentication/signup.html:27
+msgid "Create an account"
+msgstr "Créer un compte"
+
+#: core/templates/core/cover.html:22 core/templates/core/cover.html:40
+msgid "Log in"
+msgstr "Connexion"
+
+#: core/templates/core/cover.html:26 core/templates/core/network.html:29
+msgid "Username"
+msgstr "Nom d'utilisateur"
+
+#: core/templates/core/cover.html:33
+#: core/templates/core/partial_settings_menu.html:5
+msgid "Password"
+msgstr "Mot de passe"
+
+#: core/templates/core/network.html:5 templates/base.html:44
+msgid "Network"
+msgstr "Réseau"
+
+#: core/templates/core/network.html:27
+msgid "Job Title"
+msgstr "Profession"
+
+#: core/templates/core/network.html:31
+msgid "Location"
+msgstr "Ville"
+
+#: core/templates/core/network.html:34
+msgid "Url"
+msgstr ""
+
+#: core/templates/core/partial_settings_menu.html:3
+msgid "Profile"
+msgstr "Profil"
+
+#: core/templates/core/partial_settings_menu.html:4
+msgid "Picture"
+msgstr "Image"
+
+#: core/templates/core/password.html:4 core/templates/core/password.html:8
+#: core/templates/core/picture.html:5 core/templates/core/picture.html:15
+#: core/templates/core/settings.html:10 templates/base.html:64
+msgid "Account Settings"
+msgstr "Paramètres du compte"
+
+#: core/templates/core/password.html:23
+msgid "Change Password"
+msgstr "Changer le mot de passe"
+
+#: core/templates/core/password.html:43 core/templates/core/settings.html:57
+msgid "Save"
+msgstr "Sauvegarder"
+
+#: core/templates/core/picture.html:30
+msgid "Change Picture"
+msgstr "Changer l'image"
+
+#: core/templates/core/picture.html:35
+msgid "Upload new picture"
+msgstr "Télécharger une nouvelle image"
+
+#: core/templates/core/picture.html:46
+msgid "Crop Picture"
+msgstr "Recadrer l'image"
+
+#: core/templates/core/picture.html:50
+msgid "Crop the profile picture and then click on the"
+msgstr "Recadrez l'image et ensuite cliquez sur"
+
+#: core/templates/core/picture.html:50
+msgid "Save Picture"
+msgstr "Sauvegarder l'image"
+
+#: core/templates/core/picture.html:50
+msgid "button"
+msgstr "bouton"
+
+#: core/templates/core/picture.html:65
+msgid "Close"
+msgstr "Fermer"
+
+#: core/templates/core/picture.html:66
+msgid "Save changes"
+msgstr "Sauvegarder les changements"
+
+#: core/templates/core/profile.html:35
+msgid "Last Feeds by"
+msgstr "Derniers sujets de"
+
+#: core/templates/core/settings.html:25
+msgid "Edit Profile"
+msgstr "Modifier le profil"
+
+#: feeds/models.py:23 feeds/templates/feeds/feed.html:7
+#: feeds/templates/feeds/feeds.html:20
+#: search/templates/search/partial_feed_results.html:4
+#: search/templates/search/partial_results_menu.html:5 templates/base.html:41
+msgid "Feed"
+msgstr "Accueil"
+
+#: feeds/models.py:24
+msgid "Feeds"
+msgstr "Actualités"
+
+#: feeds/templates/feeds/feeds.html:17
+msgid "Press Ctrl + P to compose"
+msgstr "Pressez Ctrl + P pour écrire"
+
+#: feeds/templates/feeds/feeds.html:18
+msgid "Compose"
+msgstr "Ecrire"
+
+#: feeds/templates/feeds/feeds.html:25
+msgid "Latest posts"
+msgstr "Derniers sujets"
+
+#: feeds/templates/feeds/feeds.html:30
+msgid "Compose a new post"
+msgstr "Ecrire une nouvelle publication "
+
+#: feeds/templates/feeds/feeds.html:39
+msgid "Post"
+msgstr "Publication"
+
+#: feeds/templates/feeds/feeds.html:47
+msgid "new posts"
+msgstr "nouvelles publications"
+
+#: feeds/templates/feeds/partial_feed.html:9
+msgid "Click to remove this feed"
+msgstr "Supprimer cette publication "
+
+#: feeds/templates/feeds/partial_feed.html:17
+msgid "Unlike"
+msgstr "Je n'aime pas"
+
+#: feeds/templates/feeds/partial_feed.html:23
+msgid "Like"
+msgstr "J'aime"
+
+#: feeds/templates/feeds/partial_feed.html:28
+msgid "Comment"
+msgstr "Commentaire"
+
+#: feeds/templates/feeds/partial_feed_comments.html:7
+msgid "Click to remove this comment"
+msgstr "Supprimer ce commentaire"
+
+#: feeds/templates/feeds/partial_feed_comments.html:21
+msgid "Be the first one to comment"
+msgstr "Soyez le premier à commenter"
+
+#: messenger/models.py:20
+msgid "Message"
+msgstr ""
+
+#: messenger/models.py:21
+msgid "Messages"
+msgstr ""
+
+#: messenger/templates/messenger/base_messages.html:12
+#: messenger/templates/messenger/new.html:5
+#: messenger/templates/messenger/new.html:7
+msgid "New message"
+msgstr "Nouveau message"
+
+#: messenger/templates/messenger/inbox.html:4
+#: messenger/templates/messenger/inbox.html:6 templates/base.html:63
+msgid "Inbox"
+msgstr "Boite de réception"
+
+#: messenger/templates/messenger/inbox.html:26
+msgid "Your inbox is empty!"
+msgstr "Votre boite de réception est vide"
+
+#: messenger/templates/messenger/includes/partial_conversations.html:22
+msgid "Start a conversation"
+msgstr "Débuter une discussion"
+
+#: questions/templates/questions/ask.html:6
+#: questions/templates/questions/question.html:14
+#: questions/templates/questions/questions.html:17
+#: search/templates/search/partial_questions_results.html:4
+#: search/templates/search/partial_results_menu.html:13
+msgid "Questions"
+msgstr ""
+
+#: questions/templates/questions/ask.html:7
+#: questions/templates/questions/questions.html:15
+msgid "Ask Question"
+msgstr "Poser Une Question"
+
+#: questions/templates/questions/ask.html:30
+msgid "Post Your Question"
+msgstr "Pubier Votre Question"
+
+#: questions/templates/questions/partial_answer.html:7
+msgid "Click to up vote; click again to toggle"
+msgstr "Cliquer pour ajouter un vote; cliquer encore pour l'annuler"
+
+#: questions/templates/questions/partial_answer.html:9
+msgid "Click to down vote; click again to toggle"
+msgstr "Cliquer pour enlever un vote; cliquer encore pour annuler"
+
+#: questions/templates/questions/partial_answer.html:11
+msgid "Click to unaccept the answer"
+msgstr "Cliquer pour ne pas accepter la réponse"
+
+#: questions/templates/questions/partial_answer.html:15
+msgid "Click to accept the answer"
+msgstr "Cliquer pour accepeter la réponse"
+
+#: questions/templates/questions/partial_answer.html:22
+msgid "answered"
+msgstr "répondu"
+
+#: questions/templates/questions/question.html:15
+msgid "Question"
+msgstr ""
+
+#: questions/templates/questions/question.html:60
+msgid "Post Your Answer"
+msgstr "Publiez Votre Réponse"
+
+#: questions/templates/questions/questions.html:21
+msgid "Unanswered"
+msgstr "Non répondues"
+
+#: questions/templates/questions/questions.html:22
+msgid "Answered"
+msgstr "Répondues"
+
+#: questions/templates/questions/questions.html:23
+msgid "All Questions"
+msgstr "Toutes les questions"
+
+#: questions/templates/questions/questions.html:28
+msgid "No question to display"
+msgstr "Pas de questions à afficher"
+
+#: search/templates/search/partial_articles_results.html:24
+msgid "No article found"
+msgstr "Pas d'article trouvé"
+
+#: search/templates/search/partial_feed_results.html:23
+msgid "No feed found"
+msgstr "Pas de publication trouvée"
+
+#: search/templates/search/partial_questions_results.html:22
+msgid "No question found"
+msgstr "Pas de question trouvée"
+
+#: search/templates/search/partial_results_menu.html:17
+#: search/templates/search/partial_users_results.html:3
+msgid "Users"
+msgstr "Utilisateurs"
+
+#: search/templates/search/partial_users_results.html:19
+msgid "No user found"
+msgstr "Pas d'utilisateur trouvé"
+
+#: search/templates/search/results.html:17
+#: search/templates/search/search.html:22
+msgid "Search"
+msgstr "Rechercher"
+
+#: search/templates/search/results.html:23
+#: search/templates/search/search.html:19
+msgid "Search Feed, Articles, Questions and Users"
+msgstr "Rechercher Publications, Articles, Questions et Utilisateurs"
+
+#: templates/base.html:43
+msgid "Q&A"
+msgstr "Q&R"
+
+#: templates/base.html:66
+msgid "Log out"
+msgstr "Déconnexion"
+
+#~ msgid "Sing up"
+#~ msgstr "S'inscrire"
