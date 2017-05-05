@@ -122,3 +122,6 @@ class ArticleComment(models.Model):
 
     def __str__(self):
         return '{0} - {1}'.format(self.user.username, self.article.title)
+
+    def get_comment_as_markdown(self):
+        return markdown.markdown(self.comment, safe_mode='escape')
