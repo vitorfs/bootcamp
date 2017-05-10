@@ -90,3 +90,17 @@ class TestModels(TestCase):
         self.assertTrue(isinstance(notification, Notification))
         self.assertEqual(str(notification), test_string)
         self.assertNotEqual(str(notification), 'f')
+
+    def test_register_answered_notification(self):
+        notification = Notification.objects.create(
+            from_user=self.user,
+            to_user=self.other_user,
+            feed=self.feed,
+            question=self.question,
+            notification_type='A',
+            is_read=False
+        )
+        test_string = '<a href="/{0}/">{1}</a> answered your question: <a href="/questions/{2}/">{3}</a>'.format(self.user.username, self.user.profile.get_screen_name(), self.question.pk, notification.get_summary(self.question.title))
+        self.assertTrue(isinstance(notification, Notification))
+        self.assertEqual(str(notification), test_string)
+        self.assertNotEqual(str(notification), 'a')
