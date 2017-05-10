@@ -22,3 +22,12 @@ class TestModels(TestCase):
         self.assertTrue(isinstance(activity, Activity))
         self.assertEqual(str(activity), 'F')
         self.assertNotEqual(str(activity), 'f')
+
+    def test_register_like_activity(self):
+        activity = Activity.objects.create(
+            user=self.user,
+            activity_type='L'
+        )
+        self.assertTrue(isinstance(activity, Activity))
+        self.assertEqual(str(activity), 'L')
+
