@@ -139,3 +139,22 @@ class TestModels(TestCase):
         self.assertTrue(isinstance(notification, Notification))
         self.assertEqual(str(notification), test_string)
         self.assertNotEqual(str(notification), 's')
+
+    def test_return_sumary(self):
+        feed = Feed.objects.create(
+            user=self.user,
+            post='kjahsdfklahsdlklsdjflakjnzxcvzmncx.vmznxcvlheiruyweihlkdfklajdflk hasldjhalksdfh jklhljk',
+            likes=0,
+            comments=0
+        )
+        notification = Notification.objects.create(
+            from_user=self.user,
+            to_user=self.other_user,
+            feed=feed,
+            notification_type='L',
+            is_read=False
+        )
+        test_string = '<a href="/{0}/">{1}</a> liked your post: <a href="/feeds/{2}/">{3}</a>'.format(self.user.username, self.user.profile.get_screen_name(), feed.pk, notification.get_summary(feed.post))
+        self.assertTrue(isinstance(notification, Notification))
+        self.assertEqual(str(notification), test_string)
+        self.assertNotEqual(str(notification), 'l')
