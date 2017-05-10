@@ -158,3 +158,15 @@ class TestModels(TestCase):
         self.assertTrue(isinstance(notification, Notification))
         self.assertEqual(str(notification), test_string)
         self.assertNotEqual(str(notification), 'l')
+
+    def test_register_else_notification(self):
+        notification = Notification.objects.create(
+            from_user=self.user,
+            to_user=self.other_user,
+            feed=self.feed,
+            notification_type='Z',
+            is_read=False
+        )
+        self.assertTrue(isinstance(notification, Notification))
+        self.assertEqual(str(notification), 'Ooops! Something went wrong.')
+        self.assertNotEqual(str(notification), 'z')
