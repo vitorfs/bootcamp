@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from bootcamp.activities.models import Activity, Notification
 from bootcamp.feeds.models import Feed
-from bootcamp.questions.models import Question
+from bootcamp.questions.models import Question, Answer
 
 
 class TestModels(TestCase):
@@ -32,6 +32,13 @@ class TestModels(TestCase):
             description='A reaaaaally loooong content',
             favorites=0,
             has_accepted_answer=True
+        )
+        self.answer = Answer.objects.create(
+            user=self.user,
+            question=self.question,
+            description='A reaaaaally loooong content',
+            votes=0,
+            is_accepted=True
         )
 
     def test_register_fav_activity(self):
@@ -104,3 +111,18 @@ class TestModels(TestCase):
         self.assertTrue(isinstance(notification, Notification))
         self.assertEqual(str(notification), test_string)
         self.assertNotEqual(str(notification), 'a')
+
+    def test_register_accepted_notification(self):
+        notification = Notification.objects.create(
+            from_user=self.user,
+            to_user=self.other_user,
+            feed=self.feed,
+            question=self.question,
+            answer=self.answer,
+            notification_type='W',
+            is_read=False
+        )
+        test_string = '<a href="/{0}/">{1}</a> accepted your answer: <a href="/questions/{2}/">{3}</a>'.format(self.user.username, self.user.profile.get_screen_name(), self.answer.question.pk, notification.get_summary(self.answer.description))
+        self.assertTrue(isinstance(notification, Notification))
+        self.assertEqual(str(notification), test_string)
+        self.assertNotEqual(str(notification), 'w')
