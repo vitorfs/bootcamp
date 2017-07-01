@@ -1,10 +1,8 @@
 from __future__ import unicode_literals
 
-from datetime import datetime
-
 from django.contrib.auth.models import User
 from django.db import models
-from django.template.defaultfilters import slugify
+from autoslug import AutoSlugField
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
@@ -21,12 +19,12 @@ class Article(models.Model):
     )
 
     title = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, null=True, blank=True)
+    slug = AutoSlugField(populate_from='title')
     content = models.TextField(max_length=4000)
     status = models.CharField(max_length=1, choices=STATUS, default=DRAFT)
     create_user = models.ForeignKey(User)
     create_date = models.DateTimeField(auto_now_add=True)
-    update_date = models.DateTimeField(blank=True, null=True)
+    update_date = models.DateTimeField(auto_now=True)
     update_user = models.ForeignKey(User, null=True, blank=True,
                                     related_name="+")
 
@@ -37,16 +35,6 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
-
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            super(Article, self).save(*args, **kwargs)
-        else:
-            self.update_date = datetime.now()
-        if not self.slug:
-            slug_str = "%s %s" % (self.pk, self.title.lower())
-            self.slug = slugify(slug_str)
-        super(Article, self).save(*args, **kwargs)
 
     def get_content_as_markdown(self):
         return markdown.markdown(self.content, safe_mode='escape')
