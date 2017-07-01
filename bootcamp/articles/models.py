@@ -1,5 +1,7 @@
 from __future__ import unicode_literals
 
+from datetime import datetime
+
 from django.contrib.auth.models import User
 from django.db import models
 from autoslug import AutoSlugField
@@ -24,7 +26,7 @@ class Article(models.Model):
     status = models.CharField(max_length=1, choices=STATUS, default=DRAFT)
     create_user = models.ForeignKey(User)
     create_date = models.DateTimeField(auto_now_add=True)
-    update_date = models.DateTimeField(auto_now=True)
+    update_date = models.DateTimeField(blank=True, null=True)
     update_user = models.ForeignKey(User, null=True, blank=True,
                                     related_name="+")
 
@@ -35,6 +37,14 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            super(Article, self).save(*args, **kwargs)
+        else:
+            self.update_date = datetime.now()
+
+        super(Article, self).save(*args, **kwargs)
 
     def get_content_as_markdown(self):
         return markdown.markdown(self.content, safe_mode='escape')
