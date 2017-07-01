@@ -29,3 +29,11 @@ class TestModels(TestCase):
             comment='A really nice comment',
             user=self.user,
         )
+
+    def test_object_instance(self):
+        self.assertTrue(isinstance(self.article, Article))
+        self.assertTrue(isinstance(self.article_comment, ArticleComment))
+
+    def test_return_values(self):
+        self.assertEqual(self.article.status, 'P')
+        self.assertNotEqual(self.article.status, 'p')
