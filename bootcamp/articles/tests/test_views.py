@@ -40,7 +40,9 @@ class TestViews(TestCase):
         response = self.client.post(reverse('write'), {'title': title,
                                                        'content': content,
                                                        'status': 'P'})
-        response_arts = self.client.get(reverse('articles'))
+        response_art = self.client.get(
+            reverse('article', kwargs={'slug': 'a-really-nice-to-be-title'}))
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response_arts.context['article'].slug,
+        self.assertEqual(response_art.status_code, 200)
+        self.assertEqual(response_art.context['article'].slug,
                          'a-really-nice-to-be-title')
