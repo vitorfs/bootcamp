@@ -23,3 +23,10 @@ class TestViews(TestCase):
         self.kwargs = {'content_type': 'application/json',
                        'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'}
         self.client.login(username='test_user', password='top_secret')
+
+    def test_index_articles(self):
+        response = self.client.get(reverse('articles'))
+        self.assertEqual(response.status_code, 200)
+        response_no_art = self.client.get(reverse(
+            'article', kwargs={'slug': 'no-slug'}))
+        self.assertEqual(response_no_art.status_code, 404)
