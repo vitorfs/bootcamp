@@ -46,3 +46,15 @@ class TestViews(TestCase):
         self.assertEqual(response_art.status_code, 200)
         self.assertEqual(response_art.context['article'].slug,
                          'a-really-nice-to-be-title')
+
+    def test_drafts_workflow(self):
+        title = 'A really nice to-be title'
+        content = '''This is a really good content, just if somebody published
+        it, that would be awesome, but no, nobody wants to publish it, because
+        they know this is just a test, and you know than nobody wants to
+        publish a test, just a test; everybody always wants the real deal.'''
+        response = self.client.post(reverse('write'), {'title': title,
+                                                       'content': content})
+        resp = self.client.get(reverse('drafts'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(resp.status_code, 200)
