@@ -14,6 +14,13 @@
     <li><a href="{% url 'articles' %}">{% trans 'Articles' %}</a></li>
     <li class="active">{% trans 'Article' %}</li>
   </ol>
+  {% if article.create_user == request.user %}
+    <div>
+      <a href="{% url 'edit_article' article.pk %}" class="btn btn-primary pull-right">
+        <span class="glyphicon glyphicon-pencil"></span> {% trans "Edit Article" %}
+      </a>
+    </div>
+  {% endif %}
   {% include 'articles/partial_article.html' with article=article %}
   {% include 'articles/partial_article_comments.html' with article=article %}
 {% endblock main %}
