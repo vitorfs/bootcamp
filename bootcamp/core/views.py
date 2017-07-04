@@ -1,5 +1,6 @@
 import os
 
+from django.http import JsonResponse
 from django.conf import settings as django_settings
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
@@ -49,19 +50,22 @@ def profile(request, username):
     paginator = Paginator(all_feeds, FEEDS_NUM_PAGES)
     feeds = paginator.page(1)
     from_feed = -1
-    if feeds:
-        from_feed = feeds[0].id
-    return render(request, 'core/profile.html', {
+    data = {
         'page_user': page_user,
         'feeds_count': feeds_count,
         'article_count': article_count,
         'article_comment_count': article_comment_count,
         'question_count': question_count,
         'answer_count': answer_count,
+        'graph_data': [feeds_count, article_count, article_comment_count, question_count, answer_count],
         'feeds': feeds,
         'from_feed': from_feed,
         'page': 1
-        })
+        }
+    if feeds:
+        from_feed = feeds[0].id
+
+    return render(request, 'core/profile.html', data)
 
 
 @login_required
