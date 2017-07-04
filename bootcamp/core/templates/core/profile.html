@@ -9,8 +9,11 @@
   <link href="{% static 'css/feeds.css' %}" rel="stylesheet">
   <script src="{% static 'js/jquery.bullseye-1.0-min.js' %}"></script>
   <script src="{% static 'js/feeds.js' %}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js" type="text/javascript"></script>
 {% endblock head %}
+{% block extrahead %}
 
+{% endblock extrahead %}
 {% block main %}
   <div class="page-header">
     <h1>{{ page_user.profile.get_screen_name }} {% if page_user.get_full_name %}<small>({{ page_user.username }})</small>{% endif %}</h1>
@@ -37,15 +40,46 @@
         </ul>
       </div>
       <div class="col-md-9">
-        <h4>{% trans 'Last Feeds by' %} {{ page_user.profile.get_screen_name }}</h4>
-        <div class="stream-update">
-          <a href="#"><span class="new-posts"></span> new posts</a>
-        </div>
-        <ul class="stream">
-          {% for feed in feeds %}
-            {% include 'feeds/partial_feed.html' with feed=feed %}
-          {% endfor %}
-        </ul>
+        <h4>{% trans 'Most Recent Activity by' %} {{ page_user.profile.get_screen_name }}</h4>
+         <canvas id="myChart" width="400" height="300"></canvas>
+         <script>
+          var data = {{ graph_data }};
+          var ctx = document.getElementById("myChart").getContext('2d');
+          var myChart = new Chart(ctx, {
+              type: 'bar',
+              data: {
+                  labels: ["Feeds", "Articles", "Comments", "Questions", "Answers"],
+                  datasets: [{
+                      label: 'Activities by type:',
+                      data: data,
+                      backgroundColor: [
+                          'rgba(255, 99, 132, 0.2)',
+                          'rgba(54, 162, 235, 0.2)',
+                          'rgba(255, 206, 86, 0.2)',
+                          'rgba(75, 192, 192, 0.2)',
+                          'rgba(153, 102, 255, 0.2)'
+                      ],
+                      borderColor: [
+                          'rgba(255,99,132,1)',
+                          'rgba(54, 162, 235, 1)',
+                          'rgba(255, 206, 86, 1)',
+                          'rgba(75, 192, 192, 1)',
+                          'rgba(153, 102, 255, 1)'
+                      ],
+                      borderWidth: 1
+                  }]
+              },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          ticks: {
+                              beginAtZero:true
+                          }
+                      }]
+                  }
+              }
+          });
+        </script>
         <div class="load">
           <img src="{% static 'img/loading.gif' %}">
         </div>
