@@ -29,6 +29,11 @@
           {% if page_user.profile.url %}
           <li><span class="glyphicon glyphicon-globe"></span> <a href="{{ page_user.profile.get_url }}" target="_blank">{{ page_user.profile.get_url }}</a></li>
           {% endif %}
+          <li><span class="glyphicon glyphicon-envelope"></span> {% trans 'Feeds' %}: {{ feeds_count }}</li>
+          <li><span class="glyphicon glyphicon-pencil"></span> {% trans 'Articles' %}: {{ article_count }}</li>
+          <li><span class="glyphicon glyphicon-comment"></span> {% trans 'Comments' %}: {{ article_comment_count }}</li>
+          <li><span class="glyphicon glyphicon-question-sign"></span> {% trans 'Questions' %}: {{ question_count }}</li>
+          <li><span class="glyphicon glyphicon-education"></span> {% trans 'Answers' %}: {{ answer_count }}</li>
         </ul>
       </div>
       <div class="col-md-9">
