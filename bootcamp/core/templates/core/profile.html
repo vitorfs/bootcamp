@@ -32,54 +32,17 @@
           {% if page_user.profile.url %}
           <li><span class="glyphicon glyphicon-globe"></span> <a href="{{ page_user.profile.get_url }}" target="_blank">{{ page_user.profile.get_url }}</a></li>
           {% endif %}
-          <li><span class="glyphicon glyphicon-envelope"></span> {% trans 'Feeds' %}: {{ feeds_count }}</li>
+          <!--<li><span class="glyphicon glyphicon-envelope"></span> {% trans 'Feeds' %}: {{ request_data.feeds_count }}</li>
           <li><span class="glyphicon glyphicon-pencil"></span> {% trans 'Articles' %}: {{ article_count }}</li>
           <li><span class="glyphicon glyphicon-comment"></span> {% trans 'Comments' %}: {{ article_comment_count }}</li>
           <li><span class="glyphicon glyphicon-question-sign"></span> {% trans 'Questions' %}: {{ question_count }}</li>
-          <li><span class="glyphicon glyphicon-education"></span> {% trans 'Answers' %}: {{ answer_count }}</li>
+          <li><span class="glyphicon glyphicon-education"></span> {% trans 'Answers' %}: {{ answer_count }}</li>-->
         </ul>
       </div>
       <div class="col-md-9">
         <h4>{% trans 'Most Recent Activity by' %} {{ page_user.profile.get_screen_name }}</h4>
          <canvas id="myChart" width="400" height="160"></canvas>
-         <script>
-          var ctx = document.getElementById("myChart").getContext('2d');
-          var data = {{ graph_data }};
-          var myChart = new Chart(ctx, {
-              type: 'bar',
-              data: {
-                  labels: ["Feeds", "Articles", "Comments", "Questions", "Answers"],
-                  datasets: [{
-                      label: 'Activities by type:',
-                      data: data,
-                      backgroundColor: [
-                          'rgba(255, 99, 132, 0.2)',
-                          'rgba(54, 162, 235, 0.2)',
-                          'rgba(255, 206, 86, 0.2)',
-                          'rgba(75, 192, 192, 0.2)',
-                          'rgba(153, 102, 255, 0.2)'
-                      ],
-                      borderColor: [
-                          'rgba(255,99,132,1)',
-                          'rgba(54, 162, 235, 1)',
-                          'rgba(255, 206, 86, 1)',
-                          'rgba(75, 192, 192, 1)',
-                          'rgba(153, 102, 255, 1)'
-                      ],
-                      borderWidth: 1
-                  }]
-              },
-              options: {
-                  scales: {
-                      yAxes: [{
-                          ticks: {
-                              beginAtZero:true
-                          }
-                      }]
-                  }
-              }
-          });
-        </script>
+         <script src="{% static 'js/graph_data.js' %}"></script>
         <div class="load">
           <img src="{% static 'img/loading.gif' %}">
         </div>
