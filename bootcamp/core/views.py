@@ -43,7 +43,8 @@ def profile(request, username):
     page_user = get_object_or_404(User, username=username)
     feeds_count = Feed.objects.filter(user=page_user).count()
     article_count = Article.objects.filter(create_user=page_user).count()
-    article_comment_count = ArticleComment.objects.filter(user=page_user).count()
+    article_comment_count = ArticleComment.objects.filter(
+        user=page_user).count()
     question_count = Question.objects.filter(user=page_user).count()
     answer_count = Answer.objects.filter(user=page_user).count()
     all_feeds = Feed.get_feeds().filter(user=page_user)
@@ -57,7 +58,8 @@ def profile(request, username):
         'article_comment_count': article_comment_count,
         'question_count': question_count,
         'answer_count': answer_count,
-        'graph_data': [feeds_count, article_count, article_comment_count, question_count, answer_count],
+        'graph_data': [feeds_count, article_count, article_comment_count,
+                       question_count, answer_count],
         'feeds': feeds,
         'from_feed': from_feed,
         'page': 1
