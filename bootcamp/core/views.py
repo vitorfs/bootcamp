@@ -57,6 +57,7 @@ def profile(request, username):
     return render(request, 'core/profile.html', data)
 
 
+@login_required
 def json_data(request, *args, **kwargs):
     page_user = User.objects.get(username=request.user.username)
     feeds_count = Feed.objects.filter(user=page_user).count()
