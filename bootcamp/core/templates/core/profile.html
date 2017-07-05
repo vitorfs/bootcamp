@@ -41,10 +41,10 @@
       </div>
       <div class="col-md-9">
         <h4>{% trans 'Most Recent Activity by' %} {{ page_user.profile.get_screen_name }}</h4>
-         <canvas id="myChart" width="400" height="300"></canvas>
+         <canvas id="myChart" width="400" height="160"></canvas>
          <script>
-          var data = {{ graph_data }};
           var ctx = document.getElementById("myChart").getContext('2d');
+          var data = {{ graph_data }};
           var myChart = new Chart(ctx, {
               type: 'bar',
               data: {
