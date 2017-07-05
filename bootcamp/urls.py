@@ -35,6 +35,7 @@ urlpatterns = [
     url(r'^search/$', search_views.search, name='search'),
     url(r'^(?P<username>[^/]+)/$', core_views.profile, name='profile'),
     url(r'^i18n/', include('django.conf.urls.i18n', namespace='i18n')),
+    url(r'^endpoints/graph/$', core_views.json_data, name='graph_data')
 ]
 
 if settings.DEBUG:
