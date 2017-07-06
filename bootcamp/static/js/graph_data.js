@@ -3,8 +3,8 @@ $.ajax({
     method: 'GET',
     url: endpoint,
     success: function(request_data){
-        data_labels = request_data.labels;
-        data = request_data.graph_data;
+        bar_labels = request_data.bar_labels;
+        bar_data = request_data.bar_data;
         // var feeds_count = request_data.feeds_count,
         // var article_count = request_data.article_count,
         // var article_comment_count = request_data.article_comment_count,
@@ -19,14 +19,14 @@ $.ajax({
 })
 
 function setColumnChart(){
-    var ctx = document.getElementById("myChart").getContext('2d');
+    var ctx = document.getElementById("bar_chart").getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: data_labels,
+            labels: bar_labels,
             datasets: [{
                 label: 'Activities by type:',
-                data: data,
+                data: bar_data,
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',

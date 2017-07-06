@@ -7,7 +7,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import redirect, render
 
 from bootcamp.core.forms import ChangePasswordForm, ProfileForm
 from bootcamp.feeds.models import Feed
@@ -40,7 +40,7 @@ def network(request):
 
 @login_required
 def profile(request, username):
-    page_user = get_object_or_404(User, username=username)
+    page_user = User.objects.get(username=username)
     all_feeds = Feed.get_feeds().filter(user=page_user)
     paginator = Paginator(all_feeds, FEEDS_NUM_PAGES)
     feeds = paginator.page(1)
@@ -67,15 +67,15 @@ def json_data(request, *args, **kwargs):
     question_count = Question.objects.filter(user=page_user).count()
     answer_count = Answer.objects.filter(user=page_user).count()
     data = {
-        'page_user': str(page_user),
         'feeds_count': feeds_count,
         'article_count': article_count,
         'article_comment_count': article_comment_count,
         'question_count': question_count,
         'answer_count': answer_count,
-        'graph_data': [feeds_count, article_count, article_comment_count,
-                       question_count, answer_count],
-        'labels': ['Feeds', 'Articles', 'Comments', 'Questions', 'Answers'],
+        'bar_data': [feeds_count, article_count, article_comment_count,
+                     question_count, answer_count],
+        'bar_labels': [
+            'Feeds', 'Articles', 'Comments', 'Questions', 'Answers'],
         }
     return JsonResponse(data)
 
