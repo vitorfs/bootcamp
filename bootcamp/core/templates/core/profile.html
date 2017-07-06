@@ -7,6 +7,7 @@
 {% block head %}
   <link href="{% static 'css/profile.css' %}" rel="stylesheet">
   <link href="{% static 'css/feeds.css' %}" rel="stylesheet">
+  <link href="{% static 'css/top_tiles.css' %}" rel="stylesheet">
   <script src="{% static 'js/jquery.bullseye-1.0-min.js' %}"></script>
   <script src="{% static 'js/feeds.js' %}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js" type="text/javascript"></script>
@@ -19,7 +20,7 @@
     <h1>{{ page_user.profile.get_screen_name }} {% if page_user.get_full_name %}<small>({{ page_user.username }})</small>{% endif %}</h1>
   </div>
   <div class="profile">
-    <h4>{% trans 'Most Recent Activity by' %} {{ page_user.profile.get_screen_name }}</h4>
+    <!--<h4>{% trans 'Most Recent Activity by' %} {{ page_user.profile.get_screen_name }}</h4>-->
     <div class="row">
       <!--Profile tile-->
       <div class="col-md-3 user-profile">
@@ -39,7 +40,7 @@
       <!--Profile tile-->
       <!--Main graphic-->
       <div class="col-md-9">
-         <canvas id="myChart" width="400" height="160"></canvas>
+         <canvas id="bar_chart" width="400" height="160"></canvas>
          <script src="{% static 'js/graph_data.js' %}"></script>
         <div class="load">
           <img src="{% static 'img/loading.gif' %}">
@@ -47,37 +48,31 @@
       </div>
       <!--Main graphic-->
     </div>
-    <div>
+    <div class="row tile_count">
       <!-- Data tiles -->
       <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
         <span class="count_top"><i class="glyphicon glyphicon-envelope"></i> {% trans 'Feeds' %}</span>
-        <div class="count">{{ feeds_count }}</div>
-        <span class="count_bottom"><i class="green">4% </i> From last Week</span>
+        <div class="count">{% firstof feeds_count '0' %}</div>
       </div>
       <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
         <span class="count_top"><i class="glyphicon glyphicon-pencil"></i> {% trans 'Articles' %}</span>
-        <div class="count">{{ article_count }}</div>
-        <span class="count_bottom"><i class="green">4% </i> From last Week</span>
+        <div class="count">{% firstof article_count '0' %}</div>
       </div>
       <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
         <span class="count_top"><i class="glyphicon glyphicon-comment"></i> {% trans 'Comments' %}</span>
-        <div class="count">{{ article_comment_count }}</div>
-        <span class="count_bottom"><i class="green">4% </i> From last Week</span>
+        <div class="count">{% firstof article_comment_count '0' %}</div>
       </div>
       <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
         <span class="count_top"><i class="glyphicon glyphicon-question-sign"></i> {% trans 'Questions' %}</span>
-        <div class="count">{{ question_count }}</div>
-        <span class="count_bottom"><i class="green">4% </i> From last Week</span>
+        <div class="count">{% firstof question_count '0' %}</div>
       </div>
       <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
         <span class="count_top"><i class="glyphicon glyphicon-education"></i> {% trans 'Answers' %}</span>
-        <div class="count">{{ answer_count }}</div>
-        <span class="count_bottom"><i class="green">4% </i> From last Week</span>
+        <div class="count">{% firstof answer_count '0' %}</div>
       </div>
       <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
         <span class="count_top"><i class="glyphicon glyphicon-envelope"></i> {% trans 'Feeds' %}</span>
-        <div class="count">{{ feeds_count }}</div>
-        <span class="count_bottom"><i class="green">4% </i> From last Week</span>
+        <div class="count">{% firstof feeds_count '0' %}</div>
       </div>
       <!-- /data tiles -->
     </div>
