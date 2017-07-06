@@ -52,27 +52,27 @@
       <!-- Data tiles -->
       <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
         <span class="count_top"><i class="glyphicon glyphicon-envelope"></i> {% trans 'Feeds' %}</span>
-        <div class="count">{% firstof feeds_count '0' %}</div>
+        <div class="count">{{ feeds_count }}</div>
       </div>
       <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
         <span class="count_top"><i class="glyphicon glyphicon-pencil"></i> {% trans 'Articles' %}</span>
-        <div class="count">{% firstof article_count '0' %}</div>
+        <div class="count">{{ article_count }}</div>
       </div>
       <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
         <span class="count_top"><i class="glyphicon glyphicon-comment"></i> {% trans 'Comments' %}</span>
-        <div class="count">{% firstof article_comment_count '0' %}</div>
+        <div class="count">{{ article_comment_count }}</div>
       </div>
       <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
         <span class="count_top"><i class="glyphicon glyphicon-question-sign"></i> {% trans 'Questions' %}</span>
-        <div class="count">{% firstof question_count '0' %}</div>
+        <div class="count">{{ question_count }}</div>
       </div>
       <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
         <span class="count_top"><i class="glyphicon glyphicon-education"></i> {% trans 'Answers' %}</span>
-        <div class="count">{% firstof answer_count '0' %}</div>
+        <div class="count">{{ answer_count }}</div>
       </div>
       <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
-        <span class="count_top"><i class="glyphicon glyphicon-envelope"></i> {% trans 'Feeds' %}</span>
-        <div class="count">{% firstof feeds_count '0' %}</div>
+        <span class="count_top"><i class="glyphicon glyphicon-fire"></i> {% trans 'Global Activity' %}</span>
+        <div class="count">{{ global_activity }}</div>
       </div>
       <!-- /data tiles -->
     </div>
