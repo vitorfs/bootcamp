@@ -11,7 +11,7 @@ from django.shortcuts import redirect, render
 
 from bootcamp.core.forms import ChangePasswordForm, ProfileForm
 from bootcamp.feeds.models import Feed
-from bootcamp.feeds.views import FEEDS_NUM_PAGES, feeds
+from bootcamp.feeds.views import feeds
 from bootcamp.articles.models import Article, ArticleComment
 from bootcamp.questions.models import Question, Answer
 from PIL import Image
@@ -47,28 +47,18 @@ def profile(request, username):
         user=page_user).count()
     question_count = Question.objects.filter(user=page_user).count()
     answer_count = Answer.objects.filter(user=page_user).count()
-    all_feeds = Feed.get_feeds().filter(user=page_user)
     act = (feeds_count, article_count,
            article_comment_count, question_count, answer_count)
     activity = sum(act)
-    paginator = Paginator(all_feeds, FEEDS_NUM_PAGES)
-    feeds = paginator.page(1)
-    from_feed = -1
     data = {
         'page_user': page_user,
-        'feeds': feeds,
-        'from_feed': from_feed,
         'feeds_count': feeds_count,
         'article_count': article_count,
         'article_comment_count': article_comment_count,
         'question_count': question_count,
         'global_activity': activity,
         'answer_count': answer_count,
-        'page': 1
         }
-    if feeds:
-        from_feed = feeds[0].id
-
     return render(request, 'core/profile.html', data)
 
 
