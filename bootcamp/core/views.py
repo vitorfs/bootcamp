@@ -1,6 +1,6 @@
 import os
+import json
 
-from django.http import JsonResponse
 from django.conf import settings as django_settings
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
@@ -57,27 +57,12 @@ def profile(request, username):
         'question_count': question_count,
         'global_interactions': activity_count,
         'answer_count': answer_count,
-        }
-    return render(request, 'core/profile.html', data)
-
-
-@login_required
-def json_data(request, *args, **kwargs):
-    page_user = User.objects.get(username=request.user.username)
-    feeds_count = Feed.objects.filter(user=page_user).count()
-    article_count = Article.objects.filter(create_user=page_user).count()
-    article_comment_count = ArticleComment.objects.filter(
-        user=page_user).count()
-    question_count = Question.objects.filter(user=page_user).count()
-    answer_count = Answer.objects.filter(user=page_user).count()
-    activity_count = Activity.objects.filter(user=page_user).count()
-    data = {
         'bar_data': [feeds_count, article_count, article_comment_count,
                      question_count, answer_count, activity_count],
-        'bar_labels': ['Feeds', 'Articles', 'Comments',
-                       'Questions', 'Answers', 'Activities'],
+        'bar_labels': json.dumps(
+            '["Feeds", "Articles", "Comments", "Questions", "Answers", "Activities"]')
         }
-    return JsonResponse(data)
+    return render(request, 'core/profile.html', data)
 
 
 @login_required
