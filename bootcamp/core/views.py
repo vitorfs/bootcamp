@@ -14,6 +14,7 @@ from bootcamp.feeds.models import Feed
 from bootcamp.feeds.views import feeds
 from bootcamp.articles.models import Article, ArticleComment
 from bootcamp.questions.models import Question, Answer
+from bootcamp.activities.models import Activity
 from PIL import Image
 
 
@@ -47,16 +48,14 @@ def profile(request, username):
         user=page_user).count()
     question_count = Question.objects.filter(user=page_user).count()
     answer_count = Answer.objects.filter(user=page_user).count()
-    act = (feeds_count, article_count,
-           article_comment_count, question_count, answer_count)
-    activity = sum(act)
+    activity_count = Activity.objects.filter(user=page_user).count()
     data = {
         'page_user': page_user,
         'feeds_count': feeds_count,
         'article_count': article_count,
         'article_comment_count': article_comment_count,
         'question_count': question_count,
-        'global_activity': activity,
+        'global_interactions': activity_count,
         'answer_count': answer_count,
         }
     return render(request, 'core/profile.html', data)
@@ -71,11 +70,12 @@ def json_data(request, *args, **kwargs):
         user=page_user).count()
     question_count = Question.objects.filter(user=page_user).count()
     answer_count = Answer.objects.filter(user=page_user).count()
+    activity_count = Activity.objects.filter(user=page_user).count()
     data = {
         'bar_data': [feeds_count, article_count, article_comment_count,
-                     question_count, answer_count],
-        'bar_labels': [
-            'Feeds', 'Articles', 'Comments', 'Questions', 'Answers'],
+                     question_count, answer_count, activity_count],
+        'bar_labels': ['Feeds', 'Articles', 'Comments',
+                       'Questions', 'Answers', 'Activities'],
         }
     return JsonResponse(data)
 
