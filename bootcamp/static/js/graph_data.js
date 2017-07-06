@@ -52,10 +52,10 @@ function setLineChart(){
     var my_line_chart = new Chart(ctx_line_chart, {
         type: 'line',
         data: {
-            labels: bar_labels,
+            labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio"],
             datasets: [{
-                label: 'Activities by type:',
-                data: bar_data,
+                label: 'Daily Activity:',
+                data: [23, 27, 34, 56, 32, 12, 12, 10, 13, 16, 21, 10],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',

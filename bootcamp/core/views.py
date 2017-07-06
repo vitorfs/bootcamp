@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import redirect, render
+from django.db.models.functions import TruncMonth, TruncDay
+from django.db.models import Count
 
 from bootcamp.core.forms import ChangePasswordForm, ProfileForm
 from bootcamp.feeds.models import Feed
@@ -15,7 +17,17 @@ from bootcamp.feeds.views import feeds
 from bootcamp.articles.models import Article, ArticleComment
 from bootcamp.questions.models import Question, Answer
 from bootcamp.activities.models import Activity
+
 from PIL import Image
+
+
+def montly_activity(user):
+    months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+    return Activity.objects.filter(user=user).annotate(month=TruncMonth('date')).values('month').annotate(c=Count('id')).values('month', 'c')
+
+
+def daily_activity(user):
+    return Activity.objects.filter(user=user).annotate(day=TruncDay('date')).values('day').annotate(c=Count('id')).values('day', 'c')
 
 
 def home(request):
@@ -49,6 +61,7 @@ def profile(request, username):
     question_count = Question.objects.filter(user=page_user).count()
     answer_count = Answer.objects.filter(user=page_user).count()
     activity_count = Activity.objects.filter(user=page_user).count()
+    daily_list = daily_activity(page_user)
     data = {
         'page_user': page_user,
         'feeds_count': feeds_count,
@@ -60,7 +73,8 @@ def profile(request, username):
         'bar_data': [feeds_count, article_count, article_comment_count,
                      question_count, answer_count, activity_count],
         'bar_labels': json.dumps(
-            '["Feeds", "Articles", "Comments", "Questions", "Answers", "Activities"]')
+            '["Feeds", "Articles", "Comments", "Questions", "Answers", "Activities"]'),
+        'daily_list': daily_list
         }
     return render(request, 'core/profile.html', data)
 
