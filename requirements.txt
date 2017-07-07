@@ -1,4 +1,5 @@
 Django==1.10.4
+django-autoslug==1.9.3
 dj-database-url==0.4.1
 dj-static==0.0.6
 gunicorn==19.6.0
