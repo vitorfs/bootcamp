@@ -42,6 +42,10 @@ function setBarChart(){
                         beginAtZero:true
                     }
                 }]
+            },
+            title: {
+                display: true,
+                text: 'User activity by type.'
             }
         }
     });
@@ -57,21 +61,26 @@ function setLineChart(){
                 label: 'Daily Activity:',
                 data: line_data,
                 backgroundColor: [
-                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(54, 162, 235, 0.2)'
                 ],
                 borderColor: [
                     'rgba(54, 162, 235, 1)'
                 ],
-                borderWidth: 2.5
+                borderWidth: 2.5,
             }]
         },
         options: {
             scales: {
                 yAxes: [{
                     ticks: {
-                        beginAtZero:true
+                        beginAtZero:true,
+                        max: Math.max.apply(Math, line_data) + 2
                     }
                 }]
+            },
+            title: {
+                display: true,
+                text: 'User activity by day.'
             }
         }
     });
