@@ -22,12 +22,19 @@ from PIL import Image
 
 
 def montly_activity(user):
-    months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
-    return Activity.objects.filter(user=user).annotate(month=TruncMonth('date')).values('month').annotate(c=Count('id')).values('month', 'c')
+    # months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
+    #           "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+    query = Activity.objects.filter(user=user).annotate(month=TruncMonth(
+        'date')).values('month').annotate(c=Count('id')).values('month', 'c')
+    dates, datapoints = zip(*[[a['c'], str(a['month'].date())] for a in query])
+    return json.dumps(dates), json.dumps(datapoints)
 
 
 def daily_activity(user):
-    return Activity.objects.filter(user=user).annotate(day=TruncDay('date')).values('day').annotate(c=Count('id')).values('day', 'c')
+    query = Activity.objects.filter(user=user).annotate(day=TruncDay(
+        'date')).values('day').annotate(c=Count('id')).values('day', 'c')
+    dates, datapoints = zip(*[[a['c'], str(a['day'].date())] for a in query])
+    return json.dumps(dates), json.dumps(datapoints)
 
 
 def home(request):
@@ -61,7 +68,7 @@ def profile(request, username):
     question_count = Question.objects.filter(user=page_user).count()
     answer_count = Answer.objects.filter(user=page_user).count()
     activity_count = Activity.objects.filter(user=page_user).count()
-    daily_list = daily_activity(page_user)
+    data, datepoints = daily_activity(page_user)
     data = {
         'page_user': page_user,
         'feeds_count': feeds_count,
@@ -74,7 +81,8 @@ def profile(request, username):
                      question_count, answer_count, activity_count],
         'bar_labels': json.dumps(
             '["Feeds", "Articles", "Comments", "Questions", "Answers", "Activities"]'),
-        'daily_list': daily_list
+        'line_labels': datepoints,
+        'line_data': data
         }
     return render(request, 'core/profile.html', data)
 
