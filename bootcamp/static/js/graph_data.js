@@ -32,7 +32,7 @@ function setBarChart(){
                     'rgba(153, 102, 255, 1)',
                     'rgba(255, 159, 64, 1)'
                 ],
-                borderWidth: 1
+                borderWidth: 2
             }]
         },
         options: {
@@ -52,25 +52,17 @@ function setLineChart(){
     var my_line_chart = new Chart(ctx_line_chart, {
         type: 'line',
         data: {
-            labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio"],
+            labels: line_labels,
             datasets: [{
                 label: 'Daily Activity:',
-                data: [23, 27, 34, 56, 32, 12, 12, 10, 13, 16, 21, 10],
+                data: line_data,
                 backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)'
                 ],
                 borderColor: [
-                    'rgba(255,99,132,1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)'
+                    'rgba(54, 162, 235, 1)'
                 ],
-                borderWidth: 1
+                borderWidth: 2.5
             }]
         },
         options: {
