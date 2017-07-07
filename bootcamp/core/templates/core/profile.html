@@ -19,33 +19,6 @@
     <h1>{{ page_user.profile.get_screen_name }} {% if page_user.get_full_name %}<small>({{ page_user.username }})</small>{% endif %}</h1>
   </div>
   <div class="profile">
-    <!--<h4>{% trans 'Most Recent Activity by' %} {{ page_user.profile.get_screen_name }}</h4>-->
-    <div class="row">
-      <!--Profile tile-->
-      <div class="col-md-3 user-profile">
-        <img src="{{ page_user.profile.get_picture }}" class="picture">
-        <ul>
-          {% if page_user.profile.job_title %}
-          <li><span class="glyphicon glyphicon-briefcase"></span> {{ page_user.profile.job_title }}</li>
-          {% endif %}
-          {% if page_user.profile.location %}
-          <li><span class="glyphicon glyphicon-map-marker"></span> {{ page_user.profile.location }}</li>
-          {% endif %}
-          {% if page_user.profile.url %}
-          <li><span class="glyphicon glyphicon-globe"></span> <a href="{{ page_user.profile.get_url }}" target="_blank">{{ page_user.profile.get_url }}</a></li>
-          {% endif %}
-        </ul>
-      </div>
-      <!--Profile tile-->
-      <!--Bar graphic chart-->
-      <div class="col-md-9">
-        <canvas id="bar_chart" width="400" height="160"></canvas>
-        <div class="load">
-          <img src="{% static 'img/loading.gif' %}">
-        </div>
-      </div>
-      <!--Bar graphic chart-->
-    </div>
     <div class="row tile_count">
       <!-- Data tiles -->
       <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
@@ -73,6 +46,34 @@
         <div class="count">{{ global_interactions }}</div>
       </div>
       <!-- /data tiles -->
+    </div>
+    <div class="row">
+      <!--Profile tile-->
+      <div class="col-md-3 user-profile">
+        <img src="{{ page_user.profile.get_picture }}" class="picture">
+        <ul>
+          {% if page_user.profile.job_title %}
+          <li><span class="glyphicon glyphicon-briefcase"></span> {{ page_user.profile.job_title }}</li>
+          {% endif %}
+          {% if page_user.profile.location %}
+          <li><span class="glyphicon glyphicon-map-marker"></span> {{ page_user.profile.location }}</li>
+          {% endif %}
+          {% if page_user.profile.url %}
+          <li><span class="glyphicon glyphicon-globe"></span> <a href="{{ page_user.profile.get_url }}" target="_blank">{{ page_user.profile.get_url }}</a></li>
+          {% endif %}
+        </ul>
+      </div>
+      <!--Profile tile-->
+      <!--Bar graphic chart-->
+      <div class="col-md-9">
+        <canvas id="bar_chart" width="400" height="160"></canvas>
+        <div class="load">
+          <img src="{% static 'img/loading.gif' %}">
+        </div>
+      </div>
+      <!--Bar graphic chart-->
+    </div>
+    <div class="row">
       <!--Line graph-->
       <div class="col-md-12">
         <canvas id="line_chart" width="600" height="160"></canvas>
