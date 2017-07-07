@@ -79,6 +79,8 @@
         <script type="text/javascript">
           var bar_labels = JSON.parse({{ bar_labels|safe }});
           var bar_data = {{ bar_data }};
+          var line_data = {{ line_data|safe }};
+          var line_labels = {{ line_labels|safe }};
         </script>
         <script src="{% static 'js/graph_data.js' %}"></script>
         <div class="load">
