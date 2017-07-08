@@ -36,6 +36,16 @@ class Activity(models.Model):
 
     @staticmethod
     def montly_activity(user):
+        """Static method to retrieve monthly statistical information about the
+        user activity.
+        @requires:  user - Instance from the User Django model.
+        @returns:   Two JSON arrays, the first one is dates which contains all
+                    the dates with activity records, and the second one is
+                    datapoints containing the sum of all the activity than had
+                    place in every single month.
+
+        Both arrays keep the same order, so there is no need to order them.
+        """
         # months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
         # "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
         query = Activity.objects.filter(user=user).annotate(
@@ -47,6 +57,16 @@ class Activity(models.Model):
 
     @staticmethod
     def daily_activity(user):
+        """Static method to retrieve daily statistical information about the
+        user activity.
+        @requires:  user - Instance from the User Django model.
+        @returns:   Two JSON arrays, the first one is dates which contains all
+                    the dates with activity records, and the second one is
+                    datapoints containing the sum of all the activity than had
+                    place in every single day.
+
+        Both arrays keep the same order, so there is no need to order them.
+        """
         query = Activity.objects.filter(user=user).annotate(day=TruncDay(
             'date')).values('day').annotate(c=Count('id')).values('day', 'c')
         dates, datapoints = zip(
