@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
+
 from bootcamp.activities.models import Activity, Notification
+from bootcamp.articles.models import Article
 from bootcamp.feeds.models import Feed
 from bootcamp.questions.models import Question, Answer
 
@@ -39,6 +41,21 @@ class TestModels(TestCase):
             description='A reaaaaally loooong content',
             votes=0,
             is_accepted=True
+        )
+        self.article = Article.objects.create(
+            title='A really nice title',
+            content='This is a really good content',
+            status='P',
+            create_user=self.user,
+        )
+        self.not_p_article = Article.objects.create(
+            title='A really nice to-be title',
+            content='''This is a really good content, just if somebody
+            published it, that would be awesome, but no, nobody wants to
+            publish it, because they know this is just a test, and you
+            know than nobody wants to publish a test, just a test;
+            everybody always wants the real deal.''',
+            create_user=self.user,
         )
 
     def test_register_fav_activity(self):
@@ -185,3 +202,19 @@ class TestModels(TestCase):
         self.assertTrue(isinstance(notification, Notification))
         self.assertEqual(str(notification), 'Ooops! Something went wrong.')
         self.assertNotEqual(str(notification), 'z')
+
+    def test_register_edited_article(self):
+        notification = Notification.objects.create(
+            from_user=self.user,
+            to_user=self.other_user,
+            feed=self.feed,
+            notification_type='E',
+            article=self.article,
+            is_read=False
+        )
+        test_string = notification._EDITED_ARTICLE_TEMPLATE.format(
+            self.user.username, self.user.profile.get_screen_name(),
+            self.article.slug, notification.get_summary(self.article.title))
+        self.assertTrue(isinstance(notification, Notification))
+        self.assertEqual(str(notification), test_string)
+        self.assertNotEqual(str(notification), 'e')
