@@ -1,4 +1,5 @@
 import os
+import json
 
 from django.conf import settings as django_settings
 from django.contrib import messages
@@ -6,11 +7,16 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import redirect, render
 
 from bootcamp.core.forms import ChangePasswordForm, ProfileForm
-from bootcamp.feeds.models import Feed
 from bootcamp.feeds.views import FEEDS_NUM_PAGES, feeds
+from bootcamp.feeds.models import Feed
+from bootcamp.feeds.views import feeds
+from bootcamp.articles.models import Article, ArticleComment
+from bootcamp.questions.models import Question, Answer
+from bootcamp.activities.models import Activity
+
 from PIL import Image
 
 
@@ -37,19 +43,41 @@ def network(request):
 
 @login_required
 def profile(request, username):
-    page_user = get_object_or_404(User, username=username)
+    page_user = User.objects.get(username=username)
     all_feeds = Feed.get_feeds().filter(user=page_user)
     paginator = Paginator(all_feeds, FEEDS_NUM_PAGES)
     feeds = paginator.page(1)
     from_feed = -1
     if feeds:
         from_feed = feeds[0].id
-    return render(request, 'core/profile.html', {
+
+    feeds_count = Feed.objects.filter(user=page_user).count()
+    article_count = Article.objects.filter(create_user=page_user).count()
+    article_comment_count = ArticleComment.objects.filter(
+        user=page_user).count()
+    question_count = Question.objects.filter(user=page_user).count()
+    answer_count = Answer.objects.filter(user=page_user).count()
+    activity_count = Activity.objects.filter(user=page_user).count()
+    data, datepoints = Activity.daily_activity(page_user)
+    data = {
         'page_user': page_user,
+        'feeds_count': feeds_count,
+        'article_count': article_count,
+        'article_comment_count': article_comment_count,
+        'question_count': question_count,
+        'global_interactions': activity_count,
+        'answer_count': answer_count,
+        'bar_data': [feeds_count, article_count, article_comment_count,
+                     question_count, answer_count, activity_count],
+        'bar_labels': json.dumps(
+            '["Feeds", "Articles", "Comments", "Questions", "Answers", "Activities"]'),
+        'line_labels': datepoints,
+        'line_data': data,
         'feeds': feeds,
         'from_feed': from_feed,
         'page': 1
-        })
+        }
+    return render(request, 'core/profile.html', data)
 
 
 @login_required
