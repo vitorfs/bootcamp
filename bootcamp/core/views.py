@@ -10,6 +10,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import redirect, render
 
 from bootcamp.core.forms import ChangePasswordForm, ProfileForm
+from bootcamp.feeds.views import FEEDS_NUM_PAGES, feeds
 from bootcamp.feeds.models import Feed
 from bootcamp.feeds.views import feeds
 from bootcamp.articles.models import Article, ArticleComment
@@ -43,6 +44,13 @@ def network(request):
 @login_required
 def profile(request, username):
     page_user = User.objects.get(username=username)
+    all_feeds = Feed.get_feeds().filter(user=page_user)
+    paginator = Paginator(all_feeds, FEEDS_NUM_PAGES)
+    feeds = paginator.page(1)
+    from_feed = -1
+    if feeds:
+        from_feed = feeds[0].id
+
     feeds_count = Feed.objects.filter(user=page_user).count()
     article_count = Article.objects.filter(create_user=page_user).count()
     article_comment_count = ArticleComment.objects.filter(
@@ -64,7 +72,10 @@ def profile(request, username):
         'bar_labels': json.dumps(
             '["Feeds", "Articles", "Comments", "Questions", "Answers", "Activities"]'),
         'line_labels': datepoints,
-        'line_data': data
+        'line_data': data,
+        'feeds': feeds,
+        'from_feed': from_feed,
+        'page': 1
         }
     return render(request, 'core/profile.html', data)
 
