@@ -35,7 +35,7 @@ class Activity(models.Model):
         verbose_name_plural = 'Activities'
 
     @staticmethod
-    def montly_activity(user):
+    def monthly_activity(user):
         """Static method to retrieve monthly statistical information about the
         user activity.
         @requires:  user - Instance from the User Django model.

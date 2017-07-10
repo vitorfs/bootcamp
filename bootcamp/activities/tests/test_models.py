@@ -95,6 +95,25 @@ class TestModels(TestCase):
             Activity.objects.all().count()), '["{}"]'.format(
                 activity_one.date.date())))
 
+    def test_activity_monthly_statistic(self):
+        activity_one = Activity.objects.create(
+            user=self.user,
+            activity_type='L'
+        )
+        activity_two = Activity.objects.create(
+            user=self.user,
+            activity_type='L'
+        )
+        activity_three = Activity.objects.create(
+            user=self.user,
+            activity_type='L'
+        )
+        self.assertTrue(isinstance(activity_one, Activity))
+        self.assertTrue(isinstance(activity_two, Activity))
+        self.assertTrue(isinstance(activity_three, Activity))
+        self.assertEqual(Activity.monthly_activity(self.user)[0],
+                         '[{}]'.format(Activity.objects.all().count()))
+
     def test_register_like_notification(self):
         notification = Notification.objects.create(
             from_user=self.user,
