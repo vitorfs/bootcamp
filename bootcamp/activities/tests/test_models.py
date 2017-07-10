@@ -75,6 +75,26 @@ class TestModels(TestCase):
         self.assertTrue(isinstance(activity, Activity))
         self.assertEqual(str(activity), 'L')
 
+    def test_activity_daily_statistic(self):
+        activity_one = Activity.objects.create(
+            user=self.user,
+            activity_type='L'
+        )
+        activity_two = Activity.objects.create(
+            user=self.user,
+            activity_type='L'
+        )
+        activity_three = Activity.objects.create(
+            user=self.user,
+            activity_type='L'
+        )
+        self.assertTrue(isinstance(activity_one, Activity))
+        self.assertTrue(isinstance(activity_two, Activity))
+        self.assertTrue(isinstance(activity_three, Activity))
+        self.assertEqual(Activity.daily_activity(self.user), ('[{}]'.format(
+            Activity.objects.all().count()), '["{}"]'.format(
+                activity_one.date.date())))
+
     def test_register_like_notification(self):
         notification = Notification.objects.create(
             from_user=self.user,
