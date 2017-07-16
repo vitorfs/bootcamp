@@ -23,6 +23,11 @@ class TestViews(TestCase):
         self.kwargs = {'content_type': 'application/json',
                        'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'}
         self.client.login(username='test_user', password='top_secret')
+        self.title = 'A really nice to-be title'
+        self.content = '''This is a really good content, just if somebody published
+        it, that would be awesome, but no, nobody wants to publish it, because
+        they know this is just a test, and you know than nobody wants to
+        publish a test, just a test; everybody always wants the real deal.'''
 
     def test_index_articles(self):
         response = self.client.get(reverse('articles'))
@@ -32,13 +37,8 @@ class TestViews(TestCase):
         self.assertEqual(response_no_art.status_code, 404)
 
     def test_individual_article(self):
-        title = 'A really nice to-be title'
-        content = '''This is a really good content, just if somebody published
-        it, that would be awesome, but no, nobody wants to publish it, because
-        they know this is just a test, and you know than nobody wants to
-        publish a test, just a test; everybody always wants the real deal.'''
-        response = self.client.post(reverse('write'), {'title': title,
-                                                       'content': content,
+        response = self.client.post(reverse('write'), {'title': self.title,
+                                                       'content': self.content,
                                                        'status': 'P'})
         response_art = self.client.get(
             reverse('article', kwargs={'slug': 'a-really-nice-to-be-title'}))
@@ -48,13 +48,12 @@ class TestViews(TestCase):
                          'a-really-nice-to-be-title')
 
     def test_drafts_workflow(self):
-        title = 'A really nice to-be title'
-        content = '''This is a really good content, just if somebody published
-        it, that would be awesome, but no, nobody wants to publish it, because
-        they know this is just a test, and you know than nobody wants to
-        publish a test, just a test; everybody always wants the real deal.'''
-        response = self.client.post(reverse('write'), {'title': title,
-                                                       'content': content})
+        response = self.client.post(reverse('write'), {'title': self.title,
+                                                       'content': self.content,
+                                                       'status': 'D'
+                                                       })
         resp = self.client.get(reverse('drafts'))
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
         self.assertEqual(resp.status_code, 200)
+        self.assertTrue(resp.context['drafts'][0].slug,
+                        'a-really-nice-to-be-title')
