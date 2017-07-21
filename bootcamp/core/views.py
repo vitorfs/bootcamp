@@ -1,6 +1,7 @@
 import os
 import json
 
+from django.shortcuts import get_object_or_404
 from django.conf import settings as django_settings
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
@@ -12,7 +13,6 @@ from django.shortcuts import redirect, render
 from bootcamp.core.forms import ChangePasswordForm, ProfileForm
 from bootcamp.feeds.views import FEEDS_NUM_PAGES, feeds
 from bootcamp.feeds.models import Feed
-from bootcamp.feeds.views import feeds
 from bootcamp.articles.models import Article, ArticleComment
 from bootcamp.questions.models import Question, Answer
 from bootcamp.activities.models import Activity
@@ -43,7 +43,7 @@ def network(request):
 
 @login_required
 def profile(request, username):
-    page_user = User.objects.get(username=username)
+    page_user = get_object_or_404(User, username=username)
     all_feeds = Feed.get_feeds().filter(user=page_user)
     paginator = Paginator(all_feeds, FEEDS_NUM_PAGES)
     feeds = paginator.page(1)
