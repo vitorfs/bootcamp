@@ -69,9 +69,13 @@ class Activity(models.Model):
         """
         query = Activity.objects.filter(user=user).annotate(day=TruncDay(
             'date')).values('day').annotate(c=Count('id')).values('day', 'c')
-        dates, datapoints = zip(
-            *[[a['c'], str(a['day'].date())] for a in query])
-        return json.dumps(dates), json.dumps(datapoints)
+        try:
+            dates, datapoints = zip(
+                *[[a['c'], str(a['day'].date())] for a in query])
+            return json.dumps(dates), json.dumps(datapoints)
+
+        except ValueError:
+            return json.dumps(0), json.dumps(0)
 
     def __str__(self):
         return self.activity_type
