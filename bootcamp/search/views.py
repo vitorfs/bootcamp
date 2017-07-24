@@ -28,8 +28,8 @@ def search(request):
         results['feed'] = Feed.objects.filter(post__icontains=querystring,
                                               parent=None)
         results['articles'] = Article.objects.filter(
-            Q(title__icontains=querystring) | Q(content__icontains=querystring)
-            )
+            status='Published').filter(Q(title__icontains=querystring) | Q(
+                content__icontains=querystring))
         results['questions'] = Question.objects.filter(
             Q(title__icontains=querystring) | Q(
                 description__icontains=querystring))
