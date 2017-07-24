@@ -95,12 +95,8 @@ def load_new(request):
 @login_required
 @ajax_required
 def check(request):
-    try:
-        last_feed = int(request.GET.get('last_feed'))
-        feed_source = int(request.GET.get('feed_source'))
-    except ValueError:
-        raise HttpResponseBadRequest()
-
+    last_feed = request.GET.get('last_feed')
+    feed_source = request.GET.get('feed_source')
     feeds = Feed.get_feeds_after(last_feed)
     if feed_source != 'all':
         feeds = feeds.filter(user__id=feed_source)
