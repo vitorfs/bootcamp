@@ -9,6 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 import markdown
 from taggit.managers import TaggableManager
 
+
 @python_2_unicode_compatible
 class Article(models.Model):
     DRAFT = 'D'
