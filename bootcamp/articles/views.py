@@ -1,8 +1,11 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import CreateView
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
+from django.core.urlresolvers import reverse_lazy
 
 import markdown
 from bootcamp.articles.forms import ArticleForm
@@ -24,6 +27,18 @@ def _articles(request, articles):
         'articles': articles,
         'popular_tags': popular_tags
     })
+
+
+class CreateArticle(LoginRequiredMixin, CreateView):
+    """
+    """
+    template_name = 'articles/write.html'
+    form_class = ArticleForm
+    success_url = reverse_lazy('articles')
+
+    def form_valid(self, form):
+        form.instance.create_user = self.request.user
+        return super(CreateArticle, self).form_valid(form)
 
 
 @login_required
