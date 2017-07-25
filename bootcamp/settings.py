@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'bootcamp.messenger',
     'bootcamp.questions',
     'bootcamp.search',
+    'taggit',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -114,3 +115,5 @@ ALLOWED_SIGNUP_DOMAINS = ['*']
 
 FILE_UPLOAD_TEMP_DIR = '/tmp/'
 FILE_UPLOAD_PERMISSIONS = 0o644
+
+TAGGIT_CASE_INSENSITIVE = True
