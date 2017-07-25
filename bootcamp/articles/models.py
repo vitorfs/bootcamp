@@ -7,7 +7,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 import markdown
-
+from taggit.managers import TaggableManager
 
 @python_2_unicode_compatible
 class Article(models.Model):
@@ -20,6 +20,7 @@ class Article(models.Model):
 
     title = models.CharField(max_length=255)
     slug = AutoSlugField(populate_from='title')
+    tags = TaggableManager()
     content = models.TextField(max_length=4000)
     status = models.CharField(max_length=1, choices=STATUS, default=DRAFT)
     create_user = models.ForeignKey(User)
