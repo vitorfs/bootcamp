@@ -17,10 +17,10 @@
   <div class="content">
     {{ article.get_content_as_markdown|safe }}
   </div>
-  {% if article.get_tags %}
+  {% if article.tags.names %}
     <div class="tags">
-      {% for tag in article.get_tags %}
-        <a href="{% url 'tag' tag.tag %}"><span class="label label-default">{{ tag }}</span></a>
+      {% for tag in article.tags.names %}
+        <a href="{% url 'tag' tag %}"><span class="label label-default">{{ tag }}</span></a>
       {% endfor %}
     </div>
   {% endif %}
