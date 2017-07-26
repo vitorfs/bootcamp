@@ -12,8 +12,8 @@ def notifications(request):
     notifications = Notification.objects.filter(to_user=user)
     unread = Notification.objects.filter(to_user=user, is_read=False)
     for notification in unread:
-        notification.is_read = True
-        notification.save()
+        notification.is_read = True  # pragma: no cover
+        notification.save()  # pragma: no cover
 
     return render(request, 'activities/notifications.html',
                   {'notifications': notifications})
@@ -26,8 +26,8 @@ def last_notifications(request):
     notifications = Notification.objects.filter(to_user=user,
                                                 is_read=False)[:5]
     for notification in notifications:
-        notification.is_read = True
-        notification.save()
+        notification.is_read = True  # pragma: no cover
+        notification.save()  # pragma: no cover
 
     return render(request,
                   'activities/last_notifications.html',
