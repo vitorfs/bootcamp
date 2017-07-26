@@ -39,6 +39,7 @@ class TestViews(TestCase):
     def test_individual_article(self):
         response = self.client.post(reverse('write'), {'title': self.title,
                                                        'content': self.content,
+                                                       'tags': 'list, lists',
                                                        'status': 'P'})
         response_art = self.client.get(
             reverse('article', kwargs={'slug': 'a-really-nice-to-be-title'}))
@@ -50,6 +51,7 @@ class TestViews(TestCase):
     def test_drafts_workflow(self):
         response = self.client.post(reverse('write'), {'title': self.title,
                                                        'content': self.content,
+                                                       'tags': 'list, lists',
                                                        'status': 'D'
                                                        })
         resp = self.client.get(reverse('drafts'))

@@ -62,17 +62,6 @@ class Article(models.Model):
 
         return tag_dict.items()
 
-    def create_tags(self, tags):
-        tags = tags.strip()
-        tag_list = tags.split(' ')
-        for tag in tag_list:
-            if tag:
-                t, created = Tag.objects.get_or_create(tag=tag.lower(),
-                                                       article=self)
-
-    def get_tags(self):
-        return Tag.objects.filter(article=self)
-
     def get_summary(self):
         if len(self.content) > 255:
             return '{0}...'.format(self.content[:255])
