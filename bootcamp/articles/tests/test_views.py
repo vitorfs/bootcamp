@@ -10,6 +10,7 @@ class TestViews(TestCase):
     """
     def setUp(self):
         self.client = Client()
+        self.other_client = Client()
         self.user = get_user_model().objects.create_user(
             username='test_user',
             email='test@gmail.com',
@@ -23,6 +24,7 @@ class TestViews(TestCase):
         self.kwargs = {'content_type': 'application/json',
                        'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'}
         self.client.login(username='test_user', password='top_secret')
+        self.other_client.login(username='other_test_user', password='top_secret')
         self.title = 'A really nice to-be title'
         self.content = '''This is a really good content, just if somebody published
         it, that would be awesome, but no, nobody wants to publish it, because
@@ -59,3 +61,29 @@ class TestViews(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertTrue(resp.context['drafts'][0].slug,
                         'a-really-nice-to-be-title')
+
+    def test_filter_by_tag(self):
+        response = self.client.post(reverse('write'), {'title': self.title,
+                                                       'content': self.content,
+                                                       'tags': 'list',
+                                                       'status': 'P'})
+        response_tag = self.client.get(
+            reverse('tag', kwargs={'tag_name': 'list'}))
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response_tag.status_code, 200)
+        self.assertTrue('list' in list(response_tag.context['popular_tags'])[0])
+
+    def test_edit_article(self):
+        response = self.client.post(reverse('write'), {'title': self.title,
+                                                       'content': self.content,
+                                                       'tags': 'list, lists',
+                                                       'status': 'D'
+                                                       })
+        edit_response = self.client.get(
+            reverse('edit_article', kwargs={'id': '1'}))
+        other_client_response = self.other_client.get(
+            reverse('edit_article', kwargs={'id': '1'}))
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(edit_response.status_code, 200)
+        self.assertRedirects(edit_response, reverse('home'))
+        self.assertRedirects(other_client_response, reverse('home'))
