@@ -64,27 +64,6 @@ def tag(request, tag_name):
 
 
 @login_required
-def write(request):
-    if request.method == 'POST':
-        form = ArticleForm(request.POST)
-        if form.is_valid():
-            article = Article()
-            article.create_user = request.user
-            article.title = form.cleaned_data.get('title')
-            article.content = form.cleaned_data.get('content')
-            status = form.cleaned_data.get('status')
-            if status in [Article.PUBLISHED, Article.DRAFT]:
-                article.status = form.cleaned_data.get('status')
-
-            article.save()
-            return redirect('/articles/')
-    else:
-        form = ArticleForm()
-
-    return render(request, 'articles/write.html', {'form': form})
-
-
-@login_required
 def drafts(request):
     drafts = Article.objects.filter(create_user=request.user,
                                     status=Article.DRAFT)
