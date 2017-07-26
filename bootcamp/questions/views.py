@@ -1,8 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import CreateView
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
+from django.core.urlresolvers import reverse_lazy
 
 from bootcamp.activities.models import Activity
 from bootcamp.decorators import ajax_required
@@ -16,14 +19,29 @@ def _questions(request, questions, active):
     page = request.GET.get('page')
     try:
         questions = paginator.page(page)
+
     except PageNotAnInteger:
         questions = paginator.page(1)
+
     except EmptyPage:
         questions = paginator.page(paginator.num_pages)
+
     return render(request, 'questions/questions.html', {
         'questions': questions,
         'active': active
     })
+
+
+class AskQuestion(LoginRequiredMixin, CreateView):
+    """
+    """
+    template_name = 'questions/ask.html'
+    form_class = QuestionForm
+    success_url = reverse_lazy('questions')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(AskQuestion, self).form_valid(form)
 
 
 @login_required
@@ -47,29 +65,6 @@ def unanswered(request):
 def all(request):
     questions = Question.objects.all()
     return _questions(request, questions, 'all')
-
-
-@login_required
-def ask(request):
-    if request.method == 'POST':
-        form = QuestionForm(request.POST)
-        if form.is_valid():
-            question = Question()
-            question.user = request.user
-            question.title = form.cleaned_data.get('title')
-            question.description = form.cleaned_data.get('description')
-            question.save()
-            tags = form.cleaned_data.get('tags')
-            question.create_tags(tags)
-            return redirect('/questions/')
-
-        else:
-            return render(request, 'questions/ask.html', {'form': form})
-
-    else:
-        form = QuestionForm()
-
-    return render(request, 'questions/ask.html', {'form': form})
 
 
 @login_required
@@ -139,9 +134,11 @@ def vote(request):
         user=user, answer=answer_id)
     if activity:
         activity.delete()
+
     if vote in [Activity.UP_VOTE, Activity.DOWN_VOTE]:
         activity = Activity(activity_type=vote, user=user, answer=answer_id)
         activity.save()
+
     return HttpResponse(answer.calculate_votes())
 
 
@@ -156,6 +153,7 @@ def favorite(request):
     if activity:
         activity.delete()
         user.profile.unotify_favorited(question)
+
     else:
         activity = Activity(activity_type=Activity.FAVORITE, user=user,
                             question=question_id)
