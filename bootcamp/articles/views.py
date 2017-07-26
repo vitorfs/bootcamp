@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
@@ -45,6 +45,13 @@ class CreateArticle(LoginRequiredMixin, CreateView):
         return super(CreateArticle, self).form_valid(form)
 
 
+class EditArticle(LoginRequiredMixin, UpdateView):
+    template_name = 'articles/edit.html'
+    model = Article
+    form_class = ArticleForm
+    success_url = reverse_lazy('articles')
+
+
 @login_required
 def articles(request):
     all_articles = Article.get_published()
@@ -68,29 +75,6 @@ def drafts(request):
     drafts = Article.objects.filter(create_user=request.user,
                                     status=Article.DRAFT)
     return render(request, 'articles/drafts.html', {'drafts': drafts})
-
-
-@login_required
-def edit(request, id):
-    if id:
-        article = get_object_or_404(Article, pk=id)
-
-    else:  # pragma: no cover
-        article = Article(create_user=request.user)
-
-    if article.create_user.id != request.user.id:
-        return redirect('home')
-
-    if request.POST:
-        form = ArticleForm(request.POST, instance=article)
-        if form.is_valid():
-            form.save()
-            return redirect('/articles/')
-
-    else:
-        form = ArticleForm(instance=article)
-
-    return render(request, 'articles/edit.html', {'form': form})
 
 
 @login_required
