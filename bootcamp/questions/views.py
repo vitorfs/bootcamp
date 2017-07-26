@@ -43,6 +43,7 @@ class AskQuestion(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         return super(AskQuestion, self).form_valid(form)
 
+
 @login_required
 def questions(request):
     return unanswered(request)
@@ -133,9 +134,11 @@ def vote(request):
         user=user, answer=answer_id)
     if activity:
         activity.delete()
+
     if vote in [Activity.UP_VOTE, Activity.DOWN_VOTE]:
         activity = Activity(activity_type=vote, user=user, answer=answer_id)
         activity.save()
+
     return HttpResponse(answer.calculate_votes())
 
 
@@ -150,6 +153,7 @@ def favorite(request):
     if activity:
         activity.delete()
         user.profile.unotify_favorited(question)
+
     else:
         activity = Activity(activity_type=Activity.FAVORITE, user=user,
                             question=question_id)
