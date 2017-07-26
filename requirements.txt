@@ -10,4 +10,5 @@ Markdown==2.6.7
 bleach==1.5.0
 whitenoise==3.2.2
 pytz==2017.2
+django-taggit==0.22.1
 psycopg2==2.6.2
