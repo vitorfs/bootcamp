@@ -5,8 +5,10 @@ from django.db import models
 from autoslug import AutoSlugField
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
+from django.db.models import Count
 
 import markdown
+from taggit.managers import TaggableManager
 
 
 @python_2_unicode_compatible
@@ -20,6 +22,7 @@ class Article(models.Model):
 
     title = models.CharField(max_length=255)
     slug = AutoSlugField(populate_from='title')
+    tags = TaggableManager()
     content = models.TextField(max_length=4000)
     status = models.CharField(max_length=1, choices=STATUS, default=DRAFT)
     create_user = models.ForeignKey(User)
@@ -44,16 +47,20 @@ class Article(models.Model):
         articles = Article.objects.filter(status=Article.PUBLISHED)
         return articles
 
-    def create_tags(self, tags):
-        tags = tags.strip()
-        tag_list = tags.split(' ')
-        for tag in tag_list:
-            if tag:
-                t, created = Tag.objects.get_or_create(tag=tag.lower(),
-                                                       article=self)
+    @staticmethod
+    def get_counted_tags():
+        tag_dict = {}
+        query = Article.objects.filter(status='P').annotate(tagged=Count(
+            'tags')).filter(tags__gt=0)
+        for obj in query:
+            for tag in obj.tags.names():
+                if tag not in tag_dict:
+                    tag_dict[tag] = 1
 
-    def get_tags(self):
-        return Tag.objects.filter(article=self)
+                else:
+                    tag_dict[tag] += 1
+
+        return tag_dict.items()
 
     def get_summary(self):
         if len(self.content) > 255:
@@ -66,34 +73,6 @@ class Article(models.Model):
 
     def get_comments(self):
         return ArticleComment.objects.filter(article=self)
-
-
-@python_2_unicode_compatible
-class Tag(models.Model):
-    tag = models.CharField(max_length=50)
-    article = models.ForeignKey(Article)
-
-    class Meta:
-        verbose_name = _('Tag')
-        verbose_name_plural = _('Tags')
-        unique_together = (('tag', 'article'),)
-        index_together = [['tag', 'article'], ]
-
-    def __str__(self):
-        return self.tag
-
-    @staticmethod
-    def get_popular_tags():
-        tags = Tag.objects.all()
-        count = {}
-        for tag in tags:
-            if tag.article.status == Article.PUBLISHED:
-                if tag.tag in count:
-                    count[tag.tag] = count[tag.tag] + 1
-                else:
-                    count[tag.tag] = 1
-        sorted_count = sorted(count.items(), key=lambda t: t[1], reverse=True)
-        return sorted_count[:20]
 
 
 @python_2_unicode_compatible

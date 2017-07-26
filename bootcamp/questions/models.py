@@ -6,6 +6,7 @@ from django.utils.encoding import python_2_unicode_compatible
 
 import markdown
 from bootcamp.activities.models import Activity
+from taggit.managers import TaggableManager
 
 
 @python_2_unicode_compatible
@@ -17,6 +18,7 @@ class Question(models.Model):
     update_date = models.DateTimeField(auto_now_add=True)
     favorites = models.IntegerField(default=0)
     has_accepted_answer = models.BooleanField(default=False)
+    tags = TaggableManager()
 
     class Meta:
         verbose_name = 'Question'
@@ -70,16 +72,6 @@ class Question(models.Model):
         for favorite in favorites:
             favoriters.append(favorite.user)
         return favoriters
-
-    def create_tags(self, tags):
-        tags = tags.strip()
-        tag_list = tags.split(' ')
-        for tag in tag_list:
-            t, created = Tag.objects.get_or_create(tag=tag.lower(),
-                                                   question=self)
-
-    def get_tags(self):
-        return Tag.objects.filter(question=self)
 
 
 @python_2_unicode_compatible
@@ -137,18 +129,3 @@ class Answer(models.Model):
 
     def get_description_as_markdown(self):
         return markdown.markdown(self.description, safe_mode='escape')
-
-
-@python_2_unicode_compatible
-class Tag(models.Model):
-    tag = models.CharField(max_length=50)
-    question = models.ForeignKey(Question)
-
-    class Meta:
-        verbose_name = 'Tag'
-        verbose_name_plural = 'Tags'
-        unique_together = (('tag', 'question'),)
-        index_together = [['tag', 'question'], ]
-
-    def __str__(self):
-        return self.tag
