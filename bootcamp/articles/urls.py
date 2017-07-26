@@ -4,7 +4,6 @@ from bootcamp.articles import views
 
 urlpatterns = [
     url(r'^$', views.articles, name='articles'),
-    # url(r'^write/$', views.write, name='write'),
     url(r'^write/$', views.CreateArticle.as_view(), name='write'),
     url(r'^preview/$', views.preview, name='preview'),
     url(r'^drafts/$', views.drafts, name='drafts'),
