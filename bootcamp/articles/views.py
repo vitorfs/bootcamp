@@ -18,11 +18,15 @@ def _articles(request, articles):
     page = request.GET.get('page')
     try:
         articles = paginator.page(page)
+
     except PageNotAnInteger:
         articles = paginator.page(1)
+
     except EmptyPage:
         articles = paginator.page(paginator.num_pages)
-    popular_tags = Tag.get_popular_tags()
+
+    popular_tags = Article.get_counted_tags()
+
     return render(request, 'articles/articles.html', {
         'articles': articles,
         'popular_tags': popular_tags
