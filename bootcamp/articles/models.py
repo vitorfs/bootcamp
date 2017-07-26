@@ -5,6 +5,7 @@ from django.db import models
 from autoslug import AutoSlugField
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
+from django.db.models import Count
 
 import markdown
 from taggit.managers import TaggableManager
@@ -45,6 +46,21 @@ class Article(models.Model):
     def get_published():
         articles = Article.objects.filter(status=Article.PUBLISHED)
         return articles
+
+    @staticmethod
+    def get_counted_tags():
+        tag_dict = {}
+        query = Article.objects.filter(status='P').annotate(tagged=Count(
+            'tags')).filter(tags__gt=0)
+        for obj in query:
+            for tag in obj.tags.names():
+                if tag not in tag_dict:
+                    tag_dict[tag] = 1
+
+                else:
+                    tag_dict[tag] += 1
+
+        return tag_dict.items()
 
     def create_tags(self, tags):
         tags = tags.strip()
