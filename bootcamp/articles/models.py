@@ -57,7 +57,7 @@ class Article(models.Model):
                 if tag not in tag_dict:
                     tag_dict[tag] = 1
 
-                else:
+                else:  # pragma: no cover
                     tag_dict[tag] += 1
 
         return tag_dict.items()
