@@ -22,7 +22,7 @@ def _articles(request, articles):
     except PageNotAnInteger:
         articles = paginator.page(1)
 
-    except EmptyPage:
+    except EmptyPage:   # pragma: no cover
         articles = paginator.page(paginator.num_pages)
 
     popular_tags = Article.get_counted_tags()
@@ -75,7 +75,7 @@ def edit(request, id):
     if id:
         article = get_object_or_404(Article, pk=id)
 
-    else:
+    else:  # pragma: no cover
         article = Article(create_user=request.user)
 
     if article.create_user.id != request.user.id:
