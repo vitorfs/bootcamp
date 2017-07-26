@@ -75,12 +75,12 @@ def write(request):
             status = form.cleaned_data.get('status')
             if status in [Article.PUBLISHED, Article.DRAFT]:
                 article.status = form.cleaned_data.get('status')
+
             article.save()
-            tags = form.cleaned_data.get('tags')
-            article.create_tags(tags)
             return redirect('/articles/')
     else:
         form = ArticleForm()
+
     return render(request, 'articles/write.html', {'form': form})
 
 
@@ -93,12 +93,9 @@ def drafts(request):
 
 @login_required
 def edit(request, id):
-    tags = ''
     if id:
         article = get_object_or_404(Article, pk=id)
-        for tag in article.get_tags():
-            tags = '{0} {1}'.format(tags, tag.tag)
-        tags = tags.strip()
+
     else:
         article = Article(create_user=request.user)
 
@@ -110,8 +107,10 @@ def edit(request, id):
         if form.is_valid():
             form.save()
             return redirect('/articles/')
+
     else:
-        form = ArticleForm(instance=article, initial={'tags': tags})
+        form = ArticleForm(instance=article)
+
     return render(request, 'articles/edit.html', {'form': form})
 
 
