@@ -94,6 +94,7 @@ class TestModels(TestCase):
         self.assertEqual(Activity.daily_activity(self.user), ('[{}]'.format(
             Activity.objects.all().count()), '["{}"]'.format(
                 activity_one.date.date())))
+        self.assertEqual(Activity.daily_activity(self.other_user)[0], '0')
 
     def test_activity_monthly_statistic(self):
         activity_one = Activity.objects.create(
@@ -113,6 +114,7 @@ class TestModels(TestCase):
         self.assertTrue(isinstance(activity_three, Activity))
         self.assertEqual(Activity.monthly_activity(self.user)[0],
                          '[{}]'.format(Activity.objects.all().count()))
+        self.assertEqual(Activity.monthly_activity(self.other_user)[0], '0')
 
     def test_register_like_notification(self):
         notification = Notification.objects.create(

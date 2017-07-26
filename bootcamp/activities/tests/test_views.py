@@ -47,6 +47,7 @@ class TestViews(TestCase):
         response = self.client.get(reverse('last_notifications'),
                                    **self.kwargs)
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['notifications'].count(), 0)
 
     def test_check_notification(self):
         response = self.client.get(reverse('check_notifications'),
