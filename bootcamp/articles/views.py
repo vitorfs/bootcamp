@@ -9,7 +9,7 @@ from django.core.urlresolvers import reverse_lazy
 
 import markdown
 from bootcamp.articles.forms import ArticleForm
-from bootcamp.articles.models import Article, ArticleComment, Tag
+from bootcamp.articles.models import Article, ArticleComment
 from bootcamp.decorators import ajax_required
 
 
@@ -59,11 +59,7 @@ def article(request, slug):
 
 @login_required
 def tag(request, tag_name):
-    tags = Tag.objects.filter(tag=tag_name)
-    articles = []
-    for tag in tags:
-        if tag.article.status == Article.PUBLISHED:
-            articles.append(tag.article)
+    articles = Article.objects.filter(tags__name=tag_name).filter(status='P')
     return _articles(request, articles)
 
 
