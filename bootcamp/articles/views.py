@@ -86,6 +86,7 @@ def preview(request):
             html = 'Nothing to display :('
             if len(content.strip()) > 0:
                 html = markdown.markdown(content, safe_mode='escape')
+
             return HttpResponse(html)
         else:
             return HttpResponseBadRequest()
