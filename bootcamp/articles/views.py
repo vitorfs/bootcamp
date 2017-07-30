@@ -88,6 +88,7 @@ def preview(request):
                 html = markdown.markdown(content, safe_mode='escape')
 
             return HttpResponse(html)
+
         else:
             return HttpResponseBadRequest()
 
