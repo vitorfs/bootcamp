@@ -40,9 +40,9 @@ class Profile(models.Model):
                 self.user.username + '.jpg'
             picture_url = settings.MEDIA_URL + 'profile_pictures/' +\
                 self.user.username + '.jpg'
-            if os.path.isfile(filename):
+            if os.path.isfile(filename):  # pragma: no cover
                 return picture_url
-            else:
+            else:  # pragma: no cover
                 gravatar_url = 'http://www.gravatar.com/avatar/{0}?{1}'.format(
                     hashlib.md5(self.user.email.lower()).hexdigest(),
                     urllib.urlencode({'d': no_picture, 's': '256'})
