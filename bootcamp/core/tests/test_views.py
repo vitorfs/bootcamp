@@ -33,3 +33,11 @@ class TestViews(TestCase):
     def test_get_home_response_no_logged(self):
         response = self.other_client.get(reverse('feeds'))
         self.assertRedirects(response, '/?next=/feeds/', status_code=302)
+
+    def test_network_response(self):
+        response = self.client.get(reverse('network'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_network_response_no_logged(self):
+        response = self.other_client.get(reverse('network'))
+        self.assertRedirects(response, '/?next=/network/', status_code=302)
