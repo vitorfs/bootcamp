@@ -34,10 +34,13 @@ def network(request):
     page = request.GET.get('page')
     try:
         users = paginator.page(page)
+
     except PageNotAnInteger:
         users = paginator.page(1)
-    except EmptyPage:
+
+    except EmptyPage:  # pragma: no cover
         users = paginator.page(paginator.num_pages)
+
     return render(request, 'core/network.html', {'users': users})
 
 
