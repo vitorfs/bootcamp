@@ -41,3 +41,9 @@ class TestViews(TestCase):
     def test_network_response_no_logged(self):
         response = self.other_client.get(reverse('network'))
         self.assertRedirects(response, '/?next=/network/', status_code=302)
+
+    def test_profile_respones(self):
+        response = self.client.get(
+            reverse('profile', kwargs={'username': 'test_user'}))
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('bar_data' in response.context)

@@ -51,7 +51,7 @@ def profile(request, username):
     paginator = Paginator(all_feeds, FEEDS_NUM_PAGES)
     feeds = paginator.page(1)
     from_feed = -1
-    if feeds:
+    if feeds:  # pragma: no cover
         from_feed = feeds[0].id
 
     feeds_count = Feed.objects.filter(user=page_user).count()
