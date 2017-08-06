@@ -71,6 +71,7 @@
             <li class="active"><a  href="#1b" data-toggle="tab">{% trans 'Last Feeds' %}</a></li>
             <li><a href="#2b" data-toggle="tab">Activity by type</a></li>
             <li><a href="#3b" data-toggle="tab">Activity by day</a></li>
+            <li><a href="#4b" data-toggle="tab">Activity by Total</a></li>
           </ul>
           <div class="tab-content">
             <div class="tab-pane active" id="1b">
@@ -91,6 +92,12 @@
               <canvas id="line_chart" width="400" height="160"></canvas>
               <div class="load"><img src="{% static 'img/loading.gif' %}"></div>
               <!--Line graph-->
+            </div>
+            <div class="tab-pane" id="4b">
+              <!--Doughnut graph-->
+              <canvas id="doughnut_chart" width="400" height="160"></canvas>
+              <div class="load"><img src="{% static 'img/loading.gif' %}"></div>
+              <!--Doughnut graph-->
             </div>
           </div>
       </div>
