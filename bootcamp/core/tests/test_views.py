@@ -47,3 +47,19 @@ class TestViews(TestCase):
             reverse('profile', kwargs={'username': 'test_user'}))
         self.assertEqual(response.status_code, 200)
         self.assertTrue('bar_data' in response.context)
+
+    def test_get_settings_response(self):
+        response = self.client.get(reverse('settings'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_post_settings_response(self):
+        response = self.client.post(reverse('settings'),
+                                    {'first_name': 'first_name',
+                                     'last_name': 'last_name',
+                                     'job_title': 'job_title'})
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_picture_response(self):
+        response = self.client.get(reverse('picture'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['uploaded_picture'], False)
