@@ -106,6 +106,7 @@ def settings(request):
             'url': user.profile.url,
             'location': user.profile.location
             })
+
     return render(request, 'core/settings.html', {'form': form})
 
 
