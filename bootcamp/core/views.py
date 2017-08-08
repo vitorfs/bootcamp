@@ -117,7 +117,7 @@ def picture(request):
         if request.GET.get('upload_picture') == 'uploaded':
             uploaded_picture = True
 
-    except Exception:
+    except Exception:  # pragma: no cover
         pass
 
     return render(request, 'core/picture.html',
