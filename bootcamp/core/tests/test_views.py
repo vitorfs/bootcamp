@@ -62,4 +62,12 @@ class TestViews(TestCase):
     def test_get_picture_response(self):
         response = self.client.get(reverse('picture'))
         self.assertEqual(response.status_code, 200)
+        self.assertTrue('uploaded_picture' in response.context)
         self.assertEqual(response.context['uploaded_picture'], False)
+
+    def test_post_picture_response(self):
+        response = self.client.get(
+            reverse('picture'), {'upload_picture': 'uploaded'})
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('uploaded_picture' in response.context)
+        self.assertEqual(response.context['uploaded_picture'], True)
