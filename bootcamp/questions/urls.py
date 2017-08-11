@@ -12,5 +12,6 @@ urlpatterns = [
     url(r'^answer/$', views.answer, name='answer'),
     url(r'^answer/accept/$', views.accept, name='accept'),
     url(r'^answer/vote/$', views.vote, name='vote'),
+    url(r'^question/vote/$', views.question_vote, name='question_vote'),
     url(r'^(\d+)/$', views.question, name='question'),
 ]

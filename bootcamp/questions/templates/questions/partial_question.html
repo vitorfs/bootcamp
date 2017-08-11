@@ -15,10 +15,10 @@
         <h5><span class="glyphicon glyphicon-comment"></span> Answers</h5>
         <span>{{ question.get_answers_count }}</span>
       </div>
-      <div class="info">
-        <h5><span class="glyphicon glyphicon-star"></span> Favorites</h5>
-        <span>{{ question.favorites }}</span>
-      </div>
+{#      <div class="info">#}
+{#        <h5><span class="glyphicon glyphicon-star"></span> Favorites</h5>#}
+{#        <span>{{ question.favorites }}</span>#}
+{#      </div>#}
     </div>
     <div class="question-user">
       <a href="{% url 'profile' question.user.username %}"><img src="{{ question.user.profile.get_picture }}" class="user"></a>

@@ -4,9 +4,9 @@
 <div class="row answer" answer-id="{{ answer.id }}">
   {% csrf_token %}
   <div class="col-md-1 options">
-    <span class="glyphicon glyphicon-chevron-up vote up-vote{% if user in answer.get_up_voters %} voted{% endif %}" title="{% trans 'Click to up vote; click again to toggle' %}"></span>
+    <span class="glyphicon glyphicon-chevron-up vote up-vote answer-vote {% if user in answer.get_up_voters %}voted{% endif %}" title="{% trans 'Click to up vote; click again to toggle' %}"></span>
     <span class="votes">{{ answer.votes }}</span>
-    <span class="glyphicon glyphicon-chevron-down vote down-vote{% if user in answer.get_down_voters %} voted{% endif %}" title="{% trans 'Click to down vote; click again to toggle' %}"></span>
+    <span class="glyphicon glyphicon-chevron-down vote down-vote answer-vote {% if user in answer.get_down_voters %}voted{% endif %}" title="{% trans 'Click to down vote; click again to toggle' %}"></span>
     {% if answer.is_accepted and user == question.user %}
       <span class="glyphicon glyphicon-ok accept accepted" title="{% trans 'Click to unaccept the answer' %}"></span>
     {% elif answer.is_accepted %}
