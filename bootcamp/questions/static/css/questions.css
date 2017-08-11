@@ -42,7 +42,7 @@
 }
 
 .options span.favorite {
-  font-size: 3em;
+  font-size: 2em;
   margin-top: .4em;
 }
 
@@ -115,6 +115,10 @@
   padding: 0 1em;
 }
 
+.question-title {
+  margin-top: 10px;
+}
+
 .question-info h5 {
   margin: 0;
   margin-bottom: .2em;
@@ -122,4 +126,8 @@
 
 .question-info .info:first-child {
   margin-bottom: 1.2em;
+}
+
+.glyphicon-star-empty {
+  font-size: 1em;
 }
