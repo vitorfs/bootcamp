@@ -12,19 +12,19 @@
       <p>{{ feed.linkfy_post|safe }}</p>
       <div class="interaction">
         {% if user in feed.get_likers %}
-          <a href="#" class="like unlike">
+          <a href="#" style="text-decoration: none;" class="like unlike">
             <span class="glyphicon glyphicon-thumbs-up"></span>
             <span class="text">{% trans 'Unlike' %}</span>
             (<span class="like-count">{{ feed.likes }}</span>)
           </a>
         {% else %}
-          <a href="#" class="like">
+          <a href="#" style="text-decoration: none;" class="like">
             <span class="glyphicon glyphicon-thumbs-up"></span>
             <span class="text">{% trans 'Like' %}</span>
             (<span class="like-count">{{ feed.likes }}</span>)
           </a>
         {% endif %}
-        <a href="#" class="comment">
+        <a href="#" style="text-decoration: none;" class="comment">
           <span class="glyphicon glyphicon-comment"></span> {% trans 'Comment' %}
           (<span class="comment-count">{{ feed.comments }}</span>)
         </a>
