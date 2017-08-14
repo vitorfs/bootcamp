@@ -130,7 +130,7 @@ def vote(request):
     vote = request.POST['vote']
     user = request.user
     activity = Activity.objects.filter(
-        Q(activity_type=Activity.UP_VOTE) | Q(activity_type=Activity.DOWN_VOTE),   # noqa: E501
+        Q(activity_type=Activity.UP_VOTE) | Q(activity_type=Activity.DOWN_VOTE),  # noqa: E501
         user=user, answer=answer_id)
     if activity:
         activity.delete()
@@ -140,6 +140,26 @@ def vote(request):
         activity.save()
 
     return HttpResponse(answer.calculate_votes())
+
+
+@login_required
+@ajax_required
+def question_vote(request):
+    question_id = request.POST['question']
+    question = Question.objects.get(pk=question_id)
+    vote = request.POST['vote']
+    user = request.user
+    activity = Activity.objects.filter(
+        Q(activity_type=Activity.UP_VOTE) | Q(activity_type=Activity.DOWN_VOTE),  # noqa: E501
+        user=user, question=question_id)
+    if activity:
+        activity.delete()
+
+    if vote in [Activity.UP_VOTE, Activity.DOWN_VOTE]:
+        activity = Activity(activity_type=vote, user=user, question=question_id)
+        activity.save()
+
+    return HttpResponse(question.calculate_votes())
 
 
 @login_required

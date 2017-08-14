@@ -16,6 +16,7 @@ class Question(models.Model):
     description = models.TextField(max_length=2000)
     create_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now_add=True)
+    votes = models.IntegerField(default=0)
     favorites = models.IntegerField(default=0)
     has_accepted_answer = models.BooleanField(default=False)
     tags = TaggableManager()
@@ -51,6 +52,7 @@ class Question(models.Model):
     def get_description_preview(self):
         if len(self.description) > 255:
             return '{0}...'.format(self.description[:255])
+
         else:
             return self.description
 
@@ -71,7 +73,35 @@ class Question(models.Model):
         favoriters = []
         for favorite in favorites:
             favoriters.append(favorite.user)
+
         return favoriters
+
+    def calculate_votes(self):
+        up_votes = Activity.objects.filter(activity_type=Activity.UP_VOTE,
+                                           question=self.pk).count()
+        down_votes = Activity.objects.filter(activity_type=Activity.DOWN_VOTE,
+                                             question=self.pk).count()
+        self.votes = up_votes - down_votes
+        self.save()
+        return self.votes
+
+    def get_up_voters(self):
+        votes = Activity.objects.filter(activity_type=Activity.UP_VOTE,
+                                        question=self.pk)
+        voters = []
+        for vote in votes:
+            voters.append(vote.user)
+
+        return voters
+
+    def get_down_voters(self):
+        votes = Activity.objects.filter(activity_type=Activity.DOWN_VOTE,
+                                        question=self.pk)
+        voters = []
+        for vote in votes:
+            voters.append(vote.user)
+
+        return voters
 
 
 @python_2_unicode_compatible
@@ -117,6 +147,7 @@ class Answer(models.Model):
         voters = []
         for vote in votes:
             voters.append(vote.user)
+
         return voters
 
     def get_down_voters(self):
@@ -125,6 +156,7 @@ class Answer(models.Model):
         voters = []
         for vote in votes:
             voters.append(vote.user)
+
         return voters
 
     def get_description_as_markdown(self):
