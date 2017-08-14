@@ -70,11 +70,7 @@ class Question(models.Model):
     def get_favoriters(self):
         favorites = Activity.objects.filter(activity_type=Activity.FAVORITE,
                                             question=self.pk)
-        favoriters = []
-        for favorite in favorites:
-            favoriters.append(favorite.user)
-
-        return favoriters
+        return [favorite for favorite in favorites]
 
     def calculate_votes(self):
         up_votes = Activity.objects.filter(activity_type=Activity.UP_VOTE,
@@ -88,20 +84,12 @@ class Question(models.Model):
     def get_up_voters(self):
         votes = Activity.objects.filter(activity_type=Activity.UP_VOTE,
                                         question=self.pk)
-        voters = []
-        for vote in votes:
-            voters.append(vote.user)
-
-        return voters
+        return [vote for vote in votes]
 
     def get_down_voters(self):
         votes = Activity.objects.filter(activity_type=Activity.DOWN_VOTE,
                                         question=self.pk)
-        voters = []
-        for vote in votes:
-            voters.append(vote.user)
-
-        return voters
+        return [vote for vote in votes]
 
 
 @python_2_unicode_compatible
@@ -144,20 +132,12 @@ class Answer(models.Model):
     def get_up_voters(self):
         votes = Activity.objects.filter(activity_type=Activity.UP_VOTE,
                                         answer=self.pk)
-        voters = []
-        for vote in votes:
-            voters.append(vote.user)
-
-        return voters
+        return [vote for vote in votes]
 
     def get_down_voters(self):
         votes = Activity.objects.filter(activity_type=Activity.DOWN_VOTE,
                                         answer=self.pk)
-        voters = []
-        for vote in votes:
-            voters.append(vote.user)
-
-        return voters
+        return [vote for vote in votes]
 
     def get_description_as_markdown(self):
         return markdown.markdown(self.description, safe_mode='escape')
