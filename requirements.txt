@@ -9,7 +9,7 @@ gunicorn==19.7.1
 Markdown==2.6.8
 Pillow==4.2.1
 psycopg2==2.7.3
-python-decouple==3.0
+python-decouple==3.1
 pytz==2017.2
 Unipath==1.1
 whitenoise==3.3.0
