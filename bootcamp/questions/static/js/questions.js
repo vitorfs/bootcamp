@@ -27,7 +27,7 @@ $(function () {
     });
   });
 
-  $(".vote").click(function () {
+  $(".answer-vote").click(function () {
     var span = $(this);
     var answer = $(this).closest(".answer").attr("answer-id");
     var csrf = $("input[name='csrfmiddlewaretoken']", $(this).closest(".answer")).val();
@@ -45,6 +45,41 @@ $(function () {
       url: '/questions/answer/vote/',
       data: {
         'answer': answer,
+        'vote': vote,
+        'csrfmiddlewaretoken': csrf
+      },
+      type: 'post',
+      cache: false,
+      success: function (data) {
+        var options = $(span).closest('.options');
+        $('.vote', options).removeClass('voted');
+        if (vote == 'U' || vote == 'D') {
+          $(span).addClass('voted');
+        }
+        $('.votes', options).text(data);
+      }
+    });
+  });
+
+   $(".question-vote").click(function () {
+    var span = $(this);
+    var question = $(this).closest(".question").attr("question-id");
+    var csrf = $("input[name='csrfmiddlewaretoken']", $(this).closest(".question")).val();
+    console.log(csrf)
+    var vote = "";
+    if ($(this).hasClass("voted")) {
+      var vote = "R";
+    }
+    else if ($(this).hasClass("up-vote")) {
+      vote = "U";
+    }
+    else if ($(this).hasClass("down-vote")) {
+      vote = "D";
+    }
+    $.ajax({
+      url: '/questions/question/vote/',
+      data: {
+        'question': question,
         'vote': vote,
         'csrfmiddlewaretoken': csrf
       },

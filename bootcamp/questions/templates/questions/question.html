@@ -17,15 +17,18 @@
   <div class="row question" question-id="{{ question.id }}">
     {% csrf_token %}
     <div class="col-md-1 options">
-      {% if user in question.get_favoriters %}
+        <span class="glyphicon glyphicon-chevron-up vote up-vote question-vote {% if user in question.get_up_voters %} voted {% endif %}" title="{% trans 'Click to up vote; click again to toggle' %}"></span>
+    <span class="votes">{{ question.votes }}</span>
+    <span class="glyphicon glyphicon-chevron-down vote down-vote question-vote {% if user in question.get_down_voters %}voted{% endif %}" title="{% trans 'Click to down vote; click again to toggle' %}"></span>
+        {% if user in question.get_favoriters %}
         <span class="glyphicon glyphicon-star favorite favorited" title="Click to mark this question as favorite; click again to toggle"></span>
       {% else %}
-        <span class="glyphicon glyphicon-star-empty favorite" title="Click to mark this question as favorite; click again to toggle"></span>
-      {% endif %}
-      <span class="favorite-count">{{ question.favorites }}</span>
+        <span class="glyphicon glyphicon-star-empty favorite" title="Click to mark this question as favorite; click again to toggle"></span
+    {% endif %}
+    <span class="favorite-count">{{ question.favorites }}</span>
     </div>
     <div class="col-md-11">
-      <h2>{{ question.title }}</h2>
+      <h2 class="question-title">{{ question.title }}</h2>
       <div class="question-user">
         <a href="{% url 'profile' question.user.username %}"><img src="{{ question.user.profile.get_picture }}" class="user"></a>
         <a href="{% url 'profile' question.user.username %}" class="username">{{ question.user.profile.get_screen_name }}</a>
