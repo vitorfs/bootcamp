@@ -52,6 +52,7 @@ class Question(models.Model):
     def get_description_preview(self):
         if len(self.description) > 255:
             return '{0}...'.format(self.description[:255])
+
         else:
             return self.description
 
@@ -72,6 +73,7 @@ class Question(models.Model):
         favoriters = []
         for favorite in favorites:
             favoriters.append(favorite.user)
+
         return favoriters
 
     def calculate_votes(self):
@@ -89,6 +91,7 @@ class Question(models.Model):
         voters = []
         for vote in votes:
             voters.append(vote.user)
+
         return voters
 
     def get_down_voters(self):
@@ -97,6 +100,7 @@ class Question(models.Model):
         voters = []
         for vote in votes:
             voters.append(vote.user)
+
         return voters
 
 
@@ -143,6 +147,7 @@ class Answer(models.Model):
         voters = []
         for vote in votes:
             voters.append(vote.user)
+
         return voters
 
     def get_down_voters(self):
@@ -151,6 +156,7 @@ class Answer(models.Model):
         voters = []
         for vote in votes:
             voters.append(vote.user)
+
         return voters
 
     def get_description_as_markdown(self):
