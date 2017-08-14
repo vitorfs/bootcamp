@@ -70,7 +70,6 @@ class Question(models.Model):
         favorites = Activity.objects.filter(activity_type=Activity.FAVORITE,
                                             question=self.pk)
         favoriters = []
-        print("Fav:", favorites)
         for favorite in favorites:
             favoriters.append(favorite.user)
         return favoriters
