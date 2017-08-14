@@ -33,7 +33,7 @@
 
 .options {
   text-align: center;
-  
+
 }
 
 .options span {
@@ -106,7 +106,7 @@
 }
 
 .favorited {
-  color: #f0ad4e; 
+  color: #f0ad4e;
 }
 
 .question-info {
@@ -125,6 +125,10 @@
 }
 
 .question-info .info:first-child {
+  margin-bottom: 1.2em;
+}
+
+.question-info .info:nth-child(2) {
   margin-bottom: 1.2em;
 }
 
