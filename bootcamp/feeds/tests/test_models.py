@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
-from bootcamp.articles.models import Article, ArticleComment
+
+from bootcamp.activities.models import Activity
+from bootcamp.feeds.models import Feed
 
 
 class TestModels(TestCase):
@@ -17,4 +19,10 @@ class TestModels(TestCase):
             username='other_test_user',
             email='other_test@gmail.com',
             password='top_secret'
+        )
+        self.feed = Feed.objects.create(
+            user=self.user,
+            post='A not so long text',
+            likes=0,
+            comments=0
         )
