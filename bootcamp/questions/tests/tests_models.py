@@ -24,7 +24,11 @@ class QuestionVoteTest(TestCase):
         self.question_two = Question.objects.create(
             user=self.user,
             title='A Short Title',
-            description='A reaaaaally loooong content',
+            description='''This is a really good content, just if somebody
+            published it, that would be awesome, but no, nobody wants to
+            publish it, because they know this is just a test, and you
+            know than nobody wants to publish a test, just a test;
+            everybody always wants the real deal.''',
             favorites=0,
             has_accepted_answer=True
         )
@@ -61,3 +65,30 @@ class QuestionVoteTest(TestCase):
 
     def test_answered_question(self):
         self.assertEqual(self.question_two, Question.get_answered()[0])
+
+    def test_answers_returns(self):
+        self.assertEqual(self.answer, self.question_two.get_answers()[0])
+
+    def test_answer_count(self):
+        self.assertEqual(self.question_two.get_answers_count(), 1)
+
+    def test_accepted_answer(self):
+        self.assertEqual(self.question_two.get_accepted_answer(), self.answer)
+
+    def test_markdown_return(self):
+        self.assertEqual(self.question_one.get_description_as_markdown(),
+                         '<p>This is a sample question description</p>')
+        self.assertEqual(self.question_two.get_description_as_markdown(),
+                         '''<p>This is a really good content, just if somebody
+            published it, that would be awesome, but no, nobody wants to
+            publish it, because they know this is just a test, and you
+            know than nobody wants to publish a test, just a test;
+            everybody always wants the real deal.</p>''')
+
+    def test_return_summary(self):
+        self.assertEqual(len(self.question_two.get_description_preview()), 258)
+        self.assertEqual(self.question_two.get_description_preview(),
+                         '''This is a really good content, just if somebody
+            published it, that would be awesome, but no, nobody wants to
+            publish it, because they know this is just a test, and you
+            know than nobody wants to publish a test, just a te...''')
