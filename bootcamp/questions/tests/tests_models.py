@@ -39,6 +39,8 @@ class QuestionVoteTest(TestCase):
         self.assertEqual(self.question.calculate_votes(), votes - 1)
 
     def test_str_return_value(self):
-        self.assertEqual(self.question, 'This is a sample question')
+        self.assertTrue(isinstance(self.question, Question))
+        self.assertEqual(str(self.question), 'This is a sample question')
 
-
+    def test_non_aswered_question(self):
+        self.assertEqual(self.question, self.question.get_unanswered()[0])
