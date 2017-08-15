@@ -3,7 +3,6 @@ from django.test import TestCase
 
 from bootcamp.activities.models import Activity
 from bootcamp.questions.models import Question, Answer
-from bootcamp.activities.models import Activity
 
 
 class QuestionVoteTest(TestCase):
