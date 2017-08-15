@@ -44,17 +44,16 @@ class QuestionVoteTest(TestCase):
     def test_can_up_vote_question(self):
         activity = Activity.objects.create(user=self.user, activity_type='U',
                                            question=self.question_one.id)
-        activity.save()
         activity = Activity.objects.create(user=self.user, activity_type='U',
                                            question=self.question_one.id)
-        activity.save()
+        self.assertTrue(isinstance(activity, Activity))
         self.assertEqual(self.question_one.calculate_votes(), 2)
 
     def test_can_down_vote_question(self):
         votes = self.question_one.calculate_votes()
         activity = Activity.objects.create(user=self.user, activity_type='D',
                                            question=self.question_one.id)
-        activity.save()
+        self.assertTrue(isinstance(activity, Activity))
         self.assertEqual(self.question_one.calculate_votes(), votes - 1)
 
     def test_question_str_return_value(self):
