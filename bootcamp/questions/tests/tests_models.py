@@ -37,3 +37,8 @@ class QuestionVoteTest(TestCase):
                                            question=self.question.id)
         activity.save()
         self.assertEqual(self.question.calculate_votes(), votes - 1)
+
+    def test_str_return_value(self):
+        self.assertEqual(self.question, 'This is a sample question')
+
+
