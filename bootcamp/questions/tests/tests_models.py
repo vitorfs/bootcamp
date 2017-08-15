@@ -130,3 +130,58 @@ class QuestionVoteTest(TestCase):
         self.assertEqual(self.question_one.get_up_voters()[0].user, self.user)
         self.assertEqual(
             self.question_one.get_down_voters()[0].user, self.other_user)
+
+    # Answer model tests
+    def test_answer_return_value(self):
+        self.assertEqual(str(self.answer), 'A reaaaaally loooong content')
+
+    def test_answer_accept_method(self):
+        answer_one = Answer.objects.create(
+            user=self.user,
+            question=self.question_one,
+            description='A reaaaaally loooonger content'
+        )
+        answer_two = Answer.objects.create(
+            user=self.user,
+            question=self.question_one,
+            description='A reaaaaally even loooonger content'
+        )
+        answer_three = Answer.objects.create(
+            user=self.user,
+            question=self.question_one,
+            description='Even a reaaaaally loooonger content'
+        )
+        self.assertFalse(answer_one.is_accepted)
+        self.assertFalse(answer_two.is_accepted)
+        self.assertFalse(answer_three.is_accepted)
+        self.assertFalse(self.question_one.has_accepted_answer)
+        answer_one.accept()
+        self.assertTrue(answer_one.is_accepted)
+        self.assertFalse(answer_two.is_accepted)
+        self.assertFalse(answer_three.is_accepted)
+        self.assertTrue(self.question_one.has_accepted_answer)
+        self.assertEqual(self.question_one.get_accepted_answer(), answer_one)
+
+    def test_answers_vote_calculation(self):
+        activity = Activity.objects.create(user=self.user, activity_type='U',
+                                           answer=self.answer.id)
+        activity = Activity.objects.create(user=self.other_user,
+                                           activity_type='U',
+                                           answer=self.answer.id)
+        self.assertTrue(isinstance(activity, Activity))
+        self.assertEqual(self.answer.calculate_votes(), 2)
+
+    def test_answer_voters_return_values(self):
+        activity = Activity.objects.create(user=self.user, activity_type='U',
+                                           answer=self.answer.id)
+        activity = Activity.objects.create(user=self.other_user,
+                                           activity_type='D',
+                                           answer=self.answer.id)
+        self.assertTrue(isinstance(activity, Activity))
+        self.assertEqual(self.answer.get_up_voters()[0].user, self.user)
+        self.assertEqual(
+            self.answer.get_down_voters()[0].user, self.other_user)
+
+    def test_answer_description_markdown(self):
+        self.assertEqual(self.answer.get_description_as_markdown(),
+                         '<p>A reaaaaally loooong content</p>')
