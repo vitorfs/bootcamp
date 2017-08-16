@@ -33,6 +33,9 @@ class TestViews(TestCase):
         it, that would be awesome, but no, nobody wants to publish it, because
         they know this is just a test, and you know than nobody wants to
         publish a test, just a test; everybody always wants the real deal.'''
+        self.article = Article.objects.create(
+            create_user=self.user, title='A really nice title',
+            content=self.content, tags='list, lists', status='P')
 
     def test_index_articles(self):
         response = self.client.get(reverse('articles'))
@@ -115,5 +118,18 @@ class TestViews(TestCase):
 
     def test_bad_request_preview(self):
         request = self.client.get(reverse('preview'))
+        self.assertEqual(request.status_code, 400)
+        self.assertTrue(isinstance(request, HttpResponseBadRequest))
+
+    def test_comment_view(self):
+        request = self.client.post(reverse('comment'),
+                                   {'article': self.article.id,
+                                    'comment': 'This is a good comment'},
+                                   HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(request.status_code, 200)
+        self.assertTrue(b'This is a good comment' in request.content)
+
+    def test_bad_request_comment(self):
+        request = self.client.get(reverse('comment'))
         self.assertEqual(request.status_code, 400)
         self.assertTrue(isinstance(request, HttpResponseBadRequest))
