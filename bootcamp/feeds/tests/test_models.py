@@ -26,3 +26,9 @@ class TestModels(TestCase):
             likes=0,
             comments=0
         )
+
+    def test_instance_values(self):
+        self.assertTrue(isinstance(self.feed, Feed))
+
+    def test_feed_return_value(self):
+        self.assertEqual(str(self.feed), 'A not so long text')
