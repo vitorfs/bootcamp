@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.http import HttpResponseBadRequest
 from django.core.urlresolvers import reverse
 from django.test import Client, TestCase
 
@@ -96,3 +97,23 @@ class TestViews(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response_two.status_code, 302)
         self.assertNotEqual(art_content, art.content)
+
+    def test_empty_preview(self):
+        request = self.client.post(reverse('preview'), {'content': ''},
+                                   HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(request.status_code, 200)
+        self.assertEqual(request.content, b'Nothing to display :(')
+
+    def test_preview_with_text(self):
+        content = '<p>This is a really good content.</p>'
+        request = self.client.post(reverse('preview'), {'content': content},
+                                   HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(request.status_code, 200)
+        self.assertEqual(
+            request.content,
+            b'<p>&lt;p&gt;This is a really good content.&lt;/p&gt;</p>')
+
+    def test_bad_request_preview(self):
+        request = self.client.get(reverse('preview'))
+        self.assertEqual(request.status_code, 400)
+        self.assertTrue(isinstance(request, HttpResponseBadRequest))
