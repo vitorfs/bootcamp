@@ -156,7 +156,8 @@ def question_vote(request):
         activity.delete()
 
     if vote in [Activity.UP_VOTE, Activity.DOWN_VOTE]:
-        activity = Activity(activity_type=vote, user=user, question=question_id)
+        activity = Activity(activity_type=vote,
+                            user=user, question=question_id)
         activity.save()
 
     return HttpResponse(question.calculate_votes())

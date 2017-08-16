@@ -2,7 +2,6 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.test import TestCase
 
-from bootcamp import settings
 from bootcamp.authentication.models import Profile
 
 
@@ -38,11 +37,11 @@ class TestModels(TestCase):
         self.assertTrue(isinstance(self.profile.user, User))
 
     def test_return_url(self):
-        self.assertEqual(self.profile.get_url(), 'http://trybootcamp.vitorfs.com')
+        self.assertEqual(self.profile.get_url(),
+                         'http://trybootcamp.vitorfs.com')
 
     def test_return_screen_name(self):
         self.assertEqual(self.profile.get_screen_name(), self.user.username)
 
     def test_return_str_(self):
         self.assertEqual(str(self.profile), 'test_user')
-

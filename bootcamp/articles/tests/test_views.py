@@ -27,7 +27,8 @@ class TestViews(TestCase):
         self.kwargs = {'content_type': 'application/json',
                        'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'}
         self.client.login(username='test_user', password='top_secret')
-        self.other_client.login(username='other_test_user', password='top_secret')
+        self.other_client.login(
+            username='other_test_user', password='top_secret')
         self.title = 'A really nice to-be title'
         self.content = '''This is a really good content, just if somebody published
         it, that would be awesome, but no, nobody wants to publish it, because
