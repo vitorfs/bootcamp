@@ -1,7 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 
-from bootcamp.activities.models import Activity
 from bootcamp.feeds.models import Feed
 
 
