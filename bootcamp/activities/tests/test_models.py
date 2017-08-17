@@ -214,7 +214,7 @@ class TestModels(TestCase):
     def test_return_sumary(self):
         feed = Feed.objects.create(
             user=self.user,
-            post='kjahsdfklahsdlklsdjflakjnzxcvzmncx.vmznxcvlheiruyweihlkdfklajdflk hasldjhalksdfh jklhljk',
+            post='kjahsdfklahsdlklsdjflakjnzxcvzmncx.vmznxcvlheiruyweihlkdfklajdflk hasldjhalksdfh jklhljk',  # noqa: E501
             likes=0,
             comments=0
         )

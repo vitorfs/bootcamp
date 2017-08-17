@@ -1,7 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 
-from bootcamp.activities.models import Activity
 from bootcamp.feeds.models import Feed
 
 
@@ -26,3 +25,9 @@ class TestModels(TestCase):
             likes=0,
             comments=0
         )
+
+    def test_instance_values(self):
+        self.assertTrue(isinstance(self.feed, Feed))
+
+    def test_feed_return_value(self):
+        self.assertEqual(str(self.feed), 'A not so long text')
