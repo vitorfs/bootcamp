@@ -35,8 +35,6 @@ class TestViews(TestCase):
             notification_type='L',
             is_read=False
         )
-        self.kwargs = {'content_type': 'application/json',
-                       'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'}
         self.client.login(username='test_user', password='top_secret')
 
     def test_notification(self):
@@ -45,11 +43,11 @@ class TestViews(TestCase):
 
     def test_last_notification(self):
         response = self.client.get(reverse('last_notifications'),
-                                   **self.kwargs)
+                                   HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['notifications'].count(), 0)
 
     def test_check_notification(self):
         response = self.client.get(reverse('check_notifications'),
-                                   **self.kwargs)
+                                   HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(response.status_code, 200)

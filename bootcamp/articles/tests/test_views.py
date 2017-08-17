@@ -24,8 +24,6 @@ class TestViews(TestCase):
             email='other_test@gmail.com',
             password='top_secret'
         )
-        self.kwargs = {'content_type': 'application/json',
-                       'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'}
         self.client.login(username='test_user', password='top_secret')
         self.other_client.login(
             username='other_test_user', password='top_secret')
