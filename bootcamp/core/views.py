@@ -73,7 +73,7 @@ def profile(request, username):
         'bar_data': [feeds_count, article_count, article_comment_count,
                      question_count, answer_count, activity_count],
         'bar_labels': json.dumps(
-            '["Feeds", "Articles", "Comments", "Questions", "Answers", "Activities"]'),
+            '["Feeds", "Articles", "Comments", "Questions", "Answers", "Activities"]'),  # noqa: E501
         'line_labels': datepoints,
         'line_data': data,
         'feeds': feeds,
