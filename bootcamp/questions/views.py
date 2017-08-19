@@ -23,7 +23,7 @@ def _questions(request, questions, active):
     except PageNotAnInteger:
         questions = paginator.page(1)
 
-    except EmptyPage:
+    except EmptyPage:  # pragma: no cover
         questions = paginator.page(paginator.num_pages)
 
     return render(request, 'questions/questions.html', {
@@ -90,12 +90,14 @@ def answer(request):
             answer.save()
             user.profile.notify_answered(answer.question)
             return redirect('/questions/{0}/'.format(answer.question.pk))
+
         else:
             question = form.cleaned_data.get('question')
             return render(request, 'questions/question.html', {
                 'question': question,
                 'form': form
             })
+
     else:
         return redirect('/questions/')
 
