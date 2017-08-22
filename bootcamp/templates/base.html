@@ -42,7 +42,7 @@
                 <li><a href="{% url 'articles' %}">{% trans 'Articles' %}</a></li>
                 <li><a href="{% url 'questions' %}">{% trans 'Q&A' %}</a></li>
                 <li><a href="{% url 'network' %}">{% trans 'Network' %}</a></li>
-                <li><a href="{% url 'inbox' %}">Inbox <span class="badge pull-right" id="unread-count">0</span></a></li>
+                <li><a href="{% url 'inbox' %}">Inbox  <span class="badge" id="unread-count">0</span></a></li>
               </ul>
               <ul class="nav navbar-nav navbar-right">
                 {% if not hide_search %}
