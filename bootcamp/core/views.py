@@ -4,6 +4,7 @@ import json
 from django.shortcuts import get_object_or_404
 from django.conf import settings as django_settings
 from django.contrib import messages
+from django.db.models import Q
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -16,6 +17,7 @@ from bootcamp.feeds.models import Feed
 from bootcamp.articles.models import Article, ArticleComment
 from bootcamp.questions.models import Question, Answer
 from bootcamp.activities.models import Activity
+from bootcamp.messenger.models import Message
 
 from PIL import Image
 
@@ -61,6 +63,8 @@ def profile(request, username):
     question_count = Question.objects.filter(user=page_user).count()
     answer_count = Answer.objects.filter(user=page_user).count()
     activity_count = Activity.objects.filter(user=page_user).count()
+    messages_count = Message.objects.filter(
+        Q(from_user=page_user) | Q(user=page_user)).count()
     data, datepoints = Activity.daily_activity(page_user)
     data = {
         'page_user': page_user,
@@ -68,12 +72,12 @@ def profile(request, username):
         'article_count': article_count,
         'article_comment_count': article_comment_count,
         'question_count': question_count,
-        'global_interactions': activity_count,
+        'global_interactions': activity_count + article_comment_count + answer_count + messages_count,  # noqa: E501
         'answer_count': answer_count,
-        'bar_data': [feeds_count, article_count, article_comment_count,
-                     question_count, answer_count, activity_count],
-        'bar_labels': json.dumps(
-            '["Feeds", "Articles", "Comments", "Questions", "Answers", "Activities"]'),  # noqa: E501
+        'bar_data': [
+            feeds_count, article_count, article_comment_count, question_count,
+            answer_count, activity_count],
+        'bar_labels': json.dumps('["Feeds", "Articles", "Comments", "Questions", "Answers", "Activities"]'),  # noqa: E501
         'line_labels': datepoints,
         'line_data': data,
         'feeds': feeds,
