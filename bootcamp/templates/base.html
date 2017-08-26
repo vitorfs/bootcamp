@@ -42,25 +42,23 @@
                 <li><a href="{% url 'articles' %}">{% trans 'Articles' %}</a></li>
                 <li><a href="{% url 'questions' %}">{% trans 'Q&A' %}</a></li>
                 <li><a href="{% url 'network' %}">{% trans 'Network' %}</a></li>
+                <li><a href="{% url 'inbox' %}">Inbox  <span class="badge" id="unread-count">0</span></a></li>
               </ul>
-              {% if not hide_search %}
-                <form class="navbar-form navbar-left" role="search" action="{% url 'search' %}">
-                  <div class="input-group" style="width:210px">
-                    <input type="text" class="form-control" name="q" placeholder="Search">
-                    <span class="input-group-btn">
-                      <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
-                    </span>
-                  </div>
-                </form>
-              {% endif %}
               <ul class="nav navbar-nav navbar-right">
-                <li>
-                  <a href="{% url 'profile' user.username %}">{{ user.profile.get_screen_name }}</a>
-                </li>
+                {% if not hide_search %}
+                  <form class="navbar-form navbar-left" role="search" action="{% url 'search' %}">
+                    <div class="input-group" style="width:210px">
+                      <input type="text" class="form-control" name="q" placeholder="Search">
+                      <span class="input-group-btn">
+                        <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+                      </span>
+                    </div>
+                  </form>
+                {% endif %}
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.profile.get_screen_name }} <b class="caret"></b></a>
                   <ul class="dropdown-menu">
-                    <li><a href="{% url 'inbox' %}"><span class="badge pull-right" id="unread-count">0</span> Inbox</a></li>
+                    <li><a href="{% url 'profile' user.username %}">{% trans 'My Profile' %}</a></li>
                     <li><a href="{% url 'settings' %}">{% trans 'Account Settings' %}</a></li>
                     <li class="divider"></li>
                     <li><a href="{% url 'logout' %}">{% trans 'Log out' %}</a></li>
