@@ -81,7 +81,8 @@ class TestViews(TestCase):
         self.assertTrue('A Short Title' in str(response.context['question']))
 
     def test_individual_question(self):
-        response = self.client.get('/questions/1/')
+        response = self.client.get(
+            '/questions/{}/'.format(self.question_one.id))
         self.assertEqual(response.status_code, 200)
         self.assertTrue(
             'This is a sample question' in str(response.context['question']))
