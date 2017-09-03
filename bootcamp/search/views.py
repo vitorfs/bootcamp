@@ -62,15 +62,12 @@ def search(request):
 @login_required
 def get_users(request):
 
-    print"In get_users()"
 
     if request.is_ajax():
-        print "In request.is_ajax()"
 
         querystring = request.GET.get('term', '')
 
         # Convert users, articles, questions objects into list to be represented as a single list.
-
         users = list(User.objects.filter(
             Q(username__icontains=querystring) | Q(
                 first_name__icontains=querystring) | Q(
@@ -84,16 +81,10 @@ def get_users(request):
             Q(title__icontains=querystring) | Q(
                 description__icontains=querystring)))
 
-        print("users: ")
-        print(users)
-
         # Add all the retrieved users, articles, questions to data_retrieved list.
-
         data_retrieved = users
-
         data_retrieved.extend(articles)
         data_retrieved.extend(questions)
-
 
         results = []
         for data in data_retrieved:
@@ -118,9 +109,6 @@ def get_users(request):
             results.append(data_json)
 
         final_data = json.dumps(results)
-
-        print("Final data: ")
-        print(final_data)
 
     else:
         final_data = 'fail'
