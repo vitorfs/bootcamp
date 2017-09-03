@@ -14,7 +14,6 @@ from bootcamp.questions.models import Question
 
 @login_required
 def search(request):
-    print("IN search method")
     if 'q' in request.GET:
         querystring = request.GET.get('q').strip()
         if len(querystring) == 0:
