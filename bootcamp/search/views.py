@@ -12,8 +12,6 @@ from bootcamp.feeds.models import Feed
 from bootcamp.questions.models import Question
 
 
-# Bug in Article Query: remove status = published
-
 @login_required
 def search(request):
     print("IN search method")
