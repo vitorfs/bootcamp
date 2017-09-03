@@ -3,13 +3,20 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from django.shortcuts import redirect, render
 
+from django.http import HttpResponse
+
+import json
+
 from bootcamp.articles.models import Article
 from bootcamp.feeds.models import Feed
 from bootcamp.questions.models import Question
 
 
+# Bug in Article Query: remove status = published
+
 @login_required
 def search(request):
+    print("IN search method")
     if 'q' in request.GET:
         querystring = request.GET.get('q').strip()
         if len(querystring) == 0:
@@ -51,3 +58,75 @@ def search(request):
         })
     else:
         return render(request, 'search/search.html', {'hide_search': True})
+
+
+# For autocomplete suggestions
+@login_required
+def get_users(request):
+
+    print"In get_users()"
+
+    if request.is_ajax():
+        print "In request.is_ajax()"
+
+        querystring = request.GET.get('term', '')
+
+        # Convert users, articles, questions objects into list to be represented as a single list.
+
+        users = list(User.objects.filter(
+            Q(username__icontains=querystring) | Q(
+                first_name__icontains=querystring) | Q(
+                last_name__icontains=querystring)))
+
+        articles = list(Article.objects.filter(
+            status='Published').filter(Q(title__icontains=querystring) | Q(
+            content__icontains=querystring)))
+
+        questions = list(Question.objects.filter(
+            Q(title__icontains=querystring) | Q(
+                description__icontains=querystring)))
+
+        print("users: ")
+        print(users)
+
+        # Add all the retrieved users, articles, questions to data_retrieved list.
+
+        data_retrieved = users
+
+        data_retrieved.extend(articles)
+        data_retrieved.extend(questions)
+
+
+        results = []
+        for data in data_retrieved:
+            data_json = {}
+
+            if isinstance(data, User):
+                data_json['id'] = data.id
+                data_json['label'] = data.username
+                data_json['value'] = data.username
+
+            if isinstance(data, Article):
+                data_json['id'] = data.id
+                data_json['label'] = data.title
+                data_json['value'] = data.title
+
+
+            if isinstance(data, Question):
+                data_json['id'] = data.id
+                data_json['label'] = data.title
+                data_json['value'] = data.title
+
+            results.append(data_json)
+
+        final_data = json.dumps(results)
+
+        print("Final data: ")
+        print(final_data)
+
+    else:
+        final_data = 'fail'
+
+    mimetype = 'application/json'
+
+    return HttpResponse(final_data, mimetype)

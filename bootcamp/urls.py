@@ -32,9 +32,13 @@ urlpatterns = [
         name='last_notifications'),
     url(r'^notifications/check/$', activities_views.check_notifications,
         name='check_notifications'),
+    # For autocomplete suggestions
+    url(r'^autocomplete/$', search_views.get_users, name='autocomplete'),
+
     url(r'^search/$', search_views.search, name='search'),
     url(r'^(?P<username>[^/]+)/$', core_views.profile, name='profile'),
     url(r'^i18n/', include('django.conf.urls.i18n', namespace='i18n')),
+
 ]
 
 if settings.DEBUG:
