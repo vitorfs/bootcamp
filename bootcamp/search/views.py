@@ -59,8 +59,7 @@ def search(request):
 
 # For autocomplete suggestions
 @login_required
-def get_users(request):
-
+def get_autocomplete_suggestions(request):
 
     if request.is_ajax():
 
@@ -72,6 +71,7 @@ def get_users(request):
                 first_name__icontains=querystring) | Q(
                 last_name__icontains=querystring)))
 
+        # Bug with articles in the search section, status='published' should to modified
         articles = list(Article.objects.filter(
             status='Published').filter(Q(title__icontains=querystring) | Q(
             content__icontains=querystring)))
@@ -107,11 +107,11 @@ def get_users(request):
 
             results.append(data_json)
 
-        final_data = json.dumps(results)
+        final_suggestions = json.dumps(results)
 
     else:
-        final_data = 'fail'
+        final_suggestions = 'fail'
 
     mimetype = 'application/json'
 
-    return HttpResponse(final_data, mimetype)
+    return HttpResponse(final_suggestions, mimetype)
