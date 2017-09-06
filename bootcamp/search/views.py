@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 
 from bootcamp.questions.models import Question
 from bootcamp.feeds.models import Feed
+from bootcamp.decorators import ajax_required
 from bootcamp.articles.models import Article
 
 
@@ -59,62 +60,55 @@ def search(request):
 
 # For autocomplete suggestions
 @login_required
+@ajax_required
 def get_autocomplete_suggestions(request):
+    querystring = request.GET.get('term', '')
 
-    if request.is_ajax():
+    # Convert users, articles, questions objects into list to be
+    # represented as a single list.
+    users = list(User.objects.filter(
+        Q(username__icontains=querystring) | Q(
+            first_name__icontains=querystring) | Q(
+            last_name__icontains=querystring)))
 
-        querystring = request.GET.get('term', '')
-
-        # Convert users, articles, questions objects into list to be
-        # represented as a single list.
-        users = list(User.objects.filter(
-            Q(username__icontains=querystring) | Q(
-                first_name__icontains=querystring) | Q(
-                last_name__icontains=querystring)))
-
-        # Bug with articles in the search section, status='published' should
-        # to modified
-        articles = list(
-            Article.objects.filter(status='Published').filter(
-                Q(title__icontains=querystring) | Q(
-                    content__icontains=querystring)))
-
-        questions = list(Question.objects.filter(
+    # Bug with articles in the search section, status='published' should
+    # to modified
+    articles = list(
+        Article.objects.filter(status='Published').filter(
             Q(title__icontains=querystring) | Q(
-                description__icontains=querystring)))
+                content__icontains=querystring)))
 
-        # Add all the retrieved users, articles, questions to data_retrieved
-        # list.
-        data_retrieved = users
-        data_retrieved.extend(articles)
-        data_retrieved.extend(questions)
+    questions = list(Question.objects.filter(
+        Q(title__icontains=querystring) | Q(
+            description__icontains=querystring)))
 
-        results = []
-        for data in data_retrieved:
-            data_json = {}
+    # Add all the retrieved users, articles, questions to data_retrieved
+    # list.
+    data_retrieved = users
+    data_retrieved.extend(articles)
+    data_retrieved.extend(questions)
 
-            if isinstance(data, User):
-                data_json['id'] = data.id
-                data_json['label'] = data.username
-                data_json['value'] = data.username
+    results = []
+    for data in data_retrieved:
+        data_json = {}
 
-            if isinstance(data, Article):
-                data_json['id'] = data.id
-                data_json['label'] = data.title
-                data_json['value'] = data.title
+        if isinstance(data, User):
+            data_json['id'] = data.id
+            data_json['label'] = data.username
+            data_json['value'] = data.username
 
-            if isinstance(data, Question):
-                data_json['id'] = data.id
-                data_json['label'] = data.title
-                data_json['value'] = data.title
+        if isinstance(data, Article):
+            data_json['id'] = data.id
+            data_json['label'] = data.title
+            data_json['value'] = data.title
 
-            results.append(data_json)
+        if isinstance(data, Question):
+            data_json['id'] = data.id
+            data_json['label'] = data.title
+            data_json['value'] = data.title
 
-        final_suggestions = json.dumps(results)
+        results.append(data_json)
 
-    else:
-        final_suggestions = 'fail'
+    final_suggestions = json.dumps(results)
 
-    mimetype = 'application/json'
-
-    return HttpResponse(final_suggestions, mimetype)
+    return HttpResponse(final_suggestions, 'application/json')
