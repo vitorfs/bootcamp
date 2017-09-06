@@ -52,6 +52,7 @@ def search(request):
             'count': count,
             'results': results[search_type],
         })
+
     else:
         return render(request, 'search/search.html', {'hide_search': True})
 
