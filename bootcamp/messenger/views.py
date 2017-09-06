@@ -12,6 +12,8 @@ from bootcamp.messenger.models import Message
 @login_required
 def inbox(request):
     conversations = Message.get_conversations(user=request.user)
+    users_list = User.objects.filter(
+        is_active=True).exclude(username=request.user).order_by('username')
     active_conversation = None
     messages = None
     if conversations:
@@ -27,6 +29,7 @@ def inbox(request):
     return render(request, 'messenger/inbox.html', {
         'messages': messages,
         'conversations': conversations,
+        'users_list': users_list,
         'active': active_conversation
         })
 
@@ -34,6 +37,8 @@ def inbox(request):
 @login_required
 def messages(request, username):
     conversations = Message.get_conversations(user=request.user)
+    users_list = User.objects.filter(
+        is_active=True).exclude(username=request.user).order_by('username')
     active_conversation = username
     messages = Message.objects.filter(user=request.user,
                                       conversation__username=username)
@@ -45,6 +50,7 @@ def messages(request, username):
     return render(request, 'messenger/inbox.html', {
         'messages': messages,
         'conversations': conversations,
+        'users_list': users_list,
         'active': active_conversation
         })
 
