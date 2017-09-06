@@ -32,8 +32,8 @@ def search(request):
         results['feed'] = Feed.objects.filter(post__icontains=querystring,
                                               parent=None)
         results['articles'] = Article.objects.filter(
-            status='Published').filter(Q(title__icontains=querystring) | Q(
-                content__icontains=querystring))
+            Q(title__icontains=querystring) | Q(
+                content__icontains=querystring), status='P')
         results['questions'] = Question.objects.filter(
             Q(title__icontains=querystring) | Q(
                 description__icontains=querystring))
@@ -70,10 +70,8 @@ def get_autocomplete_suggestions(request):
             first_name__icontains=querystring) | Q(
                 last_name__icontains=querystring)))
     articles = list(
-        Article.objects.filter(status='Published').filter(
-            Q(title__icontains=querystring) | Q(
-                content__icontains=querystring)))
-
+        Article.objects.filter(Q(title__icontains=querystring) | Q(
+            content__icontains=querystring), status='P'))
     questions = list(Question.objects.filter(
         Q(title__icontains=querystring) | Q(
             description__icontains=querystring)))
