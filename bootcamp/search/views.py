@@ -69,8 +69,7 @@ def get_autocomplete_suggestions(request):
     users = list(User.objects.filter(
         Q(username__icontains=querystring) | Q(
             first_name__icontains=querystring) | Q(
-            last_name__icontains=querystring)))
-
+                last_name__icontains=querystring)))
     # Bug with articles in the search section, status='published' should
     # to modified
     articles = list(
@@ -81,13 +80,11 @@ def get_autocomplete_suggestions(request):
     questions = list(Question.objects.filter(
         Q(title__icontains=querystring) | Q(
             description__icontains=querystring)))
-
     # Add all the retrieved users, articles, questions to data_retrieved
     # list.
     data_retrieved = users
     data_retrieved.extend(articles)
     data_retrieved.extend(questions)
-
     results = []
     for data in data_retrieved:
         data_json = {}
