@@ -69,8 +69,6 @@ def get_autocomplete_suggestions(request):
         Q(username__icontains=querystring) | Q(
             first_name__icontains=querystring) | Q(
                 last_name__icontains=querystring)))
-    # Bug with articles in the search section, status='published' should
-    # to modified
     articles = list(
         Article.objects.filter(status='Published').filter(
             Q(title__icontains=querystring) | Q(
