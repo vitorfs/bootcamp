@@ -63,7 +63,6 @@ def search(request):
 @ajax_required
 def get_autocomplete_suggestions(request):
     querystring = request.GET.get('term', '')
-
     # Convert users, articles, questions objects into list to be
     # represented as a single list.
     users = list(User.objects.filter(
