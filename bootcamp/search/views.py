@@ -1,15 +1,14 @@
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from django.db.models import Q
-from django.shortcuts import redirect, render
-
-from django.http import HttpResponse
-
 import json
 
-from bootcamp.articles.models import Article
-from bootcamp.feeds.models import Feed
+from django.shortcuts import redirect, render
+from django.http import HttpResponse
+from django.db.models import Q
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+
 from bootcamp.questions.models import Question
+from bootcamp.feeds.models import Feed
+from bootcamp.articles.models import Article
 
 
 @login_required
@@ -65,22 +64,26 @@ def get_autocomplete_suggestions(request):
 
         querystring = request.GET.get('term', '')
 
-        # Convert users, articles, questions objects into list to be represented as a single list.
+        # Convert users, articles, questions objects into list to be
+        # represented as a single list.
         users = list(User.objects.filter(
             Q(username__icontains=querystring) | Q(
                 first_name__icontains=querystring) | Q(
                 last_name__icontains=querystring)))
 
-        # Bug with articles in the search section, status='published' should to modified
-        articles = list(Article.objects.filter(
-            status='Published').filter(Q(title__icontains=querystring) | Q(
-            content__icontains=querystring)))
+        # Bug with articles in the search section, status='published' should
+        # to modified
+        articles = list(
+            Article.objects.filter(status='Published').filter(
+                Q(title__icontains=querystring) | Q(
+                    content__icontains=querystring)))
 
         questions = list(Question.objects.filter(
             Q(title__icontains=querystring) | Q(
                 description__icontains=querystring)))
 
-        # Add all the retrieved users, articles, questions to data_retrieved list.
+        # Add all the retrieved users, articles, questions to data_retrieved
+        # list.
         data_retrieved = users
         data_retrieved.extend(articles)
         data_retrieved.extend(questions)
@@ -98,7 +101,6 @@ def get_autocomplete_suggestions(request):
                 data_json['id'] = data.id
                 data_json['label'] = data.title
                 data_json['value'] = data.title
-
 
             if isinstance(data, Question):
                 data_json['id'] = data.id
