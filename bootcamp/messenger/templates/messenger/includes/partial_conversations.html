@@ -3,7 +3,7 @@
 <div class="list-group">
   {% for user in users_list %}
     <a href="{% url 'messages' user.username %}"
-       class="list-group-item{% if active == user.username %} active{% endif %}">
+      class="list-group-item{% if active == user.username %} active{% endif %}">
       <img src="{{ user.profile.get_picture }}" class="conversation-portrait">
       {{ user.profile.get_screen_name }}
       {% for conversation in conversations %}

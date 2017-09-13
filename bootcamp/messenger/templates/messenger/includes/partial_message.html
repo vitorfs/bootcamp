@@ -5,9 +5,11 @@
       <small class="pull-right">
         {{ message.date|date:'N d G:i' }}
       </small>
-      <a href="{% url 'profile' message.from_user.username %}">
-        {{ message.from_user.profile.get_screen_name }}
-      </a>
+      <b>
+        <a href="{% url 'profile' message.from_user.username %}">
+          {{ message.from_user.profile.get_screen_name }}
+        </a>
+      </b>
     </h5>
     {{ message.message }}
   </div>
