@@ -5,7 +5,7 @@
 
 .conversation li {
   list-style: none;
-  padding: .3em 0;
+  padding: .6em 0;
 }
 
 .conversation li h5 {
@@ -30,7 +30,6 @@
 }
 
 .chat-box {
-  padding: 0;
   position: fixed;
   bottom: 0;
   height: 50px;
