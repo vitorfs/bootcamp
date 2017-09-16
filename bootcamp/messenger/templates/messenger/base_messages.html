@@ -16,9 +16,10 @@
     <div class="col-md-3">
       {% include 'messenger/includes/partial_conversations.html' with conversations=conversations active=active %}
     </div>
-    <div class="col-md-9">
+    <div class="col-md-9" id='chat-container'>
       {% block container %}
       {% endblock container %}
     </div>
+    <script src="{% static 'js/box-reziser.js'%}"></script>
   </div>
 {% endblock main %}
