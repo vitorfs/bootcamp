@@ -9,6 +9,7 @@ $(function () {
         $(".send-message").before(data);
         $("input[name='message']").val('');
         $("input[name='message']").focus();
+        $('.conversation').scrollTop($('.conversation')[0].scrollHeight);
       }
     });
     return false;
