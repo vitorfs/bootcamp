@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-05 22:50-0300\n"
+"POT-Creation-Date: 2017-09-17 15:10+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,318 +17,461 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: activities/templates/activities/last_notifications.html:12
+#: bootcamp/activities/templates/activities/last_notifications.html:12
 msgid "You have no unread notification"
 msgstr "Você não possui nenhuma notificação não lida"
 
-#: activities/templates/activities/last_notifications.html:14
+#: bootcamp/activities/templates/activities/last_notifications.html:14
 msgid "See all"
 msgstr "Ver tudo"
 
-#: activities/templates/activities/notifications.html:26
+#: bootcamp/activities/templates/activities/notifications.html:27
 msgid "You have no notification"
 msgstr "Você não possui notificação"
 
-#: articles/models.py:25 articles/templates/articles/article.html:13
+#: bootcamp/articles/models.py:35
+#: bootcamp/articles/templates/articles/article.html:15
 #, fuzzy
 msgid "Article"
 msgstr "Artigo"
 
-#: articles/models.py:26 articles/templates/articles/article.html:12
-#: articles/templates/articles/articles.html:4
-#: articles/templates/articles/articles.html:16
-#: articles/templates/articles/drafts.html:10
-#: articles/templates/articles/edit.html:10
-#: articles/templates/articles/write.html:10 templates/base.html:39
+#: bootcamp/articles/models.py:36
+#: bootcamp/articles/templates/articles/article.html:14
+#: bootcamp/articles/templates/articles/articles.html:5
+#: bootcamp/articles/templates/articles/articles.html:17
+#: bootcamp/articles/templates/articles/drafts.html:11
+#: bootcamp/articles/templates/articles/edit.html:11
+#: bootcamp/articles/templates/articles/write.html:11
+#: bootcamp/core/templates/core/profile.html:30
+#: bootcamp/search/templates/search/partial_articles_results.html:3
+#: bootcamp/search/templates/search/partial_results_menu.html:9
+#: bootcamp/templates/base.html:46
 msgid "Articles"
 msgstr "Artigos"
 
-#: articles/models.py:68
-msgid "Tag"
-msgstr "Tag"
+#: bootcamp/articles/models.py:86
+#, fuzzy
+msgid "Article Comment"
+msgstr "Artigo"
 
-#: articles/models.py:69 articles/templates/articles/drafts.html:18
-msgid "Tags"
-msgstr "Tags"
+#: bootcamp/articles/models.py:87
+#, fuzzy
+#| msgid "Articles"
+msgid "Article Comments"
+msgstr "Artigos"
 
-#: articles/templates/articles/articles.html:13
-#: articles/templates/articles/write.html:11
+#: bootcamp/articles/templates/articles/article.html:20
+#, fuzzy
+msgid "Edit Article"
+msgstr "Escrever Artigo"
+
+#: bootcamp/articles/templates/articles/articles.html:14
+#: bootcamp/articles/templates/articles/write.html:12
 #, fuzzy
 msgid "Write Article"
 msgstr "Escrever Artigo"
 
-#: articles/templates/articles/articles.html:15
-#: articles/templates/articles/drafts.html:11
-#: articles/templates/articles/edit.html:11
+#: bootcamp/articles/templates/articles/articles.html:16
+#: bootcamp/articles/templates/articles/drafts.html:12
+#: bootcamp/articles/templates/articles/edit.html:12
 msgid "Drafts"
 msgstr "Rascunhos"
 
-#: articles/templates/articles/articles.html:24
+#: bootcamp/articles/templates/articles/articles.html:25
 msgid "There is no published article yet"
 msgstr "Não há artigo publicado ainda"
 
-#: articles/templates/articles/articles.html:24
+#: bootcamp/articles/templates/articles/articles.html:25
 msgid "Be the first one to publish"
 msgstr "Seja o primeiro a publicar"
 
-#: articles/templates/articles/articles.html:29
+#: bootcamp/articles/templates/articles/articles.html:30
 msgid "Popular Tags"
 msgstr "Tags populares"
 
-#: articles/templates/articles/drafts.html:16
+#: bootcamp/articles/templates/articles/drafts.html:17
 #, fuzzy
 msgid "Title"
 msgstr "Meu titulo"
 
-#: articles/templates/articles/drafts.html:17
+#: bootcamp/articles/templates/articles/drafts.html:18
 msgid "Content"
 msgstr "Conteúdo"
 
-#: articles/templates/articles/drafts.html:35
+#: bootcamp/articles/templates/articles/drafts.html:19
+msgid "Tags"
+msgstr "Tags"
+
+#: bootcamp/articles/templates/articles/drafts.html:36
 msgid "No draft to display"
 msgstr "Nenhum rascunho para exibir"
 
-#: articles/templates/articles/edit.html:12
+#: bootcamp/articles/templates/articles/edit.html:13
 msgid "Edit"
 msgstr "Editar"
 
-#: articles/templates/articles/edit.html:30
-#: articles/templates/articles/write.html:29
+#: bootcamp/articles/templates/articles/edit.html:34
+#: bootcamp/articles/templates/articles/write.html:33
 msgid "Publish"
 msgstr "Publicar"
 
-#: articles/templates/articles/edit.html:31
-#: articles/templates/articles/write.html:30
+#: bootcamp/articles/templates/articles/edit.html:35
+#: bootcamp/articles/templates/articles/write.html:34
 msgid "Save Draft"
 msgstr "Salvar rascunho"
 
-#: articles/templates/articles/edit.html:32
-#: articles/templates/articles/write.html:31
-#: feeds/templates/feeds/feeds.html:29
-#: questions/templates/questions/ask.html:28
+#: bootcamp/articles/templates/articles/edit.html:36
+#: bootcamp/articles/templates/articles/write.html:36
+#: bootcamp/feeds/templates/feeds/feeds.html:41
+#: bootcamp/questions/templates/questions/ask.html:31
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: auth/templates/auth/signup.html:11 core/templates/core/cover.html:39
+#: bootcamp/articles/templates/articles/partial_article_comments.html:3
+#, fuzzy
+#| msgid "Press Ctrl + P to compose"
+msgid "Press Ctrl + Enter to post"
+msgstr "Pressione Ctrl + P para escrever"
+
+#: bootcamp/articles/templates/articles/partial_article_comments.html:4
+#: bootcamp/core/templates/core/profile.html:34
+#, fuzzy
+#| msgid "Comment"
+msgid "Comments"
+msgstr "Comentário"
+
+#: bootcamp/articles/templates/articles/partial_article_comments.html:13
+#: bootcamp/feeds/templates/feeds/partial_feed.html:36
+msgid "Write a comment..."
+msgstr "Escrever um comentário"
+
+#: bootcamp/articles/templates/articles/partial_article_comments.html:21
+#, fuzzy
+#| msgid "Be the first one to comment"
+msgid "Be the first one to comment!"
+msgstr "Seja o primeiro a comentar"
+
+#: bootcamp/articles/templates/articles/write.html:35
+msgid "Preview"
+msgstr ""
+
+#: bootcamp/authentication/templates/authentication/signup.html:12
+#: bootcamp/core/templates/core/cover.html:41
 msgid "Sign up for Bootcamp"
 msgstr ""
 
-#: auth/templates/auth/signup.html:26
+#: bootcamp/authentication/templates/authentication/signup.html:27
 msgid "Create an account"
 msgstr "Criar uma conta"
 
-#: core/templates/core/cover.html:20 core/templates/core/cover.html.py:38
+#: bootcamp/core/templates/core/cover.html:22
+#: bootcamp/core/templates/core/cover.html:40
 #, fuzzy
 msgid "Log in"
 msgstr "Entrar"
 
-#: core/templates/core/cover.html:24 core/templates/core/network.html:27
+#: bootcamp/core/templates/core/cover.html:26
+#: bootcamp/core/templates/core/network.html:29
 msgid "Username"
 msgstr "Nome de usuário"
 
-#: core/templates/core/cover.html:31
-#: core/templates/core/partial_settings_menu.html:5
+#: bootcamp/core/templates/core/cover.html:33
+#: bootcamp/core/templates/core/partial_settings_menu.html:5
 msgid "Password"
 msgstr "Senha"
 
-#: core/templates/core/network.html:4 templates/base.html:41
+#: bootcamp/core/templates/core/network.html:5 bootcamp/templates/base.html:48
 msgid "Network"
 msgstr "Rede"
 
-#: core/templates/core/network.html:25
+#: bootcamp/core/templates/core/network.html:27
 #, fuzzy
 msgid "Job Title"
 msgstr "Cargo"
 
-#: core/templates/core/network.html:28
-msgid "Email"
-msgstr ""
-
-#: core/templates/core/network.html:30
+#: bootcamp/core/templates/core/network.html:31
 msgid "Location"
 msgstr "Localização"
 
-#: core/templates/core/network.html:33
+#: bootcamp/core/templates/core/network.html:34
 msgid "Url"
 msgstr ""
 
-#: core/templates/core/partial_settings_menu.html:3
+#: bootcamp/core/templates/core/partial_settings_menu.html:3
 msgid "Profile"
 msgstr "Perfil"
 
-#: core/templates/core/partial_settings_menu.html:4
+#: bootcamp/core/templates/core/partial_settings_menu.html:4
 msgid "Picture"
 msgstr "Foto"
 
-#: core/templates/core/password.html:4 core/templates/core/password.html:8
-#: core/templates/core/picture.html:4 core/templates/core/picture.html:14
-#: core/templates/core/settings.html:8 templates/base.html:50
+#: bootcamp/core/templates/core/password.html:4
+#: bootcamp/core/templates/core/password.html:8
+#: bootcamp/core/templates/core/picture.html:5
+#: bootcamp/core/templates/core/picture.html:15
+#: bootcamp/core/templates/core/settings.html:10
+#: bootcamp/templates/base.html:76
 msgid "Account Settings"
 msgstr "Configuração da conta"
 
-#: core/templates/core/password.html:23
+#: bootcamp/core/templates/core/password.html:23
 msgid "Change Password"
 msgstr "Trocar senha"
 
-#: core/templates/core/password.html:43 core/templates/core/settings.html:42
+#: bootcamp/core/templates/core/password.html:43
+#: bootcamp/core/templates/core/settings.html:57
 msgid "Save"
 msgstr "Salvar"
 
-#: core/templates/core/picture.html:29
+#: bootcamp/core/templates/core/picture.html:30
 msgid "Change Picture"
 msgstr "Trocar foto"
 
-#: core/templates/core/picture.html:34
+#: bootcamp/core/templates/core/picture.html:35
 msgid "Upload new picture"
 msgstr "Carregar nova foto"
 
-#: core/templates/core/picture.html:45
+#: bootcamp/core/templates/core/picture.html:46
 msgid "Crop Picture"
 msgstr "Recortar foto"
 
-#: core/templates/core/picture.html:49
+#: bootcamp/core/templates/core/picture.html:50
 msgid "Crop the profile picture and then click on the"
 msgstr "Recorte a foto do seu perfil, e em seguida, clique no"
 
-#: core/templates/core/picture.html:49
+#: bootcamp/core/templates/core/picture.html:50
 msgid "Save Picture"
 msgstr "Salvar foto"
 
-#: core/templates/core/picture.html:49
+#: bootcamp/core/templates/core/picture.html:50
 msgid "button"
 msgstr "botão"
 
-#: core/templates/core/picture.html:64
+#: bootcamp/core/templates/core/picture.html:65
 msgid "Close"
 msgstr "Fechar"
 
-#: core/templates/core/picture.html:65
+#: bootcamp/core/templates/core/picture.html:66
 msgid "Save changes"
 msgstr "Salvar alterações"
 
-#: core/templates/core/profile.html:37
-msgid "Last Feeds by"
-msgstr "Últimos Feeds por"
-
-#: core/templates/core/settings.html:23
-msgid "Edit Profile"
-msgstr "Editar Perfil"
-
-#: feeds/models.py:16 feeds/templates/feeds/feed.html:6 templates/base.html:38
-msgid "Feed"
-msgstr ""
-
-#: feeds/models.py:17
+#: bootcamp/core/templates/core/profile.html:26 bootcamp/feeds/models.py:24
 msgid "Feeds"
 msgstr ""
 
-#: feeds/templates/feeds/feeds.html:12
-msgid "Press Ctrl + P to compose"
-msgstr "Pressione Ctrl + P para escrever"
-
-#: feeds/templates/feeds/feeds.html:13
-msgid "Compose"
-msgstr "Escrever"
-
-#: feeds/templates/feeds/feeds.html:18
-msgid "Compose a new post"
-msgstr "Escrever uma nova postagem"
-
-#: feeds/templates/feeds/feeds.html:27
-msgid "Post"
-msgstr "Postagem"
-
-#: feeds/templates/feeds/feeds.html:34
-msgid "new posts"
-msgstr "novas postagens"
-
-#: feeds/templates/feeds/partial_feed.html:8
-msgid "Click to remove this feed"
-msgstr "Clique para remover o feed"
-
-#: feeds/templates/feeds/partial_feed.html:16
-msgid "Unlike"
-msgstr "Não gostei"
-
-#: feeds/templates/feeds/partial_feed.html:22
-msgid "Like"
-msgstr "Gostei"
-
-#: feeds/templates/feeds/partial_feed.html:27
-msgid "Comment"
-msgstr "Comentário"
-
-#: feeds/templates/feeds/partial_feed.html:35
-msgid "Write a comment..."
-msgstr "Escrever um comentário"
-
-#: feeds/templates/feeds/partial_feed_comments.html:11
-msgid "Be the first one to comment"
-msgstr "Seja o primeiro a comentar"
-
-#: questions/templates/questions/ask.html:6
-#: questions/templates/questions/question.html:13
-#: questions/templates/questions/questions.html:16
+#: bootcamp/core/templates/core/profile.html:38
+#: bootcamp/questions/templates/questions/ask.html:6
+#: bootcamp/questions/templates/questions/question.html:14
+#: bootcamp/questions/templates/questions/questions.html:17
+#: bootcamp/search/templates/search/partial_questions_results.html:4
+#: bootcamp/search/templates/search/partial_results_menu.html:13
 msgid "Questions"
 msgstr "Perguntas"
 
-#: questions/templates/questions/ask.html:7
-#: questions/templates/questions/questions.html:14
+#: bootcamp/core/templates/core/profile.html:42
+#, fuzzy
+#| msgid "Answered"
+msgid "Answers"
+msgstr "Respondida"
+
+#: bootcamp/core/templates/core/profile.html:46
+msgid "Global Interactions"
+msgstr ""
+
+#: bootcamp/core/templates/core/profile.html:71
+#, fuzzy
+#| msgid "Last Feeds by"
+msgid "Last Feeds"
+msgstr "Últimos Feeds por"
+
+#: bootcamp/core/templates/core/settings.html:25
+msgid "Edit Profile"
+msgstr "Editar Perfil"
+
+#: bootcamp/feeds/models.py:23 bootcamp/feeds/templates/feeds/feed.html:7
+#: bootcamp/feeds/templates/feeds/feeds.html:20
+#: bootcamp/search/templates/search/partial_feed_results.html:4
+#: bootcamp/search/templates/search/partial_results_menu.html:5
+#: bootcamp/templates/base.html:45
+msgid "Feed"
+msgstr ""
+
+#: bootcamp/feeds/templates/feeds/feeds.html:17
+msgid "Press Ctrl + P to compose"
+msgstr "Pressione Ctrl + P para escrever"
+
+#: bootcamp/feeds/templates/feeds/feeds.html:18
+msgid "Compose"
+msgstr "Escrever"
+
+#: bootcamp/feeds/templates/feeds/feeds.html:25
+#, fuzzy
+#| msgid "new posts"
+msgid "Latest posts"
+msgstr "novas postagens"
+
+#: bootcamp/feeds/templates/feeds/feeds.html:30
+msgid "Compose a new post"
+msgstr "Escrever uma nova postagem"
+
+#: bootcamp/feeds/templates/feeds/feeds.html:39
+msgid "Post"
+msgstr "Postagem"
+
+#: bootcamp/feeds/templates/feeds/feeds.html:47
+msgid "new posts"
+msgstr "novas postagens"
+
+#: bootcamp/feeds/templates/feeds/partial_feed.html:9
+msgid "Click to remove this feed"
+msgstr "Clique para remover o feed"
+
+#: bootcamp/feeds/templates/feeds/partial_feed.html:17
+msgid "Unlike"
+msgstr "Não gostei"
+
+#: bootcamp/feeds/templates/feeds/partial_feed.html:23
+msgid "Like"
+msgstr "Gostei"
+
+#: bootcamp/feeds/templates/feeds/partial_feed.html:28
+msgid "Comment"
+msgstr "Comentário"
+
+#: bootcamp/feeds/templates/feeds/partial_feed_comments.html:7
+#, fuzzy
+#| msgid "Click to remove this feed"
+msgid "Click to remove this comment"
+msgstr "Clique para remover o feed"
+
+#: bootcamp/feeds/templates/feeds/partial_feed_comments.html:21
+msgid "Be the first one to comment"
+msgstr "Seja o primeiro a comentar"
+
+#: bootcamp/messenger/models.py:20
+msgid "Message"
+msgstr ""
+
+#: bootcamp/messenger/models.py:21
+msgid "Messages"
+msgstr ""
+
+#: bootcamp/messenger/templates/messenger/inbox.html:4
+#: bootcamp/messenger/templates/messenger/inbox.html:6
+msgid "Inbox"
+msgstr ""
+
+#: bootcamp/messenger/templates/messenger/inbox.html:15
+msgid "This is the begining of a great new conversation."
+msgstr ""
+
+#: bootcamp/messenger/templates/messenger/inbox.html:16
+msgid "Let's get started now!"
+msgstr ""
+
+#: bootcamp/questions/templates/questions/ask.html:7
+#: bootcamp/questions/templates/questions/questions.html:15
 msgid "Ask Question"
 msgstr "Pergunte"
 
-#: questions/templates/questions/ask.html:27
+#: bootcamp/questions/templates/questions/ask.html:30
 msgid "Post Your Question"
 msgstr "Poste sua pergunta"
 
-#: questions/templates/questions/partial_answer.html:7
+#: bootcamp/questions/templates/questions/partial_answer.html:7
+#: bootcamp/questions/templates/questions/question.html:20
 msgid "Click to up vote; click again to toggle"
 msgstr "Clique para votar; clique novamente para alterar"
 
-#: questions/templates/questions/partial_answer.html:9
+#: bootcamp/questions/templates/questions/partial_answer.html:9
+#: bootcamp/questions/templates/questions/question.html:22
 msgid "Click to down vote; click again to toggle"
 msgstr "Clique para votar; clique novamente para alterar"
 
-#: questions/templates/questions/partial_answer.html:11
+#: bootcamp/questions/templates/questions/partial_answer.html:11
 msgid "Click to unaccept the answer"
 msgstr ""
 
-#: questions/templates/questions/partial_answer.html:15
+#: bootcamp/questions/templates/questions/partial_answer.html:15
 msgid "Click to accept the answer"
 msgstr "Clique caso não queira aceitar essa resposta"
 
-#: questions/templates/questions/partial_answer.html:22
+#: bootcamp/questions/templates/questions/partial_answer.html:22
 msgid "answered"
 msgstr "respondidas"
 
-#: questions/templates/questions/question.html:14
+#: bootcamp/questions/templates/questions/question.html:15
 msgid "Question"
 msgstr "Pergunta"
 
-#: questions/templates/questions/question.html:56
+#: bootcamp/questions/templates/questions/question.html:63
 msgid "Post Your Answer"
 msgstr "Postar sua resposta"
 
-#: questions/templates/questions/questions.html:20
-msgid "All Questions"
-msgstr "Todas as perguntas"
-
-#: questions/templates/questions/questions.html:21
+#: bootcamp/questions/templates/questions/questions.html:21
 msgid "Unanswered"
 msgstr "Sem resposta"
 
-#: questions/templates/questions/questions.html:22
+#: bootcamp/questions/templates/questions/questions.html:22
 msgid "Answered"
 msgstr "Respondida"
 
-#: questions/templates/questions/questions.html:27
+#: bootcamp/questions/templates/questions/questions.html:23
+msgid "All Questions"
+msgstr "Todas as perguntas"
+
+#: bootcamp/questions/templates/questions/questions.html:28
 msgid "No question to display"
 msgstr "Nenhuma pergunta para exibir"
 
-#: templates/base.html:40
+#: bootcamp/search/templates/search/partial_articles_results.html:24
+msgid "No article found"
+msgstr ""
+
+#: bootcamp/search/templates/search/partial_feed_results.html:23
+msgid "No feed found"
+msgstr ""
+
+#: bootcamp/search/templates/search/partial_questions_results.html:22
+#, fuzzy
+#| msgid "No question to display"
+msgid "No question found"
+msgstr "Nenhuma pergunta para exibir"
+
+#: bootcamp/search/templates/search/partial_results_menu.html:17
+#: bootcamp/search/templates/search/partial_users_results.html:3
+#, fuzzy
+#| msgid "Username"
+msgid "Users"
+msgstr "Nome de usuário"
+
+#: bootcamp/search/templates/search/partial_users_results.html:19
+msgid "No user found"
+msgstr ""
+
+#: bootcamp/search/templates/search/results.html:17
+#: bootcamp/search/templates/search/search.html:22
+msgid "Search"
+msgstr ""
+
+#: bootcamp/search/templates/search/results.html:23
+#: bootcamp/search/templates/search/search.html:19
+msgid "Search Feed, Articles, Questions and Users"
+msgstr ""
+
+#: bootcamp/templates/base.html:47
 msgid "Q&A"
 msgstr ""
 
-#: templates/base.html:51
+#: bootcamp/templates/base.html:75
+#, fuzzy
+#| msgid "Profile"
+msgid "My Profile"
+msgstr "Perfil"
+
+#: bootcamp/templates/base.html:78
 msgid "Log out"
 msgstr "Sair"
+
+#~ msgid "Tag"
+#~ msgstr "Tag"
