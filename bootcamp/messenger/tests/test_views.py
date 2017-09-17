@@ -35,7 +35,7 @@ class TestViews(TestCase):
         )
         self.message_two = Message.objects.create(
             user=self.user,
-            message="A not that long message",
+            message="A short message",
             conversation=self.user,
             from_user=self.other_user,
         )
@@ -45,3 +45,51 @@ class TestViews(TestCase):
             conversation=self.other_user,
             from_user=self.user,
         )
+
+    def test_user_messages(self):
+        response = self.client.get(
+            reverse('messages', kwargs={'username': self.user.username}))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(str(response.context['message']),
+                         "A not that long message")
+
+    def test_delete_message_view(self):
+        response = self.client.get(reverse('delete_message'),
+                                   HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(response.status_code, 200)
+
+    def test_inbox(self):
+        response = self.client.get(reverse('inbox'))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(str(response.context['message']),
+                         "A not that long message")
+
+    def test_send_message_view(self):
+        message_count = Message.objects.count()
+        request = self.client.post(reverse('send_message'),
+                                   {'to': 'other_test_user',
+                                    'message': 'A not that short message'},
+                                   HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(request.status_code, 200)
+        new_msm_count = Message.objects.count()
+        self.assertNotEqual(message_count, new_msm_count)
+
+    def test_autoconversation(self):
+        message_count = Message.objects.count()
+        request = self.client.post(reverse('send_message'),
+                                   {'to': 'test_user',
+                                    'message': 'A not that short message'},
+                                   HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(request.status_code, 200)
+        new_msm_count = Message.objects.count()
+        self.assertEqual(message_count, new_msm_count)
+
+    def test_empty_conversation(self):
+        message_count = Message.objects.count()
+        request = self.client.post(reverse('send_message'),
+                                   {'to': 'other_test_user',
+                                    'message': ''},
+                                   HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(request.status_code, 200)
+        new_msm_count = Message.objects.count()
+        self.assertEqual(message_count, new_msm_count)
