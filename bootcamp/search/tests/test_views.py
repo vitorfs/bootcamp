@@ -55,21 +55,29 @@ class TestViews(TestCase):
             has_accepted_answer=True
         )
 
-    def test_autocomplete_suggestions(self):
-        search_term = "user"
-        user_search_response = self.client.get('/autocomplete/?term='+search_term, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-        user_search_suggestions_dict = user_search_response.json()
-        self.assertEqual(user_search_suggestions_dict[0]['value'], "test_user")
-        self.assertEqual(user_search_suggestions_dict[1]['value'], "other_test_user")
-
+    def test_autocomplete_question_suggestions(self):
         search_term = "short"
-        question_search_response = self.client.get('/autocomplete/?term='+search_term, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        question_search_response = self.client.get(
+            '/autocomplete/?term='+search_term,
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         question_search_suggestions_dict = question_search_response.json()
-        self.assertEqual(question_search_suggestions_dict[0]['value'], "A Short Title")
+        self.assertEqual(
+            question_search_suggestions_dict[0]['value'], "A Short Title")
 
+    def test_autocomplete_article_suggestions(self):
+        search_term = "title"
+        question_search_response = self.client.get(
+            '/autocomplete/?term='+search_term,
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        question_search_suggestions_dict = question_search_response.json()
+        self.assertEqual(
+            question_search_suggestions_dict[0]['value'], "A bad title")
 
-
-
-
-
-
+    def test_autocomplete_user_suggestions(self):
+        search_term = "other"
+        question_search_response = self.client.get(
+            '/autocomplete/?term='+search_term,
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        question_search_suggestions_dict = question_search_response.json()
+        self.assertEqual(
+            question_search_suggestions_dict[0]['value'], "other_test_user")
