@@ -1,6 +1,6 @@
 {% load i18n %}
 
-<div class="list-group">
+<div class="list-group users-list">
   {% for user in users_list %}
     <a href="{% url 'messages' user.username %}"
       class="list-group-item{% if active == user.username %} active{% endif %}">

@@ -1,6 +1,13 @@
+.users-list {
+  height: 85vh;
+  overflow-y: auto;
+}
+
 .conversation {
   margin: 0;
   padding: 0;
+  height: 83vh;
+  overflow-y: auto;
 }
 
 .conversation li {
