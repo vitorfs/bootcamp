@@ -3,7 +3,7 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseBadRequest
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 
 from bootcamp.decorators import ajax_required
 from bootcamp.messenger.models import Message
