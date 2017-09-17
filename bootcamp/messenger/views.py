@@ -71,30 +71,16 @@ def send(request):
         message = request.POST.get('message')
         if len(message.strip()) == 0:
             return HttpResponse()
+
         if from_user != to_user:
             msg = Message.send_message(from_user, to_user, message)
             return render(request, 'messenger/includes/partial_message.html',
                           {'message': msg})
 
         return HttpResponse()
+
     else:
         return HttpResponseBadRequest()
-
-
-@login_required
-@ajax_required
-def users(request):
-    users = User.objects.filter(is_active=True)
-    dump = []
-    template = '{0} ({1})'
-    for user in users:
-        if user.profile.get_screen_name() != user.username:
-            dump.append(template.format(user.profile.get_screen_name(),
-                                        user.username))
-        else:
-            dump.append(user.username)
-    data = json.dumps(dump)
-    return HttpResponse(data, content_type='application/json')
 
 
 @login_required
