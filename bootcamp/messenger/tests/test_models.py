@@ -41,6 +41,7 @@ class TestModels(TestCase):
         self.assertTrue(isinstance(self.message_one, Message))
 
     def test_return_values(self):
+        self.assertEqual(str(self.message_one), "A not that long message")
         self.assertEqual(self.message_one.message, "A not that long message")
         self.assertEqual(self.message_three.message, "A shorter message")
         self.assertEqual(Message.get_conversations(self.user)[0]['last'],
