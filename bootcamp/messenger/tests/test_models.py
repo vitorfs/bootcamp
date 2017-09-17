@@ -24,6 +24,18 @@ class TestModels(TestCase):
             conversation=self.user,
             from_user=self.other_user,
         )
+        self.message_two = Message.objects.create(
+            user=self.user,
+            message="A not that long message",
+            conversation=self.user,
+            from_user=self.other_user,
+        )
+        self.message_three = Message.objects.create(
+            user=self.other_user,
+            message="A shorter message",
+            conversation=self.other_user,
+            from_user=self.user,
+        )
 
     def test_object_instance(self):
-        self.assertTrue(isinstance(self.message, Message))
+        self.assertTrue(isinstance(self.message_one, Message))
