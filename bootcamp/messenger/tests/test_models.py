@@ -24,3 +24,6 @@ class TestModels(TestCase):
             conversation=self.user,
             from_user=self.other_user,
         )
+
+    def test_object_instance(self):
+        self.assertTrue(isinstance(self.message, Message))
