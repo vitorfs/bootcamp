@@ -16,6 +16,7 @@
       <p>{% trans 'Let\'s get started now!' %}</p>
     {% endif %}
     <li class="send-message"></li>
+    <script type="text/javascript">window.onload = $('.conversation').scrollTop($('.conversation')[0].scrollHeight);</script>
   </div>
   <div class="chat-box">
     <img src="{{ user.profile.get_picture }}" class="picture">
