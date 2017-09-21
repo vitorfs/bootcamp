@@ -153,7 +153,7 @@ msgstr "写第一条评论"
 
 #: bootcamp/articles/templates/articles/write.html:35
 msgid "Preview"
-msgstr ""
+msgstr "预览"
 
 #: bootcamp/authentication/templates/authentication/signup.html:12
 #: bootcamp/core/templates/core/cover.html:41
@@ -274,7 +274,7 @@ msgstr "已解决"
 
 #: bootcamp/core/templates/core/profile.html:46
 msgid "Global Interactions"
-msgstr ""
+msgstr "全局交互"
 
 #: bootcamp/core/templates/core/profile.html:71
 #, fuzzy
@@ -348,16 +348,16 @@ msgstr "写第一条评论"
 
 #: bootcamp/messenger/models.py:20
 msgid "Message"
-msgstr ""
+msgstr "消息"
 
 #: bootcamp/messenger/models.py:21
 msgid "Messages"
-msgstr ""
+msgstr "消息"
 
 #: bootcamp/messenger/templates/messenger/inbox.html:4
 #: bootcamp/messenger/templates/messenger/inbox.html:6
 msgid "Inbox"
-msgstr ""
+msgstr "收件箱"
 
 #: bootcamp/messenger/templates/messenger/inbox.html:15
 msgid "This is the begining of a great new conversation."
@@ -365,7 +365,7 @@ msgstr ""
 
 #: bootcamp/messenger/templates/messenger/inbox.html:16
 msgid "Let's get started now!"
-msgstr ""
+msgstr "让我们开始吧！"
 
 #: bootcamp/questions/templates/questions/ask.html:7
 #: bootcamp/questions/templates/questions/questions.html:15
@@ -424,11 +424,11 @@ msgstr "没有问题显示"
 
 #: bootcamp/search/templates/search/partial_articles_results.html:24
 msgid "No article found"
-msgstr ""
+msgstr "没有文章"
 
 #: bootcamp/search/templates/search/partial_feed_results.html:23
 msgid "No feed found"
-msgstr ""
+msgstr "没有Feed"
 
 #: bootcamp/search/templates/search/partial_questions_results.html:22
 #, fuzzy
@@ -445,17 +445,17 @@ msgstr "用户名"
 
 #: bootcamp/search/templates/search/partial_users_results.html:19
 msgid "No user found"
-msgstr ""
+msgstr "没有用户"
 
 #: bootcamp/search/templates/search/results.html:17
 #: bootcamp/search/templates/search/search.html:22
 msgid "Search"
-msgstr ""
+msgstr "搜索"
 
 #: bootcamp/search/templates/search/results.html:23
 #: bootcamp/search/templates/search/search.html:19
 msgid "Search Feed, Articles, Questions and Users"
-msgstr ""
+msgstr "搜索Feed、文章、问答和用户"
 
 #: bootcamp/templates/base.html:47
 msgid "Q&A"
