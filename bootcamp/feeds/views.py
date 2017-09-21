@@ -188,7 +188,9 @@ def track_comments(request):
     feed_id = request.GET.get('feed')
     feed = Feed.objects.get(pk=feed_id)
     if len(feed.get_comments()) > 0:
-        return render(request, 'feeds/partial_feed_comments.html', {'feed': feed})
+        return render(
+            request, 'feeds/partial_feed_comments.html', {'feed': feed})
+
     else:
         return HttpResponse()
 
