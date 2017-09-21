@@ -259,9 +259,11 @@ $(function () {
         data: {'feed': feed},
         cache: false,
         success: function (data) {
-          $("ol", container).html(data);
-          var post_container = $(container).closest(".post");
-          $(".comment-count", post_container).text($("ol li", container).length);
+          if (data != 0) {
+            $("ol", container).html(data);
+            var post_container = $(container).closest(".post");
+            $(".comment-count", post_container).text($("ol li", container).length);
+          }
         }
       });
     });

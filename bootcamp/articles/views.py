@@ -89,10 +89,10 @@ def preview(request):
 
             return HttpResponse(html)
 
-        else:
+        else:   # pragma: no cover
             return HttpResponseBadRequest()
 
-    except Exception:
+    except Exception:   # pragma: no cover
         return HttpResponseBadRequest()
 
 
@@ -118,8 +118,8 @@ def comment(request):
 
             return HttpResponse(html)
 
-        else:
+        else:   # pragma: no cover
             return HttpResponseBadRequest()
 
-    except Exception:
+    except Exception:   # pragma: no cover
         return HttpResponseBadRequest()
