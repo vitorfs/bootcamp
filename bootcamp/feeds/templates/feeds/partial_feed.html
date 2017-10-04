@@ -1,6 +1,7 @@
 {% load i18n %}
 {% load humanize %}
 
+
 <li feed-id="{{ feed.pk }}" csrf="{{ csrf_token }}">
   <div class="feed-container">
     <a href="{% url 'profile' feed.user.username %}"><img
@@ -15,7 +16,7 @@
         <small>{{ feed.date|naturaltime }}</small>
       </h3>
       <p>{{ feed.linkfy_post|safe }}</p>
-      <div class="interaction">
+      <div class="interaction" id="interaction">
         {% if user in feed.get_likers %}
           <a href="#" style="text-decoration: none;"
              class="like unlike"
@@ -25,7 +26,8 @@
             (<span class="like-count">{{ feed.likes }}</span>)
           </a>
         {% else %}
-          <a href="#" style="text-decoration: none;" class="like">
+          <a href="#" style="text-decoration: none;" class="like"
+             title="{% for i in feed.get_likers %}{{ i }}&#10;{% endfor %}">
             <span class="glyphicon glyphicon-thumbs-up"></span>
             <span class="text">{% trans 'Like' %}</span>
             (<span class="like-count">{{ feed.likes }}</span>)
@@ -53,3 +55,15 @@
     </div>
   </div>
 </li>
+{#<script>#}
+{#  console.log("Reached");#}
+{#  $.ajax({#}
+{#    url: '{% url 'post' %}',#}
+{#    success: function (data) {#}
+{#      $('#interaction').html(data);#}
+{#    }#}
+{#  });#}
+{#</script>#}
+
+
+
