@@ -38,6 +38,10 @@ class TestModels(TestCase):
             everybody always wants the real deal.''',
             create_user=self.user,
         )
+        self.long_word_content = ('thisisalonglonglonglonglonglonglonglongword'
+                                  'longlonglonglonglonglonglonglonglonglongword')
+        self.normal_content = ('This is a really long long long long long long '
+                               'long long long long long long long long content')
 
     def test_object_instance(self):
         self.assertTrue(isinstance(self.article, Article))
@@ -58,9 +62,11 @@ class TestModels(TestCase):
         self.assertEqual(self.article.get_summary(), self.article.content)
         self.assertEqual(len(self.not_p_article.get_summary()), 258)
         self.assertEqual(self.article.get_summary_as_markdown(),
-                         '<p>This is a really good content</p>')
+                         'This is a really good content')
         self.assertTrue(self.article_comment in self.article.get_comments())
         self.assertEqual(str(self.article_comment),
                          'test_user - A really nice title')
         self.assertEqual(self.article_comment.get_comment_as_markdown(),
                          '<p>A really nice comment</p>')
+        self.assertEqual(self.article.insert_space_to_long_word(self.normal_content),self.normal_content)
+        self.assertTrue(' ' in self.article.insert_space_to_long_word(self.long_word_content))
