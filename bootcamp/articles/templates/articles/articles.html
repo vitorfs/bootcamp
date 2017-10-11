@@ -20,7 +20,7 @@
     <div class="col-md-10">
       <section class="articles">
         {% for article in articles %}
-          {% include 'articles/partial_article.html' with article=article %}
+          {% include 'articles/partial_article.html' with article=article is_articles=forloop %}
         {% empty %}
           <h4 class="no-data">{% trans 'There is no published article yet' %}. <a href="{% url 'write' %}">{% trans 'Be the first one to publish' %}!</a></h4>
         {% endfor %}
