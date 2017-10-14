@@ -90,7 +90,8 @@ USE_TZ = True
 LANGUAGES = (
     ('en', 'English'),
     ('pt-br', 'Portuguese'),
-    ('es', 'Spanish')
+    ('es', 'Spanish'),
+    ('zh-cn', 'Chinese'),
 )
 
 LOCALE_PATHS = (PROJECT_DIR.child('locale'), )
