@@ -1,4 +1,5 @@
-{% load staticfiles i18n %}<!DOCTYPE html>
+{% load staticfiles i18n %}
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -64,7 +65,7 @@
                   $(function() {
                       $("#auto-search").autocomplete({
                           source: "{% url 'autocomplete' %}",
-                          minLength: 2,
+                          minLength: 2
                       });
                   });
                 </script>
