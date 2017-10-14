@@ -5,7 +5,7 @@ $(function () {
     $(".stream-update").hide();
     $(".stream-update .new-posts").text("");
     $(document).attr("title", page_title);
-  };
+  }
 
   $("body").keydown(function (evt) {
     var keyCode = evt.which?evt.which:evt.keyCode;

@@ -61,7 +61,7 @@ $(function () {
           }
           $(_textarea).selection("replace", {text: selection_list_result});
           break;
-      };
+      }
 
     });
 
