@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 
-from HTMLParser import HTMLParser
+import sys
 from django.contrib.auth.models import User
 from django.db import models
 from autoslug import AutoSlugField
@@ -10,6 +10,14 @@ from django.db.models import Count
 
 import markdown
 from taggit.managers import TaggableManager
+
+PY2 = sys.version_info[0] == 2
+PY3 = sys.version_info[0] == 3
+
+if PY3:
+    from html.parser import HTMLParser
+else:
+    from HTMLParser import HTMLParser
 
 
 @python_2_unicode_compatible
@@ -124,9 +132,6 @@ class SummaryParser(HTMLParser):
     def __init__(self):
         HTMLParser.__init__(self)
         self.summary = ''
-
-    def feed(self, data):
-        HTMLParser.feed(self, data)
 
     def handle_data(self, data):
         if self.summary:
