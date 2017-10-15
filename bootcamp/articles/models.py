@@ -1,6 +1,5 @@
 from __future__ import unicode_literals
 
-import sys
 from django.contrib.auth.models import User
 from django.db import models
 from autoslug import AutoSlugField
@@ -41,7 +40,6 @@ class Article(models.Model):
         return self.title
 
     def get_content_as_markdown(self):
-        self.content = self.insert_space_to_long_word(self.content)
         return markdown.markdown(self.content, safe_mode='escape')
 
     @staticmethod
@@ -75,24 +73,6 @@ class Article(models.Model):
 
     def get_comments(self):
         return ArticleComment.objects.filter(article=self)
-
-    @staticmethod
-    def insert_space_to_long_word(content):
-        count = 0
-        index_list = []
-        for index, character in enumerate(content):
-            if not character.isspace():
-                count += 1
-            else:
-                count = 0
-            if count >= 50:
-                index_list.append(index)
-                count = 0
-        content_list = list(content)
-        for index in index_list:
-            content_list.insert(index, ' ')
-        content = ''.join(content_list)
-        return content
 
 
 @python_2_unicode_compatible
