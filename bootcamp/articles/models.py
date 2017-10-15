@@ -11,14 +11,6 @@ from django.db.models import Count
 import markdown
 from taggit.managers import TaggableManager
 
-PY2 = sys.version_info[0] == 2
-PY3 = sys.version_info[0] == 3
-
-if PY3:
-    from html.parser import HTMLParser
-else:
-    from HTMLParser import HTMLParser
-
 
 @python_2_unicode_compatible
 class Article(models.Model):
@@ -79,11 +71,7 @@ class Article(models.Model):
             return self.content
 
     def get_summary_as_markdown(self):
-        markdown_html = markdown.markdown(self.get_summary(), safe_mode='escape')
-        summary_parser = SummaryParser()
-        summary_parser.feed(markdown_html)
-        summary = self.insert_space_to_long_word(summary_parser.summary)
-        return summary
+        return markdown.markdown(self.get_summary(), safe_mode='escape')
 
     def get_comments(self):
         return ArticleComment.objects.filter(article=self)
@@ -124,17 +112,3 @@ class ArticleComment(models.Model):
 
     def get_comment_as_markdown(self):
         return markdown.markdown(self.comment, safe_mode='escape')
-
-
-class SummaryParser(HTMLParser):
-    """Get a summary of the HTML-format document"""
-
-    def __init__(self):
-        HTMLParser.__init__(self)
-        self.summary = ''
-
-    def handle_data(self, data):
-        if self.summary:
-            self.summary = ' '.join([self.summary, data])
-        else:
-            self.summary = data
