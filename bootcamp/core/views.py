@@ -1,7 +1,8 @@
 import os
 import json
 
-from django.shortcuts import get_object_or_404
+from PIL import Image
+
 from django.conf import settings as django_settings
 from django.contrib import messages
 from django.db.models import Q
@@ -9,7 +10,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 
 from bootcamp.core.forms import ChangePasswordForm, ProfileForm
 from bootcamp.feeds.views import FEEDS_NUM_PAGES, feeds
@@ -18,8 +19,6 @@ from bootcamp.articles.models import Article, ArticleComment
 from bootcamp.questions.models import Question, Answer
 from bootcamp.activities.models import Activity
 from bootcamp.messenger.models import Message
-
-from PIL import Image
 
 
 def home(request):

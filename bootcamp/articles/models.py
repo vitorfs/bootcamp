@@ -20,7 +20,7 @@ class Article(models.Model):
         (PUBLISHED, 'Published'),
     )
 
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, null=False, unique=True)
     slug = AutoSlugField(populate_from='title')
     tags = TaggableManager()
     content = models.TextField(max_length=4000)
