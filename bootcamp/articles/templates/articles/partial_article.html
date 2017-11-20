@@ -15,7 +15,11 @@
     </span>
   </div>
   <div class="content">
-    {{ article.get_content_as_markdown|safe }}
+      {% if is_articles %}
+            {{ article.get_summary_as_markdown|safe }}
+      {% else %}
+            {{ article.get_content_as_markdown|safe }}
+      {% endif %}
   </div>
   {% if article.tags.names %}
     <div class="tags">
