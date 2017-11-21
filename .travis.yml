@@ -13,7 +13,7 @@ branches:
 # command to install dependencies
 install:
   - pip install "$DJANGO"
-  - pip install -r requirements.txt
+  - pip install -r requirements/local.txt
   - pip install python-coveralls
   - pip install coverage
 before_script:
@@ -22,6 +22,6 @@ before_script:
   - python manage.py collectstatic --noinput
 # command to run tests
 script:
-    - coverage run manage.py test
+    - pytest
 after_success:
     - coveralls
