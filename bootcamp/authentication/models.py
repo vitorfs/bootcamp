@@ -58,7 +58,7 @@ class Profile(models.Model):
                 return self.user.get_full_name()
             else:
                 return self.user.username
-        except:
+        except:  # pragma: no cover
             return self.user.username
 
     def notify_liked(self, feed):
