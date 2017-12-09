@@ -19,15 +19,44 @@ class TestModels(TestCase):
             email='other_test@gmail.com',
             password='top_secret'
         )
-        self.feed = Feed.objects.create(
+        self.feed_one = Feed.objects.create(
             user=self.user,
-            post='A not so long text',
+            post='A one not so long text',
             likes=0,
             comments=0
         )
+        self.feed_two = Feed.objects.create(
+            user=self.user,
+            post='A two not so long text',
+            likes=0,
+            comments=0
+        )
+        self.feed_three = Feed.objects.create(
+            user=self.user,
+            post='A three not so long text',
+            likes=0,
+            comments=0
+        )
+        self.sub_feed_one = Feed.objects.create(
+            user=self.user,
+            post='A not so long subtext one',
+            likes=0,
+            comments=0,
+            parent=self.feed_one
+        )
+        self.sub_feed_two = Feed.objects.create(
+            user=self.user,
+            post='A not so long subtext two',
+            likes=0,
+            comments=0,
+            parent=self.feed_one
+        )
 
     def test_instance_values(self):
-        self.assertTrue(isinstance(self.feed, Feed))
+        self.assertTrue(isinstance(self.feed_one, Feed))
 
     def test_feed_return_value(self):
-        self.assertEqual(str(self.feed), 'A not so long text')
+        self.assertEqual(str(self.feed_one), 'A one not so long text')
+
+    def test_get_feeds(self):
+        assert self.feed_two in Feed.get_feeds(self.feed_three.id)
