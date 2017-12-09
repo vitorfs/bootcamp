@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 from bootcamp.feeds.models import Feed
+from bootcamp.activities.models import Activity
 
 
 class TestModels(TestCase):
@@ -60,3 +61,41 @@ class TestModels(TestCase):
 
     def test_get_feeds(self):
         assert self.feed_two in Feed.get_feeds(self.feed_three.id)
+
+    def test_get_feeds_after(self):
+        assert self.feed_two in Feed.get_feeds_after(self.feed_one.id)
+
+    def test_get_comments(self):
+        assert self.sub_feed_one in self.feed_one.get_comments()
+        assert self.sub_feed_two in self.feed_one.get_comments()
+
+    def test_calculate_likes(self):
+        old_likes = Activity.objects.filter(activity_type=Activity.LIKE,
+                                            feed=self.feed_one.pk).count()
+        old_attrib_likes = self.feed_one.calculate_likes()
+        activity = Activity.objects.create(
+            user=self.user,
+            activity_type='L',
+            feed=self.feed_one.pk
+        )
+        new_likes = Activity.objects.filter(activity_type=Activity.LIKE,
+                                            feed=self.feed_one.pk).count()
+        new_attrib_likes = self.feed_one.calculate_likes()
+        assert old_likes < new_likes
+        assert isinstance(activity, Activity)
+        assert old_attrib_likes < new_attrib_likes
+
+    def test_get_likers(self):
+        activity = Activity.objects.create(
+            user=self.user,
+            activity_type='L',
+            feed=self.feed_one.pk
+        )
+        likers = self.feed_one.get_likers()
+        assert isinstance(activity, Activity)
+        assert self.user in likers
+
+    def test_calculate_comments(self):
+        assert self.feed_one.comments == 0
+        assert self.feed_one.calculate_comments() == 2
+        assert self.feed_one.comments == 2
