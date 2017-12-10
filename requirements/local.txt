@@ -2,7 +2,7 @@
 coverage>=4.4.2
 django_coverage_plugin==1.3
 django-test-plus==1.0.12
-factory_boy==2.7.0
+factory_boy==2.9.2
 django-debug-toolbar==1.6
 
 # improved REPL
