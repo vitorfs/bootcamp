@@ -1,6 +1,6 @@
-from django.contrib.auth import get_user_model
 from django.test import TestCase
 
+from bootcamp.factories import UserFactory, FeedsFactory
 from bootcamp.feeds.models import Feed
 from bootcamp.activities.models import Activity
 
@@ -10,46 +10,20 @@ class TestModels(TestCase):
     """
 
     def setUp(self):
-        self.user = get_user_model().objects.create_user(
-            username='test_user',
-            email='test@gmail.com',
-            password='top_secret'
-        )
-        self.other_user = get_user_model().objects.create_user(
-            username='other_test_user',
-            email='other_test@gmail.com',
-            password='top_secret'
-        )
-        self.feed_one = Feed.objects.create(
+        self.user = UserFactory()
+        self.other_user = UserFactory()
+        self.feed_one = FeedsFactory(
             user=self.user,
-            post='A one not so long text',
-            likes=0,
-            comments=0
+            post='A one not so long text'
         )
-        self.feed_two = Feed.objects.create(
+        self.feed_two = FeedsFactory(user=self.user)
+        self.feed_three = FeedsFactory(user=self.user)
+        self.sub_feed_one = FeedsFactory(
             user=self.user,
-            post='A two not so long text',
-            likes=0,
-            comments=0
-        )
-        self.feed_three = Feed.objects.create(
-            user=self.user,
-            post='A three not so long text',
-            likes=0,
-            comments=0
-        )
-        self.sub_feed_one = Feed.objects.create(
-            user=self.user,
-            post='A not so long subtext one',
-            likes=0,
-            comments=0,
             parent=self.feed_one
         )
-        self.sub_feed_two = Feed.objects.create(
+        self.sub_feed_two = FeedsFactory(
             user=self.user,
-            post='A not so long subtext two',
-            likes=0,
-            comments=0,
             parent=self.feed_one
         )
 
