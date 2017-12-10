@@ -6,7 +6,7 @@ from bootcamp.feeds.models import Feed
 from bootcamp.activities.models import Activity
 
 
-class UserFactory(factory.DjangoModelFactory):
+class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = get_user_model()
         django_get_or_create = ('username',)
@@ -17,17 +17,17 @@ class UserFactory(factory.DjangoModelFactory):
     password = 'password'
 
 
-class FeedsFactory(factory.DjangoModelFactory):
+class FeedsFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Feed
 
-    user = UserFactory()
+    user = factory.SubFactory(UserFactory)
     post = 'A really well though not so random text.'
 
 
-class ActivityFactory(factory.DjangoModelFactory):
+class ActivityFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Activity
 
-    user = UserFactory
-    feed = FeedsFactory()
+    user = factory.SubFactory(UserFactory)
+    feed = factory.SubFactory(FeedsFactory)
