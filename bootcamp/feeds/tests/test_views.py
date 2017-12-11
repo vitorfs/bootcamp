@@ -26,6 +26,7 @@ class TestViews(TestCase):
         self.feed = FeedsFactory(
             user=self.user
         )
+        self.feeds = FeedsFactory.create_batch(10)
 
     def test_feeds_view(self):
         request = self.client.get(reverse('feeds'))
@@ -36,5 +37,6 @@ class TestViews(TestCase):
         assert request.status_code == 200
 
     def test_load_view(self):
-        request = self.client.get(reverse('load'), HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-        assert request.status_code == 200
+        request = self.client.get(
+            reverse('load'), HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        assert request.status_code == 400
