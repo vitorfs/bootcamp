@@ -32,7 +32,7 @@ def ws_disconnect(message):
 def ws_receive(message):
     Group('inbox-{}'.format(message.user.username)).send({
         "text": json.dumps({
-            "id": instance.id,
-            "content": instance.content
+            "id": message.id,
+            "content": message.content
         })
     })
