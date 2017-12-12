@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'bootcamp.questions',
     'bootcamp.search',
     'taggit',
+    'channels',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -118,3 +119,17 @@ FILE_UPLOAD_TEMP_DIR = '/tmp/'
 FILE_UPLOAD_PERMISSIONS = 0o644
 
 TAGGIT_CASE_INSENSITIVE = True
+
+# REDIS setup
+REDIS_URL = config('REDIS_URL', default=('localhost', 6379))
+# Channels configuration
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'asgi_redis.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [REDIS_URL, ],
+        },
+        'ROUTING': 'bootcamp.routing.channel_routing',
+    }
+}
