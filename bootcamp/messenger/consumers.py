@@ -5,7 +5,7 @@ from channels.auth import channel_session_user, channel_session_user_from_http
 
 @channel_session_user_from_http
 def ws_connect(message):
-    # Adds to inbox group.
+    message.reply_channel.send({"accept": True})
     Group('inbox-{}'.format(
         message.user.username)).add(message.reply_channel)
     # Group('users').send({
