@@ -1,10 +1,14 @@
 from __future__ import unicode_literals
 
+import json
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Max
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
+
+from channels import Group
 
 
 @python_2_unicode_compatible
@@ -38,7 +42,13 @@ class Message(models.Model):
                 conversation=from_user,
                 message=message,
                 user=to_user).save()
-
+        ws_message = {'text': json.dumps({
+                        'content': message,
+                        'receiver': to_user.username,
+                        'sender': from_user.username
+                        }
+                    )}
+        Group('inbox-{}'.format(to_user.username)).send(ws_message)
         return current_user_message
 
     @staticmethod
