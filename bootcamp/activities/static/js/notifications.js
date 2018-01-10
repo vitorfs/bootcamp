@@ -24,9 +24,22 @@ $(function () {
     function check_notifications() {
         var socket = new WebSocket('ws://' + window.location.host + '/notifications/');
         socket.onopen = function open() {
-            console.log('WebSockets connection created to notification channel.');
+            console.log('WebSockets connection created to notifications channel.');
         };
         
+        socket.onmessage = function message(event) {
+            var data = JSON.parse(event.data);
+            // NOTE: We escape JavaScript to prevent XSS attacks.
+            var username = encodeURI(data['username']);
+      
+            if (data['is_logged_in']) {
+                $("#notifications").addClass("new-notifications");
+            }
+            else {
+                $("#notifications").removeClass("new-notifications");
+            }
+        };
+      
         if (socket.readyState == WebSocket.OPEN) {
             socket.onopen();
         };
