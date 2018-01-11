@@ -94,6 +94,8 @@ class Notification(models.Model):
     ACCEPTED_ANSWER = 'W'
     EDITED_ARTICLE = 'E'
     ALSO_COMMENTED = 'S'
+    LOGGED_IN = 'I'
+    LOGGED_OUT = 'O'
     NOTIFICATION_TYPES = (
         (LIKED, 'Liked'),
         (COMMENTED, 'Commented'),
@@ -102,6 +104,8 @@ class Notification(models.Model):
         (ACCEPTED_ANSWER, 'Accepted Answer'),
         (EDITED_ARTICLE, 'Edited Article'),
         (ALSO_COMMENTED, 'Also Commented'),
+        (LOGGED_IN, 'Logged In'),
+        (LOGGED_OUT, 'Logged Out'),
         )
 
     _LIKED_TEMPLATE = '<a href="/{0}/">{1}</a> liked your post: <a href="/feeds/{2}/">{3}</a>'  # noqa: E501
@@ -111,6 +115,8 @@ class Notification(models.Model):
     _ACCEPTED_ANSWER_TEMPLATE = '<a href="/{0}/">{1}</a> accepted your answer: <a href="/questions/{2}/">{3}</a>'  # noqa: E501
     _EDITED_ARTICLE_TEMPLATE = '<a href="/{0}/">{1}</a> edited your article: <a href="/article/{2}/">{3}</a>'  # noqa: E501
     _ALSO_COMMENTED_TEMPLATE = '<a href="/{0}/">{1}</a> also commentend on the post: <a href="/feeds/{2}/">{3}</a>'  # noqa: E501
+    _USER_LOGIN_TEMPLATE = '<a href="/{0}/">{1}</a> has just logged in.'  # noqa: E501
+    _USER_LOGOUT_TEMPLATE = '<a href="/{0}/">{1}</a> has just logged out.'  # noqa: E501
 
     from_user = models.ForeignKey(User, related_name='+')
     to_user = models.ForeignKey(User, related_name='+')
@@ -178,6 +184,16 @@ class Notification(models.Model):
                 self.feed.pk,
                 escape(self.get_summary(self.feed.post))
                 )
+        elif self.notification_type == self.LOGGED_IN:
+            return self._USER_LOGIN_TEMPLATE.format(
+                escape(self.from_user.username),
+                escape(self.from_user.profile.get_screen_name())
+                )
+        elif self.notification_type == self.LOGGED_OUT:
+            return self._USER_LOGOUT_TEMPLATE.format(
+                escape(self.from_user.username),
+                escape(self.from_user.profile.get_screen_name())
+                )
         else:
             return 'Ooops! Something went wrong.'
 
@@ -188,3 +204,15 @@ class Notification(models.Model):
 
         else:
             return value
+
+    @staticmethod
+    def call_latest_notifications(user):
+        notifications = Notification.objects.filter(
+            to_user=user, is_read=False) | Notification.objects.filter(
+                notification_type__in=['I', 'O'], is_read=False).exclude(
+                    from_user=user)
+        for notification in notifications:
+            notification.is_read = True
+            notification.save()
+
+        return notifications[:5]
