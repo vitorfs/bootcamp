@@ -21,45 +21,31 @@ $(function () {
         return false;
     });
 
-    function check_notifications() {
-        var socket = new WebSocket('ws://' + window.location.host + '/notifications/');
-        socket.onopen = function open() {
-            console.log('WebSockets connection created to notifications channel.');
-        };
-        
-        socket.onmessage = function message(event) {
-            var data = JSON.parse(event.data);
-            // NOTE: We escape JavaScript to prevent XSS attacks.
-            var username = encodeURI(data['username']);
-      
-            if (data['is_logged_in']) {
-                $("#notifications").addClass("new-notifications");
-            }
-            else {
-                $("#notifications").removeClass("new-notifications");
-            }
-        };
-      
-        if (socket.readyState == WebSocket.OPEN) {
-            socket.onopen();
-        };
+    // Correctly decide between ws:// and wss://
+    var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+    var ws_path = ws_scheme + '://' + window.location.host + "/notifications/";
+    var webSocket = new channels.WebSocketBridge();
+    webSocket.connect(ws_path);
+
+    // Helpful debugging
+    webSocket.socket.onopen = function () {
+        console.log("Connected to notifications stream at: " + ws_path);
     };
-    /* function check_notifications() {
-        $.ajax({
-            url: '/notifications/check/',
-            cache: false,
-            success: function (data) {
-                if (data != "0") {
-                    $("#notifications").addClass("new-notifications");
-                }
-                else {
-                    $("#notifications").removeClass("new-notifications");
-                }
-            },
-            complete: function () {
-                window.setTimeout(check_notifications, 30000);
-            }
-        });
-    }; */
-    check_notifications();
+
+    webSocket.socket.onclose = function () {
+        console.log("Disconnected from notifications stream at: " + ws_path);
+    };
+
+    webSocket.listen(function(event) {
+        // NOTE: We escape JavaScript to prevent XSS attacks.
+        // var data = JSON.parse(event);
+        // var username = encodeURI(data['username']);
+        if (event.activity_type === "notification") {
+            $("#notifications").addClass("new-notifications");
+            console.log("User " + event.username + " just " + event.activity)
+        }
+        else {
+            $("#notifications").removeClass("new-notifications");
+        }
+    });
 });
