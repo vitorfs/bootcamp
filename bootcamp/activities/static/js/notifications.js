@@ -30,6 +30,24 @@ $(function () {
     // Helpful debugging
     webSocket.socket.onopen = function () {
         console.log("Connected to notifications stream at: " + ws_path);
+        /*
+            Left this block of code here to keep it in mind to fix the issue
+            with the notification snippet not working in a way of liking.
+            I guess I would need to create an issue in the project.
+
+            $.ajax({
+                url: '/notifications/check/',
+                cache: false,
+                success: function (data) {
+                    if (data != "0") {
+                        $("#notifications").addClass("new-notifications");
+                    }
+                    else {
+                        $("#notifications").removeClass("new-notifications");
+                    }
+                },
+            });
+        */
     };
 
     webSocket.socket.onclose = function () {
@@ -37,9 +55,6 @@ $(function () {
     };
 
     webSocket.listen(function(event) {
-        // NOTE: We escape JavaScript to prevent XSS attacks.
-        // var data = JSON.parse(event);
-        // var username = encodeURI(data['username']);
         if (event.activity_type === "notification") {
             $("#notifications").addClass("new-notifications");
             console.log("User " + event.username + " just " + event.activity)
