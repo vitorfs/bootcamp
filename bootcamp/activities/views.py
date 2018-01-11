@@ -23,12 +23,7 @@ def notifications(request):
 @ajax_required
 def last_notifications(request):
     user = request.user
-    notifications = Notification.objects.filter(to_user=user,
-                                                is_read=False)[:5]
-    for notification in notifications:
-        notification.is_read = True  # pragma: no cover
-        notification.save()  # pragma: no cover
-
+    notifications = Notification.call_latest_notifications(user)
     return render(request,
                   'activities/last_notifications.html',
                   {'notifications': notifications})
