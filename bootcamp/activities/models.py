@@ -96,6 +96,8 @@ class Notification(models.Model):
     ALSO_COMMENTED = 'S'
     LOGGED_IN = 'I'
     LOGGED_OUT = 'O'
+    UPVOTED_Q = 'U'
+    UPVOTED_A = 'V'
     NOTIFICATION_TYPES = (
         (LIKED, 'Liked'),
         (COMMENTED, 'Commented'),
@@ -106,6 +108,8 @@ class Notification(models.Model):
         (ALSO_COMMENTED, 'Also Commented'),
         (LOGGED_IN, 'Logged In'),
         (LOGGED_OUT, 'Logged Out'),
+        (UPVOTED_Q, 'Up Voted Question'),
+        (UPVOTED_A, 'Up Voted Answer'),
         )
 
     _LIKED_TEMPLATE = '<a href="/{0}/">{1}</a> liked your post: <a href="/feeds/{2}/">{3}</a>'  # noqa: E501
@@ -113,6 +117,8 @@ class Notification(models.Model):
     _FAVORITED_TEMPLATE = '<a href="/{0}/">{1}</a> favorited your question: <a href="/questions/{2}/">{3}</a>'  # noqa: E501
     _ANSWERED_TEMPLATE = '<a href="/{0}/">{1}</a> answered your question: <a href="/questions/{2}/">{3}</a>'  # noqa: E501
     _ACCEPTED_ANSWER_TEMPLATE = '<a href="/{0}/">{1}</a> accepted your answer: <a href="/questions/{2}/">{3}</a>'  # noqa: E501
+    _UPVOTED_QUESTION_TEMPLATE = '<a href="/{0}/">{1}</a> upvoted your question: <a href="/questions/{2}/">{3}</a>'  # noqa: E501
+    _UPVOTED_ANSWER_TEMPLATE = '<a href="/{0}/">{1}</a> upvoted your answer: <a href="/questions/{2}/">{3}</a>'  # noqa: E501
     _EDITED_ARTICLE_TEMPLATE = '<a href="/{0}/">{1}</a> edited your article: <a href="/article/{2}/">{3}</a>'  # noqa: E501
     _ALSO_COMMENTED_TEMPLATE = '<a href="/{0}/">{1}</a> also commentend on the post: <a href="/feeds/{2}/">{3}</a>'  # noqa: E501
     _USER_LOGIN_TEMPLATE = '<a href="/{0}/">{1}</a> has just logged in.'  # noqa: E501
@@ -142,6 +148,7 @@ class Notification(models.Model):
                 self.feed.pk,
                 escape(self.get_summary(self.feed.post))
                 )
+
         elif self.notification_type == self.COMMENTED:
             return self._COMMENTED_TEMPLATE.format(
                 escape(self.from_user.username),
@@ -149,6 +156,7 @@ class Notification(models.Model):
                 self.feed.pk,
                 escape(self.get_summary(self.feed.post))
                 )
+
         elif self.notification_type == self.FAVORITED:
             return self._FAVORITED_TEMPLATE.format(
                 escape(self.from_user.username),
@@ -156,6 +164,7 @@ class Notification(models.Model):
                 self.question.pk,
                 escape(self.get_summary(self.question.title))
                 )
+
         elif self.notification_type == self.ANSWERED:
             return self._ANSWERED_TEMPLATE.format(
                 escape(self.from_user.username),
@@ -163,6 +172,7 @@ class Notification(models.Model):
                 self.question.pk,
                 escape(self.get_summary(self.question.title))
                 )
+
         elif self.notification_type == self.ACCEPTED_ANSWER:
             return self._ACCEPTED_ANSWER_TEMPLATE.format(
                 escape(self.from_user.username),
@@ -170,6 +180,7 @@ class Notification(models.Model):
                 self.answer.question.pk,
                 escape(self.get_summary(self.answer.description))
                 )
+
         elif self.notification_type == self.EDITED_ARTICLE:
             return self._EDITED_ARTICLE_TEMPLATE.format(
                 escape(self.from_user.username),
@@ -177,6 +188,7 @@ class Notification(models.Model):
                 self.article.slug,
                 escape(self.get_summary(self.article.title))
                 )
+
         elif self.notification_type == self.ALSO_COMMENTED:
             return self._ALSO_COMMENTED_TEMPLATE.format(
                 escape(self.from_user.username),
@@ -184,16 +196,35 @@ class Notification(models.Model):
                 self.feed.pk,
                 escape(self.get_summary(self.feed.post))
                 )
+
         elif self.notification_type == self.LOGGED_IN:
             return self._USER_LOGIN_TEMPLATE.format(
                 escape(self.from_user.username),
                 escape(self.from_user.profile.get_screen_name())
                 )
+
         elif self.notification_type == self.LOGGED_OUT:
             return self._USER_LOGOUT_TEMPLATE.format(
                 escape(self.from_user.username),
                 escape(self.from_user.profile.get_screen_name())
                 )
+
+        elif self.notification_type == self.UPVOTED_Q:
+            return self._UPVOTED_QUESTION_TEMPLATE.format(
+                escape(self.from_user.username),
+                escape(self.from_user.profile.get_screen_name()),
+                self.question.pk,
+                escape(self.get_summary(self.question.title))
+                )
+
+        elif self.notification_type == self.UPVOTED_A:
+            return self._UPVOTED_ANSWER_TEMPLATE.format(
+                escape(self.from_user.username),
+                escape(self.from_user.profile.get_screen_name()),
+                self.answer.question.pk,
+                escape(self.get_summary(self.answer.description))
+                )
+
         else:
             return 'Ooops! Something went wrong.'
 

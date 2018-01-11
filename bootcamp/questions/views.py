@@ -140,6 +140,7 @@ def vote(request):
     if vote in [Activity.UP_VOTE, Activity.DOWN_VOTE]:
         activity = Activity(activity_type=vote, user=user, answer=answer_id)
         activity.save()
+        user.profile.notify_upvoted_answer(answer)
 
     return HttpResponse(answer.calculate_votes())
 
@@ -161,6 +162,7 @@ def question_vote(request):
         activity = Activity(activity_type=vote,
                             user=user, question=question_id)
         activity.save()
+        user.profile.notify_upvoted_question(question)
 
     return HttpResponse(question.calculate_votes())
 

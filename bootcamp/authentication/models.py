@@ -171,6 +171,24 @@ class Profile(models.Model):
             to_user=self.user)
         self.group_notification('log out')
 
+    def notify_upvoted_question(self, question):
+        if self.user != question.user:
+            Notification(notification_type=Notification.UPVOTED_Q,
+                         from_user=self.user,
+                         to_user=question.user,
+                         question=question).save()
+
+        self.group_notification('upvoted_question')
+
+    def notify_upvoted_answer(self, answer):
+        if self.user != answer.user:
+            Notification(notification_type=Notification.UPVOTED_A,
+                         from_user=self.user,
+                         to_user=answer.user,
+                         answer=answer).save()
+
+        self.group_notification('upvoted_answer')
+
     def group_notification(self, activity):
         Group('notifications').send({
             'text': json.dumps({
