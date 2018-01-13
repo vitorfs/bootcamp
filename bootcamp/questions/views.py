@@ -5,7 +5,7 @@ from django.views.generic import CreateView
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 
 from bootcamp.activities.models import Activity
 from bootcamp.decorators import ajax_required
