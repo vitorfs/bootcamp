@@ -1,5 +1,5 @@
 from django.test import Client, TestCase
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.contrib.auth import get_user_model
 
 from bootcamp.factories import UserFactory, FeedsFactory
