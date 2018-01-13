@@ -23,7 +23,7 @@ class Activity(models.Model):
         (DOWN_VOTE, 'Down Vote'),
         )
 
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     activity_type = models.CharField(max_length=1, choices=ACTIVITY_TYPES)
     date = models.DateTimeField(auto_now_add=True)
     feed = models.IntegerField(null=True, blank=True)
@@ -112,13 +112,19 @@ class Notification(models.Model):
     _EDITED_ARTICLE_TEMPLATE = '<a href="/{0}/">{1}</a> edited your article: <a href="/article/{2}/">{3}</a>'  # noqa: E501
     _ALSO_COMMENTED_TEMPLATE = '<a href="/{0}/">{1}</a> also commentend on the post: <a href="/feeds/{2}/">{3}</a>'  # noqa: E501
 
-    from_user = models.ForeignKey(User, related_name='+')
-    to_user = models.ForeignKey(User, related_name='+')
+    from_user = models.ForeignKey(
+        User, related_name='+', on_delete=models.CASCADE)
+    to_user = models.ForeignKey(
+        User, related_name='+', on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
-    feed = models.ForeignKey('feeds.Feed', null=True, blank=True)
-    question = models.ForeignKey('questions.Question', null=True, blank=True)
-    answer = models.ForeignKey('questions.Answer', null=True, blank=True)
-    article = models.ForeignKey('articles.Article', null=True, blank=True)
+    feed = models.ForeignKey(
+        'feeds.Feed', null=True, blank=True, on_delete=models.CASCADE)
+    question = models.ForeignKey(
+        'questions.Question', null=True, blank=True, on_delete=models.CASCADE)
+    answer = models.ForeignKey(
+        'questions.Answer', null=True, blank=True, on_delete=models.CASCADE)
+    article = models.ForeignKey(
+        'articles.Article', null=True, blank=True, on_delete=models.CASCADE)
     notification_type = models.CharField(max_length=1,
                                          choices=NOTIFICATION_TYPES)
     is_read = models.BooleanField(default=False)
