@@ -45,7 +45,7 @@ class TestViews(TestCase):
         response = self.client.get(reverse('last_notifications'),
                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context['notifications'].count(), 0)
+        self.assertEqual(len(response.context['notifications']), 1)
 
     def test_check_notification(self):
         response = self.client.get(reverse('check_notifications'),

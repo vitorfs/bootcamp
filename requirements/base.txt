@@ -1,4 +1,6 @@
+asgi_redis>=1.4.3
 bleach>=2.0.0
+channels>=1.1.8
 dj-database-url>=0.4.2
 dj-static>=0.0.6
 django-autoslug>=1.9
