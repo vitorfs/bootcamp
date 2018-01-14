@@ -1,21 +1,26 @@
 from __future__ import unicode_literals
 
+import json
 import hashlib
 import os.path
 import urllib
 
+from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.db import models
 from django.db.models.signals import post_save
 from django.utils.encoding import python_2_unicode_compatible
+from django.contrib.auth import user_logged_in, user_logged_out
+
+
+from channels import Group
 
 from bootcamp.activities.models import Notification
 
 
 @python_2_unicode_compatible
 class Profile(models.Model):
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     location = models.CharField(max_length=50, null=True, blank=True)
     url = models.CharField(max_length=50, null=True, blank=True)
     job_title = models.CharField(max_length=50, null=True, blank=True)
@@ -56,9 +61,11 @@ class Profile(models.Model):
         try:
             if self.user.get_full_name():
                 return self.user.get_full_name()
+
             else:
                 return self.user.username
-        except:  # pragma: no cover
+
+        except Exception:  # pragma: no cover
             return self.user.username
 
     def notify_liked(self, feed):
@@ -67,17 +74,23 @@ class Profile(models.Model):
                          from_user=self.user, to_user=feed.user,
                          feed=feed).save()
 
+        self.group_notification('liked')
+
     def unotify_liked(self, feed):
         if self.user != feed.user:
             Notification.objects.filter(notification_type=Notification.LIKED,
                                         from_user=self.user, to_user=feed.user,
                                         feed=feed).delete()
 
+        # self.group_notification('unliked')
+
     def notify_commented(self, feed):
         if self.user != feed.user:
             Notification(notification_type=Notification.COMMENTED,
                          from_user=self.user, to_user=feed.user,
                          feed=feed).save()
+
+        self.group_notification('commented')
 
     def notify_also_commented(self, feed):
         comments = feed.get_comments()
@@ -92,11 +105,15 @@ class Profile(models.Model):
                          from_user=self.user,
                          to_user=User(id=user), feed=feed).save()
 
+        self.group_notification('also_commented')
+
     def notify_favorited(self, question):
         if self.user != question.user:
             Notification(notification_type=Notification.FAVORITED,
                          from_user=self.user, to_user=question.user,
                          question=question).save()
+
+        self.group_notification('favorited')
 
     def unotify_favorited(self, question):
         if self.user != question.user:
@@ -106,12 +123,16 @@ class Profile(models.Model):
                 to_user=question.user,
                 question=question).delete()
 
+        # self.group_notification('unfavorited')
+
     def notify_answered(self, question):
         if self.user != question.user:
             Notification(notification_type=Notification.ANSWERED,
                          from_user=self.user,
                          to_user=question.user,
                          question=question).save()
+
+        self.group_notification('answered')
 
     def notify_accepted(self, answer):
         if self.user != answer.user:
@@ -120,6 +141,8 @@ class Profile(models.Model):
                          to_user=answer.user,
                          answer=answer).save()
 
+        self.group_notification('accepted_answer')
+
     def unotify_accepted(self, answer):
         if self.user != answer.user:
             Notification.objects.filter(
@@ -127,6 +150,53 @@ class Profile(models.Model):
                 from_user=self.user,
                 to_user=answer.user,
                 answer=answer).delete()
+
+        # self.group_notification('unmarked_answer')
+
+    def notify_login(self):
+        Notification.objects.filter(
+            notification_type=Notification.LOGGED_OUT, from_user=self.user,
+            to_user=self.user).delete()
+        Notification.objects.get_or_create(
+            notification_type=Notification.LOGGED_IN, from_user=self.user,
+            to_user=self.user)
+        self.group_notification('log in')
+
+    def notify_logout(self):
+        Notification.objects.filter(
+            notification_type=Notification.LOGGED_IN, from_user=self.user,
+            to_user=self.user).delete()
+        Notification.objects.get_or_create(
+            notification_type=Notification.LOGGED_OUT, from_user=self.user,
+            to_user=self.user)
+        self.group_notification('log out')
+
+    def notify_upvoted_question(self, question):
+        if self.user != question.user:
+            Notification(notification_type=Notification.UPVOTED_Q,
+                         from_user=self.user,
+                         to_user=question.user,
+                         question=question).save()
+
+        self.group_notification('upvoted_question')
+
+    def notify_upvoted_answer(self, answer):
+        if self.user != answer.user:
+            Notification(notification_type=Notification.UPVOTED_A,
+                         from_user=self.user,
+                         to_user=answer.user,
+                         answer=answer).save()
+
+        self.group_notification('upvoted_answer')
+
+    def group_notification(self, activity):
+        Group('notifications').send({
+            'text': json.dumps({
+                'username': self.user.username,
+                'activity_type': 'notification',
+                'activity': activity
+            })
+        })
 
 
 def create_user_profile(sender, instance, created, **kwargs):
@@ -138,5 +208,15 @@ def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
 
+def on_user_login(sender, **kwargs):
+    Profile.objects.get(user=kwargs['user']).notify_login()
+
+
+def on_user_logout(sender, **kwargs):
+    Profile.objects.get(user=kwargs['user']).notify_logout()
+
+
 post_save.connect(create_user_profile, sender=User)
 post_save.connect(save_user_profile, sender=User)
+user_logged_in.connect(on_user_login, sender=User)
+user_logged_out.connect(on_user_logout, sender=User)
