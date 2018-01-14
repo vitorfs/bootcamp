@@ -33,6 +33,8 @@ The messenger app works at a basic level, in the same way tools like Slack or Ma
 * Django > 1.9
 * Twitter Bootstrap 3
 * jQuery 2
+* Redis 3.0
+* WebSockets (Using django-channels for that!)
 
 ## Installation Guide
 
