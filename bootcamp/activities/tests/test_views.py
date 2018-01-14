@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.test import Client, TestCase
 from bootcamp.activities.models import Notification
 from bootcamp.feeds.models import Feed
@@ -45,7 +45,7 @@ class TestViews(TestCase):
         response = self.client.get(reverse('last_notifications'),
                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context['notifications'].count(), 0)
+        self.assertEqual(len(response.context['notifications']), 1)
 
     def test_check_notification(self):
         response = self.client.get(reverse('check_notifications'),
