@@ -45,12 +45,18 @@ class Message(models.Model):
                 message=message,
                 user=to_user).save()
         ws_message = {'text': json.dumps({
-                        'content': message,
-                        'receiver': to_user.username,
-                        'sender': from_user.username
+
                         }
                     )}
-        Group('inbox-{}'.format(to_user.username)).send(ws_message)
+        Group().send(ws_message)
+        Group('inbox-{}'.format(to_user.username)).send({
+            'text': json.dumps({
+                'content': message,
+                'receiver': to_user.username,
+                'sender': from_user.username
+                'activity_type': 'message',
+            })
+        })
         return current_user_message
 
     @staticmethod
