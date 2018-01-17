@@ -44,17 +44,15 @@ class Message(models.Model):
                 conversation=from_user,
                 message=message,
                 user=to_user).save()
-        ws_message = {'text': json.dumps({
-
-                        }
-                    )}
-        Group().send(ws_message)
-        Group('inbox-{}'.format(to_user.username)).send({
+        count = Message.objects.filter(
+            user=to_user, is_read=False).count()
+        Group('inbox').send({
             'text': json.dumps({
                 'content': message,
                 'receiver': to_user.username,
-                'sender': from_user.username
+                'sender': from_user.username,
                 'activity_type': 'message',
+                'message_count': count
             })
         })
         return current_user_message
