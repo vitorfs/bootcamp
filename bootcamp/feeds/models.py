@@ -1,5 +1,7 @@
 from __future__ import unicode_literals
 
+import json
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
@@ -7,6 +9,9 @@ from django.utils.html import escape
 from django.utils.translation import ugettext_lazy as _
 
 import bleach
+
+from channels import Group
+
 from bootcamp.activities.models import Activity
 
 
@@ -32,8 +37,10 @@ class Feed(models.Model):
     def get_feeds(from_feed=None):
         if from_feed is not None:
             feeds = Feed.objects.filter(parent=None, id__lte=from_feed)
+
         else:
             feeds = Feed.objects.filter(parent=None)
+
         return feeds
 
     @staticmethod
@@ -77,3 +84,11 @@ class Feed(models.Model):
 
     def linkfy_post(self):
         return bleach.linkify(escape(self.post))
+
+    def feed_log(self, activity):
+        Group('feeds').send({
+            'text': json.dumps({
+                'username': self.user.username,
+                'activity': activity
+            })
+        })
