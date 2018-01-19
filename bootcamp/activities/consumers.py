@@ -12,14 +12,3 @@ def ws_connect(message):
 @channel_session_user
 def ws_disconnect(message):
     Group('notifications').discard(message.reply_channel)
-
-
-@channel_session_user
-def ws_receive(message):
-    Group('notifications').send({
-            'text': json.dumps({
-                'username': message.user.username,
-                'activity_type': message.activity_type,
-                'activity': message.activity
-            })
-        })
