@@ -4,6 +4,7 @@ import json
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models.signals import post_save
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.html import escape
 from django.utils.translation import ugettext_lazy as _
@@ -89,6 +90,13 @@ class Feed(models.Model):
         Group('feeds').send({
             'text': json.dumps({
                 'username': self.user.username,
-                'activity': activity
+                'activity': activity,
             })
         })
+
+
+def new_feed_added(sender, instance, created, **kwargs):
+    if created:
+        instance.feed_log('new_feed')
+
+post_save.connect(new_feed_added, sender=Feed)
