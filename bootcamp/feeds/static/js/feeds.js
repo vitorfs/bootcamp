@@ -167,35 +167,6 @@ $(function () {
 
     $("#load_feed").bind("enterviewport", load_feeds).bullseye();
 
-    function check_new_feeds () {
-        var last_feed = $(".stream li:first-child").attr("feed-id");
-        var feed_source = $("#feed_source").val();
-        if (last_feed != undefined) {
-            $.ajax({
-                url: '/feeds/check/',
-                data: {
-                    'last_feed': last_feed,
-                    'feed_source': feed_source
-                },
-                cache: false,
-                success: function (data) {
-                    if (parseInt(data) > 0) {
-                        $(".stream-update .new-posts").text(data);
-                        $(".stream-update").show();
-                        $(document).attr("title", "(" + data + ") " + page_title);
-                    }
-                },
-                complete: function() {
-                    window.setTimeout(check_new_feeds, 30000);
-                }
-            });
-        }
-        else {
-            window.setTimeout(check_new_feeds, 30000);
-        }
-    };
-    check_new_feeds();
-
     $(".stream-update a").click(function () {
         var last_feed = $(".stream li:first-child").attr("feed-id");
         var feed_source = $("#feed_source").val();
@@ -217,6 +188,30 @@ $(function () {
     });
 
     $("input,textarea").attr("autocomplete", "off");
+
+    $("ul.stream").on("click", ".remove-feed", function () {
+        var li = $(this).closest("li");
+        var feed = $(li).attr("feed-id");
+        var csrf = $(li).attr("csrf");
+        $.ajax({
+            url: '/feeds/remove/',
+            data: {
+                'feed': feed,
+                'csrfmiddlewaretoken': csrf
+            },
+            type: 'post',
+            cache: false,
+            success: function (data) {
+                $(li).fadeOut(400, function () {
+                    $(li).remove();
+                });
+            }
+        });
+    });
+
+    $("#compose-form textarea[name='post']").keyup(function () {
+        $(this).count(255);
+    });
 
     function update_feeds () {
         var first_feed = $(".stream li:first-child").attr("feed-id");
@@ -271,28 +266,33 @@ $(function () {
     };
     track_comments();
 
-    $("ul.stream").on("click", ".remove-feed", function () {
-        var li = $(this).closest("li");
-        var feed = $(li).attr("feed-id");
-        var csrf = $(li).attr("csrf");
-        $.ajax({
-            url: '/feeds/remove/',
-            data: {
-                'feed': feed,
-                'csrfmiddlewaretoken': csrf
-            },
-            type: 'post',
-            cache: false,
-            success: function (data) {
-                $(li).fadeOut(400, function () {
-                    $(li).remove();
-                });
-            }
-        });
-    });
-
-    $("#compose-form textarea[name='post']").keyup(function () {
-        $(this).count(255);
-    });
+    function check_new_feeds () {
+        var last_feed = $(".stream li:first-child").attr("feed-id");
+        var feed_source = $("#feed_source").val();
+        if (last_feed != undefined) {
+            $.ajax({
+                url: '/feeds/check/',
+                data: {
+                    'last_feed': last_feed,
+                    'feed_source': feed_source
+                },
+                cache: false,
+                success: function (data) {
+                    if (parseInt(data) > 0) {
+                        $(".stream-update .new-posts").text(data);
+                        $(".stream-update").show();
+                        $(document).attr("title", "(" + data + ") " + page_title);
+                    }
+                },
+                complete: function() {
+                    window.setTimeout(check_new_feeds, 30000);
+                }
+            });
+        }
+        else {
+            window.setTimeout(check_new_feeds, 30000);
+        }
+    };
+    check_new_feeds();
 
 });
