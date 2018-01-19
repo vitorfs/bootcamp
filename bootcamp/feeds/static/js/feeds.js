@@ -1,6 +1,29 @@
 $(function () {
     var page_title = $(document).attr("title");
 
+    // WebSocket connection management block.
+    // Correctly decide between ws:// and wss://
+    var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+    var ws_path = ws_scheme + '://' + window.location.host + "/feeds/";
+    var webSocket = new channels.WebSocketBridge();
+    webSocket.connect(ws_path);
+
+    // Helpful debugging
+    webSocket.socket.onopen = function () {
+        console.log("Connected to feeds stream at: " + ws_path);
+    };
+
+    webSocket.socket.onclose = function () {
+        console.log("Disconnected from feeds stream at: " + ws_path);
+    };
+
+    webSocket.listen(function(event) {
+        if (event.activity === "new_feed") {
+            console.log("User " + event.username + " just " + event.activity);
+            check_new_feeds();
+        }
+    });
+
     function hide_stream_update() {
         $(".stream-update").hide();
         $(".stream-update .new-posts").text("");
@@ -284,15 +307,13 @@ $(function () {
                         $(document).attr("title", "(" + data + ") " + page_title);
                     }
                 },
-                complete: function() {
+                /* complete: function() {
                     window.setTimeout(check_new_feeds, 30000);
-                }
+                } */
             });
         }
-        else {
+        /* else {
             window.setTimeout(check_new_feeds, 30000);
-        }
+        } */
     };
-    check_new_feeds();
-
 });
