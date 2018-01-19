@@ -82,8 +82,6 @@ class Profile(models.Model):
                                         from_user=self.user, to_user=feed.user,
                                         feed=feed).delete()
 
-        # self.group_notification('unliked')
-
     def notify_commented(self, feed):
         if self.user != feed.user:
             Notification(notification_type=Notification.COMMENTED,
@@ -105,8 +103,6 @@ class Profile(models.Model):
                          from_user=self.user,
                          to_user=User(id=user), feed=feed).save()
 
-        self.group_notification('also_commented')
-
     def notify_favorited(self, question):
         if self.user != question.user:
             Notification(notification_type=Notification.FAVORITED,
@@ -122,8 +118,6 @@ class Profile(models.Model):
                 from_user=self.user,
                 to_user=question.user,
                 question=question).delete()
-
-        # self.group_notification('unfavorited')
 
     def notify_answered(self, question):
         if self.user != question.user:
@@ -150,8 +144,6 @@ class Profile(models.Model):
                 from_user=self.user,
                 to_user=answer.user,
                 answer=answer).delete()
-
-        # self.group_notification('unmarked_answer')
 
     def notify_login(self):
         Notification.objects.filter(
