@@ -75,14 +75,13 @@ class Profile(models.Model):
                          feed=feed).save()
 
         self.group_notification('liked')
+        self.group_feed('liked')
 
     def unotify_liked(self, feed):
         if self.user != feed.user:
             Notification.objects.filter(notification_type=Notification.LIKED,
                                         from_user=self.user, to_user=feed.user,
                                         feed=feed).delete()
-
-        # self.group_notification('unliked')
 
     def notify_commented(self, feed):
         if self.user != feed.user:
@@ -91,6 +90,7 @@ class Profile(models.Model):
                          feed=feed).save()
 
         self.group_notification('commented')
+        self.group_feed('commented')
 
     def notify_also_commented(self, feed):
         comments = feed.get_comments()
@@ -104,8 +104,6 @@ class Profile(models.Model):
             Notification(notification_type=Notification.ALSO_COMMENTED,
                          from_user=self.user,
                          to_user=User(id=user), feed=feed).save()
-
-        self.group_notification('also_commented')
 
     def notify_favorited(self, question):
         if self.user != question.user:
@@ -122,8 +120,6 @@ class Profile(models.Model):
                 from_user=self.user,
                 to_user=question.user,
                 question=question).delete()
-
-        # self.group_notification('unfavorited')
 
     def notify_answered(self, question):
         if self.user != question.user:
@@ -150,8 +146,6 @@ class Profile(models.Model):
                 from_user=self.user,
                 to_user=answer.user,
                 answer=answer).delete()
-
-        # self.group_notification('unmarked_answer')
 
     def notify_login(self):
         Notification.objects.filter(
@@ -195,6 +189,14 @@ class Profile(models.Model):
                 'username': self.user.username,
                 'activity_type': 'notification',
                 'activity': activity
+            })
+        })
+
+    def group_feed(self, activity):
+        Group('feeds').send({
+            'text': json.dumps({
+                'username': self.user.username,
+                'activity': activity,
             })
         })
 

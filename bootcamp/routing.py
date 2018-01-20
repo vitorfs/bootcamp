@@ -6,4 +6,5 @@ channel_routing = [
             path=r"^/notifications/$"),
     include("bootcamp.messenger.routing.websocket_routing",
             path=r"^/inbox"),
+    include("bootcamp.feeds.routing.websocket_routing", path=r"^/feeds/$")
 ]
