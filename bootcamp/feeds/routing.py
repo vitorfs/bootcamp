@@ -1,5 +1,5 @@
 from channels.routing import route
-from bootcamp.activities.consumers import ws_connect, ws_disconnect
+from bootcamp.feeds.consumers import ws_connect, ws_disconnect
 
 
 websocket_routing = [
