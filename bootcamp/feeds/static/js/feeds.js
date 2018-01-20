@@ -1,6 +1,36 @@
 $(function () {
     var page_title = $(document).attr("title");
 
+    // WebSocket connection management block.
+    // Correctly decide between ws:// and wss://
+    var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+    var ws_path = ws_scheme + '://' + window.location.host + "/feeds/";
+    var webSocket = new channels.WebSocketBridge();
+    webSocket.connect(ws_path);
+
+    // Helpful debugging
+    webSocket.socket.onopen = function () {
+        console.log("Connected to feeds stream at: " + ws_path);
+    };
+
+    webSocket.socket.onclose = function () {
+        console.log("Disconnected from feeds stream at: " + ws_path);
+    };
+
+    webSocket.listen(function(event) {
+        if (event.activity === "new_feed") {
+            console.log("User " + event.username + " just " + event.activity);
+            check_new_feeds();
+        } else if (event.activity === "liked") {
+            console.log("User " + event.username + " just " + event.activity);
+            update_feeds();
+        } else if (event.activity === "commented") {
+            console.log("User " + event.username + " just " + event.activity);
+            track_comments();
+            update_feeds();
+        }
+    });
+
     function hide_stream_update() {
         $(".stream-update").hide();
         $(".stream-update .new-posts").text("");
@@ -167,35 +197,6 @@ $(function () {
 
     $("#load_feed").bind("enterviewport", load_feeds).bullseye();
 
-    function check_new_feeds () {
-        var last_feed = $(".stream li:first-child").attr("feed-id");
-        var feed_source = $("#feed_source").val();
-        if (last_feed != undefined) {
-            $.ajax({
-                url: '/feeds/check/',
-                data: {
-                    'last_feed': last_feed,
-                    'feed_source': feed_source
-                },
-                cache: false,
-                success: function (data) {
-                    if (parseInt(data) > 0) {
-                        $(".stream-update .new-posts").text(data);
-                        $(".stream-update").show();
-                        $(document).attr("title", "(" + data + ") " + page_title);
-                    }
-                },
-                complete: function() {
-                    window.setTimeout(check_new_feeds, 30000);
-                }
-            });
-        }
-        else {
-            window.setTimeout(check_new_feeds, 30000);
-        }
-    };
-    check_new_feeds();
-
     $(".stream-update a").click(function () {
         var last_feed = $(".stream li:first-child").attr("feed-id");
         var feed_source = $("#feed_source").val();
@@ -217,59 +218,6 @@ $(function () {
     });
 
     $("input,textarea").attr("autocomplete", "off");
-
-    function update_feeds () {
-        var first_feed = $(".stream li:first-child").attr("feed-id");
-        var last_feed = $(".stream li:last-child").attr("feed-id");
-        var feed_source = $("#feed_source").val();
-
-        if (first_feed != undefined && last_feed != undefined) {
-            $.ajax({
-                url: '/feeds/update/',
-                data: {
-                    'first_feed': first_feed,
-                    'last_feed': last_feed,
-                    'feed_source': feed_source
-                },
-                cache: false,
-                success: function (data) {
-                    $.each(data, function(id, feed) {
-                            var li = $("li[feed-id='" + id + "']");
-                            $(".like-count", li).text(feed.likes);
-                            $(".comment-count", li).text(feed.comments);
-                    });
-                },
-                complete: function () {
-                    window.setTimeout(update_feeds, 30000);
-                }
-            });
-        }
-        else {
-            window.setTimeout(update_feeds, 30000);
-        }
-    };
-    update_feeds();
-
-    function track_comments () {
-        $(".tracking").each(function () {
-            var container = $(this);
-            var feed = $(this).closest("li").attr("feed-id");
-            $.ajax({
-                url: '/feeds/track_comments/',
-                data: {'feed': feed},
-                cache: false,
-                success: function (data) {
-                    if (data != 0) {
-                        $("ol", container).html(data);
-                        var post_container = $(container).closest(".post");
-                        $(".comment-count", post_container).text($("ol li", container).length);
-                    }
-                }
-            });
-        });
-        window.setTimeout(track_comments, 30000);
-    };
-    track_comments();
 
     $("ul.stream").on("click", ".remove-feed", function () {
         var li = $(this).closest("li");
@@ -295,4 +243,69 @@ $(function () {
         $(this).count(255);
     });
 
+    function update_feeds () {
+        var first_feed = $(".stream li:first-child").attr("feed-id");
+        var last_feed = $(".stream li:last-child").attr("feed-id");
+        var feed_source = $("#feed_source").val();
+
+        if (first_feed != undefined && last_feed != undefined) {
+            $.ajax({
+                url: '/feeds/update/',
+                data: {
+                    'first_feed': first_feed,
+                    'last_feed': last_feed,
+                    'feed_source': feed_source
+                },
+                cache: false,
+                success: function (data) {
+                    $.each(data, function(id, feed) {
+                            var li = $("li[feed-id='" + id + "']");
+                            $(".like-count", li).text(feed.likes);
+                            $(".comment-count", li).text(feed.comments);
+                    });
+                },
+            });
+        }
+    };
+
+    function track_comments () {
+        $(".tracking").each(function () {
+            var container = $(this);
+            var feed = $(this).closest("li").attr("feed-id");
+            $.ajax({
+                url: '/feeds/track_comments/',
+                data: {'feed': feed},
+                cache: false,
+                success: function (data) {
+                    if (data != 0) {
+                        $("ol", container).html(data);
+                        var post_container = $(container).closest(".post");
+                        $(".comment-count", post_container).text($("ol li", container).length);
+                    }
+                }
+            });
+        });
+    };
+
+    function check_new_feeds () {
+        var last_feed = $(".stream li:first-child").attr("feed-id");
+        var feed_source = $("#feed_source").val();
+        if (last_feed != undefined) {
+            $.ajax({
+                url: '/feeds/check/',
+                data: {
+                    'last_feed': last_feed,
+                    'feed_source': feed_source
+                },
+                cache: false,
+                success: function (data) {
+                    if (parseInt(data) > 0) {
+                        $(".stream-update .new-posts").text(data);
+                        $(".stream-update").show();
+                        $(document).attr("title", "(" + data + ") " + page_title);
+                    }
+                },
+            });
+        }
+    };
 });
