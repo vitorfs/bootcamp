@@ -46,7 +46,7 @@ class Message(models.Model):
                 user=to_user).save()
         count = Message.objects.filter(
             user=to_user, is_read=False).count()
-        Group('inbox').send({
+        Group('notifications').send({
             'text': json.dumps({
                 'content': message,
                 'receiver': to_user.username,
