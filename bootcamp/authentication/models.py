@@ -75,6 +75,7 @@ class Profile(models.Model):
                          feed=feed).save()
 
         self.group_notification('liked')
+        self.group_feed('liked')
 
     def unotify_liked(self, feed):
         if self.user != feed.user:
@@ -89,6 +90,7 @@ class Profile(models.Model):
                          feed=feed).save()
 
         self.group_notification('commented')
+        self.group_feed('commented')
 
     def notify_also_commented(self, feed):
         comments = feed.get_comments()
@@ -187,6 +189,14 @@ class Profile(models.Model):
                 'username': self.user.username,
                 'activity_type': 'notification',
                 'activity': activity
+            })
+        })
+
+    def group_feed(self, activity):
+        Group('feeds').send({
+            'text': json.dumps({
+                'username': self.user.username,
+                'activity': activity,
             })
         })
 
