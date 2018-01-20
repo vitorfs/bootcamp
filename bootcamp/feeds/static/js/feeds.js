@@ -21,6 +21,13 @@ $(function () {
         if (event.activity === "new_feed") {
             console.log("User " + event.username + " just " + event.activity);
             check_new_feeds();
+        } else if (event.activity === "liked") {
+            console.log("User " + event.username + " just " + event.activity);
+            update_feeds();
+        } else if (event.activity === "commented") {
+            console.log("User " + event.username + " just " + event.activity);
+            track_comments();
+            update_feeds();
         }
     });
 
@@ -257,16 +264,9 @@ $(function () {
                             $(".comment-count", li).text(feed.comments);
                     });
                 },
-                complete: function () {
-                    window.setTimeout(update_feeds, 30000);
-                }
             });
         }
-        else {
-            window.setTimeout(update_feeds, 30000);
-        }
     };
-    update_feeds();
 
     function track_comments () {
         $(".tracking").each(function () {
@@ -285,9 +285,7 @@ $(function () {
                 }
             });
         });
-        window.setTimeout(track_comments, 30000);
     };
-    track_comments();
 
     function check_new_feeds () {
         var last_feed = $(".stream li:first-child").attr("feed-id");
@@ -307,13 +305,7 @@ $(function () {
                         $(document).attr("title", "(" + data + ") " + page_title);
                     }
                 },
-                /* complete: function() {
-                    window.setTimeout(check_new_feeds, 30000);
-                } */
             });
         }
-        /* else {
-            window.setTimeout(check_new_feeds, 30000);
-        } */
     };
 });
