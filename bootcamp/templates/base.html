@@ -48,7 +48,7 @@
                 <li><a href="{% url 'articles' %}">{% trans 'Articles' %}</a></li>
                 <li><a href="{% url 'questions' %}">{% trans 'Q&A' %}</a></li>
                 <li><a href="{% url 'network' %}">{% trans 'Network' %}</a></li>
-                <li><a href="{% url 'inbox' %}">Inbox  <span class="badge" id="unread-count">0</span></a></li>
+                <li><a href="{% url 'inbox' %}">Inbox  <span class="glyphicon glyphicon-envelope" style="display: none" id="unread-count"></span></a></li>
               </ul>
               <ul class="nav navbar-nav navbar-right">
                 {% if not hide_search %}
@@ -69,6 +69,7 @@
                           minLength: 2
                       });
                   });
+                  var currentUser = "{{ user.username }}"
                 </script>
             <!-- End JQuery code for Ajax autocomplete search suggestion -->
                 <li class="dropdown">
