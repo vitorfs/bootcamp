@@ -15,26 +15,16 @@ $(function () {
         console.log("Disconnected from inbox stream at: " + ws_path);
     };
 
+    // onmessage management.
     webSocket.listen(function(event) {
         if (event.activity_type === "message") {
             console.log(event.sender + " just sent a new message");
-            $("#" + event.sender).show();
-            /* var usersList = document.getElementsByClassName('list-group-item');
-            for (var i=0; i<usersList.length; i++) {
-                var receiver = usersList[i].text.trim();
-                console.log(receiver)
-            } */
+            $("#new-message-" + event.sender).show();
         }
     });
+
+    // Let's keep using the AJAX view for now, it works great actually.
     $("#send").submit(function () {
-        /*
-        webSocket.send({
-            'content': "Message",
-            'receiver': messageReceiver,
-            'sender': currentUser,
-            'activity_type': "message",
-            'message_count': 1})
-        */
         $.ajax({
             url: '/messages/send/',
             data: $("#send").serialize(),

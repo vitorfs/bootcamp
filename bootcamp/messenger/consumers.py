@@ -19,4 +19,4 @@ def ws_receive(message):
     old_message = json.loads(message.content['text'])
     new_message = {}
     new_message['text'] = message.content['text']
-    Group(old_message['receiver']).send(new_message)
+    # Group(old_message['receiver']).send(new_message)
