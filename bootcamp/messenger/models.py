@@ -44,23 +44,19 @@ class Message(models.Model):
                 conversation=from_user,
                 message=message,
                 user=to_user).save()
-        count = Message.objects.filter(
-            user=to_user, is_read=False).count()
         Group('{}'.format(to_user.username)).send({
             'text': json.dumps({
                 'content': message,
                 'receiver': to_user.username,
                 'sender': from_user.username,
-                'activity_type': 'message',
-                'message_count': count
+                'activity_type': 'message'
             })
         })
         Group("notifications").send({
             'text': json.dumps({
                 'activity_type': 'message',
                 'receiver': to_user.username,
-                'sender': from_user.username,
-                'message_count': count
+                'sender': from_user.username
             })
         })
         return current_user_message
