@@ -46,12 +46,20 @@ class Message(models.Model):
                 user=to_user).save()
         count = Message.objects.filter(
             user=to_user, is_read=False).count()
-        Group('notifications').send({
+        Group('{}'.format(to_user.username)).send({
             'text': json.dumps({
                 'content': message,
                 'receiver': to_user.username,
                 'sender': from_user.username,
                 'activity_type': 'message',
+                'message_count': count
+            })
+        })
+        Group("notifications").send({
+            'text': json.dumps({
+                'activity_type': 'message',
+                'receiver': to_user.username,
+                'sender': from_user.username,
                 'message_count': count
             })
         })

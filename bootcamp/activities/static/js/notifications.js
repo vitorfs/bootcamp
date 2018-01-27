@@ -42,7 +42,9 @@ $(function () {
             console.log("User " + event.username + " just " + event.activity)
         } else if (event.activity_type === "message") {
             console.log(event.sender + " has sent a message to " + event.receiver)
-            $("#unread-count").text(event.message_count);
+            if (currentUser == event.receiver) {
+                $("#unread-count").show();
+            }
         }
         else {
             $("#notifications").removeClass("new-notifications");

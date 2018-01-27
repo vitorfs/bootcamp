@@ -3,6 +3,11 @@
   overflow-y: auto;
 }
 
+.chat-status {
+  text-align: center;
+  vertical-align: middle;
+}
+
 .conversation {
   margin: 0;
   padding: 0;
