@@ -45,8 +45,7 @@ $(function () {
             if (currentUser == event.receiver) {
                 $("#unread-count").show();
             }
-        }
-        else {
+        } else {
             $("#notifications").removeClass("new-notifications");
         }
     });
