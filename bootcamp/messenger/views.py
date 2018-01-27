@@ -81,6 +81,8 @@ def send(request):
         return HttpResponseBadRequest()
 
 
+## TO DO
+## Deprecated
 @login_required
 @ajax_required
 def check(request):
