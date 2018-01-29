@@ -6,51 +6,78 @@ $(function () {
     var webSocket = new channels.WebSocketBridge();
     webSocket.connect(ws_path);
 
-    function addNewMessage() {
-        var messageElem =
-            $('<li>' +
-                '<img src="{{ message.from_user.profile.get_picture }}" class="picture">' +
-                '<div>' +
-                '<h5>' +
-                    '<small class="pull-right">' +
-                    '{{ message.date|date:"N d G:i" }}' +
-                    '</small>' +
-                    '<b>' +
-                    '<a href="{% url "profile" message.from_user.username %}">' +
-                        '{{ message.from_user.profile.get_screen_name }}' +
-                    '</a>' +
-                    '</b>' +
-                '</h5>' +
-                '{{ message.message }}' +
-                '</div>' +
-            '</li>')
-        $(".conversation").append(messageElem);
+    function scrollConversationScreen() {
+        /* Set focus on the input box from the form, and rolls to show the
+        the most recent message.
+        */
+        $("input[name='message']").focus();
+        $('.conversation').scrollTop($('.conversation')[0].scrollHeight);
+    }
+
+    function addNewMessage(message_id) {
+        /* This function calls the respective AJAX view, so it will be able to
+        load the received message in a proper way.
+         */
+        $.ajax({
+            url: '/messages/receive/',
+            data: {'message_id': message_id},
+            cache: false,
+            success: function (data) {
+                $(".send-message").before(data);
+                scrollConversationScreen();
+            }
+        });
+    }
+
+    window.onbeforeunload = function () {
+        payload = {
+            'sender': currentUser,
+            'activity_type': "set_status",
+            'status': 'offline'
+        }
+        webSocket.send(payload);
     }
 
     // Helpful debugging
     webSocket.socket.onopen = function () {
-        console.log("Connected to inbox stream at: " + ws_path);
+        console.log("Connected to inbox stream");
+        payload = {
+            'sender': currentUser,
+            'activity_type': "set_status",
+            'status': 'online'
+        }
+        webSocket.send(payload);
     };
 
     webSocket.socket.onclose = function () {
-        console.log("Disconnected from inbox stream at: " + ws_path);
+        console.log("Disconnected from inbox stream");
     };
 
     // onmessage management.
     webSocket.listen(function(event) {
         if (event.activity_type === "message") {
-            console.log(event.sender + " just sent a new message");
+            console.log("A new message from " + event.sender);
             if (event.sender === activeUser) {
-                // addNewMessage();
-                $('.conversation').scrollTop($('.conversation')[0].scrollHeight);
+                addNewMessage(event.message_id);
             } else {
                 $("#new-message-" + event.sender).show();
             }
         }
     });
 
-    // Let's keep using the AJAX view for now, it works great actually.
     $("#send").submit(function () {
+        /*
+        I'll keep the WebSocket data structure idle by now because I haven't
+        been able to find a really suitable way to print the new message to
+        the client side, and will keep using the AJAX view for now, it works
+        great to left it alone for now.
+
+        payload = {
+                'sender': currentUser,
+                'receiver': activeUser,
+                'message': $("input[name='message']").val()
+            }
+        webSocket.send(payload); */
         $.ajax({
             url: '/messages/send/',
             data: $("#send").serialize(),
@@ -59,10 +86,9 @@ $(function () {
             success: function (data) {
                 $(".send-message").before(data);
                 $("input[name='message']").val('');
-                $("input[name='message']").focus();
-                $('.conversation').scrollTop($('.conversation')[0].scrollHeight);
+                scrollConversationScreen();
             }
         });
-    return false;
+        return false;
     });
 });
