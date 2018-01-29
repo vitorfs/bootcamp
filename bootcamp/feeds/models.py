@@ -94,7 +94,6 @@ class Feed(models.Model):
                 'activity': activity,
             })
         })
-        print(activity)
 
 
 def new_feed_added(sender, instance, created, **kwargs):
