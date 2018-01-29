@@ -44,11 +44,11 @@ $(function () {
 
     // Helpful debugging
     webSocket.socket.onopen = function () {
-        console.log("Connected to notifications stream at: " + ws_path);
+        console.log("Connected to notifications stream");
     };
 
     webSocket.socket.onclose = function () {
-        console.log("Disconnected from notifications stream at: " + ws_path);
+        console.log("Disconnected from notifications stream");
     };
 
     webSocket.listen(function(event) {
