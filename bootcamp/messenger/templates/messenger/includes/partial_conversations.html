@@ -4,7 +4,7 @@
   {% for user in users_list %}
     <a href="{% url 'messages' user.username %}"
       class="list-group-item{% if active == user.username %} active{% endif %}">
-      <span class="btn btn-danger" id="online-stat-{{ user.username }}"></span>
+      <span class="btn btn-danger btn-circle" id="online-stat-{{ user.username }}"></span>
       <img src="{{ user.profile.get_picture }}" class="conversation-portrait">
       {{ user.profile.get_screen_name }}
       {% for conversation in conversations %}
