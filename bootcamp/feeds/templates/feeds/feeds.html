@@ -5,7 +5,7 @@
 {% block head %}
   <link href="{% static 'css/feeds.css' %}?v=1" rel="stylesheet">
   <script src="{% static 'js/jquery.bullseye-1.0-min.js' %}"></script>
-  <script src="{% static 'js/feeds.js' %}"></script>
+  <script src="{% static 'js/feeds.js' %}?v=1"></script>
 {% endblock head %}
 
 {% block main %}
@@ -59,12 +59,8 @@
             <input type="hidden" name="from_feed" value="{{ from_feed }}">
             <input type="hidden" name="page" value="{{ page }}">
           </form>
-
         </div>
       </div>
     </div>
   </div>
-
-
-
 {% endblock main %}
