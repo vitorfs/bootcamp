@@ -49,7 +49,8 @@ class Message(models.Model):
                 'content': message,
                 'receiver': to_user.username,
                 'sender': from_user.username,
-                'activity_type': 'message'
+                'activity_type': 'message',
+                'message_id': current_user_message.id
             })
         })
         Group("notifications").send({
