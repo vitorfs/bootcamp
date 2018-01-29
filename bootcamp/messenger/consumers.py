@@ -17,6 +17,11 @@ def ws_disconnect(message):
 
 def ws_receive(message):
     old_message = json.loads(message.content['text'])
-    new_message = {}
-    new_message['text'] = message.content['text']
-    # Group(old_message['receiver']).send(new_message)
+    if old_message['activity_type'] == "set_status":
+        Group('notifications').send({
+            'text': json.dumps({
+                'sender': old_message['sender'],
+                'status': old_message['status'],
+                'activity_type': old_message['activity_type']
+            })
+        })
