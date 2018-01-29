@@ -81,6 +81,18 @@ def send(request):
         return HttpResponseBadRequest()
 
 
+@login_required
+@ajax_required
+def receive(request):
+    if request.method == 'GET':
+        message_id = request.GET.get('message_id')
+        message = Message.objects.get(pk=message_id)
+        return render(request, 'messenger/includes/partial_message.html', {'message': message})
+
+    else:
+        return HttpResponseBadRequest()
+
+
 ## TO DO
 ## Deprecated
 @login_required
