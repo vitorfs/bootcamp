@@ -1,18 +1,18 @@
 $(function () {
   $(".publish").click(function () {
     $("input[name='status']").val("P");
-    $("form").submit();
+    $("#article-form").submit();
   });
 
   $(".draft").click(function () {
     $("input[name='status']").val("D");
-    $("form").submit();
+    $("#article-form").submit();
   });
 
   $(".preview").click(function () {
     $.ajax({
       url: '/articles/preview/',
-      data: $("form").serialize(),
+      data: $("#article-form").serialize(),
       cache: false,
       type: 'post',
       beforeSend: function () {

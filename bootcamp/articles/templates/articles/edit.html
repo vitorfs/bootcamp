@@ -12,7 +12,7 @@
     <li><a href="{% url 'drafts' %}">{% trans 'Drafts' %}</a></li>
     <li class="active">{% trans 'Edit' %}</li>
   </ol>
-  <form action="{% url 'edit_article' form.instance.pk %}" method="post" role="form">
+  <form action="{% url 'edit_article' form.instance.pk %}" id="article-form" method="post" role="form">
     {% csrf_token %}
     {{ form.status }}
     {% for field in form.visible_fields %}
