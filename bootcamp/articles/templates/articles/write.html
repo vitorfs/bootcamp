@@ -11,7 +11,7 @@
     <li><a href="{% url 'articles' %}">{% trans 'Articles' %}</a></li>
     <li class="active">{% trans 'Write Article' %}</li>
   </ol>
-  <form action="{% url 'write' %}" method="post" role="form">
+  <form action="{% url 'write' %}" id="article-form" method="post" role="form">
     {% csrf_token %}
     {{ form.status }}
     {% for field in form.visible_fields %}
