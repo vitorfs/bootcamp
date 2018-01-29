@@ -10,22 +10,22 @@ $(function () {
 
     // Helpful debugging
     webSocket.socket.onopen = function () {
-        console.log("Connected to feeds stream at: " + ws_path);
+        console.log("Connected to feeds stream");
     };
 
     webSocket.socket.onclose = function () {
-        console.log("Disconnected from feeds stream at: " + ws_path);
+        console.log("Disconnected from feeds stream");
     };
 
     webSocket.listen(function(event) {
         if (event.activity === "new_feed") {
-            console.log("User " + event.username + " just " + event.activity);
+            console.log(event.username + " just " + event.activity);
             check_new_feeds();
         } else if (event.activity === "liked") {
-            console.log("User " + event.username + " just " + event.activity);
+            console.log(event.username + " just " + event.activity);
             update_feeds();
         } else if (event.activity === "commented") {
-            console.log("User " + event.username + " just " + event.activity);
+            console.log(event.username + " just " + event.activity);
             track_comments();
             update_feeds();
         }
