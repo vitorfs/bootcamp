@@ -69,6 +69,7 @@ class Feed(models.Model):
         likers = []
         for like in likes:
             likers.append(like.user)
+
         return likers
 
     def calculate_comments(self):
@@ -97,6 +98,7 @@ class Feed(models.Model):
 
 def new_feed_added(sender, instance, created, **kwargs):
     if created:
-        instance.feed_log('new_feed')
+        if instance.parent == None or instance.parent == "":
+            instance.feed_log('new_feed')
 
 post_save.connect(new_feed_added, sender=Feed)

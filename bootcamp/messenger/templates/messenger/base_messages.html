@@ -3,7 +3,6 @@
 
 {% block head %}
   <link href="{% static 'css/messages.css' %}" rel="stylesheet">
-  <script src="{% static 'js/messages.js' %}"></script>
 {% endblock head %}
 
 {% block main %}
@@ -19,5 +18,9 @@
       {% endblock container %}
     </div>
     <script src="{% static 'js/box-reziser.js'%}"></script>
+    <script type="text/javascript">
+      var activeUser = "{{ active }}";
+    </script>
+    <script src="{% static 'js/messages.js' %}"></script>
   </div>
 {% endblock main %}
