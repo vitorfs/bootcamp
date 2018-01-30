@@ -3,6 +3,21 @@
   overflow-y: auto;
 }
 
+.btn-circle {
+  width: 15px;
+  height: 15px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 10px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+}
+
+.chat-status {
+  text-align: center;
+  vertical-align: middle;
+}
+
 .conversation {
   margin: 0;
   padding: 0;
