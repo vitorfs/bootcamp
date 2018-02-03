@@ -6,6 +6,21 @@ $(function () {
     var webSocket = new channels.WebSocketBridge();
     webSocket.connect(ws_path);
 
+    function setUserOnlineOffline(username, status) {
+        /* This function enables the client to switch the user connection
+        status, allowing to show (when implemented the proper functionality)
+        if an user is connected or not.
+        */
+        var elem = $("online-stat-" + username);
+        if (elem) {
+            if (status === 'online') {
+                elem.attr("class", "btn btn-success btn-circle");
+            } else {
+                elem.attr("class", "btn btn-danger btn-circle");
+            }
+        }
+    }
+
     function scrollConversationScreen() {
         /* Set focus on the input box from the form, and rolls to show the
         the most recent message.
@@ -59,9 +74,19 @@ $(function () {
             console.log("A new message from " + event.sender);
             if (event.sender === activeUser) {
                 addNewMessage(event.message_id);
+                /*
+                I put this line here because I wasn't able to find a better
+                solution to hide the envelope icon showed by the notification
+                javascript file when a new message arrives. I hope there is a
+                more elegant way to work this out.
+                */
+                setTimeout(function(){$("#unread-count").hide()}, 1);
             } else {
                 $("#new-message-" + event.sender).show();
             }
+        } else if (event.activity_type === "set_status") {
+            console.log('Status changed')
+            //setUserOnlineOffline(event.sender, event.status)
         }
     });
 
