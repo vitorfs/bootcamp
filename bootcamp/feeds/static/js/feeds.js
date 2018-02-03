@@ -19,7 +19,6 @@ $(function () {
 
     webSocket.listen(function(event) {
         if (event.activity === "new_feed") {
-            console.log(event.username + " just " + event.activity);
             if (event.username != currentUser) {
                 check_new_feeds();
             }
