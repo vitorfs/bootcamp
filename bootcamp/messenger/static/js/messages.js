@@ -84,8 +84,10 @@ $(function () {
                 $("#new-message-" + event.sender).show();
             }
         } else if (event.activity_type === "set_status") {
-            console.log('Status changed')
-            //setUserOnlineOffline(event.sender, event.status)
+            // Needs to be implemented
+
+            // console.log('Status changed')
+            // setUserOnlineOffline(event.sender, event.status)
         }
     });
 
