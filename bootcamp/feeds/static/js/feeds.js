@@ -20,7 +20,9 @@ $(function () {
     webSocket.listen(function(event) {
         if (event.activity === "new_feed") {
             console.log(event.username + " just " + event.activity);
-            check_new_feeds();
+            if (event.username != currentUser) {
+                check_new_feeds();
+            }
         } else if (event.activity === "liked") {
             console.log(event.username + " just " + event.activity);
             update_feeds();
