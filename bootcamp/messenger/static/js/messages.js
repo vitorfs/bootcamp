@@ -71,7 +71,6 @@ $(function () {
     // onmessage management.
     webSocket.listen(function(event) {
         if (event.activity_type === "message") {
-            console.log("A new message from " + event.sender);
             if (event.sender === activeUser) {
                 addNewMessage(event.message_id);
                 /*
