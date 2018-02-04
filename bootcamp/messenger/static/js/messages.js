@@ -8,8 +8,7 @@ $(function () {
 
     function setUserOnlineOffline(username, status) {
         /* This function enables the client to switch the user connection
-        status, allowing to show (when implemented the proper functionality)
-        if an user is connected or not.
+        status, allowing to show if an user is connected or not.
         */
         var elem = $("online-stat-" + username);
         if (elem) {
@@ -45,6 +44,7 @@ $(function () {
     }
 
     window.onbeforeunload = function () {
+        // Small function to run instruction just before closing the session.
         payload = {
             'sender': currentUser,
             'activity_type': "set_status",
@@ -70,33 +70,29 @@ $(function () {
 
     // onmessage management.
     webSocket.listen(function(event) {
-        if (event.activity_type === "message") {
-            if (event.sender === activeUser) {
-                addNewMessage(event.message_id);
-                /*
-                I put this line here because I wasn't able to find a better
-                solution to hide the envelope icon showed by the notification
-                javascript file when a new message arrives. I hope there is a
-                more elegant way to work this out.
-                */
-                setTimeout(function(){$("#unread-count").hide()}, 1);
-            } else {
-                $("#new-message-" + event.sender).show();
-            }
-        } else if (event.activity_type === "set_status") {
-            // Needs to be implemented
-
-            // console.log('Status changed')
-            // setUserOnlineOffline(event.sender, event.status)
+        switch (event.activity_type) {
+            case "message":
+                if (event.sender === activeUser) {
+                    addNewMessage(event.message_id);
+                    // I hope there is a more elegant way to work this out.
+                    setTimeout(function(){$("#unread-count").hide()}, 1);
+                } else {
+                    $("#new-message-" + event.sender).show();
+                }
+                break;
+            case "set_status":
+                setUserOnlineOffline(event.sender, event.status)
+                break;
+            default:
+                console.log('error: ', event)
+                break;
         }
     });
 
     $("#send").submit(function () {
         /*
-        I'll keep the WebSocket data structure idle by now because I haven't
-        been able to find a really suitable way to print the new message to
-        the client side, and will keep using the AJAX view for now, it works
-        great to left it alone for now.
+        WebSocket data structure idle by now waiting for way to print the new
+        message to the client side.
 
         payload = {
                 'sender': currentUser,
