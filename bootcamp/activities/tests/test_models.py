@@ -5,6 +5,7 @@ from bootcamp.activities.models import Activity, Notification
 from bootcamp.articles.models import Article
 from bootcamp.feeds.models import Feed
 from bootcamp.questions.models import Question, Answer
+from bootcamp.authentication.models import Profile
 
 
 class TestModels(TestCase):
@@ -259,3 +260,15 @@ class TestModels(TestCase):
         self.assertTrue(isinstance(notification, Notification))
         self.assertEqual(str(notification), test_string)
         self.assertNotEqual(str(notification), 'e')
+
+    def test_user_logout_notification(self):
+        Profile.objects.get(user=self.user).notify_logout()
+        notification = Notification.objects.get(
+            notification_type=Notification.LOGGED_OUT, from_user=self.user,
+            to_user=self.user)
+        test_string = Notification._USER_LOGOUT_TEMPLATE.format(
+                self.user.username,
+                self.user.profile.get_screen_name()
+                )
+        assert isinstance(notification, Notification)
+        assert str(notification) == test_string
