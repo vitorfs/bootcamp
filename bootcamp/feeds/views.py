@@ -20,6 +20,7 @@ def feeds(request):
     all_feeds = Feed.get_feeds()
     paginator = Paginator(all_feeds, FEEDS_NUM_PAGES)
     feeds = paginator.page(1)
+    # likers = Feed.get_likers()
     from_feed = -1
     if feeds:
         from_feed = feeds[0].id
@@ -27,7 +28,8 @@ def feeds(request):
     return render(request, 'feeds/feeds.html', {
         'feeds': feeds,
         'from_feed': from_feed,
-        'page': 1,
+        'page': 1
+    # 'likers': likers
         })
 
 
