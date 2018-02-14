@@ -1,11 +1,11 @@
 asgi_redis>=1.4.3
 bleach>=2.0.0
-channels>=1.1.8
+channels==1.1.8
 dj-database-url>=0.4.2
 dj-static>=0.0.6
 django-autoslug>=1.9
 django-taggit>=0.22
-Django>=1.10,<2.0.2
+Django>=1.10,<2.0
 Markdown>=2.6
 Pillow>=4.2
 psycopg2>=2.7
