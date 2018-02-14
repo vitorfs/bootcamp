@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.contrib.auth import get_user_model
 
 from bootcamp.factories import UserFactory, FeedsFactory
+from bootcamp.feeds.models import Feed
 
 
 class TestViews(TestCase):
@@ -26,7 +27,7 @@ class TestViews(TestCase):
         self.feed = FeedsFactory(
             user=self.user
         )
-        self.feeds = FeedsFactory.create_batch(10)
+        self.feeds = FeedsFactory.create_batch(30)
 
     def test_feeds_view(self):
         request = self.client.get(reverse('feeds'))
@@ -37,6 +38,41 @@ class TestViews(TestCase):
         assert request.status_code == 200
 
     def test_load_view(self):
-        request = self.client.get(
-            reverse('load'), HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-        assert request.status_code == 400
+        request = self.client.get(reverse('load'),
+                                  {'from_feed': 1,
+                                   'page': 2,
+                                   'feed_source': 'all'},
+                                  HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        assert request.status_code == 200
+
+    def test_load_diff_source_view(self):
+        request = self.client.get(reverse('load'),
+                                  {'from_feed': 1,
+                                   'page': 2,
+                                   'feed_source': '1'},
+                                  HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        assert request.status_code == 200
+
+    def test_load_new_feed(self):
+        request = self.client.get(reverse('load_new'), {'last_feed': '1'},
+                                  HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        assert request.status_code == 200
+
+    def test_check_feeds(self):
+        request = self.client.get(reverse('check'),
+                                  {'last_feed': '10', 'feed_source': 'all'},
+                                  HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        assert request.status_code == 200
+        assert int(request.content) > 1
+
+    def test_post_feed_view(self):
+        post = 'A not that long string because I still do not need to go there'
+        feeds_count = Feed.objects.all().count()
+        request = self.client.post(reverse('post'),
+                                   {'last_feed': '1', 'post': post},
+                                   HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        feeds_new_count = Feed.objects.all().count()
+        feed = Feed.objects.first()
+        assert request.status_code == 200
+        assert feeds_count < feeds_new_count
+        assert feed.post == post
