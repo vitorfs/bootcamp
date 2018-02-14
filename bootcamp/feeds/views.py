@@ -50,7 +50,7 @@ def load(request):
     try:
         feeds = paginator.page(page)
 
-    except PageNotAnInteger:
+    except PageNotAnInteger:  # pragma: no cover
         return HttpResponseBadRequest()
 
     except EmptyPage:
