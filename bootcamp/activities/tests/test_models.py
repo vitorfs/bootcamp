@@ -5,6 +5,7 @@ from bootcamp.activities.models import Activity, Notification
 from bootcamp.articles.models import Article
 from bootcamp.feeds.models import Feed
 from bootcamp.questions.models import Question, Answer
+from bootcamp.authentication.models import Profile
 
 
 class TestModels(TestCase):
@@ -259,3 +260,39 @@ class TestModels(TestCase):
         self.assertTrue(isinstance(notification, Notification))
         self.assertEqual(str(notification), test_string)
         self.assertNotEqual(str(notification), 'e')
+
+    def test_user_logout_notification(self):
+        Profile.objects.get(user=self.user).notify_logout()
+        notification = Notification.objects.get(
+            notification_type=Notification.LOGGED_OUT, from_user=self.user,
+            to_user=self.user)
+        test_string = Notification._USER_LOGOUT_TEMPLATE.format(
+                self.user.username,
+                self.user.profile.get_screen_name()
+                )
+        assert isinstance(notification, Notification)
+        assert str(notification) == test_string
+
+    def test_upvote_question_notification(self):
+        Profile.objects.get(user=self.other_user).notify_upvoted_question(self.question)
+        notification = Notification.objects.get(question=self.question)
+        test_string = Notification._UPVOTED_QUESTION_TEMPLATE.format(
+            self.other_user.username,
+            self.other_user.profile.get_screen_name(),
+            self.question.pk,
+            Notification.get_summary(notification, self.question.title)
+        )
+        assert isinstance(notification, Notification)
+        assert str(notification) == test_string
+
+    def test_upvote_answer_notification(self):
+        Profile.objects.get(user=self.other_user).notify_upvoted_answer(self.answer)
+        notification = Notification.objects.get(answer=self.answer)
+        test_string = Notification._UPVOTED_ANSWER_TEMPLATE.format(
+            self.other_user.username,
+            self.other_user.profile.get_screen_name(),
+            self.answer.pk,
+            Notification.get_summary(notification, self.answer.description)
+        )
+        assert isinstance(notification, Notification)
+        assert str(notification) == test_string

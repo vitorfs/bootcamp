@@ -20,13 +20,16 @@ def feeds(request):
     all_feeds = Feed.get_feeds()
     paginator = Paginator(all_feeds, FEEDS_NUM_PAGES)
     feeds = paginator.page(1)
+    # likers = Feed.get_likers()
     from_feed = -1
     if feeds:
         from_feed = feeds[0].id
+
     return render(request, 'feeds/feeds.html', {
         'feeds': feeds,
         'from_feed': from_feed,
-        'page': 1,
+        'page': 1
+    # 'likers': likers
         })
 
 
@@ -44,13 +47,17 @@ def load(request):
     all_feeds = Feed.get_feeds(from_feed)
     if feed_source != 'all':
         all_feeds = all_feeds.filter(user__id=feed_source)
+
     paginator = Paginator(all_feeds, FEEDS_NUM_PAGES)
     try:
         feeds = paginator.page(page)
-    except PageNotAnInteger:
+
+    except PageNotAnInteger:  # pragma: no cover
         return HttpResponseBadRequest()
+
     except EmptyPage:
         feeds = []
+
     html = ''
     csrf_token = (csrf(request)['csrf_token'])
     for feed in feeds:
@@ -69,6 +76,7 @@ def _html_feeds(last_feed, user, csrf_token, feed_source='all'):
     feeds = Feed.get_feeds_after(last_feed)
     if feed_source != 'all':
         feeds = feeds.filter(user__id=feed_source)
+
     html = ''
     for feed in feeds:
         html = '{0}{1}'.format(html,
@@ -118,6 +126,7 @@ def post(request):
     if len(post) > 0:
         feed.post = post[:255]
         feed.save()
+
     html = _html_feeds(last_feed, user, csrf_token)
     return HttpResponse(html)
 
@@ -156,6 +165,7 @@ def comment(request):
             feed.comment(user=user, post=post)
             user.profile.notify_commented(feed)
             user.profile.notify_also_commented(feed)
+
         return render(request, 'feeds/partial_feed_comments.html',
                       {'feed': feed})
 
@@ -175,9 +185,11 @@ def update(request):
     feeds = Feed.get_feeds().filter(id__range=(last_feed, first_feed))
     if feed_source != 'all':
         feeds = feeds.filter(user__id=feed_source)
+
     dump = {}
     for feed in feeds:
         dump[feed.pk] = {'likes': feed.likes, 'comments': feed.comments}
+
     data = json.dumps(dump)
     return HttpResponse(data, content_type='application/json')
 
@@ -206,11 +218,15 @@ def remove(request):
             parent = feed.parent
             for like in likes:
                 like.delete()
+
             feed.delete()
             if parent:
                 parent.calculate_comments()
+
             return HttpResponse()
+
         else:
             return HttpResponseForbidden()
+
     except Exception:
         return HttpResponseBadRequest()

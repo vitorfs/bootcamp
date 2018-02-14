@@ -134,3 +134,21 @@ class TestModels(TestCase):
         new_answered_count = Notification.objects.filter(
             notification_type='A').count()
         assert answered_count < new_answered_count
+
+    def test_notify_accepted_answer(self):
+        accepted_count = Notification.objects.filter(
+            notification_type='W').count()
+        self.other_user.profile.notify_accepted(self.answer)
+        new_accepted_count = Notification.objects.filter(
+            notification_type='W').count()
+        assert accepted_count < new_accepted_count
+
+    def test_unnotify_accepted_answer(self):
+        self.other_user.profile.notify_accepted(self.answer)
+        accepted_count = Notification.objects.filter(
+            notification_type='W').count()
+
+        self.other_user.profile.unotify_accepted(self.answer)
+        new_accepted_count = Notification.objects.filter(
+            notification_type='W').count()
+        assert accepted_count > new_accepted_count

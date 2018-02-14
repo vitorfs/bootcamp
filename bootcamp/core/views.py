@@ -153,11 +153,13 @@ def upload_picture(request):
         profile_pictures = django_settings.MEDIA_ROOT + '/profile_pictures/'
         if not os.path.exists(profile_pictures):
             os.makedirs(profile_pictures)
+
         f = request.FILES['picture']
         filename = profile_pictures + request.user.username + '_tmp.jpg'
         with open(filename, 'wb+') as destination:
             for chunk in f.chunks():
                 destination.write(chunk)
+
         im = Image.open(filename)
         width, height = im.size
         if width > 350:
@@ -169,7 +171,7 @@ def upload_picture(request):
 
         return redirect('/settings/picture/?upload_picture=uploaded')
 
-    except Exception as e:
+    except Exception:
         return redirect('/settings/picture/')
 
 
