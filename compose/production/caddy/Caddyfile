@@ -1,0 +1,14 @@
+www.{$DOMAIN_NAME} {
+    redir https://http://trybootcamp.vitorfs.com
+}
+
+{$DOMAIN_NAME} {
+    proxy / django:5000 {
+        header_upstream Host {host}
+        header_upstream X-Real-IP {remote}
+        header_upstream X-Forwarded-Proto {scheme}
+    }
+    log stdout
+    errors stdout
+    gzip
+}
