@@ -1,4 +1,6 @@
+argon2-cffi==18.1.0
 asgi_redis>=1.4.3
+bleach>=2.1
 channels==1.1.8
 django-autoslug>=1.9
 django-environ==0.4.4
