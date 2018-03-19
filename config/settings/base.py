@@ -209,6 +209,6 @@ CHANNEL_LAYERS = {
         'CONFIG': {
             'hosts': [REDIS_URL, ],
         },
-        'ROUTING': 'bootcamp.routing.channel_routing',
+        'ROUTING': 'config.routing.channel_routing',
     }
 }
