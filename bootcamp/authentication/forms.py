@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
-from bootcamp.settings import ALLOWED_SIGNUP_DOMAINS
+from config.settings.base import ALLOWED_SIGNUP_DOMAINS
 
 
 def SignupDomainValidator(value):
