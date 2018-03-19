@@ -1,15 +1,15 @@
+argon2-cffi==18.1.0
 asgi_redis>=1.4.3
-bleach>=2.0.0
+bleach>=2.1
 channels==1.1.8
-dj-database-url>=0.4.2
-dj-static>=0.0.6
 django-autoslug>=1.9
+django-environ==0.4.4
+django-redis==4.9.0
 django-taggit>=0.22
-Django>=1.10,<2.0
+Django>=1.11,<2.0
 Markdown>=2.6
-Pillow>=4.2
-psycopg2>=2.7
-python-decouple>=3
+Pillow>=5.0
+psycopg2==2.7.4 --no-binary psycopg2
 pytz>=2017.2
 Unipath>=1.1
 whitenoise>=3.3.0
