@@ -28,8 +28,9 @@ class Article(models.Model):
     create_user = models.ForeignKey(User, on_delete=models.CASCADE)
     create_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
-    update_user = models.ForeignKey(User,
-        null=True, blank=True, related_name="+", on_delete=models.SET_NULL)
+    update_user = models.ForeignKey(
+        User, null=True, blank=True, related_name="+",
+        on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name = _("Article")

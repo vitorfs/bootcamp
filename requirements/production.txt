@@ -1,2 +1,8 @@
 -r base.txt
-gunicorn>=19.7
+
+gevent==1.2.2
+gunicorn==19.7.1
+boto3==1.6.2
+raven==6.6.0
+django-storages==1.6.5
+django-anymail==2.0
