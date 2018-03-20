@@ -98,7 +98,8 @@ class Feed(models.Model):
 
 def new_feed_added(sender, instance, created, **kwargs):
     if created:
-        if instance.parent == None or instance.parent == "":
+        if instance.parent is None or instance.parent == "":
             instance.feed_log('new_feed')
+
 
 post_save.connect(new_feed_added, sender=Feed)
