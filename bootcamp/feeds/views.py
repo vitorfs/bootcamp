@@ -29,7 +29,7 @@ def feeds(request):
         'feeds': feeds,
         'from_feed': from_feed,
         'page': 1
-    # 'likers': likers
+        # 'likers': likers
         })
 
 
