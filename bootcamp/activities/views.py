@@ -29,8 +29,8 @@ def last_notifications(request):
                   {'notifications': notifications})
 
 
-## TO DO
-## DEPRECATED
+# TO DO
+# DEPRECATED
 @login_required
 @ajax_required
 def check_notifications(request):

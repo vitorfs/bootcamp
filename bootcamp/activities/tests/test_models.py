@@ -274,7 +274,8 @@ class TestModels(TestCase):
         assert str(notification) == test_string
 
     def test_upvote_question_notification(self):
-        Profile.objects.get(user=self.other_user).notify_upvoted_question(self.question)
+        Profile.objects.get(
+            user=self.other_user).notify_upvoted_question(self.question)
         notification = Notification.objects.get(question=self.question)
         test_string = Notification._UPVOTED_QUESTION_TEMPLATE.format(
             self.other_user.username,
@@ -286,7 +287,8 @@ class TestModels(TestCase):
         assert str(notification) == test_string
 
     def test_upvote_answer_notification(self):
-        Profile.objects.get(user=self.other_user).notify_upvoted_answer(self.answer)
+        Profile.objects.get(
+            user=self.other_user).notify_upvoted_answer(self.answer)
         notification = Notification.objects.get(answer=self.answer)
         test_string = Notification._UPVOTED_ANSWER_TEMPLATE.format(
             self.other_user.username,
