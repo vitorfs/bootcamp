@@ -2,12 +2,12 @@ from __future__ import unicode_literals
 
 from django.contrib.auth.models import User
 from django.db import models
-from autoslug import AutoSlugField
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.db.models import Count
 
 import markdown
+from slugify import slugify
 from taggit.managers import TaggableManager
 
 
@@ -21,7 +21,7 @@ class Article(models.Model):
     )
 
     title = models.CharField(max_length=255, null=False, unique=True)
-    slug = AutoSlugField(populate_from='title')
+    slug = models.SlugField(max_length=80, null=True, blank=True)
     tags = TaggableManager()
     content = models.TextField(max_length=4000)
     status = models.CharField(max_length=1, choices=STATUS, default=DRAFT)
@@ -39,6 +39,12 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title, to_lower=True, max_length=80)
+
+        super(Article, self).save(*args, **kwargs)
 
     def get_content_as_markdown(self):
         return markdown.markdown(self.content, safe_mode='escape')
