@@ -30,7 +30,7 @@ The messenger app works at a basic level, in the same way tools like Slack or Ma
 ## Technology Stack
 
 * Python 2.7 / 3.6
-* Django > 1.9
+* Django > 1.10
 * Twitter Bootstrap 3
 * jQuery 2
 * Redis 3.0
