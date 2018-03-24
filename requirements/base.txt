@@ -1,15 +1,16 @@
-argon2-cffi==18.1.0
-asgi_redis>=1.4.3
-awesome-slugify>=1.6.5
-bleach>=2.1
-channels==1.1.8
-django-environ==0.4.4
-django-redis==4.9.0
-django-taggit>=0.22
-Django>=1.11,<2.0
-Markdown>=2.6
-Pillow>=5.0
-psycopg2==2.7.4 --no-binary psycopg2
-pytz>=2017.2
-Unipath>=1.1
-whitenoise>=3.3.0
+pytz==2018.3  # https://github.com/stub42/pytz
+awesome-slugify==1.6.5  # https://github.com/dimka665/awesome-slugify
+Pillow==5.0.0  # https://github.com/python-pillow/Pillow
+argon2-cffi==18.1.0  # https://github.com/hynek/argon2_cffi
+whitenoise==3.3.1  # https://github.com/evansd/whitenoise
+psycopg2==2.7.4 --no-binary psycopg2  # https://github.com/psycopg/psycopg2
+redis>=2.10.5  # https://github.com/antirez/redis
+
+# Django
+# ------------------------------------------------------------------------------
+django==2.0.3  # pyup: < 2.1  # https://www.djangoproject.com/
+django-environ==0.4.4  # https://github.com/joke2k/django-environ
+django-model-utils==3.1.1  # https://github.com/jazzband/django-model-utils
+django-allauth==0.35.0  # https://github.com/pennersr/django-allauth
+django-crispy-forms==1.7.2  # https://github.com/django-crispy-forms/django-crispy-forms
+django-redis==4.9.0  # https://github.com/niwinz/django-redis
