@@ -4,14 +4,24 @@
 {% block title %}{{ user.username }}{% endblock %}
 
 {% block content %}
-  <h1>{{ user.username }}</h1>
-  <form class="form-horizontal" method="post" action="{% url 'users:update' %}">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <div class="control-group">
-      <div class="controls">
-        <button type="submit" class="btn">Update</button>
-      </div>
+  <div class="container">
+    <h2>{{ user.username }}</h2>
+    {% if user.name %}<p class="lead">{{ user.name }}</p>{% endif %}
+    <div class="col-sm-4">
+        {% if user.picture %}
+            <img src="{{ MEDIA_URL }}{{ user.picture }}" alt="profile_pic" height="300" >
+        {% endif %}
     </div>
-  </form>
+    <div class="col-sm-8">
+        <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{% url 'users:update' %}">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-dark">Actualizar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+  </div>
 {% endblock %}
