@@ -13,6 +13,9 @@ pytest-sugar==0.9.1  # https://github.com/Frozenball/pytest-sugar
 # ------------------------------------------------------------------------------
 flake8==3.5.0  # https://github.com/PyCQA/flake8
 coverage==4.5.1  # https://github.com/nedbat/coveragepy
+pylint>=1.8  # https://github.com/PyCQA/pylint
+pylint-common==0.2.5  # https://github.com/landscapeio/pylint-common
+pylint-django>=0.9.0  # https://github.com/PyCQA/pylint-django
 
 # Django
 # ------------------------------------------------------------------------------
