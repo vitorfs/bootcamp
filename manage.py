@@ -10,7 +10,7 @@ if __name__ == '__main__':
     except ImportError:
         # The above import may fail for some other reason. Ensure that the
         # issue is really that Django is missing to avoid masking other
-        # exceptions on Python 2.
+        # exceptions.
         try:
             import django  # noqa
 
@@ -23,8 +23,7 @@ if __name__ == '__main__':
 
         raise
 
-    # This allows easy placement of apps within the interior
-    # bootcamp directory.
+    # This allows easy placement of apps within the inner bootcamp directory.
     current_path = os.path.dirname(os.path.abspath(__file__))
     sys.path.append(os.path.join(current_path, 'bootcamp'))
 
