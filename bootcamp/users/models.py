@@ -9,6 +9,10 @@ class User(AbstractUser):
     name = models.CharField(_('Name of User'), blank=True, max_length=255)
     picture = models.ImageField(
         _('Profile Picture'), upload_to='profile_pics/', null=True, blank=True)
+    location = models.CharField(
+        _('Location'), max_length=50, null=True, blank=True)
+    job_title = models.CharField(
+        _('Job Title'), max_length=50, null=True, blank=True)
     personal_url = models.URLField(
         _('Personal URL'), max_length=555, blank=True, null=True)
     facebook_account = models.URLField(
