@@ -1,27 +1,36 @@
 {% extends "base.html" %}
+{% load static i18n %}
 {% load crispy_forms_tags %}
+{% load thumbnail %}
 
-{% block title %}{{ user.username }}{% endblock %}
+{% block title %}{{ user.username|title }}{% endblock %}
 
 {% block content %}
-  <div class="container">
-    <h2>{{ user.username }}</h2>
-    {% if user.name %}<p class="lead">{{ user.name }}</p>{% endif %}
-    <div class="col-sm-4">
-        {% if user.picture %}
-            <img src="{{ MEDIA_URL }}{{ user.picture }}" alt="profile_pic" height="300" >
-        {% endif %}
+  <link href="{% static 'css/user_form.css' %}?v=1" rel="stylesheet">
+  <h1>{{ user.username|title }}</h1>
+  {% if user.name %}<p class="lead">{{ user.name }}</p>{% endif %}
+  <div class="row profile">
+    <div class="col-md-4 user-profile">
+      {% if user.picture %}
+        {% thumbnail user.picture "x250" as im %}
+          <img src="{{ im.url }}" alt="Picture Profile" id="pic">
+        {% endthumbnail %}
+      {% else %}
+        <img src="{% static 'img/user.png' %}" alt="No Profile Picture" />
+      {% endif %}
     </div>
-    <div class="col-sm-8">
-        <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{% url 'users:update' %}">
-            {% csrf_token %}
-            {{ form|crispy }}
-            <div class="control-group">
-                <div class="controls">
-                    <button type="submit" class="btn btn-dark">Actualizar</button>
-                </div>
-            </div>
-        </form>
+
+    <div class="col-md-8">
+      <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{% url 'users:update' %}">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="control-group">
+          <div class="controls">
+            <button type="submit" class="btn btn-dark">{% trans 'Update' %}</button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
+
 {% endblock %}
