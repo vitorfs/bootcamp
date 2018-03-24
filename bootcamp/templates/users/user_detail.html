@@ -56,7 +56,7 @@
     {% if object.facebook_account %}
       <a href="{{ object.facebook_account }}" style="font-size: 2em" title="{% trans 'Facebook Profile' %}"><i class="fa fa-facebook"></i>  </a>
     {% endif %}
-    <a class="btn btn-primary pull-right" href="{% url 'users:update' %}">{% trans 'Update Profile' %}</a>
+    <a class="btn btn-dark pull-right" href="{% url 'users:update' %}">{% trans 'Update Profile' %}</a>
   </div>
   {% if request.user.username == object.username %}
     <!-- Data tiles -->
