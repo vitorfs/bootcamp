@@ -1,0 +1,18 @@
+// Mixins
+@mixin transition-all() {
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  transition: all 0.2s;
+}
+@mixin background-cover() {
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+@mixin serif-font() {
+  font-family: 'Merriweather', 'Helvetica Neue', Arial, sans-serif;
+}
+@mixin sans-serif-font() {
+  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+}

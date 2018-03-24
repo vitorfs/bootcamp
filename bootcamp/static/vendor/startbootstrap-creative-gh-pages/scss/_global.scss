@@ -1,0 +1,79 @@
+// Global styling for this template
+body,
+html {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  @include serif-font;
+}
+
+hr {
+  max-width: 50px;
+  border-width: 3px;
+  border-color: $primary;
+}
+
+hr.light {
+  border-color: $white;
+}
+
+a {
+  color: $primary;
+  @include transition-all;
+  &:hover {
+    color: darken($primary, .1);
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @include sans-serif-font;
+}
+
+.bg-primary {
+  background-color: $primary !important;
+}
+
+.bg-dark {
+  background-color: $gray-900 !important;
+}
+
+.text-faded {
+  color: fade-out($white, .3);
+}
+
+section {
+  padding: 8rem 0;
+}
+
+.section-heading {
+  margin-top: 0;
+}
+
+::-moz-selection {
+  color: $white;
+  background: $gray-900;
+  text-shadow: none;
+}
+
+::selection {
+  color: $white;
+  background: $gray-900;
+  text-shadow: none;
+}
+
+img::selection {
+  color: $white;
+  background: transparent;
+}
+
+img::-moz-selection {
+  color: $white;
+  background: transparent;
+}
