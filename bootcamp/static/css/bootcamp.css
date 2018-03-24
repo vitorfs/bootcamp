@@ -1,17 +1,13 @@
 @import url(https://fonts.googleapis.com/css?family=Audiowide);
 
 body {
-  padding-top: 70px;
+  padding-top: 90px;
 }
 
 header .navbar-brand {
   font-size: 1.4em;
   font-weight: 200;
   font-family: "Audiowide", cursive;
-}
-
-main .container {
-
 }
 
 .page-header {
@@ -37,6 +33,19 @@ main .container {
 
 #notifications.new-notifications {
   color: #428bca;
+}
+
+
+.alert-debug {
+  color: black;
+  background-color: white;
+  border-color: #d6e9c6;
+}
+
+.alert-error {
+  color: #b94a48;
+  background-color: #f2dede;
+  border-color: #eed3d7;
 }
 
 .popover {
