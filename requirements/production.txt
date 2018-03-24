@@ -1,8 +1,13 @@
+# PRECAUTION: avoid production dependencies that aren't in development
+
 -r base.txt
 
-gevent==1.2.2
-gunicorn==19.7.1
-boto3==1.6.2
-raven==6.6.0
-django-storages==1.6.5
-django-anymail==2.0
+gevent==1.2.2  # https://github.com/gevent/gevent
+gunicorn==19.7.1  # https://github.com/benoitc/gunicorn
+boto3==1.6.2  # pyup: update minor  # https://github.com/boto/boto3
+raven==6.6.0  # https://github.com/getsentry/raven-python
+
+# Django
+# ------------------------------------------------------------------------------
+django-storages==1.6.5  # https://github.com/jschneier/django-storages
+django-anymail==2.0  # https://github.com/anymail/django-anymail
