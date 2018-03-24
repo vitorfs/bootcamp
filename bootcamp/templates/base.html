@@ -16,7 +16,7 @@
     <!-- Latest compiled and minified Bootstrap 4 beta CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Your stuff: Third-party CSS libraries go here -->
-
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
     <!-- This file stores project-specific CSS -->
     <link href="{% static 'css/bootcamp.css' %}?v=1" rel="stylesheet">
     {% endblock css %}
@@ -45,17 +45,18 @@
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">{% trans 'Search' %}</button>
                   </form>
                 {% endif %}
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ request.user.username }}
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{% url 'users:detail' request.user.username  %}">{% trans "My Profile" %}</a>
-                    <a class="dropdown-item" href="#">{% trans 'Account Settings' %}</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'account_logout' %}">{% trans "Log Out" %}</a>
-                  </div>
-                </li>
+                {% if request.user.is_authenticated %}
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      {{ request.user.username }}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="{% url 'users:detail' request.user.username  %}">{% trans 'Account Settings' %}</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="{% url 'account_logout' %}">{% trans "Log Out" %}</a>
+                    </div>
+                  </li>
+                {% endif %}
               </ul>
             </div>
           </div>
