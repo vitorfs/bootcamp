@@ -7,10 +7,10 @@
 
 {% block content %}
   <link href="{% static 'css/user_form.css' %}?v=1" rel="stylesheet">
-  <h1>{{ user.username|title }}</h1>
-  {% if user.name %}<p class="lead">{{ user.name }}</p>{% endif %}
   <div class="row profile">
     <div class="col-md-4 user-profile">
+      <h1>{{ user.username|title }}</h1>
+      {% if user.name %}<p class="lead">{{ user.name }}</p>{% endif %}
       {% if user.picture %}
         {% thumbnail user.picture "x250" as im %}
           <img src="{{ im.url }}" alt="Picture Profile" id="pic">
@@ -26,7 +26,7 @@
         {{ form|crispy }}
         <div class="control-group">
           <div class="controls">
-            <button type="submit" class="btn btn-dark">{% trans 'Update' %}</button>
+            <button type="submit" class="btn btn-dark">{% trans 'Update Profile' %}</button>
           </div>
         </div>
       </form>
