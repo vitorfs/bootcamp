@@ -9,7 +9,6 @@
   <div id="page-wrap">
 
     {% if object.picture %}
-      {% comment %} <img src="{{ MEDIA_URL }}{{ object.picture }}" height="250" alt="Picture Profile" id="pic" /> {% endcomment %}
       {% thumbnail object.picture "x250" as im %}
         <img src="{{ im.url }}" alt="Picture Profile" id="pic">
       {% endthumbnail %}
