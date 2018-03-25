@@ -45,10 +45,12 @@ Technology Stack
 * Caddy_
 * Docker_
 * docker-compose_
+* WhiteNoise_
 * `Twitter Bootstrap 4`_
 * `jQuery 3`_
 * Django-channels_ (for WebSockets)
 * Sentry_
+* Cookiecutter_
 
 .. _Python: https://www.python.org/
 .. _`Django Web Framework`: https://www.djangoproject.com/
@@ -58,10 +60,12 @@ Technology Stack
 .. _Caddy: https://caddyserver.com/docs
 .. _Docker: https://docs.docker.com/
 .. _docker-compose: https://docs.docker.com/compose/
+.. _WhiteNoise: http://whitenoise.evans.io/en/stable/
 .. _`Twitter Bootstrap 4`: https://getbootstrap.com/docs/4.0/getting-started/introduction/
 .. _`jQuery 3`: https://api.jquery.com/
 .. _Django-channels: https://channels.readthedocs.io/en/latest/
 .. _Sentry: https://docs.sentry.io/
+.. _Cookiecutter: http://cookiecutter-django.readthedocs.io/en/latest/index.html
 
 Basic Commands
 --------------
