@@ -3,7 +3,6 @@ Bootcamp
 
 An enterprise oriented social network
 
-[![]()]() [![]()]() [![]()]()
 |Build Status|
 .. image:: https://travis-ci.org/vitorfs/bootcamp.svg?branch=master
     :target: https://travis-ci.org/vitorfs/bootcamp
@@ -24,31 +23,45 @@ An enterprise oriented social network
     :target: https://github.com/pydanny/cookiecutter-django/
     :alt: Built with Cookiecutter Django
 
-
 :License: MIT
 
-Bootcamp is an open source **enterprise social network** built with Python_ using the `Django Web Framework`_.
+Bootcamp is an open source **enterprise social network** of open purpose, on which you can build for your own ends.
 
 The project has four basic apps:
 
-* Feed (A Twitter-like microblog)
+* Feeds (A Twitter-like microblog)
 * Articles (A collaborative blog)
 * Question & Answers (A Stack Overflow-like platform)
 * Messenger (A basic chat-a-like tool for asynchronous communication.)
 
-.. _Python: https://www.python.org/
-.. _`Django Web Framework`: https://www.djangoproject.com/
-
-
 Technology Stack
 ----------------
 
-* Python 3.6.x and up
-* Django 1.11.x / 2.0.x
-* Twitter Bootstrap 4
-* jQuery 3
-* Redis 3.2
-* WebSockets (Using django-channels for that!)
+* Python_ 3.6.x and up
+* `Django Web Framework`_ 1.11.x / 2.0.x
+* PostgreSQL_
+* `Redis 3.2`_
+* Gunicorn_
+* Caddy_
+* Docker_
+* docker-compose_
+* `Twitter Bootstrap 4`_
+* `jQuery 3`_
+* Django-channels_ (for WebSockets)
+* Sentry_
+
+.. _Python: https://www.python.org/
+.. _`Django Web Framework`: https://www.djangoproject.com/
+.. _PostgreSQL: https://www.postgresql.org/
+.. _`Redis 3.2`: https://redis.io/documentation
+.. _Gunicorn: http://gunicorn.org/#docs
+.. _Caddy: https://caddyserver.com/docs
+.. _Docker: https://docs.docker.com/
+.. _docker-compose: https://docs.docker.com/compose/
+.. _`Twitter Bootstrap 4`: https://getbootstrap.com/docs/4.0/getting-started/introduction/
+.. _`jQuery 3`: https://api.jquery.com/
+.. _Django-channels: https://channels.readthedocs.io/en/latest/
+.. _Sentry: https://docs.sentry.io/
 
 Basic Commands
 --------------
