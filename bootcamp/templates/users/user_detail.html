@@ -8,13 +8,11 @@
   <link href="{% static 'css/user_profile.css' %}?v=1" rel="stylesheet">
   <div id="page-wrap">
 
-    {% if object.picture %}
-      {% thumbnail object.picture "x250" as im %}
-        <img src="{{ im.url }}" alt="Picture Profile" id="pic">
-      {% endthumbnail %}
-    {% else %}
-      <img src="{% static 'img/user.png' %}" alt="No Profile Picture" />
-    {% endif %}
+    {% thumbnail object.picture "x250" as im %}
+      <img src="{{ im.url }}" alt="Picture Profile" id="pic">
+    {% empty %}
+      <img class="pull-right" src="{% static 'img/user.png' %}" height="250px" alt="No Profile Picture" />
+    {% endthumbnail %}
 
     <div id="contact-info" class="vcard">
         <h1 class="fn">
