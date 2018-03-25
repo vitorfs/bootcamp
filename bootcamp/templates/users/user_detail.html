@@ -4,8 +4,11 @@
 
 {% block title %}{{ object.username }}{% endblock %}
 
-{% block content %}
+{% block head %}
   <link href="{% static 'css/user_profile.css' %}?v=1" rel="stylesheet">
+{% endblock head %}
+
+{% block content %}
   <div id="page-wrap">
 
     {% thumbnail object.picture "x250" as im %}
