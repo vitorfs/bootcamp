@@ -25,27 +25,29 @@
   <body>
     {% block body %}
       <div class="m-b-1">
-        <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark">
-          <div class="container">
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <a class="navbar-brand" href="#">Bootcamp</a>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav mr-auto">
-                <li class="nav-item active"><a class="nav-link" href="#">{% trans 'News' %} <span class="sr-only">(current)</span></a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">{% trans 'Q&A' %}</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">{% trans 'Inbox' %}</a></li>
-              </ul>
-              <ul class="nav navbar-nav navbar-right">
-                {% if not hide_search %}
-                  <form class="form-inline navbar-left" role="search" action="#">
-                    <input class="form-control mr-sm-2" id="auto-search" name="q" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">{% trans 'Search' %}</button>
-                  </form>
-                {% endif %}
-                {% if request.user.is_authenticated %}
+        {% if request.user.is_authenticated %}
+          <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark">
+            <div class="container">
+              <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <a class="navbar-brand" href="#">Bootcamp</a>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                  <li class="nav-item active"><a class="nav-link" href="#">{% trans 'News' %} <span class="sr-only">(current)</span></a></li>
+                  <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#">{% trans 'Q&A' %}</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#">{% trans 'Inbox' %}</a></li>
+                  <li class="nav-item"><a class="nav-link" href="{% url 'users:list' %}">{% trans 'Contacts' %}</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                  {% if not hide_search %}
+                    <form class="form-inline navbar-left" role="search" action="#">
+                      <input class="form-control mr-sm-2" id="auto-search" name="q" type="search" placeholder="Search" aria-label="Search">
+                      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">{% trans 'Search' %}</button>
+                    </form>
+                  {% endif %}
+
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       {{ request.user.username }}
@@ -56,12 +58,12 @@
                       <a class="dropdown-item" href="{% url 'account_logout' %}">{% trans "Log Out" %}</a>
                     </div>
                   </li>
-                {% endif %}
-              </ul>
+                </ul>
+              </div>
             </div>
-          </div>
-        </nav>
+          </nav>
 
+        {% endif %}
       </div>
 
       <div class="container">

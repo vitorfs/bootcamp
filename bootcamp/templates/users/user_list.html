@@ -1,17 +1,53 @@
 {% extends "base.html" %}
 {% load static i18n %}
-{% block title %}Members{% endblock %}
+{% load thumbnail %}
+{% block title %}{% trans 'Contacts' %}{% endblock %}
+
+{% block head %}
+  <link href="{% static 'css/user_list.css' %}" rel="stylesheet">
+{% endblock head %}
 
 {% block content %}
-<div class="container">
-  <h2>Users</h2>
 
-  <div class="list-group">
-    {% for user in user_list %}
-      <a href="{% url 'users:detail' user.username %}" class="list-group-item">
-        <h4 class="list-group-item-heading">{{ user.username }}</h4>
-      </a>
-    {% endfor %}
+  <div class="page-header">
+    <h1>{% trans 'Contacts' %}</h1>
   </div>
-</div>
+
+  <ul class="user-profiles-list">
+    {% for user in user_list %}
+      <li>
+        <div class="user-avatar">
+          <a href="{% url 'users:detail' user.username  %}" class="user-avatar">
+            {% thumbnail user.picture "x80" as im %}
+              <img src="{{ im.url }}" alt="Picture Profile" id="pic">
+            {% empty %}
+              <img src="{% static 'img/user.png' %}" height="80px" alt="No Profile Picture" />
+            {% endthumbnail %}
+          </a>
+        </div>
+        <p>
+          <i class="fa fa-envelope" aria-hidden="true"></i><a class="email" href="mailto:{{ user.email }}">
+            {% if user.name %}
+              {{ user.name|title }}
+            {% else %}
+              {{ user.username|title }}
+            {% endif %}
+          </a>
+          <span>
+            {% if user.job_title %}
+              <i class="fa fa-briefcase" aria-hidden="true"></i>
+              <i>  {{ user.job_title}}</i>
+            {% endif %}
+          </span>
+          <span>
+            {% if user.location %}
+              <i class="fa fa-map-marker" aria-hidden="true"></i>
+              <i>  {{ user.location }}</i>
+            {% endif %}
+          </span>
+        </p>
+      </li>
+    {% endfor %}
+  </ul>
+
 {% endblock content %}
