@@ -14,13 +14,13 @@ class Activity(models.Model):
     COMMENT = 'C'
     ANSWER = 'A'
     VOTE = 'U'
-    RESHARE = 'S'
+    SHARE = 'S'
     NOTIFICATION_TYPES = (
         (LIKE, _('Liked')),
         (COMMENT, _('Commented')),
         (ANSWER, _('Answered')),
         (VOTE, _('Voted on')),
-        (RESHARE, _('Reshared')),
+        (SHARE, _('Shared')),
     )
 
     user = models.ForeignKey(
