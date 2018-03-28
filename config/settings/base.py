@@ -77,6 +77,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     'bootcamp.users.apps.UsersConfig',
     # Your stuff: custom apps go here
+    'bootcamp.activities.apps.ActivitiesConfig',
     'bootcamp.notifications.apps.NotificationsConfig',
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
