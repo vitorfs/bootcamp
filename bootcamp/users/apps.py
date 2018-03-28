@@ -1,9 +1,10 @@
 from django.apps import AppConfig
+from django.utils.translation import ugettext_lazy as _
 
 
 class UsersConfig(AppConfig):
     name = 'bootcamp.users'
-    verbose_name = "Users"
+    verbose_name = _("Users")
 
     def ready(self):
         """Override this to put in:
@@ -12,5 +13,6 @@ class UsersConfig(AppConfig):
         """
         try:
             import users.signals  # noqa F401
+
         except ImportError:
             pass
