@@ -2,4 +2,5 @@ from django.apps import AppConfig
 
 
 class ActivitiesConfig(AppConfig):
-    name = 'activities'
+    name = 'bootcamp.activities'
+    verbose_name = 'Activities'
