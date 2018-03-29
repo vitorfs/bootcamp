@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% block title %}{% trans 'Notifications' %}{% endblock %}
+
+{% block head %}
+
+{% endblock head %}
+
+{% block content %}
+
+  <ul class="notifications">
+    {% for notice in notifications %}
+      <div class="alert alert-block alert-{{ notice.level }}">
+
+        <p>notice</p>
+        <!-- <h4>
+          {{ notice.actor }}
+          {{ notice.verb }}
+          {% if notice.target %}
+            of {{ notice.target }}
+          {% endif %}
+        </h4>
+
+        <p>{{ notice.timesince }} ago</p>
+
+        <p>{{ notice.description|linebreaksbr }}</p> -->
+
+      </div>
+    {% endfor %}
+  </ul>
+
+{% endblock content %}
