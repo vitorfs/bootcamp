@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView  # , DetailView, RedirectView, UpdateView
 
-# Create your views here.
+from bootcamp.notifications.models import Notification
+
+
+class NotificationListView(LoginRequiredMixin, ListView):
+    model = Notification
