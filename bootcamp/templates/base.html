@@ -34,7 +34,12 @@
               <a class="navbar-brand" href="#">Bootcamp</a>
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                  <li class="nav-item active"><a class="nav-link" href="#">{% trans 'News' %} <span class="sr-only">(current)</span></a></li>
+                  <li class="nav-item">
+                    <a href="#" id="notifications" data-container="body" data-toggle="popover" data-placement="bottom" title="Notifications">
+                      <i class="fa fa-bell-o" aria-hidden="true"></i>
+                    </a>
+                  </li>
+                  <li class="nav-item"><a class="nav-link" href="#">{% trans 'News' %} <span class="sr-only">(current)</span></a></li>
                   <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
                   <li class="nav-item"><a class="nav-link" href="#">{% trans 'Q&A' %}</a></li>
                   <li class="nav-item"><a class="nav-link" href="#">{% trans 'Inbox' %}</a></li>
@@ -53,7 +58,7 @@
                       {{ request.user.username }}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" href="{% url 'users:detail' request.user.username  %}">{% trans 'Account Settings' %}</a>
+                      <a class="dropdown-item" href="{% url 'users:detail' request.user.username  %}">{% trans 'Profile Settings' %}</a>
                       <div class="dropdown-divider"></div>
                       <a class="dropdown-item" href="{% url 'account_logout' %}">{% trans "Log Out" %}</a>
                     </div>
@@ -104,6 +109,7 @@
 
         <!-- place project specific Javascript in this file -->
         <script src="{% static 'js/project.js' %}"></script>
+        <script src="{% static 'js/notifications.js' %}"></script>
       {% endblock javascript %}
     {% endblock body %}
   </body>
