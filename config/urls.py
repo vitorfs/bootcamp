@@ -6,8 +6,10 @@ from django.views.generic import TemplateView
 from django.views import defaults as default_views
 
 urlpatterns = [
-    url(r'^$', TemplateView.as_view(template_name='pages/home.html'), name='home'),
-    url(r'^about/$', TemplateView.as_view(template_name='pages/about.html'), name='about'),
+    url(r'^$',
+        TemplateView.as_view(template_name='pages/home.html'), name='home'),
+    url(r'^about/$',
+        TemplateView.as_view(template_name='pages/about.html'), name='about'),
     # Django Admin, use {% url 'admin:index' %}
     url(settings.ADMIN_URL, admin.site.urls),
     # User management
@@ -16,6 +18,8 @@ urlpatterns = [
     # Third party apps here
 
     # Local apps here
+    url(r'^notifications/',
+        include('bootcamp.notifications.urls', namespace='notifications'))
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
