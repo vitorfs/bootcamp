@@ -71,6 +71,7 @@ class Notification(models.Model):
     LOGGED_OUT = 'O'
     VOTED = 'V'
     SHARED = 'S'
+    SIGNUP = 'U'
     NOTIFICATION_TYPES = (
         (LIKED, _('liked')),
         (COMMENTED, _('commented')),
@@ -79,15 +80,17 @@ class Notification(models.Model):
         (ACCEPTED_ANSWER, _('accepted')),
         (EDITED_ARTICLE, _('edited')),
         (ALSO_COMMENTED, _('also commented')),
-        (LOGGED_IN, _('logged In')),
-        (LOGGED_OUT, _('logged Out')),
+        (LOGGED_IN, _('logged in')),
+        (LOGGED_OUT, _('logged out')),
         (VOTED, _('voted on')),
         (SHARED, _('shared')),
+        (SIGNUP, _('created an account'))
         )
     actor = models.ForeignKey(settings.AUTH_USER_MODEL,
                               related_name='notify_actor',
                               on_delete=models.CASCADE)
-    recipient = models.CharField(max_length=250)
+    recipient = models.ForeignKey(settings.AUTH_USER_MODEL, blank=False,
+        related_name='notifications', on_delete=models.CASCADE)
     unread = models.BooleanField(default=True, db_index=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     uuid_id = models.UUIDField(
