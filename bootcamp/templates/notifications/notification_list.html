@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static i18n %}
+{% load thumbnail %}
 {% block title %}{% trans 'Notifications' %}{% endblock %}
 
 {% block head %}
@@ -8,25 +9,21 @@
 
 {% block content %}
 
-  <ul class="notifications">
-    {% for notice in notifications %}
-      <div class="alert alert-block alert-{{ notice.level }}">
+  <div class="page-header">
+    <h1>
+      {% trans 'Unread notifications for' %}
+      {% if request.user.name %}
+        {{ request.user.name|title }}
+      {% else %}
+        {{ request.user.username|title }}
+      {% endif %}
+    </h1>
+  </div>
 
-        <p>notice</p>
-        <!-- <h4>
-          {{ notice.actor }}
-          {{ notice.verb }}
-          {% if notice.target %}
-            of {{ notice.target }}
-          {% endif %}
-        </h4>
+  {% for notification in notification_list %}
+    {{ notification }}
 
-        <p>{{ notice.timesince }} ago</p>
-
-        <p>{{ notice.description|linebreaksbr }}</p> -->
-
-      </div>
-    {% endfor %}
-  </ul>
+    </div>
+  {% endfor %}
 
 {% endblock content %}
