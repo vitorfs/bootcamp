@@ -1,12 +1,12 @@
 from django.conf.urls import url
 
-from . import views
+from bootcamp.notifications import views
 
 app_name = 'notifications'
 urlpatterns = [
     url(
         regex=r'^$',
-        view=views.NotificationListView.as_view(),
-        name='notification_list'
+        view=views.NotificationUnreadListView.as_view(),
+        name='unread'
     ),
 ]

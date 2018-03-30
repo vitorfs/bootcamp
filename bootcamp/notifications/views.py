@@ -4,5 +4,12 @@ from django.views.generic import ListView  # , DetailView, RedirectView, UpdateV
 from bootcamp.notifications.models import Notification
 
 
-class NotificationListView(LoginRequiredMixin, ListView):
+class NotificationUnreadListView(LoginRequiredMixin, ListView):
+    """Basic ListView implementation to show the unread notifications for
+    the actual user"""
     model = Notification
+    context_object_name = 'notification_list'
+    template_name = 'notifications/notification_list.html'
+
+    def get_queryset(self, **kwargs):
+        return self.request.user.notifications.unread()
