@@ -1,13 +1,15 @@
 $(function () {
-    $('#notifications').popover({html: true, content: 'Loading...', trigger: 'manual'});
+    $('#notifications').popover({html: true});
 
     $("#notifications").click(function () {
         if ($(".popover").is(":visible")) {
             $("#notifications").popover('hide');
         }
         else {
-            var longtest = 'This is not precisely the longest text I can come over, but it will do.'
             $("#notifications").popover('show');
+            $(".popover-content").html("<a href='{% url 'notifications:notification_list' %}'>{% trans 'All notifications' %}</a>")
+            // $("#notifications").popover({'html': "<a href='{% url 'notifications:notification_list' %}'>{% trans 'All notifications' %}</a>",});
+            // $(".popover").attr('data-content', "<a href='{% url 'notifications:notification_list' %}'>{% trans 'All notifications' %}</a>")
         }
         return false;
     });
