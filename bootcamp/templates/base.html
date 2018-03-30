@@ -33,12 +33,16 @@
               </button>
               <a class="navbar-brand" href="#">Bootcamp</a>
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                  <li class="nav-item">
+
+                <ul class="navbar-nav">
+                  <li class="nav-item dropdown">
                     <a href="#" id="notifications" data-content="{% trans 'Loading...' %}" data-trigger='focus' data-container="body" data-toggle="popover" data-placement="bottom" title="{% trans "Notifications" %}">
                       <i class="fa fa-bell-o" aria-hidden="true"></i>
                     </a>
                   </li>
+                </ul>
+
+                <ul class="navbar-nav mr-auto">
                   <li class="nav-item"><a class="nav-link" href="#">{% trans 'News' %} <span class="sr-only">(current)</span></a></li>
                   <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
                   <li class="nav-item"><a class="nav-link" href="#">{% trans 'Q&A' %}</a></li>
@@ -67,9 +71,9 @@
                       {{ request.user.username }}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" href="{% url 'users:detail' request.user.username  %}">{% trans 'Profile Settings' %}</a>
+                      <a class="dropdown-item" href="{% url 'users:detail' request.user.username  %}"><i class="fa fa-cogs" aria-hidden="true"></i>  {% trans 'Profile Settings' %}</a>
                       <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="{% url 'account_logout' %}">{% trans "Log Out" %}</a>
+                      <a class="dropdown-item" href="{% url 'account_logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i>  {% trans "Log Out" %}</a>
                     </div>
                   </li>
                 </ul>
