@@ -48,8 +48,12 @@
                 <ul class="nav navbar-nav navbar-right">
                   {% if not hide_search %}
                     <form class="form-inline navbar-left" role="search" action="#">
-                      <input class="form-control mr-sm-2" id="auto-search" name="q" type="search" placeholder="Search" aria-label="Search">
-                      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">{% trans 'Search' %}</button>
+                      <div class="input-group">
+                        <input name="q" type="search" class="form-control" placeholder="{% trans 'Search' %}" aria-label="Search">
+                        <div class="input-group-append">
+                          <span class="input-group-text"><i class="fa fa-search" aria-hidden="true"></i></span>
+                        </div>
+                      </div>
                     </form>
                   {% endif %}
 
