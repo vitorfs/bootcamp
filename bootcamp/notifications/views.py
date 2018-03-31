@@ -20,6 +20,8 @@ class NotificationUnreadListView(LoginRequiredMixin, ListView):
 
 @login_required
 def mark_all_as_read(request):
+    """View to call the model method which marks as read all the notifications
+    directed to the actual user."""
     request.user.notifications.mark_all_as_read()
     _next = request.GET.get('next')
     messages.add_message(request, messages.SUCCESS,
@@ -33,6 +35,8 @@ def mark_all_as_read(request):
 
 @login_required
 def mark_as_read(request, slug=None):
+    """View to call the model method which mark as read the provided
+    notification."""
     if slug:
         notification = get_object_or_404(Notification, slug=slug)
         notification.mark_as_read()
