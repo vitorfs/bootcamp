@@ -16,7 +16,7 @@
       {% else %}
         {{ request.user.username|title }}
       {% endif %}
-      <a class="btn btn-dark pull-right" href="#">{% trans 'Mark all as read' %}</a>
+      <a class="btn btn-dark pull-right" href="{% url 'notifications:mark_all_read' %}">{% trans 'Mark all as read' %}</a>
     </h1>
   </div>
   <ul class="notification-list">
@@ -43,12 +43,7 @@
           {% endif %}
             <i>{{ notification.time_since }} ago</i></span>
         </p>
-        <!--
-        Commenting until I have a really nice view to mark as read and a nice
-        animation to hide it. Yeah, JS is with you my old enemy!
-
-        <a class="dismiss" title="{% trans 'Mark as read' %}" href="#"><i class="fa fa-check-circle"></i></a>
-        -->
+        <a class="dismiss" title="{% trans 'Mark as read' %}" href="{% url 'notifications:mark_as_read' notification.slug %}"><i class="fa fa-check-circle"></i></a>
       </li>
     {% endfor %}
   </ul>
