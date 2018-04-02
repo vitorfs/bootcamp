@@ -1,5 +1,5 @@
 argon2-cffi==18.1.0
-asgi_redis>=1.4.3
+asgi_redis==1.4.3
 awesome-slugify>=1.6.5
 bleach>=2.1
 channels==1.1.8
