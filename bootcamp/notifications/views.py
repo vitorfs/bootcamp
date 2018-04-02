@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView
 
@@ -49,3 +50,9 @@ def mark_as_read(request, slug=None):
         return redirect(_next)
 
     return redirect('notifications:unread')
+
+
+@login_required
+def get_latest_notifications(request):
+    data = request.user.notifications.serialize_latest_notifications()
+    return HttpResponse(data)

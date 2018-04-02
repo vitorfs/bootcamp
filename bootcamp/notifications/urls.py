@@ -19,4 +19,9 @@ urlpatterns = [
         view=views.mark_all_as_read,
         name='mark_all_read'
     ),
+    url(
+        regex=r'^latest-notifications/$',
+        view=views.get_latest_notifications,
+        name='latest_notifications'
+    ),
 ]

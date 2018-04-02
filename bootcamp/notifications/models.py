@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
+from django.core import serializers
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -13,16 +14,16 @@ from slugify import slugify
 class NotificationQuerySet(models.query.QuerySet):
     """Personalized queryset created to improve model usability"""
 
-    def unread(self, include_deleted=False):
+    def unread(self):
         """Return only unread items in the current queryset"""
         return self.filter(unread=True)
 
-    def read(self, include_deleted=False):
+    def read(self):
         """Return only read items in the current queryset"""
         return self.filter(unread=False)
 
     def mark_all_as_read(self, recipient=None):
-        """Mark as read any unread messages in the current queryset with
+        """Mark as read any unread elements in the current queryset with
         optional filter by recipient first.
         """
         qs = self.unread(True)
@@ -32,7 +33,7 @@ class NotificationQuerySet(models.query.QuerySet):
         return qs.update(unread=False)
 
     def mark_all_as_unread(self, recipient=None):
-        """Mark as unread any read messages in the current queryset with
+        """Mark as unread any read elements in the current queryset with
         optional filter by recipient first.
         """
         qs = self.read(True)
@@ -40,6 +41,16 @@ class NotificationQuerySet(models.query.QuerySet):
             qs = qs.filter(recipient=recipient)
 
         return qs.update(unread=True)
+
+    def serialize_latest_notifications(self, recipient=None):
+        """Returns a serialized version of the most recent unread elements in
+        the queryset"""
+        qs = self.unread()[:5]
+        if recipient:
+            qs = qs.filter(recipient=recipient)[:5]
+
+        notification_dic = serializers.serialize("json", qs)
+        return notification_dic
 
 
 class Notification(models.Model):
@@ -148,7 +159,8 @@ def notification_handler(actor, recipient, verb, **kwargs):
     Handler function to create a Notification instance upon action signal call.
     :requires:
     :param actor: User instance of that user who makes the action.
-    :param recipient: String or list of strings defining who should be notified.
+    :param recipient: User instance, a list of User instances or string
+                      'global' defining who should be notified.
     :param verb: Notification attribute with the right choice from the list.
 
     :optional:
@@ -173,10 +185,13 @@ def notification_handler(actor, recipient, verb, **kwargs):
                 action_object=kwargs.pop('action_object', None)
             )
 
-    else:
+    elif isinstance(recipient, get_user_model()):
         Notification.objects.create(
             actor=actor,
             recipient=recipient,
             verb=verb,
             action_object=kwargs.pop('action_object', None)
         )
+
+    else:
+        pass
