@@ -1,5 +1,5 @@
 $(function () {
-    $('#notifications').popover({html: true});
+    $('#notifications').popover({html: true, content: 'Loading...', trigger: 'manual'});
 
     $("#notifications").click(function () {
         if ($(".popover").is(":visible")) {
@@ -7,9 +7,16 @@ $(function () {
         }
         else {
             $("#notifications").popover('show');
-            $(".popover-content").html("<a href='{% url 'notifications:notification_list' %}'>{% trans 'All notifications' %}</a>")
-            // $("#notifications").popover({'html': "<a href='{% url 'notifications:notification_list' %}'>{% trans 'All notifications' %}</a>",});
-            // $(".popover").attr('data-content', "<a href='{% url 'notifications:notification_list' %}'>{% trans 'All notifications' %}</a>")
+            $.ajax({
+                url: '/notifications/latest-notifications/',
+                beforeSend: function () {
+                    $(".popover-content").html("<div style='text-align:center'><img src='/static/img/loading.gif'></div>");
+                    //$("#notifications").removeClass("new-notifications");
+                },
+                success: function (data) {
+                    $(".popover-content").html(data);
+                }
+            });
         }
         return false;
     });
