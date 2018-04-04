@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>{% block title %}Bootcamp{% endblock title %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Bootcamp{% endblock title %}</title>
     <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
     <meta name="description" content="An enterprise Social Network">
     <meta name="author" content="Sebastian Reyes">
@@ -35,16 +35,14 @@
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
                 <ul class="navbar-nav">
-                  <li>
-                    <a href="#" id="notifications" data-container="body" data-toggle="popover" data-placement="bottom" title="Notifications">
+                  <li class="nav-item">
+                    <a href="{% url 'notifications:unread' %}" id="notifications">
                         <i class="fa fa-bell-o" aria-hidden="true"></i>
                     </a>
+                    <!-- <a href="#" id="notifications" data-toggle="popover" title="{% trans "Notifications" %}" data-content="{% trans 'Loading...' %}" >
+                        <i class="fa fa-bell-o" aria-hidden="true"></i>
+                    </a> -->
                   </li>
-                  <!-- <li class="nav-item dropdown">
-                    <a href="#" id="notifications" data-container="body" data-toggle="popover" data-placement="bottom" title="{% trans "Notifications" %}" data-content="{% trans 'Loading...' %}" >
-                      <i class="fa fa-bell-o" aria-hidden="true"></i>
-                    </a>
-                  </li> -->
                 </ul>
 
                 <ul class="navbar-nav mr-auto">
@@ -90,14 +88,6 @@
       </div>
 
       <div class="container">
-        <script>
-          $(document).ready(function() {
-              // messages timeout for 10 sec
-              setTimeout(function() {
-                  $('#messages').fadeOut('slow');
-              }, 4000); // <-- time in milliseconds, 1000 =  1 sec
-          });
-        </script>
         {% if messages %}
           {% for message in messages %}
             <div id="messages" class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
@@ -119,15 +109,15 @@
       ================================================== -->
       <!-- Placed at the end of the document so the pages load faster -->
       {% block javascript %}
-        <!-- Required by Bootstrap v4 beta -->
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+        <!-- Required by Bootstrap v4 -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <!-- Your stuff: Third-party javascript libraries go here -->
 
         <!-- place project specific Javascript in this file -->
         <script src="{% static 'js/project.js' %}"></script>
-        <script src="{% static 'js/notifications.js' %}"></script>
+        <!-- <script src="{% static 'js/notifications.js' %}"></script> -->
       {% endblock javascript %}
     {% endblock body %}
   </body>
