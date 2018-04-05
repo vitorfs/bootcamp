@@ -15,3 +15,8 @@ django-model-utils==3.1.1  # https://github.com/jazzband/django-model-utils
 django-allauth==0.35.0  # https://github.com/pennersr/django-allauth
 django-crispy-forms==1.7.2  # https://github.com/django-crispy-forms/django-crispy-forms
 django-redis==4.9.0  # https://github.com/niwinz/django-redis
+
+# Channels
+# ------------------------------------------------------------------------------
+channels==2.0.2  # https://github.com/django/channels
+channels-redis==2.1.1  # https://github.com/django/channels_redis
