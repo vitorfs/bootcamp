@@ -36,13 +36,11 @@
 
                 <ul class="navbar-nav">
                   <li class="nav-item">
-                    <a href="{% url 'notifications:unread' %}" id="notifications">
+                    <a href="#" id="notifications" data-toggle="popover" data-title="{% trans 'Notifications' %}<br><a href='{% url 'notifications:unread' %}'><small>{% trans 'More notifications' %}</small></a>">
                         <i class="fa fa-bell-o" aria-hidden="true"></i>
                     </a>
-                    <!-- <a href="#" id="notifications" data-toggle="popover" title="{% trans "Notifications" %}" data-content="{% trans 'Loading...' %}" >
-                        <i class="fa fa-bell-o" aria-hidden="true"></i>
-                    </a> -->
                   </li>
+
                 </ul>
 
                 <ul class="navbar-nav mr-auto">
@@ -117,7 +115,7 @@
 
         <!-- place project specific Javascript in this file -->
         <script src="{% static 'js/project.js' %}"></script>
-        <!-- <script src="{% static 'js/notifications.js' %}"></script> -->
+        <script src="{% static 'js/notifications.js' %}"></script>
       {% endblock javascript %}
     {% endblock body %}
   </body>
