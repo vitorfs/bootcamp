@@ -26,7 +26,7 @@ class NotificationQuerySet(models.query.QuerySet):
         """Mark as read any unread elements in the current queryset with
         optional filter by recipient first.
         """
-        qs = self.unread(True)
+        qs = self.unread()
         if recipient:
             qs = qs.filter(recipient=recipient)
 
@@ -36,7 +36,7 @@ class NotificationQuerySet(models.query.QuerySet):
         """Mark as unread any read elements in the current queryset with
         optional filter by recipient first.
         """
-        qs = self.read(True)
+        qs = self.read()
         if recipient:
             qs = qs.filter(recipient=recipient)
 
