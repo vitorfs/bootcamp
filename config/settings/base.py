@@ -255,10 +255,9 @@ ASGI_APPLICATION = 'config.routing.application'
 
 CHANNEL_LAYERS = {
     'default': {
-        'BACKEND': 'asgi_redis.RedisChannelLayer',
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
             'hosts': [REDIS_URL, ],
         },
-        'ROUTING': 'config.routing.channel_routing',
     }
 }
