@@ -1,19 +1,21 @@
-import json
-
-from channels.generic.websocket import WebsocketConsumer
+from channels.generic.websocket import AsyncWebsocketConsumer
 
 
-class NotificationsConsumer(WebsocketConsumer):
-    """Consumer to manage WebSocket connections for the Notification app."""
-    def connect(self):
-        self.accept()
+class NotificationsConsumer(AsyncWebsocketConsumer):
+    """Consumer to manage WebSocket connections for the Notification app,
+    called when the websocket is handshaking as part of initial connection.
+    """
+    async def connect(self):
+        if self.scope["user"].is_anonymous:
+            # Reject the connection
+            await self.close()
 
-    def disconnect(self, close_code):
-        pass
+        else:
+            # Accept the connection
+            await self.channel_layer.group_add(
+                'notifications', self.channel_name)
+            await self.accept()
 
-    def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        message = text_data_json['message']
-        self.send(text_data=json.dumps({
-            'message': message
-        }))
+    async def disconnect(self, close_code):
+        await self.channel_layer.group_discard(
+           'notifications', self.channel_name)
