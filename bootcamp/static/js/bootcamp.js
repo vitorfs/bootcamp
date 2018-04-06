@@ -39,7 +39,6 @@ $(function () {
                 url: '/notifications/latest-notifications/',
                 cache: false,
                 success: function (data) {
-                    $("#notifications").popover('dispose');
                     $("#notifications").popover({
                         html: true,
                         trigger: 'focus',
@@ -48,6 +47,7 @@ $(function () {
                         content: data,
                     });
                     $("#notifications").popover('show');
+                    $("#notifications").removeClass("btn-danger")
                 },
             });
         }
@@ -56,22 +56,26 @@ $(function () {
 
     // Correctly decide between ws:// and wss://
     var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
-    var ws_path = ws_scheme + '://' + window.location.host + "/notifications/";
+    var ws_path = ws_scheme + '://' + window.location.host + "/ws-notifications/";
     var webSocket = new channels.WebSocketBridge();
     webSocket.connect(ws_path);
 
 
     // Helpful debugging
     webSocket.socket.onopen = function () {
-        console.log("Connected to notifications stream");
+        console.log("Connected to " + ws_path + " stream");
+        webSocket.send({
+            "message": "this is the message because you connected to " + ws_path,
+        })
     };
 
     webSocket.socket.onclose = function () {
-        console.log("Disconnected from notifications stream");
+        console.error("Disconnected from " + ws_path + " stream");
     };
 
-    webSocket.listen(function(action, stream) {
-        console.log(action, stream);
-      });
-
+    webSocket.listen(function(event) {
+        if (event.type === "notification") {
+            $("#notifications").addClass("btn-danger");
+        }
+    });
 });
