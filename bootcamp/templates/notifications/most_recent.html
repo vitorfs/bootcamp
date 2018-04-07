@@ -1,21 +1,39 @@
-{% load i18n thumbnail static %}
-
-<ul>
-  {% if notifications %}
-    {% for notification in notifications %}
-      <li class="clearfix">
-        {% thumbnail request.user.picture "x100" as im %}
-          <img src="{{ im.url }}" class="user-picture" style="border-radius: 50%;" alt="{% trans 'User Image' %}" class="user-image">
-        {% empty %}
-          <img src="{% static 'img/user.png' %}" class="user-picture" height="50px" alt="{% trans 'No Profile Picture' %}" />
-        {% endthumbnail %}
-        <p>{{ notification|safe }}</p>
-      </li>
-    {% endfor %}
-    <li style="text-align: center"><a href="{% url 'notifications:unread' %}">{% trans 'See all' %}</a></li>
-    <li style="text-align: center"><a href="{% url 'notifications:mark_all_read' %}">{% trans 'Mark all as read' %}</a></li>
-  {% else %}
-    <li style="text-align: center">{% trans 'You have no unread notification' %}</li>
-  {% endif %}
-
-</ul>
+{% load static i18n thumbnail %}<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->
+    <!-- Latest compiled and minified Bootstrap 4 beta CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Your stuff: Third-party CSS libraries go here -->
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+    <!-- This file stores project-specific CSS -->
+    <link href="{% static 'css/bootcamp.css' %}?v=1" rel="stylesheet">
+  </head>
+  <body>
+    <ul>
+      {% if notifications %}
+        {% for notification in notifications %}
+          <li class="clearfix">
+            {% thumbnail request.user.picture "x100" as im %}
+              <img src="{{ im.url }}" class="user-picture" style="border-radius: 50%;" alt="{% trans 'User Image' %}" class="user-image">
+            {% empty %}
+              <img src="{% static 'img/user.png' %}" class="user-picture" height="50px" alt="{% trans 'No Profile Picture' %}" />
+            {% endthumbnail %}
+            <p>{{ notification|safe }}</p>
+            <p><small>{{ notification.timestamp }}</small></p>
+          </li>
+        {% endfor %}
+        <li style="text-align: center"><a href="{% url 'notifications:unread' %}">{% trans 'See all' %}</a></li>
+        <li style="text-align: center"><a href="{% url 'notifications:mark_all_read' %}">{% trans 'Mark all as read' %}</a></li>
+      {% else %}
+        <li style="text-align: center">{% trans 'You have no unread notification' %}</li>
+      {% endif %}
+    </ul>
+  </body>
+</html>
