@@ -1,0 +1,21 @@
+{% load i18n thumbnail static %}
+
+<ul>
+  {% if notifications %}
+    {% for notification in notifications %}
+      <li class="clearfix">
+        {% thumbnail request.user.picture "x100" as im %}
+          <img src="{{ im.url }}" class="user-picture" style="border-radius: 50%;" alt="{% trans 'User Image' %}" class="user-image">
+        {% empty %}
+          <img src="{% static 'img/user.png' %}" class="user-picture" height="50px" alt="{% trans 'No Profile Picture' %}" />
+        {% endthumbnail %}
+        <p>{{ notification|safe }}</p>
+      </li>
+    {% endfor %}
+    <li style="text-align: center"><a href="{% url 'notifications:unread' %}">{% trans 'See all' %}</a></li>
+    <li style="text-align: center"><a href="{% url 'notifications:mark_all_read' %}">{% trans 'Mark all as read' %}</a></li>
+  {% else %}
+    <li style="text-align: center">{% trans 'You have no unread notification' %}</li>
+  {% endif %}
+
+</ul>

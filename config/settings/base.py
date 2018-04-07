@@ -73,11 +73,13 @@ THIRD_PARTY_APPS = [
     # 'allauth.socialaccount.providers.google',
     # 'allauth.socialaccount.providers.linkedin',
     # 'allauth.socialaccount.providers.slack',
+    'channels',
 ]
 LOCAL_APPS = [
     'bootcamp.users.apps.UsersConfig',
     # Your stuff: custom apps go here
     'bootcamp.activities.apps.ActivitiesConfig',
+    'bootcamp.notifications.apps.NotificationsConfig',
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -244,3 +246,18 @@ SOCIALACCOUNT_ADAPTER = 'bootcamp.users.adapters.SocialAccountAdapter'
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+# REDIS setup
+REDIS_URL = f'{env("REDIS_URL", default="redis://127.0.0.1:6379")}/{0}'
+
+# django-channels setup
+ASGI_APPLICATION = 'config.routing.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [REDIS_URL, ],
+        },
+    }
+}

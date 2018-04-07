@@ -55,33 +55,12 @@
   padding-top:4px;
 }
 
-.user-profiles-list .delete{
-  background-color:#de4a4a;
-  border-radius: 50%;
-  color:#fff;
-  font-size:13px;
-  line-height: 22px;
-  width:22px;
-  height: 22px;
-  position: absolute;
-  top:-10px;
-  right:-10px;
-  text-align: center;
-  text-decoration: none;
-
-}
-
 /* Making the list responsive */
 
 @media (max-width: 400px) {
 
   .user-profiles-list li{
       margin: 10px 0;
-  }
-
-  .user-profiles-list .delete{
-      top: 10px;
-      right: 10px;
   }
 
 }
