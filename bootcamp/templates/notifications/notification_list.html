@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% load thumbnail %}
+{% block title %}{% trans 'Notifications' %}{% endblock %}
+
+{% block head %}
+  <link href="{% static 'css/notification_list.css' %}" rel="stylesheet">
+{% endblock head %}
+
+{% block content %}
+  <div class="container page-header">
+    <h1>
+      {% trans 'Unread notifications for' %}
+      {% if request.user.name %}
+        {{ request.user.name|title }}
+      {% else %}
+        {{ request.user.username|title }}
+      {% endif %}
+      <a class="btn btn-dark pull-right" href="{% url 'notifications:mark_all_read' %}">{% trans 'Mark all as read' %}</a>
+    </h1>
+  </div>
+  <ul class="notification-list">
+    {% for notification in notification_list %}
+      <li>
+        <a href="{% url 'users:detail' notification.actor.username  %}" class="user-avatar">
+          {% thumbnail notification.actor.picture "x80" as im %}
+            <img src="{{ im.url }}" alt="{% trans 'Picture Profile' %}" id="pic">
+          {% empty %}
+            <img src="{% static 'img/user.png' %}" height="80px" alt="{% trans 'No Profile Picture' %}" />
+          {% endthumbnail %}
+        </a>
+        <p>
+          <a href="">
+            {% if notification.actor.name %}
+              {{ notification.actor.name|title }}
+            {% else %}
+              {{ notification.actor.username|title }}
+            {% endif %}
+          </a>
+          <span>{{ notification.get_verb_display }}
+          {% if notification.action_object %}
+            {{ notification.action_object }}
+          {% endif %}
+            <i>{{ notification.time_since }} ago</i></span>
+        </p>
+        <a class="dismiss" title="{% trans 'Mark as read' %}" href="{% url 'notifications:mark_as_read' notification.slug %}"><i class="fa fa-check-circle"></i></a>
+      </li>
+    {% endfor %}
+  </ul>
+
+{% endblock content %}

@@ -1,10 +1,10 @@
-{% load static i18n %}<!DOCTYPE html>
+{% load static i18n thumbnail %}<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>{% block title %}Bootcamp{% endblock title %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Bootcamp{% endblock title %}</title>
     <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
     <meta name="description" content="An enterprise Social Network">
     <meta name="author" content="Sebastian Reyes">
@@ -33,8 +33,18 @@
               </button>
               <a class="navbar-brand" href="#">Bootcamp</a>
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="btn btn-md" href="#" id="notifications" data-toggle="popover" data-title="{% trans 'Notifications' %}">
+                        <i class="fa fa-bell-o" aria-hidden="true"></i>
+                    </a>
+                  </li>
+
+                </ul>
+
                 <ul class="navbar-nav mr-auto">
-                  <li class="nav-item active"><a class="nav-link" href="#">{% trans 'News' %} <span class="sr-only">(current)</span></a></li>
+                  <li class="nav-item"><a class="nav-link" href="#">{% trans 'News' %} <span class="sr-only">(current)</span></a></li>
                   <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
                   <li class="nav-item"><a class="nav-link" href="#">{% trans 'Q&A' %}</a></li>
                   <li class="nav-item"><a class="nav-link" href="#">{% trans 'Inbox' %}</a></li>
@@ -43,19 +53,28 @@
                 <ul class="nav navbar-nav navbar-right">
                   {% if not hide_search %}
                     <form class="form-inline navbar-left" role="search" action="#">
-                      <input class="form-control mr-sm-2" id="auto-search" name="q" type="search" placeholder="Search" aria-label="Search">
-                      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">{% trans 'Search' %}</button>
+                      <div class="input-group">
+                        <input name="q" type="search" class="form-control" placeholder="{% trans 'Search' %}" aria-label="Search">
+                        <div class="input-group-append">
+                          <span class="input-group-text"><i class="fa fa-search" aria-hidden="true"></i></span>
+                        </div>
+                      </div>
                     </form>
                   {% endif %}
 
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      {% thumbnail request.user.picture "x30" as im %}
+                        <img src="{{ im.url }}" style="border-radius: 50%;" alt="{% trans 'User Image' %}" class="user-image">
+                      {% empty %}
+                        <img src="{% static 'img/user.png' %}" height="30px" alt="{% trans 'No Profile Picture' %}" />
+                      {% endthumbnail %}
                       {{ request.user.username }}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" href="{% url 'users:detail' request.user.username  %}">{% trans 'Account Settings' %}</a>
+                      <a class="dropdown-item" href="{% url 'users:detail' request.user.username  %}"><i class="fa fa-cogs" aria-hidden="true"></i>  {% trans 'Profile Settings' %}</a>
                       <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="{% url 'account_logout' %}">{% trans "Log Out" %}</a>
+                      <a class="dropdown-item" href="{% url 'account_logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i>  {% trans "Log Out" %}</a>
                     </div>
                   </li>
                 </ul>
@@ -67,14 +86,6 @@
       </div>
 
       <div class="container">
-        <script>
-          $(document).ready(function() {
-              // messages timeout for 10 sec
-              setTimeout(function() {
-                  $('#messages').fadeOut('slow');
-              }, 4000); // <-- time in milliseconds, 1000 =  1 sec
-          });
-        </script>
         {% if messages %}
           {% for message in messages %}
             <div id="messages" class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
@@ -96,14 +107,15 @@
       ================================================== -->
       <!-- Placed at the end of the document so the pages load faster -->
       {% block javascript %}
-        <!-- Required by Bootstrap v4 beta -->
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+        <!-- Required by Bootstrap v4 -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <!-- Your stuff: Third-party javascript libraries go here -->
 
         <!-- place project specific Javascript in this file -->
-        <script src="{% static 'js/project.js' %}"></script>
+        <script src="{% static 'js/bootcamp.js' %}" type="text/javascript"></script>
+        <script src="{% static 'channels/js/websocketbridge.js' %}" type="text/javascript"></script>
       {% endblock javascript %}
     {% endblock body %}
   </body>
