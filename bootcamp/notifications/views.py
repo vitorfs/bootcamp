@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse, HttpResponse
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import ListView
 
 from bootcamp.notifications.models import Notification
@@ -54,5 +54,7 @@ def mark_as_read(request, slug=None):
 
 @login_required
 def get_latest_notifications(request):
-    data = request.user.notifications.serialize_latest_notifications()
-    return HttpResponse(data)
+    notifications = request.user.notifications.get_most_recent()
+    return render(request,
+                  'notifications/most_recent.html',
+                  {'notifications': notifications})
