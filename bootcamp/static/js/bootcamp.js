@@ -56,25 +56,22 @@ $(function () {
 
     // Correctly decide between ws:// and wss://
     var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
-    var ws_path = ws_scheme + '://' + window.location.host + "/ws-notifications/";
+    var ws_path = ws_scheme + '://' + window.location.host + "/notifications/";
     var webSocket = new channels.WebSocketBridge();
     webSocket.connect(ws_path);
 
-
     // Helpful debugging
     webSocket.socket.onopen = function () {
-        console.log("Connected to " + ws_path + " stream");
-        webSocket.send({
-            "message": "this is the message because you connected to " + ws_path,
-        })
+        console.log("Connected to " + ws_path);
     };
 
     webSocket.socket.onclose = function () {
-        console.error("Disconnected from " + ws_path + " stream");
+        console.error("Disconnected from " + ws_path);
     };
 
     webSocket.listen(function(event) {
-        if (event.type === "notification") {
+        console.log(event)
+        if (event.key === "notification") {
             $("#notifications").addClass("btn-danger");
         }
     });
