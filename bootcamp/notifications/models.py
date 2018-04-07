@@ -8,6 +8,10 @@ from django.core import serializers
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from asgiref.sync import async_to_sync
+
+from channels.layers import get_channel_layer
+
 from slugify import slugify
 
 
@@ -195,3 +199,11 @@ def notification_handler(actor, recipient, verb, **kwargs):
 
     else:
         pass
+
+    notification_broadcast()
+
+def notification_broadcast():
+    channel_layer = get_channel_layer()
+    payload = {'type': 'receive', 'key': 'notification'}
+    # await channel_layer.group_send("notifications", payload)
+    async_to_sync(channel_layer.group_send)('notifications', payload)
