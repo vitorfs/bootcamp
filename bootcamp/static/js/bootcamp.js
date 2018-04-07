@@ -32,9 +32,10 @@ $(function () {
     $("#notifications").click(function () {
         if ($(".popover").is(":visible")) {
             $("#notifications").popover('hide');
-            $("#notifications").popover('dispose');
         }
         else {
+
+            $("#notifications").popover('dispose');
             $.ajax({
                 url: '/notifications/latest-notifications/',
                 cache: false,
