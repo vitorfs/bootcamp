@@ -6,6 +6,7 @@ whitenoise==3.3.1  # https://github.com/evansd/whitenoise
 psycopg2==2.7.4 --no-binary psycopg2  # https://github.com/psycopg/psycopg2
 redis>=2.10.5  # https://github.com/antirez/redis
 sorl-thumbnail==12.4.1  # https://github.com/jazzband/sorl-thumbnail
+django-taggit==0.22.2  # https://github.com/alex/django-taggit
 
 # Django
 # ------------------------------------------------------------------------------
