@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.db.models import Count
 from django.utils.translation import ugettext_lazy as _
@@ -28,7 +29,7 @@ class Article(models.Model):
     )
 
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, related_name=_("Author"),
+        settings.AUTH_USER_MODEL, null=True, related_name=_("Author"),
         on_delete=models.SET_NULL)
     image = models.ImageField(
         _('Featured image'), upload_to='articles_pictures/%Y/%m/%d/')

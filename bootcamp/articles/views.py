@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, ListView, UpdateView, DetailView
+from django.utils.translation import ugettext_lazy as _
 
 from bootcamp.mixins import AuthorRequiredMixin
 from bootcamp.articles.models import Article
