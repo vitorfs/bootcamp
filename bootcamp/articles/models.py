@@ -1,35 +1,33 @@
-
 from django.contrib.auth.models import User
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.db.models import Count
 
-import markdown
 from slugify import slugify
+
 from taggit.managers import TaggableManager
 
 
-@python_2_unicode_compatible
 class Article(models.Model):
-    DRAFT = 'D'
-    PUBLISHED = 'P'
+    DRAFT = "D"
+    PUBLISHED = "P"
     STATUS = (
-        (DRAFT, 'Draft'),
-        (PUBLISHED, 'Published'),
+        (DRAFT, _("Draft")),
+        (PUBLISHED, _("Published")),
     )
 
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, related_name=_("Author"),
+        on_delete=models.CASCADE)
+    picture = models.ImageField(
+        _('Main picture'), upload_to='article_pictures/', null=True, blank=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=255, null=False, unique=True)
     slug = models.SlugField(max_length=80, null=True, blank=True)
-    tags = TaggableManager()
-    content = models.TextField(max_length=4000)
     status = models.CharField(max_length=1, choices=STATUS, default=DRAFT)
-    create_user = models.ForeignKey(User, on_delete=models.CASCADE)
-    create_date = models.DateTimeField(auto_now_add=True)
-    update_date = models.DateTimeField(auto_now=True)
-    update_user = models.ForeignKey(
-        User, null=True, blank=True, related_name="+",
-        on_delete=models.SET_NULL)
+    content = models.TextField(max_length=5000)
+    edited = models.BooleanField(default=False)
+    tags = TaggableManager()
 
     class Meta:
         verbose_name = _("Article")
@@ -44,9 +42,6 @@ class Article(models.Model):
             self.slug = slugify(self.title, to_lower=True, max_length=80)
 
         super(Article, self).save(*args, **kwargs)
-
-    def get_content_as_markdown(self):
-        return markdown.markdown(self.content, safe_mode='escape')
 
     @staticmethod
     def get_published():
@@ -74,9 +69,3 @@ class Article(models.Model):
 
         else:
             return self.content
-
-    def get_summary_as_markdown(self):
-        return markdown.markdown(self.get_summary(), safe_mode='escape')
-
-    def get_comments(self):
-        return ArticleComment.objects.filter(article=self)
