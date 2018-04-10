@@ -75,12 +75,14 @@ THIRD_PARTY_APPS = [
     # 'allauth.socialaccount.providers.slack',
     'channels',
     'taggit',
+    'django_comments',
 ]
 LOCAL_APPS = [
     'bootcamp.users.apps.UsersConfig',
     # Your stuff: custom apps go here
     'bootcamp.activities.apps.ActivitiesConfig',
     'bootcamp.notifications.apps.NotificationsConfig',
+    'bootcamp.articles.apps.ArticlesConfig',
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
