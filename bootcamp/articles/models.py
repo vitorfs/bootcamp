@@ -13,11 +13,11 @@ class ArticleQuerySet(models.query.QuerySet):
 
     def get_published(self):
         """Returns only the published items in the current queryset."""
-        return self.filter(status=PUBLISHED)
+        return self.filter(status="P")
 
     def get_drafts(self):
         """Returns only the items marked as DRAFT in the current queryset."""
-        return self.filter(status=DRAFT)
+        return self.filter(status="D")
 
 
 class Article(models.Model):

@@ -19,7 +19,7 @@ class ArticlesListView(LoginRequiredMixin, ListView):
         return context
 
     def get_queryset(self, **kwargs):
-        return Article.get_published()
+        return Article.objects.get_published()
 
 class DraftsListView(LoginRequiredMixin, ListView):
     """Basic ListView implementation to call the drafts articles list."""
@@ -39,6 +39,7 @@ class DraftsListView(LoginRequiredMixin, ListView):
 
 class CreateArticleView(LoginRequiredMixin, CreateView):
     """Basic CreateView implementation to create new articles."""
+    model = Article
     message = _("Your article has been created.")
     fields = ["title", "content", "image", "tags"]
 
