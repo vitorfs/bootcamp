@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static i18n %}
-{% load comments thumbnail humanize %}
+{% load comments crispy_forms_tags thumbnail humanize %}
 
 {% block title %}{{ article.title|title }}{% endblock %}
 
@@ -54,45 +54,39 @@
         <div class="card my-4">
           <h5 class="card-header">{% trans 'Leave a Comment' %}:</h5>
           <div class="card-body">
-            {% render_comment_form for article %}
+            {% if user.is_authenticated %}
+              {% get_comment_form for article as form %}
+              <form action="{% comment_form_target %}" method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input type="hidden" name="next" value="{% url 'articles:article' article.slug %}" />
+                <input type="submit" value="{% trans 'Add comment' %}" id="id_submit" />
+              </form>
+            {% endif %}
           </div>
         </div>
 
         <!-- Single Comment -->
         <div class="media mb-4">
-          <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-          <div class="media-body">
-            <h5 class="mt-0">Commenter Name</h5>
-            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-          </div>
-        </div>
-
-        <!-- Comment with nested comments -->
-        <div class="media mb-4">
-          <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-          <div class="media-body">
-            <h5 class="mt-0">Commenter Name</h5>
-            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-
-            <div class="media mt-4">
-              <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-              <div class="media-body">
-                <h5 class="mt-0">Commenter Name</h5>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-              </div>
+          {% get_comment_list for article as comment_list %}
+          {% for comment in comment_list %}
+            {% thumbnail comment.user.picture "x50" as im %}
+              <img class="d-flex mr-3 rounded-circle" src="{{ im.url }}" alt="{% trans 'Picture Profile' %}" id="pic">
+            {% empty %}
+              <img src="{% static 'img/user.png' %}" height="50px" alt="{% trans 'No Profile Picture' %}" />
+            {% endthumbnail %}
+            <div class="media-body">
+              <h5 class="mt-0">
+                {% if comment.user.name %}
+                  {{ comment.user.name|title }}
+                {% else %}
+                  {{ comment.user.username|title }}
+                {% endif %}
+              </h5>
+              {{ comment }}
             </div>
-
-            <div class="media mt-4">
-              <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-              <div class="media-body">
-                <h5 class="mt-0">Commenter Name</h5>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-              </div>
-            </div>
-
-          </div>
+          {% endfor %}
         </div>
-
       </div>
 
       <!-- Sidebar Widgets Column -->
