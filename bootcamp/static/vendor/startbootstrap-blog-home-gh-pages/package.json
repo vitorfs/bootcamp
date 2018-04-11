@@ -1,0 +1,36 @@
+{
+    "title": "Blog Home",
+    "name": "startbootstrap-blog-home",
+    "version": "4.0.0",
+    "description": "A basic blog homepage HTML template built with Bootstrap",
+    "keywords": [
+        "css",
+        "sass",
+        "html",
+        "responsive",
+        "theme",
+        "template"
+    ],
+    "homepage": "https://startbootstrap.com/template-overviews/blog-home",
+    "bugs": {
+        "url": "https://github.com/BlackrockDigital/startbootstrap-blog-home/issues",
+        "email": "feedback@startbootstrap.com"
+    },
+    "license": "MIT",
+    "author": "Start Bootstrap",
+    "contributors": [
+        "David Miller (http://davidmiller.io/)"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/BlackrockDigital/startbootstrap-blog-home.git"
+    },
+    "dependencies": {
+        "bootstrap": "4.0.0",
+        "jquery": "3.3.1"
+    },
+    "devDependencies": {
+        "browser-sync": "2.23.6",
+        "gulp": "^3.9.1"
+    }
+}
