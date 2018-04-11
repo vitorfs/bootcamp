@@ -1,9 +1,12 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, ListView, UpdateView, DetailView
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from bootcamp.mixins import AuthorRequiredMixin
 from bootcamp.articles.models import Article
+from bootcamp.articles.forms import ArticleForm
 
 
 class ArticlesListView(LoginRequiredMixin, ListView):
@@ -34,18 +37,19 @@ class DraftsListView(LoginRequiredMixin, ListView):
         return context
 
     def get_queryset(self, **kwargs):
-        return Article.get_drafts()
+        return Article.objects.get_drafts()
 
 
 class CreateArticleView(LoginRequiredMixin, CreateView):
     """Basic CreateView implementation to create new articles."""
     model = Article
     message = _("Your article has been created.")
-    fields = ["title", "content", "image", "tags"]
+    form_class = ArticleForm
+    template_name = 'articles/article_create.html'
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        return super(CreateArticle, self).form_valid(form)
+        return super(CreateArticleView, self).form_valid(form)
 
     def get_success_url(self):
         messages.success(self.request, self.message)
@@ -56,6 +60,12 @@ class EditArticleView(LoginRequiredMixin, AuthorRequiredMixin, UpdateView):
     """Basic EditView implementation to edit existing articles."""
     model = Article
     message = _("Your article has been updated.")
+    form_class = ArticleForm
+    template_name = 'articles/article_update.html'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(EditArticleView, self).form_valid(form)
 
     def get_success_url(self):
         messages.success(self.request, self.message)
