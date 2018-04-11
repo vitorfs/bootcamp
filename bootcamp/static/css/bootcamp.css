@@ -83,3 +83,7 @@ header .navbar-brand {
 .markdown {
   margin-bottom: .8em;
 }
+
+#footer {
+  margin: 15px 0;
+}
