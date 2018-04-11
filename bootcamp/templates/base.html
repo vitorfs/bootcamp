@@ -85,7 +85,7 @@
         {% endif %}
       </div>
 
-      <div class="container">
+      <div id="header" class="container">
         {% if messages %}
           {% for message in messages %}
             <div id="messages" class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
@@ -119,4 +119,12 @@
       {% endblock javascript %}
     {% endblock body %}
   </body>
+
+  <!-- Footer -->
+  <section id="footer" class="section footer">
+		<div class="container">
+			<a href="#header" class="scrollup"><i class="fa fa-chevron-up"></i></a>
+		</div>
+  </section>
+
 </html>
