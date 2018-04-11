@@ -99,9 +99,8 @@
           <p>Use this document as a way to quick start any new project.</p>
         {% endblock content %}
 
-      </div> <!-- /container -->
-
-      {% block modal %}{% endblock modal %}
+      </div>
+      <!-- /container -->
 
       <!-- Le javascript
       ================================================== -->
@@ -117,14 +116,20 @@
         <script src="{% static 'js/bootcamp.js' %}" type="text/javascript"></script>
         <script src="{% static 'channels/js/websocketbridge.js' %}" type="text/javascript"></script>
       {% endblock javascript %}
+
+      {% block modal %}{% endblock modal %}
+
     {% endblock body %}
   </body>
 
   <!-- Footer -->
-  <section id="footer" class="section footer">
-		<div class="container">
-			<a href="#header" class="scrollup"><i class="fa fa-chevron-up"></i></a>
-		</div>
-  </section>
-
+  <footer id="footer" class="py-3 bg-white">
+    <div class="container">
+      <p class="m-0 text-center text-black">
+        <strong>Copyright &copy; Bootcamp Project</strong>
+        <a href="#header" class="scrollup pull-right"><i class="fa fa-chevron-up"></i></a>
+      </p>
+    </div>
+    <!-- /.container -->
+  </footer>
 </html>
