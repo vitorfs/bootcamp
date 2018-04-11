@@ -45,7 +45,7 @@
 
                 <ul class="navbar-nav mr-auto">
                   <li class="nav-item"><a class="nav-link" href="#">{% trans 'News' %} <span class="sr-only">(current)</span></a></li>
-                  <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
+                  <li class="nav-item"><a class="nav-link" href="{% url 'articles:list' %}">Blog</a></li>
                   <li class="nav-item"><a class="nav-link" href="#">{% trans 'Q&A' %}</a></li>
                   <li class="nav-item"><a class="nav-link" href="#">{% trans 'Inbox' %}</a></li>
                   <li class="nav-item"><a class="nav-link" href="{% url 'users:list' %}">{% trans 'Contacts' %}</a></li>
@@ -85,7 +85,7 @@
         {% endif %}
       </div>
 
-      <div class="container">
+      <div id="header" class="container">
         {% if messages %}
           {% for message in messages %}
             <div id="messages" class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
@@ -99,9 +99,8 @@
           <p>Use this document as a way to quick start any new project.</p>
         {% endblock content %}
 
-      </div> <!-- /container -->
-
-      {% block modal %}{% endblock modal %}
+      </div>
+      <!-- /container -->
 
       <!-- Le javascript
       ================================================== -->
@@ -117,6 +116,20 @@
         <script src="{% static 'js/bootcamp.js' %}" type="text/javascript"></script>
         <script src="{% static 'channels/js/websocketbridge.js' %}" type="text/javascript"></script>
       {% endblock javascript %}
+
+      {% block modal %}{% endblock modal %}
+
     {% endblock body %}
   </body>
+
+  <!-- Footer -->
+  <footer id="footer" class="py-3 bg-white">
+    <div class="container">
+      <p class="m-0 text-center text-black">
+        <strong>Copyright &copy; Bootcamp Project</strong>
+        <a href="#header" class="scrollup pull-right"><i class="fa fa-chevron-up"></i></a>
+      </p>
+    </div>
+    <!-- /.container -->
+  </footer>
 </html>

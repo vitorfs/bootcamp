@@ -16,10 +16,11 @@ urlpatterns = [
     url(r'^users/', include('bootcamp.users.urls', namespace='users')),
     url(r'^accounts/', include('allauth.urls')),
     # Third party apps here
-
+    url(r'^comments/', include('django_comments.urls')),
     # Local apps here
     url(r'^notifications/',
-        include('bootcamp.notifications.urls', namespace='notifications'))
+        include('bootcamp.notifications.urls', namespace='notifications')),
+    url(r'^articles/', include('bootcamp.articles.urls', namespace='articles')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
