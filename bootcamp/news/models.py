@@ -12,23 +12,22 @@ class News(models.Model):
     """News model to contain small information snippets in the same manner as
     Twitter does."""
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, null=True, related_name=_("Author"),
+        settings.AUTH_USER_MODEL, null=True, related_name=_("Publisher"),
         on_delete=models.SET_NULL)
-    parent = models.ForeignKey(
-        "self", blank=True, null=True, on_delete=models.CASCADE)
+    parent = models.ForeignKey("self", blank=True, null=True,
+        on_delete=models.CASCADE, related_name="thread")
     timestamp = models.DateTimeField(auto_now_add=True)
     uuid_id = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False)
     content = models.TextField(max_length=280)
     liked = models.ManyToManyField(settings.AUTH_USER_MODEL,
-        blank=True, related_name='liked')
-    reply = models.BooleanField(verbose_name=_('Is a reply?'), default=False)
-    objects = NewsManager()
+        blank=True, related_name="liked")
+    reply = models.BooleanField(verbose_name=_("Is a reply?"), default=False)
 
     class Meta:
-        name = "news"
         verbose_name = _("News")
-        ordering = ['-timestamp']
+        verbose_name_plural = _("News")
+        ordering = ("-timestamp",)
 
     def __str__(self):
         return str(self.content)
@@ -50,17 +49,24 @@ class News(models.Model):
         return is_liked
 
     def get_parent(self):
-        the_parent = self.parent if self.parent else the_parent = self
-        return the_parent
+        if self.parent:
+            return self.parent
+
+        else:
+            return self
 
     def answer_to_news(self, target):
         pass
 
-    def get_thread(self):
+    def count_answers(self):
         pass
 
+    def get_thread(self):
+        parent = self.get_parent()
+        return parent.thread.all()
+
     def count_likers(self):
-        return self.liked_set.count()
+        return self.liked.count()
 
     def get_likers(self):
-        return self.liked_set.all()
+        return self.liked.all()
