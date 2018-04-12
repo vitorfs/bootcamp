@@ -129,8 +129,9 @@ class Notification(models.Model):
     objects = NotificationQuerySet.as_manager()
 
     class Meta:
-        ordering = ('-timestamp', )
-        app_label = 'notifications'
+        verbose_name = _("Notification")
+        verbose_name_plural = _("Notifications")
+        ordering = ("-timestamp",)
 
     def __str__(self):
         if self.action_object:
