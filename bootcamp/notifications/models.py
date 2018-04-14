@@ -95,6 +95,7 @@ class Notification(models.Model):
     VOTED = 'V'
     SHARED = 'S'
     SIGNUP = 'U'
+    REPLY = 'R'
     NOTIFICATION_TYPES = (
         (LIKED, _('liked')),
         (COMMENTED, _('commented')),
@@ -107,7 +108,8 @@ class Notification(models.Model):
         (LOGGED_OUT, _('logged out')),
         (VOTED, _('voted on')),
         (SHARED, _('shared')),
-        (SIGNUP, _('created an account'))
+        (SIGNUP, _('created an account')),
+        (REPLY, _('replied to'))
         )
     actor = models.ForeignKey(settings.AUTH_USER_MODEL,
                               related_name='notify_actor',
@@ -169,7 +171,7 @@ class Notification(models.Model):
 
 def notification_handler(actor, recipient, verb, **kwargs):
     """
-    Handler function to create a Notification instance upon action signal call.
+    Handler function to create a Notification instance.
     :requires:
     :param actor: User instance of that user who makes the action.
     :param recipient: User instance, a list of User instances or string
