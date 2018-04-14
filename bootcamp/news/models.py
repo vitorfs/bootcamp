@@ -14,8 +14,8 @@ class News(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, null=True, related_name=_("Publisher"),
         on_delete=models.SET_NULL)
-    parent = models.ForeignKey("self", blank=True, null=True,
-        on_delete=models.CASCADE, related_name="thread")
+    parent = models.ForeignKey("self", blank=True,
+        null=True, on_delete=models.CASCADE, related_name="thread")
     timestamp = models.DateTimeField(auto_now_add=True)
     uuid_id = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False)
@@ -55,11 +55,9 @@ class News(models.Model):
         else:
             return self
 
-    def answer_to_news(self, target):
-        pass
-
     def count_answers(self):
-        pass
+        parent = self.get_parent()
+        return parent.thread.all().count()
 
     def get_thread(self):
         parent = self.get_parent()
@@ -70,3 +68,24 @@ class News(models.Model):
 
     def get_likers(self):
         return self.liked.all()
+
+
+def reply_news(parent_obj, user, text):
+    """
+    Handler function to create a News instance as a reply to any published
+    news.
+
+    :requires:
+    :param parent_obj: News instance to which the reply is being made.
+    :param user: The logged in user who is doing the reply.
+    :param content: String with the reply.
+    """
+    parent = parent_obj.get_parent()
+    reply_news = News.objects.create(
+        user = user,
+        content = text,
+        reply = True,
+        parent = parent
+    )
+    notification_handler(user,
+        parent_obj.user, Notification.REPLY)
