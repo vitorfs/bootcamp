@@ -1,0 +1,41 @@
+{% load i18n %}
+{% load humanize %}
+
+<li news-id="{{ news.uuid_id }}" csrf="{{ csrf_token }}">
+  <div class="news-container">
+    <a href="#"><img src="#" class="user"></a>
+    <div class="post">
+      {% if news.user == request.user %}
+        <span class="glyphicon glyphicon-remove remove-news"
+              title="{% trans 'Click to remove this news' %}"></span>
+      {% endif %}
+      <h3>
+        <a href="#">{{ news.user.username }}</a>
+        <small>{{ news.timestamp|naturaltime }}</small>
+      </h3>
+      <p>{{ news }}</p>
+      <div class="interaction" id="interaction">
+        {% if user in news.get_likers %}
+          <a href="#" style="text-decoration: none;"
+             class="like unlike"
+             title="{% for i in news.get_likers %}{{ i }}&#10;{% endfor %}">
+            <span class="glyphicon glyphicon-thumbs-up"></span>
+            <span class="text">{% trans 'Unlike' %}</span>
+            (<span class="like-count">{{ news.likes }}</span>)
+          </a>
+        {% else %}
+          <a href="#" style="text-decoration: none;" class="like"
+             title="{% for i in news.get_likers %}{{ i }}&#10;{% endfor %}">
+            <span class="glyphicon glyphicon-thumbs-up"></span>
+            <span class="text">{% trans 'Like' %}</span>
+            (<span class="like-count">{{ news.likes }}</span>)
+          </a>
+        {% endif %}
+        <a href="#" style="text-decoration: none;" class="comment">
+          <span class="glyphicon glyphicon-comment"></span> {% trans 'Comment' %}
+          (<span class="comment-count">0</span>)
+        </a>
+      </div>
+    </div>
+  </div>
+</li>
