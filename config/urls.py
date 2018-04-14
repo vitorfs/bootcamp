@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^notifications/',
         include('bootcamp.notifications.urls', namespace='notifications')),
     url(r'^articles/', include('bootcamp.articles.urls', namespace='articles')),
+    url(r'^news/', include('bootcamp.news.urls', namespace='news')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
