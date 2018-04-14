@@ -73,6 +73,12 @@ ul.stream {
     padding-right: 15px;
   }
 
+  .col-centered {
+    float: none;
+    margin-right: auto;
+    margin-left: auto;
+}
+
   .compose h2 {
     font-size: 1.4em;
   }
@@ -141,7 +147,7 @@ ul.stream {
     text-align: center;
   }
 
-  .remove-feed {
+  .remove-news {
     color: #bbbbbb;
     font-size: .8em;
     padding-top: .2em;
@@ -149,19 +155,19 @@ ul.stream {
     cursor: pointer;
   }
 
-  .remove-feed:hover {
+  .remove-news:hover {
     color: #333333;
   }
 
-  .panel-feed {
+  .panel-news {
     margin-top: 20px;
   }
 
-  .panel-feed .panel-body {
+  .panel-news .panel-body {
     padding: 0;
   }
 
-  .feed-container {
+  .news-container {
     padding-left: 15px;
     padding-right: 15px;
   }

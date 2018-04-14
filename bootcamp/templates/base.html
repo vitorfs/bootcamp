@@ -44,7 +44,7 @@
                 </ul>
 
                 <ul class="navbar-nav mr-auto">
-                  <li class="nav-item"><a class="nav-link" href="#">{% trans 'News' %} <span class="sr-only">(current)</span></a></li>
+                  <li class="nav-item"><a class="nav-link" href="{% url 'news:list' %}">{% trans 'News' %} <span class="sr-only">(current)</span></a></li>
                   <li class="nav-item"><a class="nav-link" href="{% url 'articles:list' %}">Blog</a></li>
                   <li class="nav-item"><a class="nav-link" href="#">{% trans 'Q&A' %}</a></li>
                   <li class="nav-item"><a class="nav-link" href="#">{% trans 'Inbox' %}</a></li>
