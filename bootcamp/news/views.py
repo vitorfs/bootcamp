@@ -16,4 +16,4 @@ class NewsDetailView(LoginRequiredMixin, DetailView):
 
 class NewsListView(LoginRequiredMixin, ListView):
     model = News
-    paginate = 30
+    paginate_by = 15
