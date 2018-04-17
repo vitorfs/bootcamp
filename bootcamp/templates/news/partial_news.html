@@ -2,7 +2,7 @@
 {% load humanize static %}
 {% load thumbnail %}
 
-<li news-id="{{ news.uuid_id }}" csrf="{{ csrf_token }}">
+<li class="infinite-item" news-id="{{ news.uuid_id }}">
   <div class="news-container">
     {% thumbnail news.user.picture "x60" as im %}
       <img src="{{ im.url }}" class="pull-left" style="border-radius: 50%;" alt="{% trans 'User Image' %}" class="user-image">
