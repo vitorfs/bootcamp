@@ -16,7 +16,6 @@
         <h1>{% trans 'News' %}</h1>
       </div>
       <div class="col-md-6 col-centered">
-
         <div class="panel-heading">
           <button type="button" class="btn btn-primary pull-right btn-compose" title="{% trans 'Press Ctrl + P to compose' %}">
             <i class="fa fa-share-alt" aria-hidden="true"></i> {% trans 'Share something' %}
@@ -31,7 +30,6 @@
               <h2>{% trans "Compose a new post" %}</h2>
               <form role="form" id="compose-form">
                 {% csrf_token %}
-                <input type="hidden" name="last_feed">
                 <div class="form-group">
                   <textarea class="form-control" rows="3" name="post"></textarea>
                 </div>
@@ -53,11 +51,10 @@
               {% endfor %}
             </ul>
             <div class="load">
-              <img src="{% static 'img/loading.gif' %}">
+              {% if page_obj.has_next %}
+                <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"><img src="{% static 'img/loading.gif' %}"></a>
+              {% endif %}
             </div>
-            {% if page_obj.has_next %}
-              <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}">More</a>
-            {% endif %}
           </div>
         </div>
       </div>
