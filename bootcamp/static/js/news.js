@@ -5,7 +5,8 @@ $(function () {
     });
     $("input,textarea").attr("autocomplete", "off");
     $("#compose-form textarea[name='post']").keyup(function () {
-        $(this).count(280);
+        var charCount = $(this).val().length;
+        $(".help-block").text(280 - charCount);
     });
 
     function hide_stream_update() {
@@ -110,15 +111,10 @@ $(function () {
     });
 
     $(".btn-post").click(function () {
-        var last_feed = $(".stream li:first-child").attr("feed-id");
-        if (last_feed == undefined) {
-            last_feed = "0";
-        }
-        $("#compose-form input[name='last_feed']").val(last_feed);
         $.ajax({
-            url: '/feeds/post/',
+            url: '/news/post/',
             data: $("#compose-form").serialize(),
-            type: 'post',
+            type: 'POST',
             cache: false,
             success: function (data) {
                 $("ul.stream").prepend(data);
