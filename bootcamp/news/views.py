@@ -1,9 +1,6 @@
-import json
-
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.template.context_processors import csrf
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy

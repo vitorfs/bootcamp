@@ -1,7 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import ListView
@@ -26,7 +25,8 @@ def mark_all_as_read(request):
     directed to the actual user."""
     request.user.notifications.mark_all_as_read()
     _next = request.GET.get('next')
-    messages.add_message(request, messages.SUCCESS,
+    messages.add_message(
+        request, messages.SUCCESS,
         _(f'All notifications to {request.user.username} have been marked as read.'))
 
     if _next:
@@ -43,7 +43,8 @@ def mark_as_read(request, slug=None):
         notification = get_object_or_404(Notification, slug=slug)
         notification.mark_as_read()
 
-    messages.add_message(request, messages.SUCCESS,
+    messages.add_message(
+        request, messages.SUCCESS,
         _(f'The notification {notification.slug} has been marked as read.'))
     _next = request.GET.get('next')
 
