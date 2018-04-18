@@ -121,7 +121,10 @@ $(function () {
                 $(".compose").slideUp();
                 $(".compose").removeClass("composing");
                 hide_stream_update();
-            }
+            },
+            error : function(data){
+                alert(data.responseText)
+            },
         });
     });
 });
