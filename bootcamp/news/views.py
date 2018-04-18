@@ -27,7 +27,7 @@ class NewsDeleteView(LoginRequiredMixin, AuthorRequiredMixin, DeleteView):
 
 @login_required
 @ajax_required
-def post(request):
+def post_news(request):
     """A function view to implement the post functionality with AJAX."""
     user = request.user
     csrf_token = (csrf(request)['csrf_token'])
