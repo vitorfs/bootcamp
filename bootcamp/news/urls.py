@@ -9,4 +9,5 @@ urlpatterns = [
         views.NewsDeleteView.as_view(), name='delete_news'),
     url(r'^post/$', views.post, name='post_new'),
     url(r'^like/$', views.like, name='like_post'),
+    url(r'^get-comments/$', views.get_news_comments, name='get_comments'),
 ]
