@@ -127,4 +127,26 @@ $(function () {
             },
         });
     });
+    $("ul.stream").on("click", ".like", function () {
+        var li = $(this).closest("li");
+        var news = $(li).attr("news-id");
+        payload = {'news': news }
+        $.ajax({
+            url: '/news/like/',
+            data: payload,
+            cache: false,
+            success: function (data) {
+                if ($(".like", li).hasClass("unlike")) {
+                    $(".like", li).removeClass("unlike");
+                    $(".like .text", li).text("Like");
+                }
+                else {
+                    $(".like", li).addClass("unlike");
+                    $(".like .text", li).text("Unlike");
+                }
+                $(".like .like-count", li).text(data.likes);
+            }
+        });
+        return false;
+    });
 });
