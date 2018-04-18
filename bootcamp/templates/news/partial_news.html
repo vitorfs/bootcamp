@@ -12,7 +12,6 @@
     <div class="post">
       {% if news.user == request.user %}
         <a href="{% url 'news:delete_news' news.pk %}">
-        <!-- <a href="{% url 'news:delete_news' news.pk %}" onclick="return confirm('Are you sure you want to delete this posted news?');"></a> -->
           <i class="fa fa-times pull-right" aria-hidden="true" title="{% trans 'Click to remove this news' %}"></i>
         </a>
       {% endif %}
@@ -34,19 +33,19 @@
              title="{% for i in news.get_likers %}{{ i }}&#10;{% endfor %}">
             <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
             <span class="text">{% trans 'Unlike' %}</span>
-            (<span class="like-count">{{ news.likes }}</span>)
+            (<span class="like-count">{{ news.count_likers }}</span>)
           </a>
         {% else %}
           <a href="#" style="text-decoration: none;" class="like"
              title="{% for i in news.get_likers %}{{ i }}&#10;{% endfor %}">
             <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
             <span class="text">{% trans 'Like' %}</span>
-            (<span class="like-count">{{ news.likes }}</span>)
+            (<span class="like-count">{{ news.count_likers }}</span>)
           </a>
         {% endif %}
         <a href="#" style="text-decoration: none;" class="comment">
           <i class="fa fa-comment-o" aria-hidden="true"></i> {% trans 'Comment' %}
-          (<span class="comment-count">0</span>)
+          (<span class="comment-count">{{ news.count_thread }}</span>)
         </a>
       </div>
     </div>

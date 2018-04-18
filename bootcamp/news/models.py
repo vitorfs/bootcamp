@@ -35,7 +35,7 @@ class News(models.Model):
     def get_absolute_url(self):
         return reverse("news:detail", kwargs={"uuid_id": self.uuid})
 
-    def switch_like(self, user, news_obj):
+    def switch_like(self, user):
         if user in self.liked.all():
             is_liked = False
             self.liked.remove(user)
@@ -62,6 +62,9 @@ class News(models.Model):
     def get_thread(self):
         parent = self.get_parent()
         return parent.thread.all()
+
+    def count_thread(self):
+        return self.get_thread().count()
 
     def count_likers(self):
         return self.liked.count()

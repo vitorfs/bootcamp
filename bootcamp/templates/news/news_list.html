@@ -47,7 +47,9 @@
             </div>
             <ul class="stream infinite-container">
               {% for news in news_list %}
-                {% include 'news/partial_news.html' with news=news %}
+                {% if not news.reply %}
+                  {% include 'news/partial_news.html' with news=news %}
+                {% endif %}
               {% endfor %}
             </ul>
             <div class="load">
