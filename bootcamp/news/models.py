@@ -33,7 +33,7 @@ class News(models.Model):
         return str(self.content)
 
     def get_absolute_url(self):
-        return reverse("news:detail", kwargs={"uuid": self.uuid})
+        return reverse("news:detail", kwargs={"uuid_id": self.uuid})
 
     def switch_like(self, user, news_obj):
         if user in self.liked.all():
