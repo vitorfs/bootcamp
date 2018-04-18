@@ -90,4 +90,5 @@ def reply_news(parent_obj, user, text):
         reply=True,
         parent=parent
     )
-    notification_handler(user, parent_obj.user, Notification.REPLY)
+    notification_handler(
+        user, parent_obj.user, Notification.REPLY, action_object=reply_news)
