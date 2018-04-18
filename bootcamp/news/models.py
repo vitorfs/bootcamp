@@ -80,12 +80,14 @@ def reply_news(parent_obj, user, text):
     :param user: The logged in user who is doing the reply.
     :param content: String with the reply.
     """
+    # TODO
+    # Implement the notification call in a proper manner, allowing the call to
+    # the notification_handler
     parent = parent_obj.get_parent()
     reply_news = News.objects.create(
-        user = user,
-        content = text,
-        reply = True,
-        parent = parent
+        user=user,
+        content=text,
+        reply=True,
+        parent=parent
     )
-    notification_handler(user,
-        parent_obj.user, Notification.REPLY)
+    notification_handler(user, parent_obj.user, Notification.REPLY)

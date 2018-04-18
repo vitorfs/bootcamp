@@ -148,7 +148,6 @@ class Notification(models.Model):
         """
         from django.utils.timesince import timesince
 
-
         return timesince(self.timestamp, now)
 
     def save(self, *args, **kwargs):
@@ -212,6 +211,7 @@ def notification_handler(actor, recipient, verb, **kwargs):
         pass
 
     notification_broadcast()
+
 
 def notification_broadcast():
     channel_layer = get_channel_layer()
