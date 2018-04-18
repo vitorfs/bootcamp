@@ -1,5 +1,6 @@
 import json
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
@@ -39,4 +40,6 @@ def post(request):
         return HttpResponse(html)
 
     else:
-        return HttpResponseBadRequest()
+        lenght = len(post) - 280
+        return HttpResponseBadRequest(
+            content=_(f'Text is {lenght} characters longer than accepted.'))
