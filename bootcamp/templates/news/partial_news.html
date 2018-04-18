@@ -11,7 +11,10 @@
     {% endthumbnail %}
     <div class="post">
       {% if news.user == request.user %}
-        <i class="fa fa-times pull-right" aria-hidden="true" title="{% trans 'Click to remove this news' %}"></i>
+        <a href="{% url 'news:delete_news' news.pk %}">
+        <!-- <a href="{% url 'news:delete_news' news.pk %}" onclick="return confirm('Are you sure you want to delete this posted news?');"></a> -->
+          <i class="fa fa-times pull-right" aria-hidden="true" title="{% trans 'Click to remove this news' %}"></i>
+        </a>
       {% endif %}
       <h3>
         <a href="{% url 'users:detail' news.user.username  %}">
