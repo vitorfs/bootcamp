@@ -15,25 +15,25 @@ $(function () {
         $(document).attr("title", page_title);
     };
 
-    function update_feeds () {
-        var first_feed = $(".stream li:first-child").attr("feed-id");
-        var last_feed = $(".stream li:last-child").attr("feed-id");
-        var feed_source = $("#feed_source").val();
+    function update_news () {
+        var first_news = $(".stream li:first-child").attr("news-id");
+        var last_news = $(".stream li:last-child").attr("news-id");
+        var news_source = $("#news_source").val();
 
-        if (first_feed != undefined && last_feed != undefined) {
+        if (first_news != undefined && last_news != undefined) {
             $.ajax({
-                url: '/feeds/update/',
+                url: '/news/update/',
                 data: {
-                    'first_feed': first_feed,
-                    'last_feed': last_feed,
-                    'feed_source': feed_source
+                    'first_news': first_news,
+                    'last_news': last_news,
+                    'news_source': news_source
                 },
                 cache: false,
                 success: function (data) {
-                    $.each(data, function(id, feed) {
-                            var li = $("li[feed-id='" + id + "']");
-                            $(".like-count", li).text(feed.likes);
-                            $(".comment-count", li).text(feed.comments);
+                    $.each(data, function(id, news) {
+                            var li = $("li[news-id='" + id + "']");
+                            $(".like-count", li).text(news.likes);
+                            $(".comment-count", li).text(news.comments);
                     });
                 },
             });
@@ -43,10 +43,10 @@ $(function () {
     function track_comments () {
         $(".tracking").each(function () {
             var container = $(this);
-            var feed = $(this).closest("li").attr("feed-id");
+            var news = $(this).closest("li").attr("news-id");
             $.ajax({
-                url: '/feeds/track_comments/',
-                data: {'feed': feed},
+                url: '/news/track_comments/',
+                data: {'news': news},
                 cache: false,
                 success: function (data) {
                     if (data != 0) {
@@ -59,15 +59,15 @@ $(function () {
         });
     };
 
-    function check_new_feeds () {
-        var last_feed = $(".stream li:first-child").attr("feed-id");
-        var feed_source = $("#feed_source").val();
-        if (last_feed != undefined) {
+    function check_new_news () {
+        var last_news = $(".stream li:first-child").attr("news-id");
+        var news_source = $("#news_source").val();
+        if (last_news != undefined) {
             $.ajax({
-                url: '/feeds/check/',
+                url: '/news/check/',
                 data: {
-                    'last_feed': last_feed,
-                    'feed_source': feed_source
+                    'last_news': last_news,
+                    'news_source': news_source
                 },
                 cache: false,
                 success: function (data) {
@@ -127,6 +127,7 @@ $(function () {
             },
         });
     });
+
     $("ul.stream").on("click", ".like", function () {
         var li = $(this).closest("li");
         var news = $(li).attr("news-id");
@@ -147,6 +148,35 @@ $(function () {
                 $(".like .like-count", li).text(data.likes);
             }
         });
+        return false;
+    });
+
+    $("ul.stream").on("click", ".comment", function () {
+        var post = $(this).closest(".post");
+        if ($(".comments", post).hasClass("tracking")) {
+            $(".comments", post).slideUp();
+            $(".comments", post).removeClass("tracking");
+        }
+        else {
+            $(".comments", post).show();
+            $(".comments", post).addClass("tracking");
+            $(".comments input[name='post']", post).focus();
+            var news = $(post).closest("li").attr("news-id");
+            $.ajax({
+                url: '/news/get-comments/',
+                data: { 'news': news },
+                cache: false,
+                beforeSend: function () {
+                    console.log('Loading...')
+                    $("ol", post).html("<li class='loadcomment'><img src='/static/img/loading.gif'></li>");
+                },
+                success: function (data) {
+                    console.log(data)
+                    $("ol", post).html(data);
+                    $(".comment-count", post).text(data.comments);
+                }
+            });
+        }
         return false;
     });
 });

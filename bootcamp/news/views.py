@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
+from django.shortcuts import render
 from django.template.context_processors import csrf
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
@@ -60,3 +61,18 @@ def like(request):
     user = request.user
     news.switch_like(user)
     return JsonResponse({"likes": news.count_likers()})
+
+
+@login_required
+@ajax_required
+def get_news_comments(request):
+    news_id = request.GET['news']
+    data = News.objects.get(pk=news_id)
+    news = data.get_thread()
+    comments = data.count_thread()
+    return render(request,
+                  'news/news_comments.html',
+                  {
+                      'news_list': news,
+                      'comments': comments
+                  })

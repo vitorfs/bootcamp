@@ -48,6 +48,16 @@
           (<span class="comment-count">{{ news.count_thread }}</span>)
         </a>
       </div>
+      <div class="comments">
+        <form role="form" method="post" action="#" onsubmit="return false">
+          {% csrf_token %}
+          <input type="hidden" name="news" value="{{ news.pk }}">
+          <input type="text" class="form-control input-sm" placeholder="{% trans 'Write a comment...' %}" name="post" maxlength="280">
+        </form>
+        <ol class="clearfix">
+          {% comment %} Place holder to load feed comments {% endcomment %}
+        </ol>
+      </div>
     </div>
   </div>
 </li>
