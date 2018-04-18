@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.template.context_processors import csrf
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
@@ -50,3 +50,13 @@ def post(request):
         lenght = len(post) - 280
         return HttpResponseBadRequest(
             content=_(f'Text is {lenght} characters longer than accepted.'))
+
+
+@login_required
+@ajax_required
+def like(request):
+    news_id = request.GET['news']
+    news = News.objects.get(pk=news_id)
+    user = request.user
+    news.switch_like(user)
+    return JsonResponse({"likes": news.count_likers()})

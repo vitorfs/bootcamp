@@ -71,7 +71,6 @@ $(function () {
     };
 
     webSocket.listen(function(event) {
-        console.log(event)
         if (event.key === "notification") {
             $("#notifications").addClass("btn-danger");
         }

@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^delete/(?P<pk>[-\w]+)/$',
         views.NewsDeleteView.as_view(), name='delete_news'),
     url(r'^post/$', views.post, name='post_new'),
+    url(r'^like/$', views.like, name='like_post'),
 ]
