@@ -125,7 +125,8 @@ class Notification(models.Model):
     action_object_content_type = models.ForeignKey(ContentType,
         blank=True, null=True, related_name='notify_action_object',
         on_delete=models.CASCADE)
-    action_object_object_id = models.PositiveIntegerField(blank=True, null=True)
+    action_object_object_id = models.CharField(
+        max_length=50, blank=True, null=True)
     action_object = GenericForeignKey(
         'action_object_content_type', 'action_object_object_id')
     objects = NotificationQuerySet.as_manager()
