@@ -34,7 +34,6 @@ $(function () {
             $("#notifications").popover('hide');
         }
         else {
-
             $("#notifications").popover('dispose');
             $.ajax({
                 url: '/notifications/latest-notifications/',
@@ -55,7 +54,8 @@ $(function () {
         return false;
     });
 
-    // Correctly decide between ws:// and wss://
+    // Code block to manage WebSocket connections
+    // Try to correctly decide between ws:// and wss://
     var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
     var ws_path = ws_scheme + '://' + window.location.host + "/notifications/";
     var webSocket = new channels.WebSocketBridge();
@@ -70,9 +70,30 @@ $(function () {
         console.error("Disconnected from " + ws_path);
     };
 
+    // Listen the WebSocket bridge created throug django-channels library.
     webSocket.listen(function(event) {
-        if (event.key === "notification") {
-            $("#notifications").addClass("btn-danger");
+        switch (event.key) {
+            case "notification":
+                $("#notifications").addClass("btn-danger");
+                break;
+
+            case "new_feed":
+                if (event.username != currentUser) {
+                    check_new_feeds();
+                }
+                break;
+            case "liked":
+                update_feeds();
+                break;
+
+            case "commented":
+                track_comments();
+                update_feeds();
+                break;
+
+            default:
+                console.log('error: ', event)
+                break;
         }
     });
 });
