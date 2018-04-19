@@ -141,7 +141,6 @@ $(function () {
                 },
                 success: function (data) {
                     $("ol", post).html(data);
-                    $(".comment-count", post).text(data.comments);
                 }
             });
         }
@@ -165,6 +164,7 @@ $(function () {
                 },
                 success: function (data) {
                     $(".comments", post).slideUp();
+                    $(".comment-count").text(data.comments);
                 }
             });
             return false;
