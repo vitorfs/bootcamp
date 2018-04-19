@@ -109,6 +109,13 @@ $(function () {
             cache: false,
             success: function (data) {
                 $(".like .like-count", li).text(data.likes);
+                if ($(".like .heart", li).hasClass("fa fa-heart")) {
+                    $(".like .heart", li).removeClass("fa fa-heart");
+                    $(".like .heart", li).addClass("fa fa-heart-o");
+                } else {
+                    $(".like .heart", li).removeClass("fa fa-heart-o");
+                    $(".like .heart", li).addClass("fa fa-heart");
+                }
             }
         });
         return false;
