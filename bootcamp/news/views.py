@@ -17,6 +17,9 @@ class NewsListView(LoginRequiredMixin, ListView):
     model = News
     paginate_by = 15
 
+    def get_queryset(self, **kwargs):
+        return News.objects.filter(reply=False)
+
 
 class NewsDeleteView(LoginRequiredMixin, AuthorRequiredMixin, DeleteView):
     """Implementation of the DeleteView overriding the delete method to
@@ -28,7 +31,8 @@ class NewsDeleteView(LoginRequiredMixin, AuthorRequiredMixin, DeleteView):
 @login_required
 @ajax_required
 def post_news(request):
-    """A function view to implement the post functionality with AJAX."""
+    """A function view to implement the post functionality with AJAX allowing
+    to create News instances as parent ones."""
     user = request.user
     csrf_token = (csrf(request)['csrf_token'])
     post = request.POST['post']
@@ -56,7 +60,8 @@ def post_news(request):
 @login_required
 @ajax_required
 def like(request):
-    news_id = request.GET['news']
+    news_id = request.POST['news']
+    csrf_token = (csrf(request)['csrf_token'])
     news = News.objects.get(pk=news_id)
     user = request.user
     news.switch_like(user)
@@ -76,3 +81,38 @@ def get_news_comments(request):
                       'news_list': news,
                       'comments': comments
                   })
+
+
+@login_required
+@ajax_required
+def post_comment(request):
+    """A function view to implement the post functionality with AJAX, creating
+    News instances who happens to be the children and commenters of the root
+    post."""
+    user = request.user
+    csrf_token = (csrf(request)['csrf_token'])
+    post = request.POST['post']
+    par = request.POST['parent']
+    parent = News.objects.get(pk=par)
+    comments = parent.count_thread()
+    news = parent.get_thread()
+    post = post.strip()
+    if post:
+        posted = News.objects.create(
+            user=user,
+            content=post,
+            reply=True,
+            parent=parent
+        )
+        html = render_to_string(
+            'news/news_comments.html',
+            {
+                'news': news,
+                'csrf_token': csrf_token,
+                'request': request,
+                'comments': comments
+            })
+        return HttpResponse(html)
+
+    else:
+        return HttpResponseBadRequest()
