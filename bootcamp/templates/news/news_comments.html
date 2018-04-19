@@ -11,89 +11,31 @@
       {% empty %}
         <img src="{% static 'img/user.png' %}" class="pull-left" height="60px" alt="{% trans 'No Profile Picture' %}" />
       {% endthumbnail %}
-      {% if news.user == request.user %}
-        <a href="{% url 'news:delete_news' news.pk %}">
-          <i class="fa fa-times pull-right" aria-hidden="true" title="{% trans 'Click to remove this news' %}"></i>
-        </a>
-      {% endif %}
-      <h3>
-        <a href="#">
-          {% if news.user.name %}
-            {{ news.user.name|title }}
-          {% else %}
-            {{ news.user.username|title }}
-          {% endif %}
-        </a>
-        <small>{{ news.timestamp|naturaltime }}</small>
-      </h3>
-      <p>{{ news }}</p>
-      <div class="interaction" id="interaction">
-        {% if user in news.get_likers %}
-          <a href="#" style="text-decoration: none;"
-              class="like unlike"
-              title="{% for i in news.get_likers %}{{ i }}&#10;{% endfor %}">
-            <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-            <span class="text">{% trans 'Unlike' %}</span>
-            (<span class="like-count">{{ news.count_likers }}</span>)
+      <div class="post">
+        {% if news.user == request.user %}
+          <a href="{% url 'news:delete_news' news.pk %}">
+            <i class="fa fa-times pull-right" aria-hidden="true" title="{% trans 'Click to remove this news' %}"></i>
           </a>
-        {% else %}
-          <a href="#" style="text-decoration: none;" class="like"
-              title="{% for i in news.get_likers %}{{ i }}&#10;{% endfor %}">
-            <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+        {% endif %}
+        <h3>
+          <a href="#">
+            {% if news.user.name %}
+              {{ news.user.name|title }}
+            {% else %}
+              {{ news.user.username|title }}
+            {% endif %}
+          </a>
+          <small>{{ news.timestamp|naturaltime }}</small>
+        </h3>
+        <p>{{ news }}</p>
+        <div class="interaction" id="interaction">
+          <a href="#" class="like pull-right" title="{% for i in news.get_likers %}{{ i }}&#10;{% endfor %}">
+            <i class="fa fa-heart-o" aria-hidden="true"></i>
             <span class="text">{% trans 'Like' %}</span>
             (<span class="like-count">{{ news.count_likers }}</span>)
           </a>
-        {% endif %}
+        </div>
       </div>
     </li>
   </div>
 {% endfor %}
-
-
-<!--
-  <li news-id="{{ news.uuid_id }}">
-    {% thumbnail news.user.picture "x60" as im %}
-      <img src="{{ im.url }}" class="pull-left" style="border-radius: 50%;" alt="{% trans 'User Image' %}" class="user-image">
-    {% empty %}
-      <img src="{% static 'img/user.png' %}" class="pull-left" height="60px" alt="{% trans 'No Profile Picture' %}" />
-    {% endthumbnail %}
-    {% if news.user == request.user %}
-      <a href="{% url 'news:delete_news' news.pk %}">
-        <i class="fa fa-times pull-right" aria-hidden="true" title="{% trans 'Click to remove this news' %}"></i>
-      </a>
-    {% endif %}
-    <h3>
-      <a href="#">
-        {% if news.user.name %}
-          {{ news.user.name|title }}
-        {% else %}
-          {{ news.user.username|title }}
-        {% endif %}
-      </a>
-      <small>{{ news.timestamp|naturaltime }}</small>
-    </h3>
-    <p>{{ news }}</p>
-    <div class="interaction" id="interaction">
-      {% if user in news.get_likers %}
-        <a href="#" style="text-decoration: none;"
-            class="like unlike"
-            title="{% for i in news.get_likers %}{{ i }}&#10;{% endfor %}">
-          <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-          <span class="text">{% trans 'Unlike' %}</span>
-          (<span class="like-count">{{ news.count_likers }}</span>)
-        </a>
-      {% else %}
-        <a href="#" style="text-decoration: none;" class="like"
-            title="{% for i in news.get_likers %}{{ i }}&#10;{% endfor %}">
-          <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-          <span class="text">{% trans 'Like' %}</span>
-          (<span class="like-count">{{ news.count_likers }}</span>)
-        </a>
-      {% endif %}
-      <a href="#" style="text-decoration: none;" class="comment">
-        <i class="fa fa-comment-o" aria-hidden="true"></i> {% trans 'Comment' %}
-        (<span class="comment-count">{{ news.count_thread }}</span>)
-      </a>
-    </div>
-  </li>
- -->
