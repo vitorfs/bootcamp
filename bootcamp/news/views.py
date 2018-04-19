@@ -34,7 +34,6 @@ def post_news(request):
     """A function view to implement the post functionality with AJAX allowing
     to create News instances as parent ones."""
     user = request.user
-    csrf_token = (csrf(request)['csrf_token'])
     post = request.POST['post']
     post = post.strip()
     if len(post) > 0 and len(post) <= 280:
@@ -46,7 +45,6 @@ def post_news(request):
             'news/partial_news.html',
             {
                 'news': posted,
-                'csrf_token': csrf_token,
                 'request': request
             })
         return HttpResponse(html)
@@ -61,7 +59,6 @@ def post_news(request):
 @ajax_required
 def like(request):
     news_id = request.POST['news']
-    csrf_token = (csrf(request)['csrf_token'])
     news = News.objects.get(pk=news_id)
     user = request.user
     news.switch_like(user)
@@ -72,15 +69,11 @@ def like(request):
 @ajax_required
 def get_news_comments(request):
     news_id = request.GET['news']
-    data = News.objects.get(pk=news_id)
-    news = data.get_thread()
-    comments = data.count_thread()
+    news = News.objects.get(pk=news_id).get_thread()
     return render(request,
                   'news/news_comments.html',
-                  {
-                      'news_list': news,
-                      'comments': comments
-                  })
+                  {'news_list': news}
+                  )
 
 
 @login_required
@@ -90,11 +83,9 @@ def post_comment(request):
     News instances who happens to be the children and commenters of the root
     post."""
     user = request.user
-    csrf_token = (csrf(request)['csrf_token'])
     post = request.POST['post']
     par = request.POST['parent']
     parent = News.objects.get(pk=par)
-    comments = parent.count_thread()
     news = parent.get_thread()
     post = post.strip()
     if post:
@@ -104,15 +95,7 @@ def post_comment(request):
             reply=True,
             parent=parent
         )
-        html = render_to_string(
-            'news/news_comments.html',
-            {
-                'news': news,
-                'csrf_token': csrf_token,
-                'request': request,
-                'comments': comments
-            })
-        return HttpResponse(html)
+        return JsonResponse({'comments': parent.count_thread()})
 
     else:
         return HttpResponseBadRequest()
