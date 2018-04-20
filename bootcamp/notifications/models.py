@@ -95,6 +95,7 @@ class Notification(models.Model):
     VOTED = 'V'
     SHARED = 'S'
     SIGNUP = 'U'
+    REPLY = 'R'
     NOTIFICATION_TYPES = (
         (LIKED, _('liked')),
         (COMMENTED, _('commented')),
@@ -107,7 +108,8 @@ class Notification(models.Model):
         (LOGGED_OUT, _('logged out')),
         (VOTED, _('voted on')),
         (SHARED, _('shared')),
-        (SIGNUP, _('created an account'))
+        (SIGNUP, _('created an account')),
+        (REPLY, _('replied to'))
         )
     actor = models.ForeignKey(settings.AUTH_USER_MODEL,
                               related_name='notify_actor',
@@ -123,14 +125,16 @@ class Notification(models.Model):
     action_object_content_type = models.ForeignKey(ContentType,
         blank=True, null=True, related_name='notify_action_object',
         on_delete=models.CASCADE)
-    action_object_object_id = models.PositiveIntegerField(blank=True, null=True)
+    action_object_object_id = models.CharField(
+        max_length=50, blank=True, null=True)
     action_object = GenericForeignKey(
         'action_object_content_type', 'action_object_object_id')
     objects = NotificationQuerySet.as_manager()
 
     class Meta:
-        ordering = ('-timestamp', )
-        app_label = 'notifications'
+        verbose_name = _("Notification")
+        verbose_name_plural = _("Notifications")
+        ordering = ("-timestamp",)
 
     def __str__(self):
         if self.action_object:
@@ -144,7 +148,6 @@ class Notification(models.Model):
         current timestamp.
         """
         from django.utils.timesince import timesince
-
 
         return timesince(self.timestamp, now)
 
@@ -168,7 +171,7 @@ class Notification(models.Model):
 
 def notification_handler(actor, recipient, verb, **kwargs):
     """
-    Handler function to create a Notification instance upon action signal call.
+    Handler function to create a Notification instance.
     :requires:
     :param actor: User instance of that user who makes the action.
     :param recipient: User instance, a list of User instances or string
@@ -208,10 +211,11 @@ def notification_handler(actor, recipient, verb, **kwargs):
     else:
         pass
 
-    notification_broadcast()
+    notification_broadcast(actor)
 
-def notification_broadcast():
+
+def notification_broadcast(actor):
     channel_layer = get_channel_layer()
-    payload = {'type': 'receive', 'key': 'notification'}
+    payload = {'type': 'receive', 'key': 'notification', 'username': actor.username}
     # await channel_layer.group_send("notifications", payload)
     async_to_sync(channel_layer.group_send)('notifications', payload)

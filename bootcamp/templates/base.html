@@ -44,7 +44,7 @@
                 </ul>
 
                 <ul class="navbar-nav mr-auto">
-                  <li class="nav-item"><a class="nav-link" href="#">{% trans 'News' %} <span class="sr-only">(current)</span></a></li>
+                  <li class="nav-item"><a class="nav-link" href="{% url 'news:list' %}">{% trans 'News' %} <span class="sr-only">(current)</span></a></li>
                   <li class="nav-item"><a class="nav-link" href="{% url 'articles:list' %}">Blog</a></li>
                   <li class="nav-item"><a class="nav-link" href="#">{% trans 'Q&A' %}</a></li>
                   <li class="nav-item"><a class="nav-link" href="#">{% trans 'Inbox' %}</a></li>
@@ -115,6 +115,9 @@
         <!-- place project specific Javascript in this file -->
         <script src="{% static 'js/bootcamp.js' %}" type="text/javascript"></script>
         <script src="{% static 'channels/js/websocketbridge.js' %}" type="text/javascript"></script>
+        <script type="text/javascript">
+          var currentUser = "{{ request.user.username }}"
+        </script>
       {% endblock javascript %}
 
       {% block modal %}{% endblock modal %}
