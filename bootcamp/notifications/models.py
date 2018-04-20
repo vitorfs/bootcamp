@@ -211,11 +211,11 @@ def notification_handler(actor, recipient, verb, **kwargs):
     else:
         pass
 
-    notification_broadcast()
+    notification_broadcast(actor)
 
 
-def notification_broadcast():
+def notification_broadcast(actor):
     channel_layer = get_channel_layer()
-    payload = {'type': 'receive', 'key': 'notification'}
+    payload = {'type': 'receive', 'key': 'notification', 'username': actor.username}
     # await channel_layer.group_send("notifications", payload)
     async_to_sync(channel_layer.group_send)('notifications', payload)

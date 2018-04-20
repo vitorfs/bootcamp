@@ -74,7 +74,9 @@ $(function () {
     webSocket.listen(function(event) {
         switch (event.key) {
             case "notification":
-                $("#notifications").addClass("btn-danger");
+                if (event.username != currentUser) {
+                    $("#notifications").addClass("btn-danger");
+                }
                 break;
 
             case "new_feed":
