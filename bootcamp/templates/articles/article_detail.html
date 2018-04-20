@@ -105,17 +105,9 @@
         <div class="card my-4">
           <h5 class="card-header">{% trans 'Cloud tag' %}</h5>
           <div class="card-body">
-            <div class="row">
-              <div class="col-lg-6">
-                <ul class="list-unstyled mb-0">
-                  {% for tag, count in popular_tags %}
-                    <li>
-                        <a href="#"><span class="label label-default">{{ count }} {{ tag }}</span></a>
-                    </li>
-                  {% endfor %}
-                </ul>
-              </div>
-            </div>
+            {% for tag in article.tags.all %}
+              <a href="#"><span class="badge badge-info">{{ tag }}</span></a>
+            {% endfor %}
           </div>
         </div>
       </div>

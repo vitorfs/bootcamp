@@ -24,6 +24,7 @@ class ArticlesListView(LoginRequiredMixin, ListView):
     def get_queryset(self, **kwargs):
         return Article.objects.get_published()
 
+
 class DraftsListView(LoginRequiredMixin, ListView):
     """Basic ListView implementation to call the drafts articles list."""
     model = Article
