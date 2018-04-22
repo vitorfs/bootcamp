@@ -41,44 +41,11 @@ $(function () {
         $('#newsInput').trigger('focus')
     });
 
-    $(".btn-cancel-compose").click(function () {
-        $(".compose").slideUp();
-    });
-
     $("input,textarea").attr("autocomplete", "off");
 
     $("#compose-form textarea[name='post']").keyup(function () {
         var charCount = $(this).val().length;
         $(".help-block").text(280 - charCount);
-    });
-
-    $("body").keydown(function (evt) {
-        var keyCode = evt.which?evt.which:evt.keyCode;
-        if (evt.ctrlKey && keyCode == 80) {
-            $(".btn-compose").click();
-            return false;
-        }
-    });
-
-    $("#compose-form textarea[name='post']").keydown(function (evt) {
-        var keyCode = evt.which?evt.which:evt.keyCode;
-        if (evt.ctrlKey && (keyCode == 10 || keyCode == 13)) {
-            $(".btn-post").click();
-        }
-    });
-
-    $(".btn-compose").click(function () {
-        if ($(".compose").hasClass("composing")) {
-            $(".compose").removeClass("composing");
-            $(".compose").slideUp();
-        }
-        else {
-            $(".compose").addClass("composing");
-            $(".compose textarea").val("");
-            $(".compose").slideDown(400, function () {
-                $(".compose textarea").focus();
-            });
-        }
     });
 
     $(".btn-post").click(function () {
@@ -92,11 +59,11 @@ $(function () {
                 $(".compose").slideUp();
                 $(".compose").removeClass("composing");
                 $("#newsInput").val("");
-                $('#bcModalCenter').modal('hide')
+                $('#bcModalCenter').modal('hide');
                 hide_stream_update();
             },
             error : function(data){
-                alert(data.responseText)
+                alert(data.responseText);
             },
         });
     });

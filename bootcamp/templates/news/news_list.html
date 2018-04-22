@@ -55,22 +55,6 @@
             </div>
             <!-- End Modal -->
 
-            <div class="compose">
-              <h2>{% trans "Compose a new post" %}</h2>
-              <form role="form" id="compose-form">
-                {% csrf_token %}
-                <div class="form-group">
-                  <textarea class="form-control" rows="3" name="post"></textarea>
-                </div>
-                <div class="form-group">
-                  <button type="button" class="btn btn-primary btn-post">
-                    <i class="fa fa-paper-plane" aria-hidden="true"></i> {% trans 'Post' %}
-                  </button>
-                  <button type="button" class="btn btn-default btn-cancel-compose">{% trans 'Cancel' %}</button>
-                  <span class="help-block help-count pull-right">280</span>
-                </div>
-              </form>
-            </div>
             <div class="stream-update">
               <a href="#"><span class="new-posts"></span> {% trans 'There are new posts' %}</a>
             </div>
