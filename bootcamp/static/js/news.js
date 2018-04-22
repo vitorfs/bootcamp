@@ -91,6 +91,7 @@ $(function () {
                 $("ul.stream").prepend(data);
                 $(".compose").slideUp();
                 $(".compose").removeClass("composing");
+                $("#newsInput").val("");
                 $('#bcModalCenter').modal('hide')
                 hide_stream_update();
             },
