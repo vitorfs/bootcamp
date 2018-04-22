@@ -37,6 +37,10 @@ $(function () {
         }
     });
 
+    $('#bcModalCenter').on('shown.bs.modal', function () {
+        $('#newsInput').trigger('focus')
+    });
+
     $(".btn-cancel-compose").click(function () {
         $(".compose").slideUp();
     });
@@ -87,6 +91,7 @@ $(function () {
                 $("ul.stream").prepend(data);
                 $(".compose").slideUp();
                 $(".compose").removeClass("composing");
+                $('#bcModalCenter').modal('hide')
                 hide_stream_update();
             },
             error : function(data){

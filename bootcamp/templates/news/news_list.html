@@ -17,14 +17,43 @@
       </div>
       <div class="col-md-6 col-centered">
         <div class="panel-heading">
-          <button type="button" class="btn btn-primary pull-right btn-compose" title="{% trans 'Press Ctrl + P to compose' %}">
+          <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#bcModalCenter" title="{% trans 'Press Ctrl + P to compose' %}">
             <i class="fa fa-share-alt" aria-hidden="true"></i> {% trans 'Share something' %}
           </button>
           <h3 class="panel-title">{% trans 'Latest posts' %}</h3>
         </div>
         <div class="panel panel-default panel-feed">
-
           <div class="panel-body">
+
+            <!-- Modal -->
+            <div class="modal fade" id="bcModalCenter" tabindex="-1" role="dialog" aria-labelledby="bcModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="bcModalLongTitle">{% trans "Compose a new post" %}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form role="form" id="compose-form">
+                      {% csrf_token %}
+                      <div class="form-group">
+                        <textarea id="newsInput" class="form-control" rows="3" name="post"></textarea>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-post">
+                      <i class="fa fa-paper-plane" aria-hidden="true"></i> {% trans 'Post' %}
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Cancel' %}</button>
+                    <span class="help-block help-count pull-right">280</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- End Modal -->
 
             <div class="compose">
               <h2>{% trans "Compose a new post" %}</h2>
