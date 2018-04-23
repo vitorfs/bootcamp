@@ -9,7 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic import ListView, DeleteView
 
 from bootcamp.news.models import News
-from bootcamp.mixins import ajax_required, AuthorRequiredMixin
+from bootcamp.helpers import ajax_required, AuthorRequiredMixin
 
 
 class NewsListView(LoginRequiredMixin, ListView):
@@ -33,47 +33,62 @@ class NewsDeleteView(LoginRequiredMixin, AuthorRequiredMixin, DeleteView):
 def post_news(request):
     """A function view to implement the post functionality with AJAX allowing
     to create News instances as parent ones."""
-    user = request.user
-    post = request.POST['post']
-    post = post.strip()
-    if len(post) > 0 and len(post) <= 280:
-        posted = News.objects.create(
-            user=user,
-            content=post,
-        )
-        html = render_to_string(
-            'news/partial_news.html',
-            {
-                'news': posted,
-                'request': request
-            })
-        return HttpResponse(html)
+    if request.method == 'POST':
+        user = request.user
+        post = request.POST['post']
+        post = post.strip()
+        if len(post) > 0 and len(post) <= 280:
+            posted = News.objects.create(
+                user=user,
+                content=post,
+            )
+            html = render_to_string(
+                'news/partial_news.html',
+                {
+                    'news': posted,
+                    'request': request
+                })
+            return HttpResponse(html)
+
+        else:
+            lenght = len(post) - 280
+            return HttpResponseBadRequest(
+                content=_(f'Text is {lenght} characters longer than accepted.'))
 
     else:
-        lenght = len(post) - 280
-        return HttpResponseBadRequest(
-            content=_(f'Text is {lenght} characters longer than accepted.'))
+        return HttpResponseBadRequest(content=_('Wrong request type.'))
 
 
 @login_required
 @ajax_required
 def like(request):
-    news_id = request.POST['news']
-    news = News.objects.get(pk=news_id)
-    user = request.user
-    news.switch_like(user)
-    return JsonResponse({"likes": news.count_likers()})
+    """Function view to receive AJAX, returns the count of likes a given news
+    has recieved."""
+    if request.method == 'POST':
+        news_id = request.POST['news']
+        news = News.objects.get(pk=news_id)
+        user = request.user
+        news.switch_like(user)
+        return JsonResponse({"likes": news.count_likers()})
+
+    else:
+        return HttpResponseBadRequest(content=_('Wrong request type.'))
 
 
 @login_required
 @ajax_required
 def get_news_comments(request):
-    news_id = request.GET['news']
-    news = News.objects.get(pk=news_id).get_thread()
-    return render(request,
-                  'news/news_comments.html',
-                  {'news_list': news}
-                  )
+    """Returns a list of news with the given news as parent."""
+    if request.method == 'POST':
+        news_id = request.GET['news']
+        news = News.objects.get(pk=news_id).get_thread()
+        return render(request,
+                      'news/news_comments.html',
+                      {'news_list': news}
+                     )
+
+    else:
+        return HttpResponseBadRequest(content=_('Wrong request type.'))
 
 
 @login_required
@@ -82,20 +97,24 @@ def post_comment(request):
     """A function view to implement the post functionality with AJAX, creating
     News instances who happens to be the children and commenters of the root
     post."""
-    user = request.user
-    post = request.POST['post']
-    par = request.POST['parent']
-    parent = News.objects.get(pk=par)
-    news = parent.get_thread()
-    post = post.strip()
-    if post:
-        posted = News.objects.create(
-            user=user,
-            content=post,
-            reply=True,
-            parent=parent
-        )
-        return JsonResponse({'comments': parent.count_thread()})
+    if request.method == 'POST':
+        user = request.user
+        post = request.POST['post']
+        par = request.POST['parent']
+        parent = News.objects.get(pk=par)
+        news = parent.get_thread()
+        post = post.strip()
+        if post:
+            posted = News.objects.create(
+                user=user,
+                content=post,
+                reply=True,
+                parent=parent
+            )
+            return JsonResponse({'comments': parent.count_thread()})
+
+        else:
+            return HttpResponseBadRequest()
 
     else:
-        return HttpResponseBadRequest()
+        return HttpResponseBadRequest(content=_('Wrong request type.'))

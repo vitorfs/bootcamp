@@ -4,7 +4,7 @@ from django.views.generic import CreateView, ListView, UpdateView, DetailView
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
-from bootcamp.mixins import AuthorRequiredMixin
+from bootcamp.helpers import AuthorRequiredMixin
 from bootcamp.articles.models import Article
 from bootcamp.articles.forms import ArticleForm
 
