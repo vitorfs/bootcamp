@@ -79,16 +79,12 @@ def like(request):
 @ajax_required
 def get_news_comments(request):
     """Returns a list of news with the given news as parent."""
-    if request.method == 'POST':
-        news_id = request.GET['news']
-        news = News.objects.get(pk=news_id).get_thread()
-        return render(request,
-                      'news/news_comments.html',
-                      {'news_list': news}
-                     )
-
-    else:
-        return HttpResponseBadRequest(content=_('Wrong request type.'))
+    news_id = request.GET['news']
+    news = News.objects.get(pk=news_id).get_thread()
+    return render(request,
+                    'news/news_comments.html',
+                    {'news_list': news}
+                    )
 
 
 @login_required
