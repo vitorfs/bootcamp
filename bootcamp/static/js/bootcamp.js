@@ -22,6 +22,22 @@ $('.form-group').removeClass('row');
 
 /* Notifications JS basic client */
 $(function () {
+    var emptyMessage = 'You have no unread notification';
+
+    function checkNotifications() {
+        $.ajax({
+            url: '/notifications/latest-notifications/',
+            cache: false,
+            success: function (data) {
+                if (!data.includes(emptyMessage)) {
+                    $("#notifications").addClass("btn-danger")
+                }
+            },
+        });
+    };
+
+    checkNotifications();
+
     $('#notifications').popover({
         html: true,
         trigger: 'manual',
@@ -32,6 +48,7 @@ $(function () {
     $("#notifications").click(function () {
         if ($(".popover").is(":visible")) {
             $("#notifications").popover('hide');
+            checkNotifications();
         }
         else {
             $("#notifications").popover('dispose');
@@ -74,10 +91,11 @@ $(function () {
     webSocket.listen(function(event) {
         switch (event.key) {
             case "notification":
-                if (event.username != currentUser) {
+                /* if (event.username != currentUser) {
                     $("#notifications").addClass("btn-danger");
                 }
-                break;
+                break; */
+                $("#notifications").addClass("btn-danger");
 
             case "new_feed":
                 if (event.username != currentUser) {
