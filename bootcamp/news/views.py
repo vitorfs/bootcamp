@@ -2,15 +2,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import render
-from django.template.context_processors import csrf
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import ListView, DeleteView
 
-from bootcamp.news.models import News
 from bootcamp.helpers import ajax_required, AuthorRequiredMixin
-
+from bootcamp.news.models import News
 
 class NewsListView(LoginRequiredMixin, ListView):
     """A really simple ListView, with some JS magic on the UI."""
@@ -101,12 +99,7 @@ def post_comment(request):
         news = parent.get_thread()
         post = post.strip()
         if post:
-            posted = News.objects.create(
-                user=user,
-                content=post,
-                reply=True,
-                parent=parent
-            )
+            parent.reply_this(user, post)
             return JsonResponse({'comments': parent.count_thread()})
 
         else:
