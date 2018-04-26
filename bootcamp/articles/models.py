@@ -6,6 +6,9 @@ from django.utils.translation import ugettext_lazy as _
 from slugify import slugify
 
 from taggit.managers import TaggableManager
+from django_comments.signals import comment_was_posted
+
+from bootcamp.notifications.models import Notification, notification_handler
 
 
 class ArticleQuerySet(models.query.QuerySet):
@@ -71,3 +74,16 @@ class Article(models.Model):
                     tag_dict[tag] += 1
 
         return tag_dict.items()
+
+def notify_comment(**kwargs):
+    """Handler to be fired up upon comments signal to notify the author of a
+    given article."""
+    actor = kwargs['request'].user
+    receiver = kwargs['comment'].content_object.user
+    obj = kwargs['comment'].content_object
+    notification_handler(
+        actor, receiver, Notification.COMMENTED, action_object=obj
+        )
+
+
+comment_was_posted.connect(receiver=notify_comment)
