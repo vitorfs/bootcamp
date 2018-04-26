@@ -31,7 +31,7 @@
             </div>
           </div>
           <div class="media-body">
-            <a class="btn btn-danger btn-sm pull-right" title="{% trans 'Mark as read' %}" href="{% url 'notifications:mark_as_read' notification.slug %}"><i class="fa fa-check-circle"></i></a>
+            <a class="btn btn-success btn-sm pull-right" title="{% trans 'Mark as read' %}" href="{% url 'notifications:mark_as_read' notification.slug %}"><i class="fa fa-check-circle"></i></a>
             <strong class="notification-title">
               <a href="{% url 'users:detail' notification.actor.username  %}">
                 {% if notification.actor.name %}
