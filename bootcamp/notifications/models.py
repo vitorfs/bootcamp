@@ -142,6 +142,13 @@ class Notification(models.Model):
 
         return f'{self.actor} {self.get_verb_display()} {self.time_since()} ago'
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(f'{self.recipient} {self.uuid_id} {self.verb}',
+                                to_lower=True, max_length=200)
+
+        super(Notification, self).save(*args, **kwargs)
+
     def time_since(self, now=None):
         """
         Shortcut for the ``django.utils.timesince.timesince`` function of the
@@ -151,12 +158,9 @@ class Notification(models.Model):
 
         return timesince(self.timestamp, now)
 
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(f'{self.recipient} {self.uuid_id} {self.verb}',
-                                to_lower=True, max_length=200)
-
-        super(Notification, self).save(*args, **kwargs)
+    def get_notification_icon(self):
+        if self.verb == 'L':
+            return '<i class="fa fa-heart" aria-hidden="true"></i>'
 
     def mark_as_read(self):
         if self.unread:

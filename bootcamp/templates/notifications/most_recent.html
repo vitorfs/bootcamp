@@ -4,11 +4,7 @@
   {% if notifications %}
     {% for notification in notifications %}
       <li class="clearfix">
-        {% thumbnail request.user.picture "x100" as im %}
-          <img src="{{ im.url }}" class="user-picture" style="border-radius: 50%;" alt="{% trans 'User Image' %}" class="user-image">
-        {% empty %}
-          <img src="{% static 'img/user.png' %}" class="user-picture" height="50px" alt="{% trans 'No Profile Picture' %}" />
-        {% endthumbnail %}
+        <i class="fa fa-heart" aria-hidden="true"></i>
         <p>{{ notification|safe }}</p>
         <p><small>{{ notification.timestamp }}</small></p>
       </li>

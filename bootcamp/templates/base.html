@@ -72,9 +72,9 @@
                       {{ request.user.username }}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item" href="{% url 'users:detail' request.user.username  %}"><i class="fa fa-cogs" aria-hidden="true"></i>  {% trans 'Profile Settings' %}</a>
+                      <a class="dropdown-item" href="{% url 'users:detail' request.user.username  %}"><i class="fa fa-cogs fa-fw" aria-hidden="true"></i>&nbsp; {% trans 'Profile Settings' %}</a>
                       <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="{% url 'account_logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i>  {% trans "Log Out" %}</a>
+                      <a class="dropdown-item" href="{% url 'account_logout' %}"><i class="fa fa-sign-out fa-fw" aria-hidden="true"></i>&nbsp; {% trans "Log Out" %}</a>
                     </div>
                   </li>
                 </ul>
