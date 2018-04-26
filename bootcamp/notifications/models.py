@@ -158,9 +158,37 @@ class Notification(models.Model):
 
         return timesince(self.timestamp, now)
 
-    def get_notification_icon(self):
-        if self.verb == 'L':
-            return '<i class="fa fa-heart" aria-hidden="true"></i>'
+    def get_icon(self):
+        """Model method to validate notification type and return the closest
+        icon to the verb.
+        """
+        if self.verb == 'C' or self.verb == 'A' or self.verb == 'K':
+            return 'fa-comment'
+
+        elif self.verb == 'I' or self.verb == 'U' or self.verb == 'O':
+            return 'fa-users'
+
+        elif self.verb == 'L':
+            return 'fa-heart'
+
+        elif self.verb == 'F':
+            return 'fa-star'
+
+        elif self.verb == 'W':
+            return 'fa-check-circle'
+
+        elif self.verb == 'E':
+            return 'fa-pencil'
+
+        elif self.verb == 'V':
+            return 'fa-plus'
+
+        elif self.verb == 'S':
+            return 'fa-share-alt'
+
+        elif self.verb == 'R':
+            return 'fa-reply'
+
 
     def mark_as_read(self):
         if self.unread:
