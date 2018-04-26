@@ -137,7 +137,8 @@ $(function () {
                 },
                 success: function (data) {
                     $(".comments", post).slideUp();
-                    $(".comment-count").text(data.comments);
+                    var post_container = $(container).closest(".post");
+                    $(".comment-count", post_container).text(data.comments);
                 }
             });
             return false;

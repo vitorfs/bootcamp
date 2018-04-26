@@ -91,10 +91,6 @@ $(function () {
     webSocket.listen(function(event) {
         switch (event.key) {
             case "notification":
-                /* if (event.username != currentUser) {
-                    $("#notifications").addClass("btn-danger");
-                }
-                break; */
                 $("#notifications").addClass("btn-danger");
 
             case "new_feed":
