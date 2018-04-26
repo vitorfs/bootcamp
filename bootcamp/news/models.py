@@ -55,6 +55,25 @@ class News(models.Model):
         else:
             return self
 
+    def reply_this(self, user, text):
+        """Handler function to create a News instance as a reply to any
+        published news.
+
+        :requires:
+
+        :param user: The logged in user who is doing the reply.
+        :param content: String with the reply.
+        """
+        parent = self.get_parent()
+        reply_news = News.objects.create(
+            user=user,
+            content=text,
+            reply=True,
+            parent=parent
+        )
+        notification_handler(
+            user, parent.user, Notification.REPLY, action_object=reply_news)
+
     def count_answers(self):
         parent = self.get_parent()
         return parent.thread.all().count()
@@ -71,27 +90,3 @@ class News(models.Model):
 
     def get_likers(self):
         return self.liked.all()
-
-
-def reply_news(parent_obj, user, text):
-    """
-    Handler function to create a News instance as a reply to any published
-    news.
-
-    :requires:
-    :param parent_obj: News instance to which the reply is being made.
-    :param user: The logged in user who is doing the reply.
-    :param content: String with the reply.
-    """
-    # TODO
-    # Implement the notification call in a proper manner, allowing the call to
-    # the notification_handler
-    parent = parent_obj.get_parent()
-    reply_news = News.objects.create(
-        user=user,
-        content=text,
-        reply=True,
-        parent=parent
-    )
-    notification_handler(
-        user, parent_obj.user, Notification.REPLY, action_object=reply_news)
