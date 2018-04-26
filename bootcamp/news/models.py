@@ -44,7 +44,7 @@ class News(models.Model):
             is_liked = True
             self.liked.add(user)
             notification_handler(user, self.user,
-                Notification.LIKED, action_object=self)
+                                 Notification.LIKED, action_object=self)
 
         return is_liked
 

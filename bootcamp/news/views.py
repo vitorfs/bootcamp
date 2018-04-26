@@ -10,6 +10,7 @@ from django.views.generic import ListView, DeleteView
 from bootcamp.helpers import ajax_required, AuthorRequiredMixin
 from bootcamp.news.models import News
 
+
 class NewsListView(LoginRequiredMixin, ListView):
     """A really simple ListView, with some JS magic on the UI."""
     model = News
@@ -79,10 +80,7 @@ def get_news_comments(request):
     """Returns a list of news with the given news as parent."""
     news_id = request.GET['news']
     news = News.objects.get(pk=news_id).get_thread()
-    return render(request,
-                    'news/news_comments.html',
-                    {'news_list': news}
-                    )
+    return render(request, 'news/news_comments.html', {'news_list': news})
 
 
 @login_required
@@ -96,7 +94,6 @@ def post_comment(request):
         post = request.POST['post']
         par = request.POST['parent']
         parent = News.objects.get(pk=par)
-        news = parent.get_thread()
         post = post.strip()
         if post:
             parent.reply_this(user, post)
