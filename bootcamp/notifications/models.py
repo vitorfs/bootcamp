@@ -189,7 +189,6 @@ class Notification(models.Model):
         elif self.verb == 'R':
             return 'fa-reply'
 
-
     def mark_as_read(self):
         if self.unread:
             self.unread = False
