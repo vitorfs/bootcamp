@@ -36,6 +36,24 @@ $(function () {
         });
     };
 
+    function update_social_activity (id_value) {
+        var newsToUpdate = $("[news-id=" + id_value + "]");
+        payload = {
+            'id_value': id_value,
+        };
+        $.ajax({
+            url: '/news/update-interactions/',
+            data: payload,
+            type: 'POST',
+            cache: false,
+            success: function (data) {
+                console.log(data)
+                $(".like-count", newsToUpdate).text(data.likes);
+                $(".comment-count", newsToUpdate).text(data.comments);
+            },
+        });
+    };
+
     checkNotifications();
 
     $('#notifications').popover({
@@ -91,21 +109,9 @@ $(function () {
     webSocket.listen(function(event) {
         switch (event.key) {
             case "notification":
+            console.log(currentUser)
                 $("#notifications").addClass("btn-danger");
-
-            case "new_feed":
-                if (event.username != currentUser) {
-                    check_new_feeds();
-                }
-                break;
-            case "liked":
-                update_feeds();
-                break;
-
-            case "commented":
-                track_comments();
-                update_feeds();
-                break;
+                update_social_activity(event.id_value);
 
             default:
                 console.log('error: ', event)

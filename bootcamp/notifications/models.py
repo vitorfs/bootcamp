@@ -212,6 +212,8 @@ def notification_handler(actor, recipient, verb, **kwargs):
     :optional:
     :action_object: Model instance on which the verb was executed.
     """
+    key = kwargs.pop('key', 'notification')
+    id_value = kwargs.pop('id_value', None)
     if recipient == 'global':
         users = get_user_model().objects.all().exclude(username=actor.username)
         for user in users:
@@ -241,12 +243,10 @@ def notification_handler(actor, recipient, verb, **kwargs):
 
     else:
         pass
+    notification_broadcast(actor, key, id_value)
 
-    notification_broadcast(actor)
 
-
-def notification_broadcast(actor):
+def notification_broadcast(actor, key, id_value):
     channel_layer = get_channel_layer()
-    payload = {'type': 'receive', 'key': 'notification', 'username': actor.username}
-    # await channel_layer.group_send("notifications", payload)
+    payload = {'type': 'receive', 'key': key, 'id_value': id_value, 'username': actor.username }
     async_to_sync(channel_layer.group_send)('notifications', payload)

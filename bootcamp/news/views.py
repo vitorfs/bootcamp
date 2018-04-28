@@ -104,3 +104,12 @@ def post_comment(request):
 
     else:
         return HttpResponseBadRequest(content=_('Wrong request type.'))
+
+
+@login_required
+@ajax_required
+def update_interactions(request):
+    data_point = request.POST['id_value']
+    news = News.objects.get(pk=data_point)
+    data = {'likes': news.count_likers(), 'comments': news.count_thread()}
+    return JsonResponse(data)
