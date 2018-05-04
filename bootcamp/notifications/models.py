@@ -210,7 +210,9 @@ def notification_handler(actor, recipient, verb, **kwargs):
     :param verb: Notification attribute with the right choice from the list.
 
     :optional:
-    :action_object: Model instance on which the verb was executed.
+    :param action_object: Model instance on which the verb was executed.
+    :param key: String defining what kind of notification is going to be created.
+    :param id_value: UUID value assigned to a specific element in the DOM.
     """
     key = kwargs.pop('key', 'notification')
     id_value = kwargs.pop('id_value', None)
@@ -223,6 +225,8 @@ def notification_handler(actor, recipient, verb, **kwargs):
                 verb=verb,
                 action_object=kwargs.pop('action_object', None)
             )
+
+        notification_broadcast(actor, key)
 
     elif isinstance(recipient, list):
         for user in recipient:
@@ -240,13 +244,20 @@ def notification_handler(actor, recipient, verb, **kwargs):
             verb=verb,
             action_object=kwargs.pop('action_object', None)
         )
+        notification_broadcast(
+            actor, key, id_value=id_value, recipient=recipient)
 
     else:
         pass
-    notification_broadcast(actor, key, id_value)
 
 
-def notification_broadcast(actor, key, id_value):
+def notification_broadcast(actor, key, **kwargs):
     channel_layer = get_channel_layer()
-    payload = {'type': 'receive', 'key': key, 'id_value': id_value, 'username': actor.username }
+    payload = {
+                'type': 'receive',
+                'key': key,
+                'actor_name': actor.username,
+                'id_value': kwargs.pop('id_value', None),
+                'recipient': kwargs.pop('recipient', None)
+            }
     async_to_sync(channel_layer.group_send)('notifications', payload)
