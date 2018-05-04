@@ -47,7 +47,6 @@ $(function () {
             type: 'POST',
             cache: false,
             success: function (data) {
-                console.log(data)
                 $(".like-count", newsToUpdate).text(data.likes);
                 $(".comment-count", newsToUpdate).text(data.comments);
             },
@@ -109,7 +108,9 @@ $(function () {
     webSocket.listen(function(event) {
         switch (event.key) {
             case "notification":
-            console.log(currentUser)
+                $("#notifications").addClass("btn-danger");
+
+            case "social_update":
                 $("#notifications").addClass("btn-danger");
                 update_social_activity(event.id_value);
 
