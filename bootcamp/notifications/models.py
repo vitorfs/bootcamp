@@ -225,7 +225,6 @@ def notification_handler(actor, recipient, verb, **kwargs):
                 verb=verb,
                 action_object=kwargs.pop('action_object', None)
             )
-
         notification_broadcast(actor, key)
 
     elif isinstance(recipient, list):
@@ -251,13 +250,15 @@ def notification_handler(actor, recipient, verb, **kwargs):
         pass
 
 
-def notification_broadcast(actor, key, **kwargs):
+async def notification_broadcast(actor, key, **kwargs):
     channel_layer = get_channel_layer()
+    id_value = kwargs.pop('id_value', None),
+    recipient = kwargs.pop('recipient', None)
     payload = {
                 'type': 'receive',
                 'key': key,
                 'actor_name': actor.username,
-                'id_value': kwargs.pop('id_value', None),
-                'recipient': kwargs.pop('recipient', None)
+                'id_value': id_value,
+                'recipient': recipient
             }
-    async_to_sync(channel_layer.group_send)('notifications', payload)
+    await channel_layer.group_send('notifications', payload)
