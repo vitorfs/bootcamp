@@ -250,7 +250,7 @@ def notification_handler(actor, recipient, verb, **kwargs):
         pass
 
 
-async def notification_broadcast(actor, key, **kwargs):
+def notification_broadcast(actor, key, **kwargs):
     channel_layer = get_channel_layer()
     id_value = kwargs.pop('id_value', None),
     recipient = kwargs.pop('recipient', None)
@@ -261,4 +261,4 @@ async def notification_broadcast(actor, key, **kwargs):
                 'id_value': id_value,
                 'recipient': recipient
             }
-    await channel_layer.group_send('notifications', payload)
+    async_to_sync(channel_layer.group_send)('notifications', payload)
