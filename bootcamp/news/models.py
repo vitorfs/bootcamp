@@ -45,7 +45,8 @@ class News(models.Model):
             self.liked.add(user)
             notification_handler(user, self.user,
                                  Notification.LIKED, action_object=self,
-                                 id_value=str(self.uuid_id))
+                                 id_value=str(self.uuid_id),
+                                 key='social_update')
 
         return is_liked
 
@@ -74,7 +75,7 @@ class News(models.Model):
         )
         notification_handler(
             user, parent.user, Notification.REPLY, action_object=reply_news,
-            id_value=str(parent.uuid_id))
+            id_value=str(parent.uuid_id), key='social_update')
 
     def count_answers(self):
         parent = self.get_parent()
