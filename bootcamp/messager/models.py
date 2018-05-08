@@ -14,6 +14,12 @@ class MessageQuerySet(models.query.QuerySet):
         qs_two = self.filter(sender=recipient, recipient=sender)
         return qs_one.union(qs_two).order_by('-timestamp')
 
+    def mark_conversation_as_read(self, sender, recipient):
+        """Mark as read any unread elements in the current conversation.
+        """
+        qs = self.filter(sender=sender, recipient=recipient)
+        return qs.update(unread=False)
+
 
 class Message(models.Model):
     """A private message sent between users.
@@ -28,7 +34,7 @@ class Message(models.Model):
         blank=True, verbose_name=_("Recipient"), on_delete=models.SET_NULL)
     timestamp = models.DateTimeField(auto_now_add=True)
     message = models.TextField(max_length=1000, blank=True)
-    is_read = models.BooleanField(default=False)
+    unread = models.BooleanField(default=True, db_index=True)
     objects = MessageQuerySet.as_manager()
 
     class Meta:
@@ -37,3 +43,24 @@ class Message(models.Model):
 
     def __str__(self):
         return self.message
+
+    def mark_as_read(self):
+        """Method to mark a message as read"""
+        if self.unread:
+            self.unread = False
+            self.save()
+
+    def send_new_message(self, sender, recipient, message):
+        """Method to create a new message in a conversation.
+        :requires:
+
+        :param sender: User instance of the user sending the message.
+        :param recipient: User instance of the user to recieve the message.
+        :param message: Text piece shorter than 1000 characters containing the
+                        actual message.
+        """
+        new_message = Message.object.create(
+            sender=sender,
+            recipient=recipient
+            message=message
+        )
