@@ -61,6 +61,6 @@ class Message(models.Model):
         """
         new_message = Message.object.create(
             sender=sender,
-            recipient=recipient
+            recipient=recipient,
             message=message
         )
