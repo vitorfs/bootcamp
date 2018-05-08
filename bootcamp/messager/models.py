@@ -22,7 +22,7 @@ class Message(models.Model):
         primary_key=True, default=uuid.uuid4, editable=False)
     sender = models.ForeignKey(
         settings.AUTH_USER_MODEL, related_name='sent_messages',
-        verbose_name=_("Sender"), on_delete=models.SET_NULL)
+        verbose_name=_("Sender"), null=True, on_delete=models.SET_NULL)
     recipient = models.ForeignKey(
         settings.AUTH_USER_MODEL, related_name='received_messages', null=True,
         blank=True, verbose_name=_("Recipient"), on_delete=models.SET_NULL)

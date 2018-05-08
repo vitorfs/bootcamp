@@ -84,6 +84,7 @@ LOCAL_APPS = [
     'bootcamp.notifications.apps.NotificationsConfig',
     'bootcamp.articles.apps.ArticlesConfig',
     'bootcamp.news.apps.NewsConfig',
+    'bootcamp.messager.apps.MessagerConfig',
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
