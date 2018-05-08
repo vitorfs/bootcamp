@@ -244,21 +244,33 @@ def notification_handler(actor, recipient, verb, **kwargs):
             action_object=kwargs.pop('action_object', None)
         )
         notification_broadcast(
-            actor, key, id_value=id_value, recipient=recipient)
+            actor, key, id_value=id_value, recipient=recipient.username)
 
     else:
         pass
 
 
 def notification_broadcast(actor, key, **kwargs):
+    """Notification handler to broadcast calls to the recieve layer of the
+    WebSocket consumer of this app.
+    :requires:
+    :param actor: User instance of that user who makes the action.
+    :param key: String parameter to indicate the client which action to
+                perform.
+
+    :optional:
+    :param id_value: UUID value assigned to a specific element in the DOM.
+    :param recipient: String indicating the name of that who needs to be
+                      notified.
+    """
     channel_layer = get_channel_layer()
-    id_value = kwargs.pop('id_value', None),
+    id_value = kwargs.pop('id_value', None)
     recipient = kwargs.pop('recipient', None)
     payload = {
-                'type': 'receive',
-                'key': key,
-                'actor_name': actor.username,
-                'id_value': id_value,
-                'recipient': recipient
-            }
+            'type': 'receive',
+            'key': key,
+            'actor_name': actor.username,
+            'id_value': id_value,
+            'recipient': recipient
+        }
     async_to_sync(channel_layer.group_send)('notifications', payload)
