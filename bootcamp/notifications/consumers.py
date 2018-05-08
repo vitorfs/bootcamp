@@ -29,10 +29,4 @@ class NotificationsConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         """Receive method implementation to redirect any new message received
         on the websocket to broadcast to all the clients."""
-        payload = {
-                'key': text_data['key'],
-                'actor_name': text_data['actor_name'],
-                'id_value': text_data['id_value'],
-                'recipient': text_data['recipient']
-            }
-        await self.send(text_data=json.dumps(payload))
+        await self.send(text_data=json.dumps(text_data))
