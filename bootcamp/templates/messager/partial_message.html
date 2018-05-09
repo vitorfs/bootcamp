@@ -8,7 +8,7 @@
     <img class="picture" src="{% static 'img/user.png' %}" height="45px" alt="{% trans 'No Profile Picture' %}" />
   {% endthumbnail %}
   <div>
-    <h5>
+    <h6>
       <small class="pull-right">{{ message.timestamp|date:'N d G:i' }}</small>
       <b>
         <a href="{% url 'users:detail' message.sender.username  %}">
@@ -19,7 +19,7 @@
           {% endif %}
         </a>
       </b>
-    </h5>
+    </h6>
     {{ message.message }}
   </div>
 </li>
