@@ -10,7 +10,14 @@
 {% block content %}
 
   <div class="page-header">
-    <h1>{% block page_header %}{% endblock %}</h1>
+    <h1>
+      {% if request.user.name %}
+        {{ request.user.name|title }}
+      {% else %}
+        {{ request.user.username|title }}
+      {% endif %}
+      {% trans 'Conversations' %}
+    </h1>
   </div>
   <div class="row" style="margin-top: 1em">
     <div class="col-md-3 list-group users-list">
@@ -47,7 +54,11 @@
         <script type="text/javascript">window.onload = $('.conversation').scrollTop($('.conversation')[0].scrollHeight);</script>
       </div>
       <div class="chat-box">
-        <img src="{{ user.profile.get_picture }}" class="picture">
+        {% thumbnail user.picture "x30" as im %}
+          <img src="{{ im.url }}" alt="{% trans 'Picture Profile' %}">
+        {% empty %}
+          <img src="{% static 'img/user.png' %}" height="30px" alt="{% trans 'No Profile Picture' %}" />
+        {% endthumbnail %}
         <form role="form" method="post" action="#" id="send">
           {% csrf_token %}
           <input type="hidden" name="to" value="{{ active }}">
