@@ -15,7 +15,8 @@
   <div class="row" style="margin-top: 1em">
     <div class="col-md-3 list-group users-list">
       {% for user in users_list %}
-        <a href="#" class="list-group-item list-group-item-action {% if active.username == user.username %}active{% endif %}">
+        <a href="{% url 'messager:conversation_detail' user.username  %}"
+           class="list-group-item list-group-item-action {% if active == user.username %}active{% endif %}">
           <!-- Commenting this line to be implemented later
           <span class="btn btn-danger btn-circle" id="online-stat-{{ user.username }}"></span>
           -->

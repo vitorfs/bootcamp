@@ -11,7 +11,7 @@
     <h5>
       <small class="pull-right">{{ message.timestamp|date:'N d G:i' }}</small>
       <b>
-        <a href="#">
+        <a href="{% url 'users:detail' message.sender.username  %}">
           {% if message.sender.name %}
             {{ message.sender.name|title }}
           {% else %}

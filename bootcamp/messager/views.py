@@ -17,12 +17,27 @@ class MessagesListView(LoginRequiredMixin, ListView):
         context['users_list'] = get_user_model().objects.filter(
             is_active=True).exclude(
                 username=self.request.user).order_by('username')
-        context['active'] = Message.objects.get_most_recent_conversation(
+        last_conversation = Message.objects.get_most_recent_conversation(
             self.request.user
         )
+        context['active'] = last_conversation.username
         return context
 
     def get_queryset(self):
         active_user = Message.objects.get_most_recent_conversation(
             self.request.user)
+        return Message.objects.get_conversation(active_user, self.request.user)
+
+
+class ConversationListView(MessagesListView):
+    """CBV to render the inbox, showing an specific conversation with a given
+    user, who requires to be active too."""
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['active'] = self.kwargs["username"]
+        return context
+
+    def get_queryset(self):
+        active_user = get_user_model().objects.get(
+            username=self.kwargs["username"])
         return Message.objects.get_conversation(active_user, self.request.user)
