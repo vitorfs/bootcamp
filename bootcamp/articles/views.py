@@ -16,8 +16,7 @@ class ArticlesListView(LoginRequiredMixin, ListView):
     context_object_name = "articles"
 
     def get_context_data(self, *args, **kwargs):
-        context = super(
-            ArticlesListView, self).get_context_data(*args, **kwargs)
+        context = super().get_context_data(*args, **kwargs)
         context['popular_tags'] = Article.get_counted_tags()
         return context
 
@@ -32,8 +31,7 @@ class DraftsListView(LoginRequiredMixin, ListView):
     context_object_name = "articles"
 
     def get_context_data(self, *args, **kwargs):
-        context = super(
-            DraftsListView, self).get_context_data(*args, **kwargs)
+        context = super().get_context_data(*args, **kwargs)
         context['popular_tags'] = Article.get_counted_tags()
         return context
 
@@ -50,7 +48,7 @@ class CreateArticleView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        return super(CreateArticleView, self).form_valid(form)
+        return super().form_valid(form)
 
     def get_success_url(self):
         messages.success(self.request, self.message)
@@ -66,7 +64,7 @@ class EditArticleView(LoginRequiredMixin, AuthorRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        return super(EditArticleView, self).form_valid(form)
+        return super().form_valid(form)
 
     def get_success_url(self):
         messages.success(self.request, self.message)
