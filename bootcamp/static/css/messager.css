@@ -1,0 +1,119 @@
+.users-list {
+  height: 85vh;
+  overflow-y: auto;
+}
+
+.btn-circle {
+  width: 15px;
+  height: 15px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 10px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+}
+
+.chat-status {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.conversation {
+  margin: 0;
+  padding: 0;
+  height: 83vh;
+  overflow-y: auto;
+}
+
+.conversation li {
+  list-style: none;
+  padding: .6em 0;
+}
+
+.conversation li h5 {
+  margin: 0;
+  margin-bottom: .2em;
+}
+
+.conversation li div {
+  margin-left: 50px;
+}
+
+.conversation .picture {
+  width: 40px;
+  border-radius: 5px;
+  float: left;
+}
+
+.conversation-portrait {
+  width: 20px;
+  border-radius: 3px;
+  margin-right: 5px;
+}
+
+.chat-box {
+  position: fixed;
+  bottom: 0;
+  height: 50px;
+  background-color: white;
+}
+
+.chat-box .picture {
+  width: 40px;
+  border-radius: 5px;
+  float: left;
+}
+
+.chat-box form {
+  margin-left: 50px;
+  margin-top: .3em;
+  width: auto;
+}
+
+.chat-box form input {
+  width: 100%;
+}
+
+.typeahead, .tt-query, .tt-hint {
+  border: 1px solid #CCCCCC;
+  border-radius: 5px;
+  font-size: 1.2em;
+  height: 35px;
+  line-height: 35px;
+  outline: medium none;
+  padding: 4px 12px;
+  width: 300px;
+}
+.typeahead {
+  background-color: #FFFFFF;
+}
+.typeahead:focus {
+  border: 2px solid #0097CF;
+}
+.tt-query {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+}
+.tt-hint {
+  color: #999999;
+}
+.tt-dropdown-menu {
+  background-color: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  margin-top: 8px;
+  padding: 8px 0;
+  width: 300px;
+}
+.tt-suggestion {
+  font-size: 1.2em;
+  line-height: 24px;
+  padding: 3px 20px;
+}
+.tt-suggestion.tt-cursor {
+  background-color: #0097CF;
+  color: #FFFFFF;
+}
+.tt-suggestion p {
+  margin: 0;
+}
