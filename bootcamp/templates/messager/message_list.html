@@ -15,8 +15,7 @@
   <div class="row" style="margin-top: 1em">
     <div class="col-md-3 list-group users-list">
       {% for user in users_list %}
-        <a href="#"
-          class="list-group-item{% if active == user.username %} active{% endif %}">
+        <a href="#" class="list-group-item list-group-item-action {% if active.username == user.username %}active{% endif %}">
           <!-- Commenting this line to be implemented later
           <span class="btn btn-danger btn-circle" id="online-stat-{{ user.username }}"></span>
           -->
@@ -30,15 +29,14 @@
           {% else %}
             {{ user.username|title }}
           {% endif %}
-          <i class="pull-right{% if active.username == user.username %} text-white{% else %} text-primary{% endif %} fa fa-envelope-o" aria-hidden="true" style="display: none" id="new-message-{{ conversation.user.username }}"></i>
         </a>
       {% endfor %}
     </div>
     <div class="col-md-9" id='chat-container'>
       <div class="conversation">
-        {% if messages %}
-          {% for message in messages %}
-            {% include 'messenger/includes/partial_message.html' with message=message %}
+        {% if message_list %}
+          {% for message in message_list %}
+            {% include 'messager/partial_message.html' with message=message %}
           {% endfor %}
         {% else %}
           <h4>{% trans 'This is the begining of a great new conversation.' %}</h4>

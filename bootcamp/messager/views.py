@@ -18,7 +18,8 @@ class MessagesListView(LoginRequiredMixin, ListView):
             is_active=True).exclude(
                 username=self.request.user).order_by('username')
         context['active'] = Message.objects.get_most_recent_conversation(
-            self.request.user)
+            self.request.user
+        )
         return context
 
     def get_queryset(self):
