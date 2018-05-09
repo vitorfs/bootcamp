@@ -47,7 +47,7 @@
                   <li class="nav-item"><a class="nav-link" href="{% url 'news:list' %}">{% trans 'News' %} <span class="sr-only">(current)</span></a></li>
                   <li class="nav-item"><a class="nav-link" href="{% url 'articles:list' %}">Blog</a></li>
                   <li class="nav-item"><a class="nav-link" href="#">{% trans 'Q&A' %}</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#">{% trans 'Inbox' %}</a></li>
+                  <li class="nav-item"><a class="nav-link" href="{% url 'messager:messages_list' %}">{% trans 'Inbox' %}</a></li>
                   <li class="nav-item"><a class="nav-link" href="{% url 'users:list' %}">{% trans 'Contacts' %}</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">

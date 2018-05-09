@@ -1,0 +1,25 @@
+{% load static i18n humanize %}
+{% load thumbnail %}
+
+<li>
+  {% thumbnail message.sender.picture "x45" as im %}
+    <img class="picture" src="{{ im.url }}" alt="{% trans 'Picture Profile' %}">
+  {% empty %}
+    <img class="picture" src="{% static 'img/user.png' %}" height="45px" alt="{% trans 'No Profile Picture' %}" />
+  {% endthumbnail %}
+  <div>
+    <h5>
+      <small class="pull-right">{{ message.timestamp|date:'N d G:i' }}</small>
+      <b>
+        <a href="#">
+          {% if message.sender.name %}
+            {{ message.sender.name|title }}
+          {% else %}
+            {{ message.sender.username|title }}
+          {% endif %}
+        </a>
+      </b>
+    </h5>
+    {{ message.message }}
+  </div>
+</li>
