@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% load thumbnail %}
+{% block title %}{% trans 'Messages' %}{% endblock %}
+
+{% block head %}
+  <link href="{% static 'css/messager.css' %}" rel="stylesheet">
+{% endblock head %}
+
+{% block content %}
+
+  <div class="page-header">
+    <h1>{% block page_header %}{% endblock %}</h1>
+  </div>
+  <div class="row" style="margin-top: 1em">
+    <div class="col-md-3 list-group users-list">
+      {% for user in users_list %}
+        <a href="#"
+          class="list-group-item{% if active == user.username %} active{% endif %}">
+          <!-- Commenting this line to be implemented later
+          <span class="btn btn-danger btn-circle" id="online-stat-{{ user.username }}"></span>
+          -->
+          {% thumbnail user.picture "x30" as im %}
+            <img src="{{ im.url }}" alt="{% trans 'Picture Profile' %}">
+          {% empty %}
+            <img src="{% static 'img/user.png' %}" height="30px" alt="{% trans 'No Profile Picture' %}" />
+          {% endthumbnail %}
+          {% if user.name %}
+            {{ user.name|title }}
+          {% else %}
+            {{ user.username|title }}
+          {% endif %}
+          <i class="pull-right{% if active.username == user.username %} text-white{% else %} text-primary{% endif %} fa fa-envelope-o" aria-hidden="true" style="display: none" id="new-message-{{ conversation.user.username }}"></i>
+        </a>
+      {% endfor %}
+    </div>
+    <div class="col-md-9" id='chat-container'>
+      <div class="conversation">
+        {% if messages %}
+          {% for message in messages %}
+            {% include 'messenger/includes/partial_message.html' with message=message %}
+          {% endfor %}
+        {% else %}
+          <h4>{% trans 'This is the begining of a great new conversation.' %}</h4>
+          <p>{% trans "Let's get started now!" %}</p>
+        {% endif %}
+        <li class="send-message"></li>
+        <script type="text/javascript">window.onload = $('.conversation').scrollTop($('.conversation')[0].scrollHeight);</script>
+      </div>
+      <div class="chat-box">
+        <img src="{{ user.profile.get_picture }}" class="picture">
+        <form role="form" method="post" action="#" id="send">
+          {% csrf_token %}
+          <input type="hidden" name="to" value="{{ active }}">
+          <input class="form-control" type="text" name="message" placeholder="Write a message..." maxlength="1000" autocomplete="off">
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+{% endblock content %}
+
+{% block modal %}
+    <script type="text/javascript">
+        var activeUser = "{{ active }}";
+    </script>
+    <script src="{% static 'js/box-reziser.js'%}"></script>
+    <script src="{% static 'js/messages.js' %}"></script>
+{% endblock modal %}
