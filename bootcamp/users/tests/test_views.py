@@ -38,7 +38,7 @@ class TestUserUpdateView(BaseUserTestCase):
 
     def setUp(self):
         # call BaseUserTestCase.setUp()
-        super(TestUserUpdateView, self).setUp()
+        super().setUp()
         # Instantiate the view directly. Never do this outside a test!
         self.view = UserUpdateView()
         # Generate a fake request

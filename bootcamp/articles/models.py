@@ -58,7 +58,7 @@ class Article(models.Model):
             self.slug = slugify(f"{self.user.username}-{self.title}",
                                 to_lower=True, max_length=80)
 
-        super(Article, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     @staticmethod
     def get_counted_tags():
