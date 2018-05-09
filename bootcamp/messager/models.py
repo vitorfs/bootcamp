@@ -6,7 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class MessageQuerySet(models.query.QuerySet):
-    """Personalized queryset created to improve model usability"""
+    """Personalized queryset created to improve model usability."""
 
     def get_conversation(self, sender, recipient):
         """Returns all the messages sent between two users."""
@@ -14,16 +14,18 @@ class MessageQuerySet(models.query.QuerySet):
         qs_two = self.filter(sender=recipient, recipient=sender)
         return qs_one.union(qs_two).order_by('-timestamp')
 
+    def get_most_recent_conversation(self, recipient):
+        """Returns the most recent message sender username."""
+        return self.filter(recipient=recipient).latest('timestamp').sender
+
     def mark_conversation_as_read(self, sender, recipient):
-        """Mark as read any unread elements in the current conversation.
-        """
+        """Mark as read any unread elements in the current conversation."""
         qs = self.filter(sender=sender, recipient=recipient)
         return qs.update(unread=False)
 
 
 class Message(models.Model):
-    """A private message sent between users.
-    """
+    """A private message sent between users."""
     uuid_id = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False)
     sender = models.ForeignKey(
@@ -45,7 +47,7 @@ class Message(models.Model):
         return self.message
 
     def mark_as_read(self):
-        """Method to mark a message as read"""
+        """Method to mark a message as read."""
         if self.unread:
             self.unread = False
             self.save()

@@ -20,8 +20,11 @@ urlpatterns = [
     # Local apps here
     url(r'^notifications/',
         include('bootcamp.notifications.urls', namespace='notifications')),
-    url(r'^articles/', include('bootcamp.articles.urls', namespace='articles')),
+    url(r'^articles/',
+        include('bootcamp.articles.urls', namespace='articles')),
     url(r'^news/', include('bootcamp.news.urls', namespace='news')),
+    url(r'^messages/',
+        include('bootcamp.messager.urls', namespace='messager')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
