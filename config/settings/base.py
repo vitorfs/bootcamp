@@ -76,6 +76,7 @@ THIRD_PARTY_APPS = [
     'channels',
     'taggit',
     'django_comments',
+    'graphene_django',
 ]
 LOCAL_APPS = [
     'bootcamp.users.apps.UsersConfig',
@@ -264,4 +265,9 @@ CHANNEL_LAYERS = {
             'hosts': [REDIS_URL, ],
         },
     }
+}
+
+# GraphQL settings
+GRAPHENE = {
+    'SCHEMA': 'bootcamp.schema.schema'
 }
