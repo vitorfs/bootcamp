@@ -22,3 +22,7 @@ sorl-thumbnail==12.4.1  # https://github.com/jazzband/sorl-thumbnail
 # ------------------------------------------------------------------------------
 channels==2.0.2  # https://github.com/django/channels
 channels-redis==2.1.1  # https://github.com/django/channels_redis
+
+# GraphQL API
+# ------------------------------------------------------------------------------
+graphene-django>=2.0  # https://github.com/graphql-python/graphene-django
