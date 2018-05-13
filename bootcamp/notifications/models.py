@@ -112,10 +112,10 @@ class Notification(models.Model):
         (REPLY, _('replied to'))
         )
     actor = models.ForeignKey(settings.AUTH_USER_MODEL,
-                              related_name='notify_actor',
+                              related_name="notify_actor",
                               on_delete=models.CASCADE)
     recipient = models.ForeignKey(settings.AUTH_USER_MODEL, blank=False,
-        related_name='notifications', on_delete=models.CASCADE)
+        related_name="notifications", on_delete=models.CASCADE)
     unread = models.BooleanField(default=True, db_index=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     uuid_id = models.UUIDField(
@@ -123,12 +123,12 @@ class Notification(models.Model):
     slug = models.SlugField(max_length=210, null=True, blank=True)
     verb = models.CharField(max_length=1, choices=NOTIFICATION_TYPES)
     action_object_content_type = models.ForeignKey(ContentType,
-        blank=True, null=True, related_name='notify_action_object',
+        blank=True, null=True, related_name="notify_action_object",
         on_delete=models.CASCADE)
     action_object_object_id = models.CharField(
         max_length=50, blank=True, null=True)
     action_object = GenericForeignKey(
-        'action_object_content_type', 'action_object_object_id')
+        "action_object_content_type", "action_object_object_id")
     objects = NotificationQuerySet.as_manager()
 
     class Meta:

@@ -32,7 +32,7 @@ class Article(models.Model):
     )
 
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, null=True, related_name=_("Author"),
+        settings.AUTH_USER_MODEL, null=True, related_name="author",
         on_delete=models.SET_NULL)
     image = models.ImageField(
         _('Featured image'), upload_to='articles_pictures/%Y/%m/%d/')
