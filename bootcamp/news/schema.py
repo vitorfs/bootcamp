@@ -23,35 +23,7 @@ class NewsType(DjangoObjectType):
 
 class NewsPaginatedType(graphene.ObjectType):
     """A paginated type generic object to provide pagination to the news
-    graph.
-
-    An example query to provide on the FrontEnd side:
-
-    query{
-        paginatedNews(page:1){
-            page
-            pages
-            hasNext
-            hasPrev
-            objects {
-            content
-            timestamp
-            countThread
-            countLikers
-            user {
-                name
-                picture
-            }
-            liked {
-                name
-            }
-            thread{
-                content
-            }
-            }
-        }
-    }
-    """
+    graph."""
     page = graphene.Int()
     pages = graphene.Int()
     has_next = graphene.Boolean()
