@@ -3,6 +3,7 @@ import graphene
 from graphene_django.types import DjangoObjectType
 
 from bootcamp.news.models import News
+from bootcamp.helpers import paginate_data
 
 
 class NewsType(DjangoObjectType):
@@ -20,12 +21,59 @@ class NewsType(DjangoObjectType):
         return self.liked.count()
 
 
+class NewsPaginatedType(graphene.ObjectType):
+    """A paginated type generic object to provide pagination to the news
+    graph.
+
+    An example query to provide on the FrontEnd side:
+
+    query{
+        paginatedNews(page:1){
+            page
+            pages
+            hasNext
+            hasPrev
+            objects {
+            content
+            timestamp
+            countThread
+            countLikers
+            user {
+                name
+                picture
+            }
+            liked {
+                name
+            }
+            thread{
+                content
+            }
+            }
+        }
+    }
+    """
+    page = graphene.Int()
+    pages = graphene.Int()
+    has_next = graphene.Boolean()
+    has_prev = graphene.Boolean()
+    objects = graphene.List(NewsType)
+
+
 class NewsQuery(object):
     all_news = graphene.List(NewsType)
+    paginated_news = graphene.Field(NewsPaginatedType, page=graphene.Int())
     news = graphene.Field(NewsType, uuid_id=graphene.String())
 
     def resolve_all_news(self, info, **kwargs):
         return News.objects.filter(reply=False)
+
+
+    def resolve_paginated_news(self, info, page):
+        """Resolver functions to query the objects and turn the queryset into
+        the PaginatedType using the helper function"""
+        page_size = 30
+        qs = News.objects.filter(reply=False)
+        return paginate_data(qs, page_size, page, NewsPaginatedType)
 
     def resolve_news(self, info, **kwargs):
         uuid_id = kwargs.get('uuid_id')
