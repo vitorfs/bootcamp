@@ -77,10 +77,6 @@ class News(models.Model):
             user, parent.user, Notification.REPLY, action_object=reply_news,
             id_value=str(parent.uuid_id), key='social_update')
 
-    def count_answers(self):
-        parent = self.get_parent()
-        return parent.thread.all().count()
-
     def get_thread(self):
         parent = self.get_parent()
         return parent.thread.all()
