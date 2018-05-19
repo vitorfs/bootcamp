@@ -13,7 +13,7 @@ class MessageQuerySet(models.query.QuerySet):
         """Returns all the messages sent between two users."""
         qs_one = self.filter(sender=sender, recipient=recipient)
         qs_two = self.filter(sender=recipient, recipient=sender)
-        return qs_one.union(qs_two).order_by('-timestamp')
+        return qs_one.union(qs_two).order_by('timestamp')
 
     def get_most_recent_conversation(self, recipient):
         """Returns the most recent message sender username."""
@@ -66,8 +66,9 @@ class Message(models.Model):
         :param message: Text piece shorter than 1000 characters containing the
                         actual message.
         """
-        new_message = Message.object.create(
+        new_message = Message.objects.create(
             sender=sender,
             recipient=recipient,
             message=message
         )
+        return new_message
