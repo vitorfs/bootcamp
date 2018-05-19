@@ -76,6 +76,7 @@ THIRD_PARTY_APPS = [
     'channels',
     'taggit',
     'django_comments',
+    'graphene_django',
 ]
 LOCAL_APPS = [
     'bootcamp.users.apps.UsersConfig',
@@ -236,7 +237,7 @@ ADMIN_URL = r'^admin/'
 
 # django-allauth
 # ------------------------------------------------------------------------------
-ACCOUNT_ALLOW_REGISTRATION = env.bool('DJANGO_ACCOUNT_ALLOW_REGISTRATION', True)
+ACCOUNT_ALLOW_REGISTRATION = env.bool('ACCOUNT_ALLOW_REGISTRATION', True)
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
@@ -265,4 +266,9 @@ CHANNEL_LAYERS = {
             'hosts': [REDIS_URL, ],
         },
     }
+}
+
+# GraphQL settings
+GRAPHENE = {
+    'SCHEMA': 'bootcamp.schema.schema'
 }
