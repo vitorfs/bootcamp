@@ -1,6 +1,7 @@
 import uuid
 
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -16,7 +17,11 @@ class MessageQuerySet(models.query.QuerySet):
 
     def get_most_recent_conversation(self, recipient):
         """Returns the most recent message sender username."""
-        return self.filter(recipient=recipient).latest('timestamp').sender
+        try:
+            return self.filter(recipient=recipient).latest('timestamp').sender
+
+        except self.model.DoesNotExist:
+            return get_user_model().objects.get(username=recipient.username)
 
     def mark_conversation_as_read(self, sender, recipient):
         """Mark as read any unread elements in the current conversation."""
