@@ -49,20 +49,16 @@
   border-radius: 3px;
   margin-right: 5px;
 }
-/*
+
 .chat-box {
   position: fixed;
   bottom: 0;
-  height: 50px;
-  background-color: white;
+  width: 45%;
+  /* height: 50px;
+  background-color: white; */
 }
 
-.chat-box .picture {
-  width: 40px;
-  border-radius: 5px;
-  float: left;
-}
-
+/*
 .chat-box form {
   margin-left: 50px;
   margin-top: .3em;
@@ -71,6 +67,12 @@
 
 .chat-box form input {
   width: 100%;
+}
+
+.chat-box .picture {
+  width: 40px;
+  border-radius: 5px;
+  float: left;
 }
 
 .typeahead, .tt-query, .tt-hint {
