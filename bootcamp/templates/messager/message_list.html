@@ -40,7 +40,7 @@
         </a>
       {% endfor %}
     </div>
-    <div class="col-md-9" id='chat-container'>
+    <div class="col-md-9">
       <div class="conversation">
         {% if message_list %}
           {% for message in message_list %}
@@ -51,20 +51,23 @@
           <p>{% trans "Let's get started now!" %}</p>
         {% endif %}
         <li class="send-message"></li>
-        <script type="text/javascript">window.onload = $('.conversation').scrollTop($('.conversation')[0].scrollHeight);</script>
+        {% comment %} <script type="text/javascript">window.onload = $('.conversation').scrollTop($('.conversation')[0].scrollHeight);</script> {% endcomment %}
       </div>
+      <form class="chat-box">
+        <div class="form-group" role="form" method="post" action="#" id="send">
+          {% csrf_token %}
+          <input type="hidden" name="to" value="{{ active }}">
+          <input class="form-control" type="text" name="message" placeholder="Write a message..." maxlength="1000" autocomplete="off">
+        </div>
+      </form>
+      {% comment %}
       <div class="chat-box">
-        {% thumbnail user.picture "x30" as im %}
-          <img src="{{ im.url }}" alt="{% trans 'Picture Profile' %}">
-        {% empty %}
-          <img src="{% static 'img/user.png' %}" height="30px" alt="{% trans 'No Profile Picture' %}" />
-        {% endthumbnail %}
         <form role="form" method="post" action="#" id="send">
           {% csrf_token %}
           <input type="hidden" name="to" value="{{ active }}">
           <input class="form-control" type="text" name="message" placeholder="Write a message..." maxlength="1000" autocomplete="off">
         </form>
-      </div>
+      </div> {% endcomment %}
     </div>
 
   </div>
