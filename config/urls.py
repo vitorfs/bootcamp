@@ -5,6 +5,8 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 from django.views import defaults as default_views
 
+from graphene_django.views import GraphQLView
+
 urlpatterns = [
     url(r'^$',
         TemplateView.as_view(template_name='pages/home.html'), name='home'),
@@ -17,6 +19,7 @@ urlpatterns = [
     url(r'^accounts/', include('allauth.urls')),
     # Third party apps here
     url(r'^comments/', include('django_comments.urls')),
+    url(r'^graphql', GraphQLView.as_view(graphiql=True)),
     # Local apps here
     url(r'^notifications/',
         include('bootcamp.notifications.urls', namespace='notifications')),

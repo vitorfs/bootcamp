@@ -12,7 +12,7 @@ class News(models.Model):
     """News model to contain small information snippets in the same manner as
     Twitter does."""
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, null=True, related_name=_("Publisher"),
+        settings.AUTH_USER_MODEL, null=True, related_name="publisher",
         on_delete=models.SET_NULL)
     parent = models.ForeignKey("self", blank=True,
         null=True, on_delete=models.CASCADE, related_name="thread")
@@ -76,10 +76,6 @@ class News(models.Model):
         notification_handler(
             user, parent.user, Notification.REPLY, action_object=reply_news,
             id_value=str(parent.uuid_id), key='social_update')
-
-    def count_answers(self):
-        parent = self.get_parent()
-        return parent.thread.all().count()
 
     def get_thread(self):
         parent = self.get_parent()
