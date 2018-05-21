@@ -47,6 +47,7 @@ class Message(models.Model):
     class Meta:
         verbose_name = _("Message")
         verbose_name_plural = _("Messages")
+        ordering = ("-timestamp", )
 
     def __str__(self):
         return self.message
