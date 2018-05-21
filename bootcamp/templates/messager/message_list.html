@@ -44,7 +44,7 @@
       <div class="conversation">
         {% if message_list %}
           {% for message in message_list %}
-            {% include 'messager/partial_message.html' with message=message %}
+            {% include 'messager/single_message.html' with message=message %}
           {% endfor %}
         {% else %}
           <h4>{% trans 'This is the begining of a great new conversation.' %}</h4>
