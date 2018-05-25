@@ -24,9 +24,6 @@
       {% for user in users_list %}
         <a href="{% url 'messager:conversation_detail' user.username  %}"
            class="list-group-item list-group-item-action {% if active == user.username %}active{% endif %}">
-          <!-- Commenting this line to be implemented later
-          <span class="btn btn-danger btn-circle" id="online-stat-{{ user.username }}"></span>
-          -->
           {% thumbnail user.picture "x30" as im %}
             <img src="{{ im.url }}" alt="{% trans 'Picture Profile' %}">
           {% empty %}
@@ -40,8 +37,8 @@
         </a>
       {% endfor %}
     </div>
-    <div class="col-md-9">
-      <div class="conversation">
+    <div id="conversation" class="col-md-9">
+      <div class="messages-list">
         {% if message_list %}
           {% for message in message_list %}
             {% include 'messager/single_message.html' with message=message %}
@@ -51,23 +48,16 @@
           <p>{% trans "Let's get started now!" %}</p>
         {% endif %}
         <li class="send-message"></li>
-        {% comment %} <script type="text/javascript">window.onload = $('.conversation').scrollTop($('.conversation')[0].scrollHeight);</script> {% endcomment %}
       </div>
-      <form class="chat-box">
+      <div class="chat-box">
+        <form>
         <div class="form-group" role="form" method="post" action="#" id="send">
           {% csrf_token %}
           <input type="hidden" name="to" value="{{ active }}">
-          <input class="form-control" type="text" name="message" placeholder="Write a message..." maxlength="1000" autocomplete="off">
+          <input class="form-control" type="text" name="message" placeholder="{% trans 'Write a message...' %}" maxlength="1000" autocomplete="off">
         </div>
       </form>
-      {% comment %}
-      <div class="chat-box">
-        <form role="form" method="post" action="#" id="send">
-          {% csrf_token %}
-          <input type="hidden" name="to" value="{{ active }}">
-          <input class="form-control" type="text" name="message" placeholder="Write a message..." maxlength="1000" autocomplete="off">
-        </form>
-      </div> {% endcomment %}
+      </div>
     </div>
 
   </div>
@@ -77,6 +67,7 @@
 {% block modal %}
   <script type="text/javascript">
       var activeUser = "{{ active }}";
+      window.onload = $('.messages-list').scrollTop($('.messages-list')[0].scrollHeight);
   </script>
   <script src="{% static 'js/box-reziser.js'%}"></script>
   <script src="{% static 'js/messages.js' %}"></script>
