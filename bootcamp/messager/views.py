@@ -1,7 +1,12 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse, HttpResponseBadRequest
+from django.shortcuts import render
 from django.views.generic import ListView
+
 from bootcamp.messager.models import Message
+from bootcamp.helpers import ajax_required
 
 
 class MessagesListView(LoginRequiredMixin, ListView):
@@ -41,3 +46,43 @@ class ConversationListView(MessagesListView):
         active_user = get_user_model().objects.get(
             username=self.kwargs["username"])
         return Message.objects.get_conversation(active_user, self.request.user)
+
+
+@login_required
+@ajax_required
+def send_message(request):
+    """AJAX Functional view to recieve just the minimum information, process
+    and create the new message and return the new data to be attached to the
+    conversation stream."""
+    if request.method == 'POST':
+        sender = request.user
+        recipient_username = request.POST.get('to')
+        recipient = get_user_model().objects.get(username=recipient_username)
+        message = request.POST.get('message')
+        if len(message.strip()) == 0:
+            return HttpResponse()
+
+        if sender != recipient:
+            msg = Message.send_message(sender, recipient, message)
+            return render(request, 'messager/single_message.html',
+                          {'message': msg})
+
+        return HttpResponse()
+
+    else:
+        return HttpResponseBadRequest()
+
+
+@login_required
+@ajax_required
+def receive_message(request):
+    """Simple AJAX functional view to return a rendered single message on the
+    receiver side providing realtime connections."""
+    if request.method == 'GET':
+        message_id = request.GET.get('message_id')
+        message = Message.objects.get(pk=message_id)
+        return render(request,
+                      'messager/single_message.html', {'message': message})
+
+    else:
+        return HttpResponseBadRequest()

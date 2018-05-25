@@ -58,7 +58,8 @@ class Message(models.Model):
             self.unread = False
             self.save()
 
-    def send_new_message(self, sender, recipient, message):
+    @staticmethod
+    def send_message(sender, recipient, message):
         """Method to create a new message in a conversation.
         :requires:
 
