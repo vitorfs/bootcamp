@@ -51,12 +51,12 @@
       </div>
       <div class="chat-box">
         <form>
-        <div class="form-group" role="form" method="post" action="#" id="send">
-          {% csrf_token %}
-          <input type="hidden" name="to" value="{{ active }}">
-          <input class="form-control" type="text" name="message" placeholder="{% trans 'Write a message...' %}" maxlength="1000" autocomplete="off">
-        </div>
-      </form>
+          <div class="form-group" role="form" method="post" action="#" id="send">
+            {% csrf_token %}
+            <input type="hidden" name="to" value="{{ active }}">
+            <input class="form-control" type="text" name="message" placeholder="{% trans 'Write a message...' %}" maxlength="1000" autocomplete="off">
+          </div>
+        </form>
       </div>
     </div>
 
@@ -69,6 +69,5 @@
       var activeUser = "{{ active }}";
       window.onload = $('.messages-list').scrollTop($('.messages-list')[0].scrollHeight);
   </script>
-  <script src="{% static 'js/box-reziser.js'%}"></script>
-  <script src="{% static 'js/messages.js' %}"></script>
+  <script src="{% static 'js/messager.js' %}"></script>
 {% endblock modal %}

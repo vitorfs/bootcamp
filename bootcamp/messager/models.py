@@ -5,6 +5,9 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from asgiref.sync import async_to_sync
+
+from channels.layers import get_channel_layer
 
 class MessageQuerySet(models.query.QuerySet):
     """Personalized queryset created to improve model usability."""
@@ -73,4 +76,13 @@ class Message(models.Model):
             recipient=recipient,
             message=message
         )
+        channel_layer = get_channel_layer()
+        payload = {
+                'type': 'receive',
+                'key': 'message',
+                'message_id': new_message.uuid_id,
+                'sender': sender,
+                'recipient': recipient
+            }
+        async_to_sync(channel_layer.group_send)(recipient.username, payload)
         return new_message
