@@ -127,7 +127,7 @@ $(function () {
             data: {'news': news},
             cache: false,
             beforeSend: function () {
-                //$("#threadContent").html("<li class='loadcomment'><img src='/static/img/loading.gif'></li>");
+                $("#threadContent").html("<li class='loadcomment'><img src='/static/img/loading.gif'></li>");
             },
             success: function (data) {
                 $("#threadContent").html(data);
