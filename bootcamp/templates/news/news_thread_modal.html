@@ -1,0 +1,37 @@
+{% load i18n %}
+
+<div class="modal fade" id="newsThreadModal" tabindex="-1" role="dialog" aria-labelledby="newsThreadModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Header-->
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel"><strong>Modal title</strong></h5>
+        <button type="button" class="close pull-right" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+      </div>
+      <!-- Body -->
+      <div class="modal-body" >
+        Lorem ipsum ...
+        <form role="form" method="post" action="#" onsubmit="return false">
+          {% csrf_token %}
+          <input type="hidden" name="parent" value="{{ news.pk }}">
+          <input type="hidden" name="reply" value="1">
+          <div class="form-group">
+            <textarea id="newsInput" name="post" rows="3" class="form-control" maxlength="280"
+              placeholder="{% trans 'Write a comment on this...' %}" onfocus="this.placeholder=''"
+              onblur="this.placeholder='{% trans 'Write a comment on this...' %}'">
+            </textarea>
+          </div>
+        </form>
+      </div>
+      <!-- Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

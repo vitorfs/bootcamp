@@ -14,7 +14,7 @@
       <div class="row">
         <div class="col-md-3">
           <h1>{% trans 'News' %}</h1>
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#shareNews">
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newsFormModal">
             <i class="fa fa-share-alt" aria-hidden="true"></i> {% trans 'Share something' %}
           </button>
         </div>
@@ -23,9 +23,10 @@
             <h3>{% trans 'Most Recent Posts' %}</h3>
           </div>
 
-          <!-- Modal -->
-          {% include 'news/news_modal.html' %}
-          <!-- End Modal -->
+          <!-- Modals -->
+          {% include 'news/news_form_modal.html' %}
+          {% include 'news/news_thread_modal.html' %}
+          <!-- End Modals -->
 
           <!-- News List -->
           <div class="stream-update">

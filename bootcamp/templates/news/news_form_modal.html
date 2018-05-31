@@ -1,6 +1,6 @@
 {% load i18n %}
 
-<div class="modal fade" id="bcModalCenter" tabindex="-1" role="dialog" aria-labelledby="bcModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="newsFormModal" tabindex="-1" role="dialog" aria-labelledby="bcModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -13,7 +13,10 @@
         <form role="form" id="compose-form">
           {% csrf_token %}
           <div class="form-group">
-            <textarea id="newsInput" class="form-control" rows="3" name="post"></textarea>
+            <textarea id="newsInput" name="post" rows="3" class="form-control" maxlength="280"
+              placeholder="{% trans 'Share your news with the world' %}" onfocus="this.placeholder=''"
+              onblur="this.placeholder='{% trans 'Share your news with the world' %}'">
+            </textarea>
           </div>
         </form>
       </div>
