@@ -43,15 +43,9 @@
       {% endif %}
       <span>{{ news.count_likers }}</span>
     </a>
-    <a href="#" data-toggle="modal" data-target="#newsThreadModal"><i class="fa fa-comment-o comment" aria-hidden="true"></i>
+    <a href="#" class="comment"><i class="fa fa-comment-o" aria-hidden="true"></i>
       <span>{{ news.count_thread }}</span>
     </a>
     <span class="timestamp">{{ news.timestamp|naturaltime }}</span>
-  </div>
-  <div class="comments">
-
-    <ol class="clearfix">
-      {% comment %} Place holder to load feed comments {% endcomment %}
-    </ol>
   </div>
 </li>
