@@ -95,9 +95,9 @@ $(function () {
     });
 
     $("ul.stream").on("click", ".comment", function () {
-        var post = $(this).closest(".post");
+        var post = $(this).closest(".card");
         if ($(".comments", post).hasClass("tracking")) {
-            $(".comments", post).slideUp();
+            $(".comments", post).hide();
             $(".comments", post).removeClass("tracking");
         }
         else {
@@ -113,6 +113,8 @@ $(function () {
                     $("ol", post).html("<li class='loadcomment'><img src='/static/img/loading.gif'></li>");
                 },
                 success: function (data) {
+                    console.log("Data:")
+                    console.log(data)
                     $("ol", post).html(data);
                 }
             });
