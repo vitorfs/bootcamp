@@ -118,6 +118,26 @@ $(function () {
         return false;
     }); */
 
+    $("ul.stream").on("click", ".comment", function () {
+        var post = $(this).closest(".card");
+        var news = $(post).closest("li").attr("news-id");
+        $("#newsThreadModal").modal("show");
+        $.ajax({
+            url: '/news/get-comments/',
+            data: {'news': news},
+            cache: false,
+            beforeSend: function () {
+                //$("ol", post).html("<li class='loadcomment'><img src='/static/img/loading.gif'></li>");
+                console.log("loading!")
+            },
+            success: function (data) {
+                //$("ol", post).html(data);
+                console.log("loaded")
+            }
+        });
+        return false;
+    });
+
     $("ul.stream").on("keydown", ".comments input[name='post']", function (evt) {
         var keyCode = evt.which?evt.which:evt.keyCode;
         if (keyCode == 13) {
