@@ -56,10 +56,8 @@ $(function () {
             cache: false,
             success: function (data) {
                 $("ul.stream").prepend(data);
-                $(".compose").slideUp();
-                $(".compose").removeClass("composing");
                 $("#newsInput").val("");
-                $('#bcModalCenter').modal('hide');
+                $('#newsFormModal').modal('hide');
                 hide_stream_update();
             },
             error : function(data){
