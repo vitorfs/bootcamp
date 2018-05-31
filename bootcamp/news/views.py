@@ -79,8 +79,8 @@ def like(request):
 def get_news_comments(request):
     """Returns a list of news with the given news as parent."""
     news_id = request.GET['news']
-    news = News.objects.get(pk=news_id).get_thread()
-    return render(request, 'news/news_comments.html', {'news_list': news})
+    news = News.objects.get(pk=news_id)
+    return render(request, 'news/news_single_detailed.html', {'news': news})
 
 
 @login_required
