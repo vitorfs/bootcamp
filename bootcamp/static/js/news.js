@@ -93,7 +93,7 @@ $(function () {
         });
         return false;
     });
-
+/*
     $("ul.stream").on("click", ".comment", function () {
         var post = $(this).closest(".card");
         if ($(".comments", post).hasClass("tracking")) {
@@ -113,14 +113,12 @@ $(function () {
                     $("ol", post).html("<li class='loadcomment'><img src='/static/img/loading.gif'></li>");
                 },
                 success: function (data) {
-                    console.log("Data:")
-                    console.log(data)
                     $("ol", post).html(data);
                 }
             });
         }
         return false;
-    });
+    }); */
 
     $("ul.stream").on("keydown", ".comments input[name='post']", function (evt) {
         var keyCode = evt.which?evt.which:evt.keyCode;

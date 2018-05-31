@@ -43,16 +43,13 @@
       {% endif %}
       <span>{{ news.count_likers }}</span>
     </a>
-    <a href="#"><i class="fa fa-comment-o comment" aria-hidden="true"></i><span>{{ news.count_thread }}</span></a>
+    <a href="#" data-toggle="modal" data-target="#newsThreadModal"><i class="fa fa-comment-o comment" aria-hidden="true"></i>
+      <span>{{ news.count_thread }}</span>
+    </a>
     <span class="timestamp">{{ news.timestamp|naturaltime }}</span>
   </div>
   <div class="comments">
-    <form role="form" method="post" action="#" onsubmit="return false">
-      {% csrf_token %}
-      <input type="hidden" name="parent" value="{{ news.pk }}">
-      <input type="hidden" name="reply" value="1">
-      <input type="text" class="form-control input-sm" placeholder="{% trans 'Write a comment...' %}" name="post" maxlength="280">
-    </form>
+
     <ol class="clearfix">
       {% comment %} Place holder to load feed comments {% endcomment %}
     </ol>

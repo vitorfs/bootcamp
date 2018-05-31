@@ -42,7 +42,7 @@ def post_news(request):
                 content=post,
             )
             html = render_to_string(
-                'news/partial_news.html',
+                'news/news_single.html',
                 {
                     'news': posted,
                     'request': request
