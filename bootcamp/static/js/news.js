@@ -94,52 +94,6 @@ $(function () {
         return false;
     });
 
-/* Example query for the GraphQL endpoint.
-
-    query{
-        news(uuidId: "--insert here the required uuid_id value for the lookup"){
-          uuidId
-          content
-          timestamp
-          countThread
-          countLikers
-          user {
-            name
-            picture
-          }
-          liked {
-            name
-          }
-          thread{
-            content
-          }
-        }
-        paginatedNews(page: 1){
-          page
-          pages
-          hasNext
-          hasPrev
-          objects {
-            uuidId
-            content
-            timestamp
-            countThread
-            countLikers
-            user {
-              name
-              picture
-            }
-            liked {
-              name
-            }
-            thread{
-              content
-            }
-          }
-        }
-      }
- */
-
     $("ul.stream").on("click", ".comment", function () {
         var post = $(this).closest(".post");
         if ($(".comments", post).hasClass("tracking")) {
