@@ -127,12 +127,10 @@ $(function () {
             data: {'news': news},
             cache: false,
             beforeSend: function () {
-                //$("ol", post).html("<li class='loadcomment'><img src='/static/img/loading.gif'></li>");
-                console.log("loading!")
+                //$("#threadContent").html("<li class='loadcomment'><img src='/static/img/loading.gif'></li>");
             },
             success: function (data) {
-                //$("ol", post).html(data);
-                console.log("loaded")
+                $("#threadContent").html(data);
             }
         });
         return false;
