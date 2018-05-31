@@ -14,15 +14,13 @@
       </div>
       <!-- Body -->
       <div class="modal-body" >
-        Lorem ipsum ...
+        Aqui va el contenido
         <form role="form" method="post" action="#" onsubmit="return false">
           {% csrf_token %}
           <input type="hidden" name="parent" value="{{ news.pk }}">
           <input type="hidden" name="reply" value="1">
           <div class="form-group">
-            <textarea id="newsInput" name="post" rows="3" class="form-control" maxlength="280"
-              placeholder="{% trans 'Write a comment on this...' %}" onfocus="this.placeholder=''"
-              onblur="this.placeholder='{% trans 'Write a comment on this...' %}'">
+            <textarea id="newsInput" name="post" rows="3" class="form-control" maxlength="280">
             </textarea>
           </div>
         </form>
