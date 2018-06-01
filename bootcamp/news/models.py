@@ -5,6 +5,10 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
+from asgiref.sync import async_to_sync
+
+from channels.layers import get_channel_layer
+
 from bootcamp.notifications.models import Notification, notification_handler
 
 
@@ -31,6 +35,16 @@ class News(models.Model):
 
     def __str__(self):
         return str(self.content)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        channel_layer = get_channel_layer()
+        payload = {
+                'type': 'receive',
+                'key': 'additional_news'
+            }
+        async_to_sync(channel_layer.group_send)('notifications', payload)
+
 
     def get_absolute_url(self):
         return reverse("news:detail", kwargs={"uuid_id": self.uuid})

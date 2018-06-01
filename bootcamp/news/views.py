@@ -42,7 +42,7 @@ def post_news(request):
                 content=post,
             )
             html = render_to_string(
-                'news/partial_news.html',
+                'news/news_single.html',
                 {
                     'news': posted,
                     'request': request
@@ -76,11 +76,18 @@ def like(request):
 
 @login_required
 @ajax_required
-def get_news_comments(request):
+def get_thread(request):
     """Returns a list of news with the given news as parent."""
     news_id = request.GET['news']
-    news = News.objects.get(pk=news_id).get_thread()
-    return render(request, 'news/news_comments.html', {'news_list': news})
+    news = News.objects.get(pk=news_id)
+    news_html = render_to_string("news/news_single.html", {"news": news})
+    thread_html = render_to_string(
+        "news/news_thread.html", {"thread": news.get_thread()})
+    return JsonResponse({
+        "uuid": news_id,
+        "news": news_html,
+        "thread": thread_html,
+    })
 
 
 @login_required
@@ -91,7 +98,7 @@ def post_comment(request):
     post."""
     if request.method == 'POST':
         user = request.user
-        post = request.POST['post']
+        post = request.POST['reply']
         par = request.POST['parent']
         parent = News.objects.get(pk=par)
         post = post.strip()
