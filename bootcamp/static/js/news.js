@@ -117,14 +117,15 @@ $(function () {
         var news = $(post).closest("li").attr("news-id");
         $("#newsThreadModal").modal("show");
         $.ajax({
-            url: '/news/get-comments/',
+            url: '/news/get-thread/',
             data: {'news': news},
             cache: false,
             beforeSend: function () {
                 $("#threadContent").html("<li class='loadcomment'><img src='/static/img/loading.gif'></li>");
             },
             success: function (data) {
-                $("#threadContent").html(data);
+                $("#newsContent").html(data.news);
+                $("#threadContent").html(data.thread);
             }
         });
         return false;
