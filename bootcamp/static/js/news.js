@@ -28,6 +28,7 @@ $(function () {
 
     var csrftoken = getCookie('csrftoken');
     var page_title = $(document).attr("title");
+    // This sets up every ajax call with proper headers.
     $.ajaxSetup({
         beforeSend: function(xhr, settings) {
             if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
@@ -36,6 +37,7 @@ $(function () {
         }
     });
 
+    // Focus on the modal input by default.
     $('#newsFormModal').on('shown.bs.modal', function () {
         $('#newsInput').trigger('focus')
     });
@@ -44,14 +46,21 @@ $(function () {
         $('#replyInput').trigger('focus')
     });
 
+    // Counts textarea characters to provide data to user.
     $("#newsInput").keyup(function () {
         var charCount = $(this).val().length;
-        $(".text-counter-block").text(280 - charCount);
+        $("#newsCounter").text(280 - charCount);
+    });
+
+    $("#replyInput").keyup(function () {
+        var charCount = $(this).val().length;
+        $("#replyCounter").text(280 - charCount);
     });
 
     $("input, textarea").attr("autocomplete", "off");
 
     $("#postNews").click(function () {
+        // Ajax call after pushing button, to register a News object.
         $.ajax({
             url: '/news/post-news/',
             data: $("#postNewsForm").serialize(),
@@ -70,20 +79,20 @@ $(function () {
     });
 
     $("#replyNews").click(function () {
-        console.log("Replied");
-        /* $.ajax({
+        // Ajax call to register a reply to any given News object.
+        $.ajax({
             url: '/news/post-comment/',
             data: $("#replyNewsForm").serialize(),
             type: 'POST',
             cache: false,
             success: function (data) {
-                console.log("Success")
-                console.log(data)
+                $("#replyInput").val("");
+                $("#newsThreadModal").modal("hide");
             },
-            error : function(data){
+            error: function(data){
                 alert(data.responseText);
             },
-        }); */
+        });
     });
 
     $("ul.stream").on("click", ".like", function () {
@@ -124,6 +133,7 @@ $(function () {
                 $("#threadContent").html("<li class='loadcomment'><img src='/static/img/loading.gif'></li>");
             },
             success: function (data) {
+                $("input[name=parent]").val(data.uuid)
                 $("#newsContent").html(data.news);
                 $("#threadContent").html(data.thread);
             }

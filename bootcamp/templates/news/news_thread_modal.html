@@ -20,8 +20,7 @@
               <div class="post">
                 <form id="replyNewsForm" role="form" method="post" action="#" onsubmit="return false">
                   {% csrf_token %}
-                  <input type="hidden" name="parent" value="{{ news.pk }}">
-                  <input type="hidden" name="reply" value="1">
+                  <input type="hidden" name="parent" value="">
                   <div class="form-group">
                     <textarea id="replyInput" name="reply" rows="2" class="form-control" maxlength="280"></textarea>
                     <span id="replyCounter" class="pull-right">280</span>
