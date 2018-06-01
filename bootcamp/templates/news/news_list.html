@@ -32,18 +32,19 @@
           <div class="stream-update">
             <a href="#"><span class="new-posts"></span> {% trans 'There are new posts' %}</a>
           </div>
-          <ul class="stream infinite-container">
-            {% for news in news_list %}
-              {% include 'news/news_single.html' with news=news %}
-            {% endfor %}
-          </ul>
+          <div class="infinite-container">
+            <ul class="stream">
+              {% for news in news_list %}
+                {% include 'news/news_single.html' with news=news %}
+              {% endfor %}
+            </ul>
+          </div>
           <div class="load">
             {% if page_obj.has_next %}
               <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"><img src="{% static 'img/loading.gif' %}"></a>
             {% endif %}
           </div>
           <!-- End News List -->
-
         </div>
       </div>
     </div>

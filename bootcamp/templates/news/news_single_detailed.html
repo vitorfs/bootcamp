@@ -41,10 +41,10 @@
       {% else %}
         <i class="heart fa fa-heart-o" aria-hidden="true"></i>
       {% endif %}
-      <span>{{ news.count_likers }}</span>
+      <span class="like-count">{{ news.count_likers }}</span>
     </a>
-    <a href="#"><i class="fa fa-comment-o" aria-hidden="true"></i>
-      <span>{{ news.count_thread }}</span>
+    <a href="#" class="comment"><i class="fa fa-comment-o" aria-hidden="true"></i>
+      <span class="comment-count">{{ news.count_thread }}</span>
     </a>
     <span class="timestamp">{{ news.timestamp|naturaltime }}</span>
   </div>
@@ -60,15 +60,21 @@
       {% endthumbnail %}
     </div>
     <div class="post">
-      <form role="form" method="post" action="#" onsubmit="return false">
+      <form id="replyNewsForm" role="form" method="post" action="#" onsubmit="return false">
         {% csrf_token %}
         <input type="hidden" name="parent" value="{{ news.pk }}">
         <input type="hidden" name="reply" value="1">
         <div class="form-group">
-          <textarea id="newsInput" name="post" rows="2" class="form-control" maxlength="280"></textarea>
+          <textarea id="replyInput" name="reply" rows="2" class="form-control" maxlength="280"></textarea>
+          <span id="replyCounter" class="pull-right">280</span>
         </div>
       </form>
     </div>
+  </div>
+  <div class="card-footer">
+    <button type="button" id="replyNews" class="btn btn-primary pull-right">
+      <i class="fa fa-paper-plane" aria-hidden="true"></i> {% trans 'Reply' %}
+    </button>
   </div>
 </li>
 
@@ -107,7 +113,7 @@
       </div>
     </div>
     <div class="interaction" id="interaction">
-      <a href="#" class="like" title="{% for i in news.get_likers %}{{ i }}&#10;{% endfor %}">
+      <a href="#" class="like like-count" title="{% for i in news.get_likers %}{{ i }}&#10;{% endfor %}">
         {% if request.user in news.get_likers %}
           <i class="heart fa fa-heart" aria-hidden="true"></i>
         {% else %}

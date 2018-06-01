@@ -35,7 +35,7 @@
     </div>
   </div>
   <div class="interaction" id="interaction">
-    <a href="#" class="like" title="{% for i in news.get_likers %}{{ i }}&#10;{% endfor %}">
+    <a href="#" class="like like-count" title="{% for i in news.get_likers %}{{ i }}&#10;{% endfor %}">
       {% if request.user in news.get_likers %}
         <i class="heart fa fa-heart" aria-hidden="true"></i>
       {% else %}
@@ -43,7 +43,7 @@
       {% endif %}
       <span>{{ news.count_likers }}</span>
     </a>
-    <a href="#" class="comment"><i class="fa fa-comment-o" aria-hidden="true"></i>
+    <a href="#" class="comment comment-count"><i class="fa fa-comment-o" aria-hidden="true"></i>
       <span>{{ news.count_thread }}</span>
     </a>
     <span class="timestamp">{{ news.timestamp|naturaltime }}</span>
