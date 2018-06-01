@@ -1,8 +1,6 @@
 $(function () {
     function hide_stream_update() {
         $(".stream-update").hide();
-        $(".stream-update .new-posts").text("");
-        $(document).attr("title", page_title);
     };
 
     function getCookie(name) {
@@ -29,6 +27,7 @@ $(function () {
 
     var csrftoken = getCookie('csrftoken');
     var page_title = $(document).attr("title");
+    // This sets up every ajax call with proper headers.
     $.ajaxSetup({
         beforeSend: function(xhr, settings) {
             if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
@@ -37,29 +36,39 @@ $(function () {
         }
     });
 
-    $('#bcModalCenter').on('shown.bs.modal', function () {
+    // Focus on the modal input by default.
+    $('#newsFormModal').on('shown.bs.modal', function () {
         $('#newsInput').trigger('focus')
     });
 
-    $("input,textarea").attr("autocomplete", "off");
-
-    $("#compose-form textarea[name='post']").keyup(function () {
-        var charCount = $(this).val().length;
-        $(".help-block").text(280 - charCount);
+    $('#newsThreadModal').on('shown.bs.modal', function () {
+        $('#replyInput').trigger('focus')
     });
 
-    $(".btn-post").click(function () {
+    // Counts textarea characters to provide data to user.
+    $("#newsInput").keyup(function () {
+        var charCount = $(this).val().length;
+        $("#newsCounter").text(280 - charCount);
+    });
+
+    $("#replyInput").keyup(function () {
+        var charCount = $(this).val().length;
+        $("#replyCounter").text(280 - charCount);
+    });
+
+    $("input, textarea").attr("autocomplete", "off");
+
+    $("#postNews").click(function () {
+        // Ajax call after pushing button, to register a News object.
         $.ajax({
             url: '/news/post-news/',
-            data: $("#compose-form").serialize(),
+            data: $("#postNewsForm").serialize(),
             type: 'POST',
             cache: false,
             success: function (data) {
                 $("ul.stream").prepend(data);
-                $(".compose").slideUp();
-                $(".compose").removeClass("composing");
                 $("#newsInput").val("");
-                $('#bcModalCenter').modal('hide');
+                $("#newsFormModal").modal("hide");
                 hide_stream_update();
             },
             error : function(data){
@@ -68,7 +77,25 @@ $(function () {
         });
     });
 
+    $("#replyNews").click(function () {
+        // Ajax call to register a reply to any given News object.
+        $.ajax({
+            url: '/news/post-comment/',
+            data: $("#replyNewsForm").serialize(),
+            type: 'POST',
+            cache: false,
+            success: function (data) {
+                $("#replyInput").val("");
+                $("#newsThreadModal").modal("hide");
+            },
+            error: function(data){
+                alert(data.responseText);
+            },
+        });
+    });
+
     $("ul.stream").on("click", ".like", function () {
+        // Ajax call on action on like button.
         var li = $(this).closest("li");
         var news = $(li).attr("news-id");
         payload = {
@@ -95,54 +122,25 @@ $(function () {
     });
 
     $("ul.stream").on("click", ".comment", function () {
-        var post = $(this).closest(".post");
-        if ($(".comments", post).hasClass("tracking")) {
-            $(".comments", post).slideUp();
-            $(".comments", post).removeClass("tracking");
-        }
-        else {
-            $(".comments", post).show();
-            $(".comments", post).addClass("tracking");
-            $(".comments input[name='post']", post).focus();
-            var news = $(post).closest("li").attr("news-id");
-            $.ajax({
-                url: '/news/get-comments/',
-                data: {'news': news},
-                cache: false,
-                beforeSend: function () {
-                    $("ol", post).html("<li class='loadcomment'><img src='/static/img/loading.gif'></li>");
-                },
-                success: function (data) {
-                    $("ol", post).html(data);
-                }
-            });
-        }
+        // Ajax call to request a given News object detail and thread, and to
+        // show it in a modal.
+        var post = $(this).closest(".card");
+        var news = $(post).closest("li").attr("news-id");
+        $("#newsThreadModal").modal("show");
+        $.ajax({
+            url: '/news/get-thread/',
+            data: {'news': news},
+            cache: false,
+            beforeSend: function () {
+                $("#threadContent").html("<li class='loadcomment'><img src='/static/img/loading.gif'></li>");
+            },
+            success: function (data) {
+                $("input[name=parent]").val(data.uuid)
+                $("#newsContent").html(data.news);
+                $("#threadContent").html(data.thread);
+            }
+        });
         return false;
-    });
-
-    $("ul.stream").on("keydown", ".comments input[name='post']", function (evt) {
-        var keyCode = evt.which?evt.which:evt.keyCode;
-        if (keyCode == 13) {
-            var form = $(this).closest("form");
-            var container = $(this).closest(".comments");
-            var input = $(this);
-            var post = $(this).closest(".post");
-            $.ajax({
-                url: '/news/post-comment/',
-                data: $(form).serialize(),
-                type: 'POST',
-                cache: false,
-                beforeSend: function () {
-                    $(input).val("");
-                },
-                success: function (data) {
-                    $(".comments", post).slideUp();
-                    var post_container = $(container).closest(".post");
-                    $(".comment-count", post_container).text(data.comments);
-                }
-            });
-            return false;
-        }
     });
 });
 

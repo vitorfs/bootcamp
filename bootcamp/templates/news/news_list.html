@@ -9,70 +9,46 @@
 
 
 {% block content %}
-
-  <div class="container">
-    <div class="row">
-      <div class="page-header">
-        <h1>{% trans 'News' %}</h1>
-      </div>
-      <div class="col-md-6 col-centered">
-        <div class="panel-heading">
-          <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#bcModalCenter" title="{% trans 'Press Ctrl + P to compose' %}">
+    <!-- Container -->
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <h1>{% trans 'News' %}</h1>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newsFormModal">
             <i class="fa fa-share-alt" aria-hidden="true"></i> {% trans 'Share something' %}
           </button>
-          <h3 class="panel-title">{% trans 'Latest posts' %}</h3>
         </div>
-        <div class="panel panel-default panel-feed">
-          <div class="panel-body">
+        <div class="col-md-6">
+          <div>
+            <h3>{% trans 'Most Recent Posts' %}</h3>
+          </div>
 
-            <!-- Modal -->
-            <div class="modal fade" id="bcModalCenter" tabindex="-1" role="dialog" aria-labelledby="bcModalCenterTitle" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="bcModalLongTitle">{% trans "Compose a new post" %}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <form role="form" id="compose-form">
-                      {% csrf_token %}
-                      <div class="form-group">
-                        <textarea id="newsInput" class="form-control" rows="3" name="post"></textarea>
-                      </div>
-                    </form>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btn-post">
-                      <i class="fa fa-paper-plane" aria-hidden="true"></i> {% trans 'Post' %}
-                    </button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Cancel' %}</button>
-                    <span class="help-block help-count pull-right">280</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- End Modal -->
+          <!-- Modals -->
+          {% include 'news/news_form_modal.html' %}
+          {% include 'news/news_thread_modal.html' %}
+          <!-- End Modals -->
 
-            <div class="stream-update">
-              <a href="#"><span class="new-posts"></span> {% trans 'There are new posts' %}</a>
-            </div>
-            <ul class="stream infinite-container">
+          <!-- News List -->
+          <div class="stream-update">
+            <a href="{% url 'news:list' %}"><span class="new-posts"></span> {% trans 'There are new posts' %}</a>
+          </div>
+          <div class="infinite-container">
+            <ul class="stream">
               {% for news in news_list %}
-                {% include 'news/partial_news.html' with news=news %}
+                {% include 'news/news_single.html' with news=news %}
               {% endfor %}
             </ul>
-            <div class="load">
-              {% if page_obj.has_next %}
-                <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"><img src="{% static 'img/loading.gif' %}"></a>
-              {% endif %}
-            </div>
           </div>
+          <div class="load">
+            {% if page_obj.has_next %}
+              <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"><img src="{% static 'img/loading.gif' %}"></a>
+            {% endif %}
+          </div>
+          <!-- End News List -->
         </div>
       </div>
     </div>
-  </div>
+    <!-- End container -->
 
 {% endblock content %}
 

@@ -22,7 +22,7 @@ $('.form-group').removeClass('row');
 
 /* Notifications JS basic client */
 $(function () {
-    var emptyMessage = 'You have no unread notification';
+    let emptyMessage = 'You have no unread notification';
 
     function checkNotifications() {
         $.ajax({
@@ -30,14 +30,14 @@ $(function () {
             cache: false,
             success: function (data) {
                 if (!data.includes(emptyMessage)) {
-                    $("#notifications").addClass("btn-danger")
+                    $("#notifications").addClass("btn-danger");
                 }
             },
         });
     };
 
     function update_social_activity (id_value) {
-        var newsToUpdate = $("[news-id=" + id_value + "]");
+        let newsToUpdate = $("[news-id=" + id_value + "]");
         payload = {
             'id_value': id_value,
         };
@@ -90,9 +90,9 @@ $(function () {
 
     // Code block to manage WebSocket connections
     // Try to correctly decide between ws:// and wss://
-    var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
-    var ws_path = ws_scheme + '://' + window.location.host + "/notifications/";
-    var webSocket = new channels.WebSocketBridge();
+    let ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+    let ws_path = ws_scheme + '://' + window.location.host + "/notifications/";
+    let webSocket = new channels.WebSocketBridge();
     webSocket.connect(ws_path);
 
     // Helpful debugging
@@ -109,14 +109,20 @@ $(function () {
         switch (event.key) {
             case "notification":
                 $("#notifications").addClass("btn-danger");
+                break;
 
             case "social_update":
                 $("#notifications").addClass("btn-danger");
                 update_social_activity(event.id_value);
+                break;
+
+            case "additional_news":
+                $(".stream-update").show();
+                break;
 
             default:
-                console.log('error: ', event)
+                console.log('error: ', event);
                 break;
-        }
+        };
     });
 });
