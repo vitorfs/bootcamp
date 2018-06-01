@@ -5,7 +5,7 @@
 
 .stream li {
   list-style: none;
-  border-style: none none solid none;
+  border-style: solid none solid none;
 
 }
 

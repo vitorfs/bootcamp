@@ -91,7 +91,7 @@ def post_comment(request):
     post."""
     if request.method == 'POST':
         user = request.user
-        post = request.POST['post']
+        post = request.POST['reply']
         par = request.POST['parent']
         parent = News.objects.get(pk=par)
         post = post.strip()
