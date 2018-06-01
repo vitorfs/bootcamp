@@ -1,7 +1,6 @@
 $(function () {
     function hide_stream_update() {
         $(".stream-update").hide();
-        $(document).attr("title", page_title);
     };
 
     function getCookie(name) {
@@ -96,6 +95,7 @@ $(function () {
     });
 
     $("ul.stream").on("click", ".like", function () {
+        // Ajax call on action on like button.
         var li = $(this).closest("li");
         var news = $(li).attr("news-id");
         payload = {
@@ -122,6 +122,8 @@ $(function () {
     });
 
     $("ul.stream").on("click", ".comment", function () {
+        // Ajax call to request a given News object detail and thread, and to
+        // show it in a modal.
         var post = $(this).closest(".card");
         var news = $(post).closest("li").attr("news-id");
         $("#newsThreadModal").modal("show");
@@ -139,30 +141,5 @@ $(function () {
             }
         });
         return false;
-    });
-
-    $("ul.stream").on("keydown", ".comments input[name='post']", function (evt) {
-        var keyCode = evt.which?evt.which:evt.keyCode;
-        if (keyCode == 13) {
-            var form = $(this).closest("form");
-            var container = $(this).closest(".comments");
-            var input = $(this);
-            var post = $(this).closest(".post");
-            $.ajax({
-                url: '/news/post-comment/',
-                data: $(form).serialize(),
-                type: 'POST',
-                cache: false,
-                beforeSend: function () {
-                    $(input).val("");
-                },
-                success: function (data) {
-                    $(".comments", post).slideUp();
-                    var post_container = $(container).closest(".post");
-                    $(".comment-count", post_container).text(data.comments);
-                }
-            });
-            return false;
-        }
     });
 });

@@ -30,7 +30,7 @@ $(function () {
             cache: false,
             success: function (data) {
                 if (!data.includes(emptyMessage)) {
-                    $("#notifications").addClass("btn-danger")
+                    $("#notifications").addClass("btn-danger");
                 }
             },
         });
@@ -116,9 +116,13 @@ $(function () {
                 update_social_activity(event.id_value);
                 break;
 
+            case "additional_news":
+                $(".stream-update").show();
+                break;
+
             default:
                 console.log('error: ', event);
                 break;
-        }
+        };
     });
 });
