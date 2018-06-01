@@ -84,6 +84,7 @@ def get_thread(request):
     thread_html = render_to_string(
         "news/news_thread.html", {"thread": news.get_thread()})
     return JsonResponse({
+        "uuid": news_id,
         "news": news_html,
         "thread": thread_html,
     })
