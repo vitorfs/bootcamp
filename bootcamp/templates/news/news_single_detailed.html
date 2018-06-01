@@ -2,53 +2,7 @@
 {% load humanize static %}
 {% load thumbnail %}
 
-<li class="card" news-id="{{ news.uuid_id }}">
-  <div class="card-body">
-    <div class="profile-picture">
-      {% thumbnail news.user.picture "x60" as im %}
-        <img src="{{ im.url }}" class="pull-left" style="border-radius: 50%;" alt="{% trans 'User Image' %}" class="user-image">
-      {% empty %}
-        <img src="{% static 'img/user.png' %}" class="pull-left" height="60px" alt="{% trans 'No Profile Picture' %}" />
-      {% endthumbnail %}
-    </div>
-    <div class="post">
-      {% if news.user == request.user %}
-        <a href="{% url 'news:delete_news' news.pk %}">
-          <i class="fa fa-times pull-right" aria-hidden="true" title="{% trans 'Click to remove this news' %}"></i>
-        </a>
-      {% endif %}
-      <p>
-        <strong>
-          <a href="{% url 'users:detail' news.user.username  %}">
-            {% if news.user.name %}
-              {{ news.user.name|title }}
-            {% else %}
-              {{ news.user.username|title }}
-            {% endif %}
-          </a>
-        </strong>
-      </p>
-      <p>{{ news }}</p>
-      {% if news.image %}
-        <img class="card-img-top" src="{{ news.image }}" alt="Card image cap">
-      {% endif %}
-    </div>
-  </div>
-  <div class="interaction" id="interaction">
-    <a href="#" class="like" title="{% for i in news.get_likers %}{{ i }}&#10;{% endfor %}">
-      {% if request.user in news.get_likers %}
-        <i class="heart fa fa-heart" aria-hidden="true"></i>
-      {% else %}
-        <i class="heart fa fa-heart-o" aria-hidden="true"></i>
-      {% endif %}
-      <span class="like-count">{{ news.count_likers }}</span>
-    </a>
-    <a href="#" class="comment"><i class="fa fa-comment-o" aria-hidden="true"></i>
-      <span class="comment-count">{{ news.count_thread }}</span>
-    </a>
-    <span class="timestamp">{{ news.timestamp|naturaltime }}</span>
-  </div>
-</li>
+{% include 'news/news_single.html' with news=news %}
 
 <li class="card">
   <div class="card-body">
@@ -78,51 +32,4 @@
   </div>
 </li>
 
-{% for reply in news.get_thread %}
-
-  <li class="card" news-id="{{ reply.uuid_id }}">
-    <div class="card-body">
-      <div class="profile-picture">
-        {% thumbnail reply.user.picture "x60" as im %}
-          <img src="{{ im.url }}" class="pull-left" style="border-radius: 50%;" alt="{% trans 'User Image' %}" class="user-image">
-        {% empty %}
-          <img src="{% static 'img/user.png' %}" class="pull-left" height="60px" alt="{% trans 'No Profile Picture' %}" />
-        {% endthumbnail %}
-      </div>
-      <div class="post">
-        {% if reply.user == request.user %}
-          <a href="{% url 'news:delete_news' reply.pk %}">
-            <i class="fa fa-times pull-right" aria-hidden="true" title="{% trans 'Click to remove this news' %}"></i>
-          </a>
-        {% endif %}
-        <p>
-          <strong>
-            <a href="{% url 'users:detail' reply.user.username  %}">
-              {% if reply.user.name %}
-                {{ reply.user.name|title }}
-              {% else %}
-                {{ reply.user.username|title }}
-              {% endif %}
-            </a>
-          </strong>
-        </p>
-        <p>{{ reply }}</p>
-        {% if reply.image %}
-          <img class="card-img-top" src="{{ reply.image }}" alt="Card image cap">
-        {% endif %}
-      </div>
-    </div>
-    <div class="interaction" id="interaction">
-      <a href="#" class="like like-count" title="{% for i in news.get_likers %}{{ i }}&#10;{% endfor %}">
-        {% if request.user in news.get_likers %}
-          <i class="heart fa fa-heart" aria-hidden="true"></i>
-        {% else %}
-          <i class="heart fa fa-heart-o" aria-hidden="true"></i>
-        {% endif %}
-        <span>{{ news.count_likers }}</span>
-      </a>
-      <span class="timestamp">{{ reply.timestamp|naturaltime }}</span>
-    </div>
-  </li>
-
-{% endfor %}
+{% include 'news/news_comments.html' with thread=news.get_thread %}
