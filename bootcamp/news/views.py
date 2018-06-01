@@ -76,11 +76,17 @@ def like(request):
 
 @login_required
 @ajax_required
-def get_news_comments(request):
+def get_thread(request):
     """Returns a list of news with the given news as parent."""
     news_id = request.GET['news']
     news = News.objects.get(pk=news_id)
-    return render(request, 'news/news_single_detailed.html', {'news': news})
+    news_html = render_to_string("news/news_single.html", {"news": news})
+    thread_html = render_to_string(
+        "news/news_thread.html", {"thread": news.get_thread()})
+    return JsonResponse({
+        "news": news_html,
+        "thread": thread_html,
+    })
 
 
 @login_required

@@ -9,7 +9,7 @@ urlpatterns = [
         views.NewsDeleteView.as_view(), name='delete_news'),
     url(r'^post-news/$', views.post_news, name='post_news'),
     url(r'^like/$', views.like, name='like_post'),
-    url(r'^get-comments/$', views.get_news_comments, name='get_comments'),
+    url(r'^get-thread/$', views.get_thread, name='get_thread'),
     url(r'^post-comment/$', views.post_comment, name='post_comments'),
     url(r'^update-interactions/$', views.update_interactions, name='update_interactions'),
 ]
