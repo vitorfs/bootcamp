@@ -50,8 +50,8 @@
         <li class="send-message"></li>
       </div>
       <div class="chat-box">
-        <form>
-          <div class="form-group" role="form" method="post" action="#" id="send">
+        <form role="form" method="post" action="#" id="send">
+          <div class="form-group">
             {% csrf_token %}
             <input type="hidden" name="to" value="{{ active }}">
             <input class="form-control" type="text" name="message" placeholder="{% trans 'Write a message...' %}" maxlength="1000" autocomplete="off">
