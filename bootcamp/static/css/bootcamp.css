@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Audiowide);
 
 body {
-  padding-top: 90px;
+  padding-top: 80px;
 }
 
 header .navbar-brand {
@@ -11,7 +11,8 @@ header .navbar-brand {
 }
 
 .page-header {
-  margin: 0;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .page-header h1 {

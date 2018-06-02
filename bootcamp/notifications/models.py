@@ -147,7 +147,7 @@ class Notification(models.Model):
             self.slug = slugify(f'{self.recipient} {self.uuid_id} {self.verb}',
                                 to_lower=True, max_length=200)
 
-        super(Notification, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def time_since(self, now=None):
         """

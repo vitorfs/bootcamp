@@ -20,7 +20,7 @@ sorl-thumbnail==12.4.1  # https://github.com/jazzband/sorl-thumbnail
 
 # Channels
 # ------------------------------------------------------------------------------
-channels==2.0.2  # https://github.com/django/channels
+channels==2.1.1  # https://github.com/django/channels
 channels-redis==2.1.1  # https://github.com/django/channels_redis
 
 # GraphQL API
