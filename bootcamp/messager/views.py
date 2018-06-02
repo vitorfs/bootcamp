@@ -14,7 +14,7 @@ class MessagesListView(LoginRequiredMixin, ListView):
     conversation as the active one.
     """
     model = Message
-    paginate_by = 100
+    paginate_by = 50
     template_name = "messager/message_list.html"
 
     def get_context_data(self, *args, **kwargs):
