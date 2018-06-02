@@ -19,9 +19,15 @@ class MessageQuerySet(models.query.QuerySet):
         return qs_one.union(qs_two).order_by('timestamp')
 
     def get_most_recent_conversation(self, recipient):
-        """Returns the most recent message sender username."""
+        """Returns the most recent conversation counterpart's username."""
         try:
-            return self.filter(recipient=recipient).latest('timestamp').sender
+            qs_sent = self.filter(sender=recipient)
+            qs_recieved = self.filter(recipient=recipient)
+            qs = qs_sent.union(qs_recieved).latest("timestamp")
+            if qs.sender == recipient:
+                return qs.recipient
+
+            return qs.sender
 
         except self.model.DoesNotExist:
             return get_user_model().objects.get(username=recipient.username)

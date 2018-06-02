@@ -101,11 +101,11 @@ $(function () {
                 break;
 
             case "set_status":
-                setUserOnlineOffline(event.sender, event.status)
+                setUserOnlineOffline(event.sender, event.status);
                 break;
 
             default:
-                console.log('error: ', event)
+                console.log('error: ', event);
                 console.log(typeof(event))
                 break;
         }
