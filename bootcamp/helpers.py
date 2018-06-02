@@ -48,5 +48,4 @@ class AuthorRequiredMixin(View):
         if obj.user != self.request.user:
             raise PermissionDenied
 
-        return super(
-            AuthorRequiredMixin, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
