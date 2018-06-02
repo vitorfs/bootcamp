@@ -10,9 +10,9 @@ $(function () {
                 elem.attr("class", "btn btn-success btn-circle");
             } else {
                 elem.attr("class", "btn btn-danger btn-circle");
-            }
-        }
-    }
+            };
+        };
+    };
 
     function addNewMessage(message_id) {
         /* This function calls the respective AJAX view, so it will be able to
@@ -27,7 +27,7 @@ $(function () {
                 scrollConversationScreen();
             }
         });
-    }
+    };
 
     function scrollConversationScreen() {
         /* Set focus on the input box from the form, and rolls to show the
@@ -62,10 +62,10 @@ $(function () {
     window.onbeforeunload = function () {
         // Small function to run instruction just before closing the session.
         payload = {
-            'sender': currentUser,
-            'activity_type': "set_status",
-            'status': 'offline'
-        }
+            "type": "recieve",
+            "sender": currentUser,
+            "set_status": "offline"
+        };
         webSocket.send(payload);
     }
 
@@ -76,10 +76,10 @@ $(function () {
         // report the user status.
 
         /* payload = {
-            'sender': currentUser,
-            'key': "set_status",
-            'status': 'online'
-        }
+            "type": "recieve",
+            "sender": currentUser,
+            "set_status": "online"
+        };
         webSocket.send(payload); */
     };
 
@@ -99,9 +99,11 @@ $(function () {
                     $("#new-message-" + event.sender).show();
                 }
                 break;
+
             case "set_status":
                 setUserOnlineOffline(event.sender, event.status)
                 break;
+
             default:
                 console.log('error: ', event)
                 console.log(typeof(event))
