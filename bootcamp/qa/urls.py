@@ -2,6 +2,7 @@ from django.conf.urls import include, url
 
 from bootcamp.qa import views
 
+app_name = 'qa'
 urlpatterns = [
     url(r'^$', views.QuestionListView.as_view(), name='index'),
     url(r'^question-detail/(?P<slug>[-_\w]+)/$',

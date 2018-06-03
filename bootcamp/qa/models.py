@@ -59,11 +59,12 @@ class Question(models.Model):
     status = models.CharField(max_length=1, choices=STATUS, default=DRAFT)
     content = models.TextField(max_length=2500)
     liked = models.ManyToManyField(settings.AUTH_USER_MODEL,
-        blank=True, related_name="liked")
+        blank=True, related_name="liked_question")
     has_answer = models.BooleanField(default=False)
     total_votes = models.IntegerField(default=0)
     up_votes = models.PositiveIntegerField(default=0)
     down_votes = models.PositiveIntegerField(default=0)
+    tags = TaggableManager()
     objects = QuestionQuerySet.as_manager()
 
 
@@ -116,7 +117,7 @@ class Answer(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     is_answer = models.BooleanField(default=False)
     liked = models.ManyToManyField(settings.AUTH_USER_MODEL,
-        blank=True, related_name="liked")
+        blank=True, related_name="liked_answer")
     total_votes = models.IntegerField(default=0)
     up_votes = models.PositiveIntegerField(default=0)
     down_votes = models.PositiveIntegerField(default=0)
@@ -163,7 +164,9 @@ class Vote(models.Model):
     allow a single model connected to Questions and Answers."""
     uuid_id = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
     value = models.BooleanField(default=True)
     vote_content_type = models.ForeignKey(ContentType,
         blank=True, null=True, related_name="notify_vote",
@@ -174,7 +177,6 @@ class Vote(models.Model):
         "vote_content_type", "vote_object_id")
 
     class Meta:
-        ordering = ["-timestamp"]
         verbose_name = _("Vote")
         verbose_name_plural = _("Votes")
 
