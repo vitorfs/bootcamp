@@ -12,6 +12,32 @@ from slugify import slugify
 from taggit.managers import TaggableManager
 
 
+class QuestionQuerySet(models.query.QuerySet):
+    """Personalized queryset created to improve model usability"""
+
+    def get_answered(self):
+        """Returns only items which has answers in the current queryset"""
+        return self.filter(has_answer=True)
+
+    def get_unanswered(self):
+        """Returns only read items in the current queryset"""
+        return self.filter(has_answer=False)
+
+    def get_counted_tags(self):
+        """Returns a dict element with tags and its count to show on the UI."""
+        tag_dict = {}
+        query = self.all().annotate(tagged=Count('tags')).filter(tags__gt=0)
+        for obj in query:
+            for tag in obj.tags.names():
+                if tag not in tag_dict:
+                    tag_dict[tag] = 1
+
+                else:  # pragma: no cover
+                    tag_dict[tag] += 1
+
+        return tag_dict.items()
+
+
 class Question(models.Model):
     """Model class to contain every question in the forum."""
     OPEN = "O"
@@ -32,16 +58,17 @@ class Question(models.Model):
     content = models.TextField(max_length=2500)
     liked = models.ManyToManyField(settings.AUTH_USER_MODEL,
         blank=True, related_name="liked")
-    action_object_content_type = models.ForeignKey(ContentType,
-        blank=True, null=True, related_name="notify_action_object",
-        on_delete=models.CASCADE)
-    action_object_object_id = models.CharField(
-        max_length=50, blank=True, null=True)
-    action_object = GenericForeignKey(
-        "action_object_content_type", "action_object_object_id")
+    has_answer = models.BooleanField(default=False)
+    total_votes = models.IntegerField(default=0)
+    up_votes = models.PositiveIntegerField(default=0)
+    down_votes = models.PositiveIntegerField(default=0)
+    objects = QuestionQuerySet.as_manager()
+
 
     class Meta:
         ordering = ["-timestamp"]
+        verbose_name = _("Question")
+        verbose_name_plural = _("Questions")
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -53,36 +80,32 @@ class Question(models.Model):
     def __str__(self):
         return self.title
 
-    @staticmethod
-    def get_counted_tags():
-        tag_dict = {}
-        query = Question.objects.all().annotate(
-            tagged=Count('tags')).filter(tags__gt=0)
-        for obj in query:
-            for tag in obj.tags.names():
-                if tag not in tag_dict:
-                    tag_dict[tag] = 1
-
-                else:  # pragma: no cover
-                    tag_dict[tag] += 1
-
-        return tag_dict.items()
-
     def switch_like(self, user):
         if user in self.liked.all():
-            is_liked = False
             self.liked.remove(user)
 
         else:
-            is_liked = True
             self.liked.add(user)
 
-        return is_liked
+    def get_answers(self):
+        return Answer.objects.filter(question=self)
+
+    def count_answers(self):
+        return Answer.objects.filter(question=self).count()
+
+    def get_likers(self):
+        return self.liked.all()
+
+    def count_likers(self):
+        return self.liked.count()
+
+    def get_accepted_answer(self):
+        return Answer.objects.get(question=self, is_answer=True)
 
 
 class Answer(models.Model):
     """Model class to contain every answer in the forum and to link it
-    to the proper question."""
+    to its respective question."""
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     content = models.TextField(max_length=2500)
@@ -92,34 +115,76 @@ class Answer(models.Model):
     is_answer = models.BooleanField(default=False)
     liked = models.ManyToManyField(settings.AUTH_USER_MODEL,
         blank=True, related_name="liked")
+    total_votes = models.IntegerField(default=0)
+    up_votes = models.PositiveIntegerField(default=0)
+    down_votes = models.PositiveIntegerField(default=0)
 
     class Meta:
         ordering = ["-is_answer", "-timestamp"]
+        verbose_name = _("Answer")
+        verbose_name_plural = _("Answers")
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(f"{self.title}-{self.uuid_id}",
+                                to_lower=True, max_length=80)
+
+        super().save(*args, **kwargs)
 
     def __str__(self):  # pragma: no cover
         return self.content
 
+    def switch_like(self, user):
+        if user in self.liked.all():
+            self.liked.remove(user)
 
-class VoteParent(models.Model):
-    """Abstract model to define the basic elements to every single vote."""
+        else:
+            self.liked.add(user)
+
+    def accept_answer(self):
+        answer_set = Answer.objects.filter(question=self.question)
+        answer_set.update(is_answer=False)
+        self.is_answer = True
+        self.save()
+        self.question.has_answer = True
+        self.question.save()
+
+    def get_likers(self):
+        return self.liked.all()
+
+    def count_likers(self):
+        return self.liked.count()
+
+
+class Vote(models.Model):
+    """Model class to host every vote, made with ContentType framework to
+    allow a single model connected to Questions and Answers."""
+    uuid_id = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     value = models.BooleanField(default=True)
+    vote_content_type = models.ForeignKey(ContentType,
+        blank=True, null=True, related_name="notify_vote",
+        on_delete=models.CASCADE)
+    vote_object_id = models.CharField(
+        max_length=50, blank=True, null=True)
+    vote = GenericForeignKey(
+        "vote_content_type", "vote_object_id")
 
     class Meta:
-        abstract = True
+        ordering = ["-timestamp"]
+        verbose_name = _("Vote")
+        verbose_name_plural = _("Votes")
 
-
-class AnswerVote(VoteParent):
-    """Model class to contain the votes for the answers."""
-    answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
-
-    class Meta:
-        unique_together = (('user', 'answer'),)
-
-
-class QuestionVote(VoteParent):
-    """Model class to contain the votes for the questions."""
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-
-    class Meta:
-        unique_together = (('user', 'question'),)
+    @staticmethod
+    def vote_on(instance, value):
+        Vote.objects.create(
+            user=instance.user,
+            value=value,
+            vote=instance
+        )
+        votes = Vote.objects.filter(vote=instance)
+        instance.up_votes = votes.objects.filter(value=True).count()
+        instance.down_votes = votes.objects.filter(value=False).count()
+        instance.total_votes = instance.up_votes - instance.down_votes
+        instance.save()
