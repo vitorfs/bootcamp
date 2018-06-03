@@ -38,12 +38,15 @@ class News(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        channel_layer = get_channel_layer()
-        payload = {
-                'type': 'receive',
-                'key': 'additional_news'
-            }
-        async_to_sync(channel_layer.group_send)('notifications', payload)
+        if not self.reply:
+            channel_layer = get_channel_layer()
+            payload = {
+                    "type": "receive",
+                    "key": "additional_news",
+                    "actor_name": self.user.username
+
+                }
+            async_to_sync(channel_layer.group_send)('notifications', payload)
 
 
     def get_absolute_url(self):
