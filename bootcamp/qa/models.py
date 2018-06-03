@@ -16,11 +16,13 @@ class QuestionQuerySet(models.query.QuerySet):
     """Personalized queryset created to improve model usability"""
 
     def get_answered(self):
-        """Returns only items which has answers in the current queryset"""
+        """Returns only items which has been marked as answered in the current
+        queryset"""
         return self.filter(has_answer=True)
 
     def get_unanswered(self):
-        """Returns only read items in the current queryset"""
+        """Returns only items which has not been marked as answered in the
+        current queryset"""
         return self.filter(has_answer=False)
 
     def get_counted_tags(self):
