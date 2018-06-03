@@ -63,8 +63,8 @@ class Article(models.Model):
     @staticmethod
     def get_counted_tags():
         tag_dict = {}
-        query = Article.objects.filter(status='P').annotate(tagged=Count(
-            'tags')).filter(tags__gt=0)
+        query = Article.objects.filter(status='P').annotate(
+            tagged=Count('tags')).filter(tags__gt=0)
         for obj in query:
             for tag in obj.tags.names():
                 if tag not in tag_dict:
