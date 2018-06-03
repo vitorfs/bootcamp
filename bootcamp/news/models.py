@@ -53,12 +53,12 @@ class News(models.Model):
         return reverse("news:detail", kwargs={"uuid_id": self.uuid})
 
     def switch_like(self, user):
-        if user in self.liked_news.all():
-            self.liked_news.remove(user)
+        if user in self.liked.all():
+            self.liked.remove(user)
 
         else:
             is_liked = True
-            self.liked_news.add(user)
+            self.liked.add(user)
             notification_handler(user, self.user,
                                  Notification.LIKED, action_object=self,
                                  id_value=str(self.uuid_id),
@@ -99,7 +99,7 @@ class News(models.Model):
         return self.get_thread().count()
 
     def count_likers(self):
-        return self.liked_news.count()
+        return self.liked.count()
 
     def get_likers(self):
-        return self.liked_news.all()
+        return self.liked.all()
