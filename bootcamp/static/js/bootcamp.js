@@ -117,7 +117,9 @@ $(function () {
                 break;
 
             case "additional_news":
-                $(".stream-update").show();
+                if (event.actor_name !== currentUser) {
+                    $(".stream-update").show();
+                }
                 break;
 
             default:
