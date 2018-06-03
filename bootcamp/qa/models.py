@@ -84,11 +84,11 @@ class Question(models.Model):
         return self.title
 
     def switch_like(self, user):
-        if user in self.liked.all():
-            self.liked.remove(user)
+        if user in self.liked_question.all():
+            self.liked_question.remove(user)
 
         else:
-            self.liked.add(user)
+            self.liked_question.add(user)
 
     def get_answers(self):
         return Answer.objects.filter(question=self)
@@ -97,10 +97,10 @@ class Question(models.Model):
         return Answer.objects.filter(question=self).count()
 
     def get_likers(self):
-        return self.liked.all()
+        return self.liked_question.all()
 
     def count_likers(self):
-        return self.liked.count()
+        return self.liked_question.count()
 
     def get_accepted_answer(self):
         return Answer.objects.get(question=self, is_answer=True)
@@ -138,11 +138,11 @@ class Answer(models.Model):
         return self.content
 
     def switch_like(self, user):
-        if user in self.liked.all():
-            self.liked.remove(user)
+        if user in self.liked_answer.all():
+            self.liked_answer.remove(user)
 
         else:
-            self.liked.add(user)
+            self.liked_answer.add(user)
 
     def accept_answer(self):
         answer_set = Answer.objects.filter(question=self.question)
@@ -153,10 +153,10 @@ class Answer(models.Model):
         self.question.save()
 
     def get_likers(self):
-        return self.liked.all()
+        return self.liked_answer.all()
 
     def count_likers(self):
-        return self.liked.count()
+        return self.liked_answer.count()
 
 
 class Vote(models.Model):
