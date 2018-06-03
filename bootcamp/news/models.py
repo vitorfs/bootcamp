@@ -25,7 +25,7 @@ class News(models.Model):
         primary_key=True, default=uuid.uuid4, editable=False)
     content = models.TextField(max_length=280)
     liked = models.ManyToManyField(settings.AUTH_USER_MODEL,
-        blank=True, related_name="liked")
+        blank=True, related_name="liked_news")
     reply = models.BooleanField(verbose_name=_("Is a reply?"), default=False)
 
     class Meta:
