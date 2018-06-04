@@ -127,13 +127,6 @@ class Answer(models.Model):
         verbose_name = _("Answer")
         verbose_name_plural = _("Answers")
 
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(f"{self.title}-{self.uuid_id}",
-                                to_lower=True, max_length=80)
-
-        super().save(*args, **kwargs)
-
     def __str__(self):  # pragma: no cover
         return self.content
 

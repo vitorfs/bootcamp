@@ -19,7 +19,7 @@ class QuestionListView(LoginRequiredMixin, ListView):
 
 class AnswerListView(LoginRequiredMixin, ListView):
     model = Answer
-    paginate_by = 20
+    paginate_by = 5
     context_object_name = "answers"
 
 
@@ -42,6 +42,7 @@ class CreateQuestionView(LoginRequiredMixin, CreateView):
     View to handle the creation of a new question
     """
     model = Question
+    fields = ["title", "content", "tags", "status"]
     message = _('Your question has been created.')
 
     def form_valid(self, form):
@@ -58,6 +59,7 @@ class CreateAnswerView(LoginRequiredMixin, CreateView):
     View to create new answers for a given question
     """
     model = Answer
+    fields = ["question", "description"]
     message = _('Thank you! Your answer has been posted.')
 
     def form_valid(self, form):
