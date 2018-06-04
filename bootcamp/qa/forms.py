@@ -20,4 +20,4 @@ class AnswerForm(forms.ModelForm):
 
     class Meta:
         model = Answer
-        fields = ['question', 'description']
+        fields = ["question", "description"]
