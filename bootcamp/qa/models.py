@@ -50,8 +50,6 @@ class Question(models.Model):
         (CLOSED, _("Closed")),
         (DRAFT, _("Draft")),
     )
-    uuid_id = models.UUIDField(
-        primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=200, blank=False)
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -75,7 +73,7 @@ class Question(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(f"{self.title}-{self.uuid_id}",
+            self.slug = slugify(f"{self.title}-{self.id}",
                                 to_lower=True, max_length=80)
 
         super().save(*args, **kwargs)

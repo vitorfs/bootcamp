@@ -51,7 +51,7 @@ class CreateQuestionView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         messages.success(self.request, self.message)
-        return reverse('qa_index')
+        return reverse("qa:index")
 
 
 class CreateAnswerView(LoginRequiredMixin, CreateView):
@@ -60,7 +60,7 @@ class CreateAnswerView(LoginRequiredMixin, CreateView):
     """
     model = Answer
     fields = ["question", "description"]
-    message = _('Thank you! Your answer has been posted.')
+    message = _("Thank you! Your answer has been posted.")
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -69,4 +69,4 @@ class CreateAnswerView(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         messages.success(self.request, self.message)
         return reverse(
-            'question_detail', kwargs={'uuid_id': self.kwargs['question_id']})
+            "qa:detail", kwargs={"id": self.kwargs["question_id"]})
