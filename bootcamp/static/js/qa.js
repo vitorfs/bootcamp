@@ -1,0 +1,11 @@
+$(function () {
+    $("#publish").click(function () {
+        $("input[name='status']").val("P");
+        $("#question-form").submit();
+    });
+
+    $("#draft").click(function () {
+        $("input[name='status']").val("D");
+        $("#question-form").submit();
+    });
+});
