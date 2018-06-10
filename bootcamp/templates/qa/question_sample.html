@@ -1,16 +1,14 @@
-{% load humanize i18n static %}
+{% load humanize i18n static humanize %}
 {% load thumbnail %}
-
-{% load humanize %}
 
 <div class="card questions" question-id="{{ question.pk }}">
   <div class="card-body">
     <div class="question-info pull-left text-center">
-      <h3>0</h3>
+      <h3>{{ question.count_answers }}</h3>
       <small class="text-secondary">{% trans 'Answers' %}</small>
-      <h3>0</h3>
+      <h3>{{ question.count_likers }}</h3>
       <small class="text-secondary">{% trans 'Likes' %}</small>
-      <h3>0</h3>
+      <h3>{{ question.get_votes }}</h3>
       <small class="text-secondary">{% trans 'Votes' %}</small>
     </div>
     <div>
@@ -18,7 +16,7 @@
         {% if question.has_answer %}
           <i class="fa fa-check-circle" aria-hidden="true"></i>
         {% endif %}
-        <a href="#">{{ question.title }}</a>
+        <a href="{% url 'qa:question_detail' question.slug %}">{{ question.title }}</a>
       </h4>
       <p>{{ question.content|truncatechars:100 }}</p>
       <div class="question-user pull-right">
@@ -33,7 +31,7 @@
         {% if question.tags.names %}
           <p style="position: absolute; bottom: 0;">
             {% for tag in question.tags.names %}
-              <span class="badge badge-info">{{ tag }}</span>
+              <span class="badge badge-primary">{{ tag }}</span>
             {% endfor %}
           </p>
         {% endif %}

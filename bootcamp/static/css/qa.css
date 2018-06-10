@@ -36,42 +36,42 @@
 
 }
 
-.options span {
+.options i {
   display: block;
   font-size: 1.2em;
 }
 
-.options span.favorite {
+.options i.favorite {
   font-size: 2em;
   margin-top: .4em;
 }
 
-.options span.vote {
+.options i.vote {
   font-size: 2em;
   color: #ddd;
 }
 
-.options span.vote:hover {
+.options i.vote:hover {
   cursor: pointer;
   color: #428bca;
 }
 
-.options span.voted {
+.options i.voted {
   color: #333;
 }
 
-.options span.accept {
+.options i.accept {
   font-size: 2.6em;
   color: #dddddd;
   margin-top: .2em;
 }
 
-.options span.accept:hover {
+.options i.accept:hover {
   cursor: pointer;
   color: #5cb85c;
 }
 
-.options span.accepted {
+.options i.accepted {
   color: #5cb85c;
 }
 

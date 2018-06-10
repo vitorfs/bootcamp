@@ -1,7 +1,7 @@
 import uuid
 
 from django.conf import settings
-from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models import Count
@@ -10,6 +10,30 @@ from django.utils.translation import ugettext_lazy as _
 from slugify import slugify
 
 from taggit.managers import TaggableManager
+
+
+class Vote(models.Model):
+    """Model class to host every vote, made with ContentType framework to
+    allow a single model connected to Questions and Answers."""
+    uuid_id = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    value = models.BooleanField(default=True)
+    content_type = models.ForeignKey(ContentType,
+        blank=True, null=True, related_name="votes_on",
+        on_delete=models.CASCADE)
+    object_id = models.CharField(
+        max_length=50, blank=True, null=True)
+    vote = GenericForeignKey(
+        "content_type", "object_id")
+
+    class Meta:
+        verbose_name = _("Vote")
+        verbose_name_plural = _("Votes")
+        index_together = ("content_type", "object_id")
+        unique_together = ("user", "content_type", "object_id")
 
 
 class QuestionQuerySet(models.query.QuerySet):
@@ -51,7 +75,7 @@ class Question(models.Model):
         (DRAFT, _("Draft")),
     )
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    title = models.CharField(max_length=200, blank=False)
+    title = models.CharField(max_length=200, unique=True, blank=False)
     timestamp = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(max_length=80, null=True, blank=True)
     status = models.CharField(max_length=1, choices=STATUS, default=DRAFT)
@@ -59,9 +83,7 @@ class Question(models.Model):
     liked = models.ManyToManyField(settings.AUTH_USER_MODEL,
         blank=True, related_name="liked_question")
     has_answer = models.BooleanField(default=False)
-    total_votes = models.IntegerField(default=0)
-    up_votes = models.PositiveIntegerField(default=0)
-    down_votes = models.PositiveIntegerField(default=0)
+    votes = GenericRelation(Vote)
     tags = TaggableManager()
     objects = QuestionQuerySet.as_manager()
 
@@ -87,6 +109,12 @@ class Question(models.Model):
 
         else:
             self.liked.add(user)
+
+    @property
+    def get_votes(self):
+        upvotes = self.votes.filter(value=True).count()
+        downvotes = self.votes.filter(value=False).count()
+        return upvotes - downvotes
 
     def get_answers(self):
         return Answer.objects.filter(question=self)
@@ -116,9 +144,7 @@ class Answer(models.Model):
     is_answer = models.BooleanField(default=False)
     liked = models.ManyToManyField(settings.AUTH_USER_MODEL,
         blank=True, related_name="liked_answer")
-    total_votes = models.IntegerField(default=0)
-    up_votes = models.PositiveIntegerField(default=0)
-    down_votes = models.PositiveIntegerField(default=0)
+    votes = GenericRelation(Vote)
 
     class Meta:
         ordering = ["-is_answer", "-timestamp"]
@@ -127,6 +153,12 @@ class Answer(models.Model):
 
     def __str__(self):  # pragma: no cover
         return self.content
+
+    @property
+    def get_votes(self):
+        upvotes = self.votes.filter(value=True).count()
+        downvotes = self.votes.filter(value=False).count()
+        return upvotes - downvotes
 
     def switch_like(self, user):
         if user in self.liked.all():
@@ -148,38 +180,3 @@ class Answer(models.Model):
 
     def count_likers(self):
         return self.liked.count()
-
-
-class Vote(models.Model):
-    """Model class to host every vote, made with ContentType framework to
-    allow a single model connected to Questions and Answers."""
-    uuid_id = models.UUIDField(
-        primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    timestamp = models.DateTimeField(auto_now_add=True)
-    value = models.BooleanField(default=True)
-    vote_content_type = models.ForeignKey(ContentType,
-        blank=True, null=True, related_name="notify_vote",
-        on_delete=models.CASCADE)
-    vote_object_id = models.CharField(
-        max_length=50, blank=True, null=True)
-    vote = GenericForeignKey(
-        "vote_content_type", "vote_object_id")
-
-    class Meta:
-        verbose_name = _("Vote")
-        verbose_name_plural = _("Votes")
-
-    @staticmethod
-    def vote_on(instance, value):
-        Vote.objects.create(
-            user=instance.user,
-            value=value,
-            vote=instance
-        )
-        votes = Vote.objects.filter(vote=instance)
-        instance.up_votes = votes.objects.filter(value=True).count()
-        instance.down_votes = votes.objects.filter(value=False).count()
-        instance.total_votes = instance.up_votes - instance.down_votes
-        instance.save()
