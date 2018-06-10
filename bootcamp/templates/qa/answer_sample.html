@@ -4,7 +4,7 @@
   {% csrf_token %}
   <div class="col-md-2 options">
     <i class="fa fa-chevron-up vote up-vote answer-vote {% if user in answer.get_up_voters %}voted{% endif %}" aria-hidden="true" title="{% trans 'Click to up vote; click again to toggle' %}"></i>
-    <span class="votes">{{ answer.get_votes }}</span>
+    <span class="votes">{{ answer.count_votes }}</span>
     <i class="fa fa-chevron-down vote down-vote answer-vote {% if user in answer.get_down_voters %}voted{% endif %}" aria-hidden="true" title="{% trans 'Click to down vote; click again to toggle' %}"></i>
     {% if answer.is_answer and user == question.user %}
       <i class="fa fa-check accept accepted" aria-hidden="true" title="{% trans 'Click to unaccept the answer' %}"></i>
