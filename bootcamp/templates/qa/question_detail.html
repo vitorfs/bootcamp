@@ -48,13 +48,22 @@
             {% endif %}
           </a>
           {% if question.tags.names %}
-            <p style="position: absolute; bottom: 0;">
+            <p>
               {% for tag in question.tags.names %}
                 <span class="badge badge-primary">{{ tag }}</span>
               {% endfor %}
             </p>
           {% endif %}
         </div>
+        <form action="#" method="post" role="form">
+          {% csrf_token %}
+          {{ form.question }}
+          <div class="form-group">
+            <label for="answerFormTA">{% trans 'Submit an answer' %}</label>
+            <textarea class="form-control" id="answerFormTA" rows="3"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary pull-right">{% trans "Post Your Answer"%}</button>
+        </form>
       </div>
     </div>
     <div class="page-header">
