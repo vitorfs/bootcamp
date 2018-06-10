@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load i18n static humanize %}
+
+{% block title %}{{ question.title }}{% endblock %}
+
+{% block head %}
+  <link href="{% static 'css/qa.css' %}" rel="stylesheet">
+{% endblock head %}
+
+{% block content %}
+
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'news:list' %}">{% trans 'Home' %}</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'qa:index' %}">{% trans 'Q.A' %}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ question.title }}</li>
+      </ol>
+    </nav>
+    <div class="page-header">
+      <a href="{% url 'qa:ask_question' %}" class="btn btn-primary pull-right">
+        <i class="fa fa-pencil" aria-hidden="true"></i> {% trans "Ask a Question" %}
+      </a>
+      <h1>{{ question.title }}</h1>
+    </div>
+    <div class="row">
+      <div class="col-md-2">
+        <div class="question-info text-center">
+          <h3>{{ question.count_answers }}</h3>
+          <small class="text-secondary">{% trans 'Answers' %}</small>
+          <h3>{{ question.count_likers }}</h3>
+          <small class="text-secondary">{% trans 'Likes' %}</small>
+          <h3>{{ question.get_votes }}</h3>
+          <small class="text-secondary">{% trans 'Votes' %}</small>
+        </div>
+      </div>
+      <div class="col-md-10">
+        {% if question.has_answer %}
+          <i class="fa fa-check-circle" aria-hidden="true"></i>
+        {% endif %}
+        <p>{{ question.content }}</p>
+        <div class="question-user pull-right">
+          <span class="text-secondary">{% trans 'Asked' %} {{ question.timestamp|naturaltime }} {% trans 'by' %}</span>
+          <a href="{% url 'users:detail' question.user.username  %}">
+            {% if question.user.name %}
+              {{ question.user.name|title }}
+            {% else %}
+              {{ question.user.username|title }}
+            {% endif %}
+          </a>
+          {% if question.tags.names %}
+            <p style="position: absolute; bottom: 0;">
+              {% for tag in question.tags.names %}
+                <span class="badge badge-primary">{{ tag }}</span>
+              {% endfor %}
+            </p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="page-header">
+      <h1>{% trans 'Answers' %}</h1>
+    </div>
+    <div class="row">
+      <ul class="col-md-12">
+        {% for answer in question.answer_set.all %}
+          {% include 'qa/answer_sample.html' with answer=answer %}
+        {% endfor %}
+      </ul>
+    </div>
+
+
+{% endblock content %}
