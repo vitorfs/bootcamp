@@ -111,22 +111,24 @@ class Question(models.Model):
             self.liked.add(user)
 
     @property
-    def get_votes(self):
+    def count_votes(self):
         upvotes = self.votes.filter(value=True).count()
         downvotes = self.votes.filter(value=False).count()
         return upvotes - downvotes
 
-    def get_answers(self):
-        return Answer.objects.filter(question=self)
-
+    @property
     def count_answers(self):
         return Answer.objects.filter(question=self).count()
+
+    @property
+    def count_likers(self):
+        return self.liked.count()
 
     def get_likers(self):
         return self.liked.all()
 
-    def count_likers(self):
-        return self.liked.count()
+    def get_answers(self):
+        return Answer.objects.filter(question=self)
 
     def get_accepted_answer(self):
         return Answer.objects.get(question=self, is_answer=True)
@@ -142,8 +144,6 @@ class Answer(models.Model):
         primary_key=True, default=uuid.uuid4, editable=False)
     timestamp = models.DateTimeField(auto_now_add=True)
     is_answer = models.BooleanField(default=False)
-    liked = models.ManyToManyField(settings.AUTH_USER_MODEL,
-        blank=True, related_name="liked_answer")
     votes = GenericRelation(Vote)
 
     class Meta:
@@ -155,17 +155,10 @@ class Answer(models.Model):
         return self.content
 
     @property
-    def get_votes(self):
+    def count_votes(self):
         upvotes = self.votes.filter(value=True).count()
         downvotes = self.votes.filter(value=False).count()
         return upvotes - downvotes
-
-    def switch_like(self, user):
-        if user in self.liked.all():
-            self.liked.remove(user)
-
-        else:
-            self.liked.add(user)
 
     def accept_answer(self):
         answer_set = Answer.objects.filter(question=self.question)
@@ -174,9 +167,3 @@ class Answer(models.Model):
         self.save()
         self.question.has_answer = True
         self.question.save()
-
-    def get_likers(self):
-        return self.liked.all()
-
-    def count_likers(self):
-        return self.liked.count()
