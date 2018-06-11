@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
+from django.http import JsonResponse
 from django.urls import reverse
 from django.utils.translation import ugettext as _
 from django.views.generic import CreateView, ListView, DetailView
@@ -46,12 +47,33 @@ class CreateAnswerView(LoginRequiredMixin, CreateView):
     View to create new answers for a given question
     """
     model = Answer
-    fields = ["question", "description"]
+    fields = ["question", "content"]
     message = _("Thank you! Your answer has been posted.")
 
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        if self.request.is_ajax():
+            return JsonResponse(form.errors, status=400)
+
+        else:
+            return response
+
     def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
+        # We make sure to call the parent's form_valid() method because
+        # it might do some processing (in the case of CreateView, it will
+        # call form.save() for example).
+        response = super().form_valid(form)
+        if self.request.is_ajax():
+            form.instance.user = self.request.user
+            data = {
+                "question": self.object.question,
+                "content": self.object.content
+            }
+            return JsonResponse(data)
+
+        else:
+            return response
+
 
     def get_success_url(self):
         messages.success(self.request, self.message)
