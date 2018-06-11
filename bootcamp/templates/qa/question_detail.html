@@ -60,10 +60,10 @@
         </div>
         <form action="#" method="post" role="form">
           {% csrf_token %}
-          {{ form.question }}
           <div class="form-group">
             <label for="answerFormTA">{% trans 'Submit an answer' %}</label>
-            <textarea class="form-control" id="answerFormTA" rows="3"></textarea>
+            <input type="hidden" name="question" value="{{ question }}">
+            <textarea class="form-control" id="answerFormTA" name="content" rows="4"></textarea>
           </div>
           <button type="submit" class="btn btn-primary pull-right">{% trans "Submit an answer"%}</button>
         </form>
