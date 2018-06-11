@@ -14,8 +14,8 @@ class Migration(migrations.Migration):
     dependencies = [
         ('feeds', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('questions', '0001_initial'),
-        ('articles', '0001_initial'),
+        # ('questions', '0001_initial'),
+        # ('articles', '0001_initial'),
     ]
 
     operations = [
@@ -26,8 +26,8 @@ class Migration(migrations.Migration):
                 ('activity_type', models.CharField(choices=[(b'F', b'Favorite'), (b'L', b'Like'), (b'U', b'Up Vote'), (b'D', b'Down Vote')], max_length=1)),
                 ('date', models.DateTimeField(auto_now_add=True)),
                 ('feed', models.IntegerField(blank=True, null=True)),
-                ('question', models.IntegerField(blank=True, null=True)),
-                ('answer', models.IntegerField(blank=True, null=True)),
+                # ('question', models.IntegerField(blank=True, null=True)),
+                # ('answer', models.IntegerField(blank=True, null=True)),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
             options={
@@ -42,11 +42,11 @@ class Migration(migrations.Migration):
                 ('date', models.DateTimeField(auto_now_add=True)),
                 ('notification_type', models.CharField(choices=[(b'L', b'Liked'), (b'C', b'Commented'), (b'F', b'Favorited'), (b'A', b'Answered'), (b'W', b'Accepted Answer'), (b'E', b'Edited Article'), (b'S', b'Also Commented')], max_length=1)),
                 ('is_read', models.BooleanField(default=False)),
-                ('answer', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='questions.Answer')),
-                ('article', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='articles.Article')),
+                # ('answer', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='questions.Answer')),
+                # ('article', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='articles.Article')),
                 ('feed', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='feeds.Feed')),
                 ('from_user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='+', to=settings.AUTH_USER_MODEL)),
-                ('question', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='questions.Question')),
+                # ('question', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='questions.Question')),
                 ('to_user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='+', to=settings.AUTH_USER_MODEL)),
             ],
             options={

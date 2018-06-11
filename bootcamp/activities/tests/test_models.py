@@ -2,9 +2,9 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 from bootcamp.activities.models import Activity, Notification
-from bootcamp.articles.models import Article
+# from bootcamp.articles.models import Article
 from bootcamp.feeds.models import Feed
-from bootcamp.questions.models import Question, Answer
+# from bootcamp.questions.models import Question, Answer
 from bootcamp.authentication.models import Profile
 
 

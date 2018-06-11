@@ -20,7 +20,7 @@
         <form role="search" action="{% url 'search' %}">
           <input type="hidden" name="type" value="{{ active }}">
           <div class="input-group">
-            <input type="text" id="auto-search" class="form-control" name="q" placeholder="{% trans 'Search Feed, Articles, Questions and Users' %}" value="{{ querystring }}">
+            <!-- <input type="text" id="auto-search" class="form-control" name="q" placeholder="{% trans 'Search Feed, Articles, Questions and Users' %}" value="{{ querystring }}"> -->
             <span class="input-group-btn">
               <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
             </span>
@@ -36,10 +36,10 @@
     <div class="col-md-9">
       {% if active == 'feed' %}
         {% include 'search/partial_feed_results.html' with results=results %}
-      {% elif active == 'articles' %}
+      <!-- {% elif active == 'articles' %}
         {% include 'search/partial_articles_results.html' with results=results %}
       {% elif active == 'questions' %}
-        {% include 'search/partial_questions_results.html' with results=results %}
+        {% include 'search/partial_questions_results.html' with results=results %} -->
       {% elif active == 'users' %}
         {% include 'search/partial_users_results.html' with results=results %}
       {% endif %}

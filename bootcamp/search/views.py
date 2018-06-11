@@ -6,10 +6,10 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
-from bootcamp.questions.models import Question
+# from bootcamp.questions.models import Question
 from bootcamp.feeds.models import Feed
 from bootcamp.decorators import ajax_required
-from bootcamp.articles.models import Article
+# from bootcamp.articles.models import Article
 
 
 @login_required
@@ -21,7 +21,7 @@ def search(request):
 
         try:
             search_type = request.GET.get('type')
-            if search_type not in ['feed', 'articles', 'questions', 'users']:
+            if search_type not in ['feed', 'users']:
                 search_type = 'feed'
 
         except Exception:
@@ -31,19 +31,11 @@ def search(request):
         results = {}
         results['feed'] = Feed.objects.filter(post__icontains=querystring,
                                               parent=None)
-        results['articles'] = Article.objects.filter(
-            Q(title__icontains=querystring) | Q(
-                content__icontains=querystring), status='P')
-        results['questions'] = Question.objects.filter(
-            Q(title__icontains=querystring) | Q(
-                description__icontains=querystring))
         results['users'] = User.objects.filter(
             Q(username__icontains=querystring) | Q(
                 first_name__icontains=querystring) | Q(
                     last_name__icontains=querystring))
         count['feed'] = results['feed'].count()
-        count['articles'] = results['articles'].count()
-        count['questions'] = results['questions'].count()
         count['users'] = results['users'].count()
 
         return render(request, 'search/results.html', {
@@ -69,17 +61,10 @@ def get_autocomplete_suggestions(request):
         Q(username__icontains=querystring) | Q(
             first_name__icontains=querystring) | Q(
                 last_name__icontains=querystring)))
-    articles = list(
-        Article.objects.filter(Q(title__icontains=querystring) | Q(
-            content__icontains=querystring), status='P'))
-    questions = list(Question.objects.filter(
-        Q(title__icontains=querystring) | Q(
-            description__icontains=querystring)))
+
     # Add all the retrieved users, articles, questions to data_retrieved
     # list.
     data_retrieved = users
-    data_retrieved.extend(articles)
-    data_retrieved.extend(questions)
     results = []
     for data in data_retrieved:
         data_json = {}
@@ -89,15 +74,15 @@ def get_autocomplete_suggestions(request):
             data_json['label'] = data.username
             data_json['value'] = data.username
 
-        if isinstance(data, Article):
-            data_json['id'] = data.id
-            data_json['label'] = data.title
-            data_json['value'] = data.title
+        # if isinstance(data, Article):
+        #     data_json['id'] = data.id
+        #     data_json['label'] = data.title
+        #     data_json['value'] = data.title
 
-        if isinstance(data, Question):
-            data_json['id'] = data.id
-            data_json['label'] = data.title
-            data_json['value'] = data.title
+        # if isinstance(data, Question):
+        #     data_json['id'] = data.id
+        #     data_json['label'] = data.title
+        #     data_json['value'] = data.title
 
         results.append(data_json)
 
