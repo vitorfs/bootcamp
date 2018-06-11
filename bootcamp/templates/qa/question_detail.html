@@ -24,12 +24,15 @@
     </div>
     <div class="row">
       <div class="col-md-2">
-        <div class="question-info text-center">
+        <div class="question-info options">
           <h3>{{ question.count_answers }}</h3>
           <small class="text-secondary">{% trans 'Answers' %}</small>
           <h3>{{ question.count_likers }}</h3>
+          <a href="#" style="text-decoration: none;"><h3><i class="text-danger fa fa-heart{% if request.user not in question.get_likers %}-o{% endif %}" aria-hidden="true"></i></h3></a>
           <small class="text-secondary">{% trans 'Likes' %}</small>
+          <i class="fa fa-chevron-up vote up-vote answer-vote{% if request.user in question.get_upvoters %} voted{% endif %}" aria-hidden="true" title="{% trans 'Click to up vote; click again to toggle' %}"></i>
           <h3>{{ question.count_votes }}</h3>
+          <i class="fa fa-chevron-down vote down-vote answer-vote{% if request.user in question.get_downvoters %} voted{% endif %}" aria-hidden="true" title="{% trans 'Click to down vote; click again to toggle' %}"></i>
           <small class="text-secondary">{% trans 'Votes' %}</small>
         </div>
       </div>
@@ -62,7 +65,7 @@
             <label for="answerFormTA">{% trans 'Submit an answer' %}</label>
             <textarea class="form-control" id="answerFormTA" rows="3"></textarea>
           </div>
-          <button type="submit" class="btn btn-primary pull-right">{% trans "Post Your Answer"%}</button>
+          <button type="submit" class="btn btn-primary pull-right">{% trans "Submit an answer"%}</button>
         </form>
       </div>
     </div>
@@ -73,6 +76,11 @@
       <ul class="col-md-12">
         {% for answer in question.answer_set.all %}
           {% include 'qa/answer_sample.html' with answer=answer %}
+        {% empty %}
+          <div class="text-center">
+            <h4>{% trans 'There are no answers yet.' %}</h4>
+            <p>{% trans 'Submit your answer now.' %}</p>
+          </div>
         {% endfor %}
       </ul>
     </div>
