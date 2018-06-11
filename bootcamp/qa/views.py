@@ -17,24 +17,11 @@ class QuestionListView(LoginRequiredMixin, ListView):
     context_object_name = "questions"
 
 
-class AnswerListView(LoginRequiredMixin, ListView):
-    model = Answer
-    paginate_by = 5
-    context_object_name = "answers"
-
-
 class QuestionDetailView(LoginRequiredMixin, DetailView):
     """View to call a given Question object and to render all the details about
     that Question."""
     model = Question
     context_object_name = 'question'
-
-
-class AnswerDetailView(LoginRequiredMixin, DetailView):
-    """View to call a given Answer object and to render all the details about
-    that Answer."""
-    model = Answer
-    context_object_name = 'answer'
 
 
 class CreateQuestionView(LoginRequiredMixin, CreateView):
