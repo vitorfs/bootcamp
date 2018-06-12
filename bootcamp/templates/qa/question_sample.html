@@ -1,14 +1,12 @@
 {% load humanize i18n static humanize %}
 {% load thumbnail %}
 
-<div class="card questions" question-id="{{ question.pk }}">
+<div class="card questions">
   <div class="card-body">
     <div class="question-info pull-left text-center">
       <h3>{{ question.count_answers }}</h3>
       <small class="text-secondary">{% trans 'Answers' %}</small>
-      <h3>{{ question.count_likers }}</h3>
-      <small class="text-secondary">{% trans 'Likes' %}</small>
-      <h3>{{ question.count_votes }}</h3>
+      <h3>{{ question.total_votes }}</h3>
       <small class="text-secondary">{% trans 'Votes' %}</small>
     </div>
     <div>
