@@ -2,7 +2,7 @@
 {% load static i18n %}
 {% load crispy_forms_tags %}
 
-{% block title %}{% trans 'Ask a question' %}{% endblock %}
+{% block title %}{% trans 'Answer a question' %}{% endblock %}
 
 {% block content %}
 
@@ -10,21 +10,16 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{% url 'news:list' %}">{% trans 'Home' %}</a></li>
       <li class="breadcrumb-item"><a href="{% url 'qa:index' %}">{% trans 'Q&A' %}</a></li>
-      <li class="breadcrumb-item active" aria-current="page">{% trans 'Ask a question' %}</li>
+      <li class="breadcrumb-item active" aria-current="page">{% trans 'Answer a question' %}</li>
     </ol>
   </nav>
-  <form action="{% url 'qa:ask_question' %}" enctype="multipart/form-data"  id="question-form" method="post" role="form">
+  <form action="{% url 'qa:propose_answer' view.kwargs.question_id %}" id="answerForm" method="post" role="form">
     {% csrf_token %}
     {{ form|crispy }}
     <div class="form-group">
-      <button id="publish" type="button" class="btn btn-primary">{% trans 'Publish' %}</button>
-      <button id="draft" type="button" class="btn btn-default">{% trans 'Save as draft' %}</button>
+      <button id="answer" type="submit" class="btn btn-primary">{% trans 'Answer' %}</button>
       <a href="{% url 'qa:index' %}" class="btn btn-default">{% trans 'Cancel' %}</a>
     </div>
   </form>
 
 {% endblock content %}
-
-{% block modal %}
-  <script src="{% static 'js/qa.js' %}"></script>
-{% endblock modal %}
