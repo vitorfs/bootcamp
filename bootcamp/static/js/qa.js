@@ -1,6 +1,6 @@
 $(function () {
     $("#publish").click(function () {
-        $("input[name='status']").val("P");
+        $("input[name='status']").val("O");
         $("#question-form").submit();
     });
 

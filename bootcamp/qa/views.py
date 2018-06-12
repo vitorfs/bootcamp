@@ -29,8 +29,8 @@ class CreateQuestionView(LoginRequiredMixin, CreateView):
     """
     View to handle the creation of a new question
     """
-    model = Question
-    fields = ["title", "content", "tags", "status"]
+    form_class = QuestionForm
+    template_name = "qa/question_form.html"
     message = _('Your question has been created.')
 
     def form_valid(self, form):
