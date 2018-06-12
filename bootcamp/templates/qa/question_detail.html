@@ -28,7 +28,7 @@
           <h3>{{ question.count_answers }}</h3>
           <small class="text-secondary">{% trans 'Answers' %}</small>
           <h3>{{ question.count_likers }}</h3>
-          <a href="#" style="text-decoration: none;"><h3><i class="text-danger fa fa-heart{% if request.user not in question.get_likers %}-o{% endif %}" aria-hidden="true"></i></h3></a>
+          <a href="#"><h3><i class="text-danger fa fa-heart{% if request.user not in question.get_likers %}-o{% endif %}" aria-hidden="true"></i></h3></a>
           <small class="text-secondary">{% trans 'Likes' %}</small>
           <i class="fa fa-chevron-up vote up-vote answer-vote{% if request.user in question.get_upvoters %} voted{% endif %}" aria-hidden="true" title="{% trans 'Click to up vote; click again to toggle' %}"></i>
           <h3>{{ question.count_votes }}</h3>
@@ -58,16 +58,8 @@
             </p>
           {% endif %}
         </div>
-        <form action="#" method="post" role="form">
-          {% csrf_token %}
-          <div class="form-group">
-            <label for="answerFormTA">{% trans 'Submit an answer' %}</label>
-            <input type="hidden" name="question" value="{{ question }}">
-            <textarea class="form-control" id="answerFormTA" name="content" rows="4"></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary pull-right">{% trans "Submit an answer"%}</button>
-        </form>
       </div>
+        <a href="{% url 'qa:propose_answer' question.id %}" class="btn btn-primary pull-right" role="button">{% trans "Submit an answer" %}</a>
     </div>
     <div class="page-header">
       <h1>{% trans 'Answers' %}</h1>
@@ -84,6 +76,4 @@
         {% endfor %}
       </ul>
     </div>
-
-
 {% endblock content %}

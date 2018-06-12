@@ -5,7 +5,7 @@ from bootcamp.qa import views
 app_name = 'qa'
 urlpatterns = [
     url(r'^$', views.QuestionListView.as_view(), name='index'),
-    url(r'^question-detail/(?P<slug>[-_\w]+)/$',
+    url(r'^question-detail/(?P<pk>\d+)/$',
         views.QuestionDetailView.as_view(), name='question_detail'),
     url(r'^ask-question/$', views.CreateQuestionView.as_view(),
         name='ask_question'),

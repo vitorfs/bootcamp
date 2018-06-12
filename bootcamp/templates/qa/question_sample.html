@@ -16,7 +16,7 @@
         {% if question.has_answer %}
           <i class="fa fa-check-circle" aria-hidden="true"></i>
         {% endif %}
-        <a href="{% url 'qa:question_detail' question.slug %}">{{ question.title }}</a>
+        <a href="{% url 'qa:question_detail' question.pk %}">{{ question.title }}</a>
       </h4>
       <p>{{ question.content|truncatechars:100 }}</p>
       <div class="question-user pull-right">
