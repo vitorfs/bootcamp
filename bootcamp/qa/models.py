@@ -80,9 +80,8 @@ class Question(models.Model):
     slug = models.SlugField(max_length=80, null=True, blank=True)
     status = models.CharField(max_length=1, choices=STATUS, default=DRAFT)
     content = models.TextField(max_length=2500)
-    liked = models.ManyToManyField(settings.AUTH_USER_MODEL,
-        blank=True, related_name="liked_question")
     has_answer = models.BooleanField(default=False)
+    total_votes = models.IntegerField(default=0)
     votes = GenericRelation(Vote)
     tags = TaggableManager()
     objects = QuestionQuerySet.as_manager()
@@ -103,19 +102,6 @@ class Question(models.Model):
     def __str__(self):
         return self.title
 
-    def switch_like(self, user):
-        if user in self.liked.all():
-            self.liked.remove(user)
-
-        else:
-            self.liked.add(user)
-
-    @property
-    def count_votes(self):
-        upvotes = self.votes.filter(value=True).count()
-        downvotes = self.votes.filter(value=False).count()
-        return upvotes - downvotes
-
     @property
     def count_answers(self):
         return Answer.objects.filter(question=self).count()
@@ -123,6 +109,12 @@ class Question(models.Model):
     @property
     def count_likers(self):
         return self.liked.count()
+
+    def count_votes(self):
+        dvotes = self.votes.filter(value=False).count()
+        uvotes = self.votes.filter(value=True).count()
+        self.total_votes = uvotes - dvotes
+        self.save()
 
     def get_likers(self):
         return self.liked.all()
@@ -154,11 +146,11 @@ class Answer(models.Model):
     def __str__(self):  # pragma: no cover
         return self.content
 
-    @property
     def count_votes(self):
-        upvotes = self.votes.filter(value=True).count()
-        downvotes = self.votes.filter(value=False).count()
-        return upvotes - downvotes
+        dvotes = self.votes.filter(value=False).count()
+        uvotes = self.votes.filter(value=True).count()
+        self.total_votes = uvotes - dvotes
+        self.save()
 
     def accept_answer(self):
         answer_set = Answer.objects.filter(question=self.question)

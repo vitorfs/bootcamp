@@ -1,4 +1,37 @@
 $(function () {
+    function getCookie(name) {
+        // Function to get any cookie available in the session.
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    };
+
+    function csrfSafeMethod(method) {
+        // These HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    var csrftoken = getCookie('csrftoken');
+    var page_title = $(document).attr("title");
+    // This sets up every ajax call with proper headers.
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
     $("#publish").click(function () {
         $("input[name='status']").val("O");
         $("#question-form").submit();
@@ -7,5 +40,32 @@ $(function () {
     $("#draft").click(function () {
         $("input[name='status']").val("D");
         $("#question-form").submit();
+    });
+
+    $(".question-vote").click(function () {
+        var span = $(this);
+        var question = $(this).closest(".question").attr("question-id");
+        vote = null;
+        if ($(this).hasClass("up-vote")) {
+            vote = "U";
+        } else {
+            vote = "D";
+        }
+        $.ajax({
+            url: '/qa/question/vote/',
+            data: {
+              'question': question,
+              'value': vote
+            },
+            type: 'post',
+            cache: false,
+            success: function (data) {
+              $('.vote', span).removeClass('voted');
+              if (vote === "U") {
+                $(span).addClass('voted');
+              }
+              $("#questionVotes").text(data.votes);
+            }
+        });
     });
 });
