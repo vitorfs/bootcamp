@@ -25,7 +25,7 @@
     <div class="row question" question-id="{{ question.id }}">
       <div class="col-md-1">
         <div class="question-info options">
-          <h3>{{ question.count_answers }}</h3>
+          <h3 class="{% if question.has_answer %}bg-success text-white{% endif %}">{{ question.count_answers }}</h3>
           <small class="text-secondary">{% trans 'Answers' %}</small>
           <i id="questionUpVote" class="fa fa-chevron-up vote up-vote question-vote{% if request.user in question.get_upvoters %} voted{% endif %}" aria-hidden="true" title="{% trans 'Click to up vote; click again to toggle' %}"></i>
           <h3 id="questionVotes">{{ question.total_votes }}</h3>
@@ -34,9 +34,6 @@
         </div>
       </div>
       <div class="col-md-11">
-        {% if question.has_answer %}
-          <i class="fa fa-check-circle" aria-hidden="true"></i>
-        {% endif %}
         <p>{{ question.content }}</p>
         <div class="question-user pull-right">
           <span class="text-secondary">{% trans 'Asked' %} {{ question.timestamp|naturaltime }} {% trans 'by' %}</span>

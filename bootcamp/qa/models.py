@@ -114,6 +114,14 @@ class Question(models.Model):
         Question.objects.filter(id=self.id).update(total_votes=dic[True] - dic[False])
         self.refresh_from_db()
 
+    def get_upvoters(self):
+        """Returns a list containing the users who upvoted the instance."""
+        return [vote.user for vote in self.votes.filter(value=True)]
+
+    def get_downvoters(self):
+        """Returns a list containing the users who downvoted the instance."""
+        return [vote.user for vote in self.votes.filter(value=False)]
+
     def get_answers(self):
         return Answer.objects.filter(question=self)
 
@@ -148,6 +156,14 @@ class Answer(models.Model):
         dic = Counter(self.votes.values_list("value", flat=True))
         Answer.objects.filter(uuid_id=self.uuid_id).update(total_votes=dic[True] - dic[False])
         self.refresh_from_db()
+
+    def get_upvoters(self):
+        """Returns a list containing the users who upvoted the instance."""
+        return [vote.user for vote in self.votes.filter(value=True)]
+
+    def get_downvoters(self):
+        """Returns a list containing the users who downvoted the instance."""
+        return [vote.user for vote in self.votes.filter(value=False)]
 
     def accept_answer(self):
         answer_set = Answer.objects.filter(question=self.question)

@@ -122,3 +122,18 @@ def answer_vote(request):
 
     else:
         return HttpResponseBadRequest(content=_("Wrong request type."))
+
+
+@login_required
+@ajax_required
+def accept_answer(request):
+    """Function view to receive AJAX call, marks as accepted a given answer for
+    an also provided question."""
+    if request.method == "POST":
+        answer_id = request.POST["answer"]
+        answer = Answer.objects.get(uuid_id=answer_id)
+        answer.accept_answer()
+        return JsonResponse({'status': 'true'}, status=200)
+
+    else:
+        return HttpResponseBadRequest(content=_("Wrong request type."))
