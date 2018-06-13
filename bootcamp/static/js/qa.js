@@ -68,4 +68,31 @@ $(function () {
             }
         });
     });
+
+    $(".answer-vote").click(function () {
+        var span = $(this);
+        var answer = $(this).closest(".answer").attr("answer-id");
+        vote = null;
+        if ($(this).hasClass("up-vote")) {
+            vote = "U";
+        } else {
+            vote = "D";
+        }
+        $.ajax({
+            url: '/qa/answer/vote/',
+            data: {
+              'answer': answer,
+              'value': vote
+            },
+            type: 'post',
+            cache: false,
+            success: function (data) {
+              $('.vote', span).removeClass('voted');
+              if (vote === "U") {
+                $(span).addClass('voted');
+              }
+              $("#answerVotes").text(data.votes);
+            }
+        });
+    });
 });

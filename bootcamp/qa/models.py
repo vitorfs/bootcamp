@@ -1,4 +1,5 @@
 import uuid
+from collections import Counter
 
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
@@ -106,18 +107,12 @@ class Question(models.Model):
     def count_answers(self):
         return Answer.objects.filter(question=self).count()
 
-    @property
-    def count_likers(self):
-        return self.liked.count()
-
     def count_votes(self):
-        dvotes = self.votes.filter(value=False).count()
-        uvotes = self.votes.filter(value=True).count()
-        self.total_votes = uvotes - dvotes
-        self.save()
-
-    def get_likers(self):
-        return self.liked.all()
+        """Method to update the sum of the total votes. Uses this complex query
+        to avoid race conditions at database level."""
+        dic = Counter(self.votes.values_list("value", flat=True))
+        Question.objects.filter(id=self.id).update(total_votes=dic[True] - dic[False])
+        self.refresh_from_db()
 
     def get_answers(self):
         return Answer.objects.filter(question=self)
@@ -134,6 +129,7 @@ class Answer(models.Model):
     content = models.TextField(max_length=2500)
     uuid_id = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False)
+    total_votes = models.IntegerField(default=0)
     timestamp = models.DateTimeField(auto_now_add=True)
     is_answer = models.BooleanField(default=False)
     votes = GenericRelation(Vote)
@@ -147,10 +143,11 @@ class Answer(models.Model):
         return self.content
 
     def count_votes(self):
-        dvotes = self.votes.filter(value=False).count()
-        uvotes = self.votes.filter(value=True).count()
-        self.total_votes = uvotes - dvotes
-        self.save()
+        """Method to update the sum of the total votes. Uses this complex query
+        to avoid race conditions at database level."""
+        dic = Counter(self.votes.values_list("value", flat=True))
+        Answer.objects.filter(uuid_id=self.uuid_id).update(total_votes=dic[True] - dic[False])
+        self.refresh_from_db()
 
     def accept_answer(self):
         answer_set = Answer.objects.filter(question=self.question)

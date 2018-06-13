@@ -92,3 +92,33 @@ def question_vote(request):
 
     else:
         return HttpResponseBadRequest(content=_("Wrong request type."))
+
+
+@login_required
+@ajax_required
+def answer_vote(request):
+    """Function view to receive AJAX call, returns the count of votes a given
+    answer has recieved."""
+    if request.method == "POST":
+        answer_id = request.POST["answer"]
+        value = None
+        if request.POST["value"] == "U":
+            value = True
+
+        else:
+            value = False
+
+        answer = Answer.objects.get(uuid_id=answer_id)
+        try:
+            answer.votes.update_or_create(
+                user=request.user, defaults={"value": value}, )
+            answer.count_votes()
+            return JsonResponse({"votes": answer.total_votes})
+
+        except IntegrityError:
+            return JsonResponse({'status': 'false',
+                                 'message': _("Database integrity error.")},
+                                status=500)
+
+    else:
+        return HttpResponseBadRequest(content=_("Wrong request type."))
