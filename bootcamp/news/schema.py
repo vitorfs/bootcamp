@@ -18,7 +18,7 @@ class NewsType(DjangoObjectType):
         return self.get_thread().count()
 
     def resolve_count_likers(self, info, **kwargs):
-        return self.liked.count()
+        return self.liked_news.count()
 
 
 class NewsPaginatedType(graphene.ObjectType):
