@@ -22,6 +22,20 @@ class ArticleQuerySet(models.query.QuerySet):
         """Returns only the items marked as DRAFT in the current queryset."""
         return self.filter(status="D")
 
+    def get_counted_tags(self):
+        tag_dict = {}
+        query = self.filter(status='P').annotate(
+            tagged=Count('tags')).filter(tags__gt=0)
+        for obj in query:
+            for tag in obj.tags.names():
+                if tag not in tag_dict:
+                    tag_dict[tag] = 1
+
+                else:  # pragma: no cover
+                    tag_dict[tag] += 1
+
+        return tag_dict.items()
+
 
 class Article(models.Model):
     DRAFT = "D"
@@ -60,20 +74,6 @@ class Article(models.Model):
 
         super().save(*args, **kwargs)
 
-    @staticmethod
-    def get_counted_tags():
-        tag_dict = {}
-        query = Article.objects.filter(status='P').annotate(tagged=Count(
-            'tags')).filter(tags__gt=0)
-        for obj in query:
-            for tag in obj.tags.names():
-                if tag not in tag_dict:
-                    tag_dict[tag] = 1
-
-                else:  # pragma: no cover
-                    tag_dict[tag] += 1
-
-        return tag_dict.items()
 
 def notify_comment(**kwargs):
     """Handler to be fired up upon comments signal to notify the author of a

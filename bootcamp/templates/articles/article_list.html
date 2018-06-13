@@ -44,9 +44,9 @@
                   {{ article.user.username|title }}
                 {% endif %}
               </a>
-              {% comment %} {% for tag in article.tags.all %}
+              {% for tag in article.tags.names %}
                 <a href="#">{{ tag }}</a>
-              {% endfor %} {% endcomment %}
+              {% endfor %}
             </div>
           </div>
         {% empty %}
@@ -74,7 +74,6 @@
             {% endif %}
           </ul>
         {% endif %}
-
 
       </div>
 

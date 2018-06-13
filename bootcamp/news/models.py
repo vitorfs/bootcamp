@@ -25,7 +25,7 @@ class News(models.Model):
         primary_key=True, default=uuid.uuid4, editable=False)
     content = models.TextField(max_length=280)
     liked = models.ManyToManyField(settings.AUTH_USER_MODEL,
-        blank=True, related_name="liked")
+        blank=True, related_name="liked_news")
     reply = models.BooleanField(verbose_name=_("Is a reply?"), default=False)
 
     class Meta:
@@ -54,7 +54,6 @@ class News(models.Model):
 
     def switch_like(self, user):
         if user in self.liked.all():
-            is_liked = False
             self.liked.remove(user)
 
         else:
@@ -64,8 +63,6 @@ class News(models.Model):
                                  Notification.LIKED, action_object=self,
                                  id_value=str(self.uuid_id),
                                  key='social_update')
-
-        return is_liked
 
     def get_parent(self):
         if self.parent:
