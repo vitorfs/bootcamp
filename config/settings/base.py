@@ -71,12 +71,12 @@ THIRD_PARTY_APPS = [
 ]
 LOCAL_APPS = [
     'bootcamp.activities',
-    'bootcamp.articles',
+    # 'bootcamp.articles',
     'bootcamp.authentication',
     'bootcamp.core',
     'bootcamp.feeds',
     'bootcamp.messenger',
-    'bootcamp.questions',
+    # 'bootcamp.questions',
     'bootcamp.search',
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

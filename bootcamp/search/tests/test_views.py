@@ -1,8 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
 
-from bootcamp.articles.models import Article
-from bootcamp.questions.models import Question
+# from bootcamp.articles.models import Article
+# from bootcamp.questions.models import Question
 
 
 class TestViews(TestCase):

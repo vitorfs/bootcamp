@@ -90,36 +90,36 @@ class Notification(models.Model):
     LIKED = 'L'
     COMMENTED = 'C'
     FAVORITED = 'F'
-    ANSWERED = 'A'
-    ACCEPTED_ANSWER = 'W'
-    EDITED_ARTICLE = 'E'
+    # ANSWERED = 'A'
+    # ACCEPTED_ANSWER = 'W'
+    # EDITED_ARTICLE = 'E'
     ALSO_COMMENTED = 'S'
     LOGGED_IN = 'I'
     LOGGED_OUT = 'O'
-    UPVOTED_Q = 'U'
-    UPVOTED_A = 'V'
+    # UPVOTED_Q = 'U'
+    # UPVOTED_A = 'V'
     NOTIFICATION_TYPES = (
         (LIKED, 'Liked'),
         (COMMENTED, 'Commented'),
         (FAVORITED, 'Favorited'),
-        (ANSWERED, 'Answered'),
-        (ACCEPTED_ANSWER, 'Accepted Answer'),
-        (EDITED_ARTICLE, 'Edited Article'),
+        # (ANSWERED, 'Answered'),
+        # (ACCEPTED_ANSWER, 'Accepted Answer'),
+        # (EDITED_ARTICLE, 'Edited Article'),
         (ALSO_COMMENTED, 'Also Commented'),
         (LOGGED_IN, 'Logged In'),
         (LOGGED_OUT, 'Logged Out'),
-        (UPVOTED_Q, 'Up Voted Question'),
-        (UPVOTED_A, 'Up Voted Answer'),
+        # (UPVOTED_Q, 'Up Voted Question'),
+        # (UPVOTED_A, 'Up Voted Answer'),
         )
 
     _LIKED_TEMPLATE = '<a href="/{0}/">{1}</a> liked your post: <a href="/feeds/{2}/">{3}</a>'  # noqa: E501
     _COMMENTED_TEMPLATE = '<a href="/{0}/">{1}</a> commented on your post: <a href="/feeds/{2}/">{3}</a>'  # noqa: E501
-    _FAVORITED_TEMPLATE = '<a href="/{0}/">{1}</a> favorited your question: <a href="/questions/{2}/">{3}</a>'  # noqa: E501
-    _ANSWERED_TEMPLATE = '<a href="/{0}/">{1}</a> answered your question: <a href="/questions/{2}/">{3}</a>'  # noqa: E501
-    _ACCEPTED_ANSWER_TEMPLATE = '<a href="/{0}/">{1}</a> accepted your answer: <a href="/questions/{2}/">{3}</a>'  # noqa: E501
-    _UPVOTED_QUESTION_TEMPLATE = '<a href="/{0}/">{1}</a> upvoted your question: <a href="/questions/{2}/">{3}</a>'  # noqa: E501
-    _UPVOTED_ANSWER_TEMPLATE = '<a href="/{0}/">{1}</a> upvoted your answer: <a href="/questions/{2}/">{3}</a>'  # noqa: E501
-    _EDITED_ARTICLE_TEMPLATE = '<a href="/{0}/">{1}</a> edited your article: <a href="/article/{2}/">{3}</a>'  # noqa: E501
+    # _FAVORITED_TEMPLATE = '<a href="/{0}/">{1}</a> favorited your question: <a href="/questions/{2}/">{3}</a>'  # noqa: E501
+    # _ANSWERED_TEMPLATE = '<a href="/{0}/">{1}</a> answered your question: <a href="/questions/{2}/">{3}</a>'  # noqa: E501
+    # _ACCEPTED_ANSWER_TEMPLATE = '<a href="/{0}/">{1}</a> accepted your answer: <a href="/questions/{2}/">{3}</a>'  # noqa: E501
+    # _UPVOTED_QUESTION_TEMPLATE = '<a href="/{0}/">{1}</a> upvoted your question: <a href="/questions/{2}/">{3}</a>'  # noqa: E501
+    # _UPVOTED_ANSWER_TEMPLATE = '<a href="/{0}/">{1}</a> upvoted your answer: <a href="/questions/{2}/">{3}</a>'  # noqa: E501
+    # _EDITED_ARTICLE_TEMPLATE = '<a href="/{0}/">{1}</a> edited your article: <a href="/article/{2}/">{3}</a>'  # noqa: E501
     _ALSO_COMMENTED_TEMPLATE = '<a href="/{0}/">{1}</a> also commentend on the post: <a href="/feeds/{2}/">{3}</a>'  # noqa: E501
     _USER_LOGIN_TEMPLATE = '<a href="/{0}/">{1}</a> has just logged in.'  # noqa: E501
     _USER_LOGOUT_TEMPLATE = '<a href="/{0}/">{1}</a> has just logged out.'  # noqa: E501
@@ -131,12 +131,12 @@ class Notification(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     feed = models.ForeignKey(
         'feeds.Feed', null=True, blank=True, on_delete=models.CASCADE)
-    question = models.ForeignKey(
-        'questions.Question', null=True, blank=True, on_delete=models.CASCADE)
-    answer = models.ForeignKey(
-        'questions.Answer', null=True, blank=True, on_delete=models.CASCADE)
-    article = models.ForeignKey(
-        'articles.Article', null=True, blank=True, on_delete=models.CASCADE)
+    # question = models.ForeignKey(
+    #     'questions.Question', null=True, blank=True, on_delete=models.CASCADE)
+    # answer = models.ForeignKey(
+    #     'questions.Answer', null=True, blank=True, on_delete=models.CASCADE)
+    # article = models.ForeignKey(
+    #     'articles.Article', null=True, blank=True, on_delete=models.CASCADE)
     notification_type = models.CharField(max_length=1,
                                          choices=NOTIFICATION_TYPES)
     is_read = models.BooleanField(default=False)

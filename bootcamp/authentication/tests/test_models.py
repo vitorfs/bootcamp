@@ -5,7 +5,7 @@ from django.test import TestCase
 from bootcamp.feeds.models import Feed
 from bootcamp.authentication.models import Profile
 from bootcamp.activities.models import Notification
-from bootcamp.questions.models import Question, Answer
+# from bootcamp.questions.models import Question, Answer
 
 
 class TestModels(TestCase):
