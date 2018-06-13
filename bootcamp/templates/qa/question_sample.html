@@ -4,16 +4,13 @@
 <div class="card questions">
   <div class="card-body">
     <div class="question-info pull-left text-center">
-      <h3>{{ question.count_answers }}</h3>
+      <h3 class="{% if question.has_answer %}bg-success text-white{% endif %}">{{ question.count_answers }}</h3>
       <small class="text-secondary">{% trans 'Answers' %}</small>
       <h3>{{ question.total_votes }}</h3>
       <small class="text-secondary">{% trans 'Votes' %}</small>
     </div>
     <div>
       <h4 class="card-title">
-        {% if question.has_answer %}
-          <i class="fa fa-check-circle" aria-hidden="true"></i>
-        {% endif %}
         <a href="{% url 'qa:question_detail' question.pk %}">{{ question.title }}</a>
       </h4>
       <p>{{ question.content|truncatechars:100 }}</p>

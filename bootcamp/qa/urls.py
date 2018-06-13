@@ -13,4 +13,5 @@ urlpatterns = [
         views.CreateAnswerView.as_view(), name='propose_answer'),
     url(r'^question/vote/$', views.question_vote, name='question_vote'),
     url(r'^answer/vote/$', views.answer_vote, name='answer_vote'),
+    url(r'^accept-answer/$', views.accept_answer, name='accept_answer'),
 ]
