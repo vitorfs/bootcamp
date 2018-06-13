@@ -12,7 +12,7 @@
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{% url 'news:list' %}">{% trans 'Home' %}</a></li>
-        <li class="breadcrumb-item"><a href="{% url 'qa:index' %}">{% trans 'Q.A' %}</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'qa:index_noans' %}">{% trans 'Q.A' %}</a></li>
         <li class="breadcrumb-item active" aria-current="page">{{ question.title }}</li>
       </ol>
     </nav>

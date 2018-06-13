@@ -13,12 +13,41 @@ from bootcamp.qa.models import Question, Answer, Vote
 from bootcamp.qa.forms import QuestionForm
 
 
-class QuestionListView(LoginRequiredMixin, ListView):
-    """CBV to render the index view
-    """
+class QuestionsIndexListView(LoginRequiredMixin, ListView):
+    """CBV to render a list view with all the registered questions."""
     model = Question
     paginate_by = 20
     context_object_name = "questions"
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["popular_tags"] = Question.objects.get_counted_tags()
+        context["active"] = "all"
+        return context
+
+
+class QuestionAnsListView(QuestionsIndexListView):
+    """CBV to render a list view with all question which have been already
+    marked as answered."""
+    def get_queryset(self, **kwargs):
+        return Question.objects.get_answered()
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["active"] = "answered"
+        return context
+
+
+class QuestionListView(QuestionsIndexListView):
+    """CBV to render a list view with all question which haven't been marked
+    as answered."""
+    def get_queryset(self, **kwargs):
+        return Question.objects.get_unanswered()
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["active"] = "unanswered"
+        return context
 
 
 class QuestionDetailView(LoginRequiredMixin, DetailView):
