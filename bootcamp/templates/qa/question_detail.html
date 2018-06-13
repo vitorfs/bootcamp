@@ -37,13 +37,7 @@
         <p>{{ question.content }}</p>
         <div class="question-user pull-right">
           <span class="text-secondary">{% trans 'Asked' %} {{ question.timestamp|naturaltime }} {% trans 'by' %}</span>
-          <a href="{% url 'users:detail' question.user.username  %}">
-            {% if question.user.name %}
-              {{ question.user.name|title }}
-            {% else %}
-              {{ question.user.username|title }}
-            {% endif %}
-          </a>
+          <a href="{% url 'users:detail' question.user.username  %}">{{ question.user.get_profile_name|title }}</a>
           {% if question.tags.names %}
             <p>
               {% for tag in question.tags.names %}

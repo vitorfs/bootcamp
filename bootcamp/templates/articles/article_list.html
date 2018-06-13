@@ -37,13 +37,7 @@
             <div class="card-footer text-muted">
               {% trans 'Posted' %} {{ article.timestamp|naturaltime }}
               <i class="lead fa fa-user"></i>
-              <a href="{% url 'users:detail' article.user.username %}">
-                {% if article.user.name %}
-                  {{ article.user.name|title }}
-                {% else %}
-                  {{ article.user.username|title }}
-                {% endif %}
-              </a>
+              <a href="{% url 'users:detail' article.user.username %}">{{ article.user.get_profile_name|title }}</a>
               {% for tag in article.tags.names %}
                 <a href="#">{{ tag }}</a>
               {% endfor %}

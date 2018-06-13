@@ -9,13 +9,7 @@
   {% endthumbnail %}
   <div>
     <b>
-      <a href="{% url 'users:detail' message.sender.username  %}">
-        {% if message.sender.name %}
-          {{ message.sender.name|title }}
-        {% else %}
-          {{ message.sender.username|title }}
-        {% endif %}
-      </a>
+      <a href="{% url 'users:detail' message.sender.username  %}">{{ message.sender.get_profile_name|title }}</a>
     </b>
     <small> - {{ message.timestamp|date:'N d G:i' }}</small>
     <br>

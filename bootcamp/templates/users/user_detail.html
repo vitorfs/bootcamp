@@ -26,11 +26,8 @@
         </h1>
         <p>
           <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-          {% if object.name %}
-            {{ object.name|title }}
-          {% else %}
-            {{ object.username|title }}
-          {% endif %}<br />
+          {{ object.get_profile_name|title }}
+          <br />
           <i class="fa fa-envelope" aria-hidden="true"></i><a class="email" href="mailto:{{ object.email }}">   {{ object.email }}</a><br />
           {% if object.job_title %}
             <i class="fa fa-briefcase" aria-hidden="true"></i>  {{ object.job_title }} <br />

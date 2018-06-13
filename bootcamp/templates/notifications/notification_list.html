@@ -10,11 +10,7 @@
 {% block content %}
   <h1>
     {% trans 'Unread notifications for' %}
-    {% if request.user.name %}
-      {{ request.user.name|title }}
-    {% else %}
-      {{ request.user.username|title }}
-    {% endif %}
+    {{ request.user.get_profile_name|title }}
     <a class="btn btn-dark pull-right" href="{% url 'notifications:mark_all_read' %}">{% trans 'Mark all as read' %}</a>
   </h1>
   <ul class="notifications">
@@ -33,13 +29,7 @@
           <div class="media-body">
             <a class="btn btn-success btn-sm pull-right" title="{% trans 'Mark as read' %}" href="{% url 'notifications:mark_as_read' notification.slug %}"><i class="fa fa-check-circle"></i></a>
             <strong class="notification-title">
-              <a href="{% url 'users:detail' notification.actor.username  %}">
-                {% if notification.actor.name %}
-                  {{ notification.actor.name|title }}
-                {% else %}
-                  {{ notification.actor.username|title }}
-                {% endif %}
-              </a>
+              <a href="{% url 'users:detail' notification.actor.username  %}">{{ notification.actor.get_profile_name|title }}</a>
             </strong>
             <p class="notification-desc">
               {{ notification.get_verb_display }}

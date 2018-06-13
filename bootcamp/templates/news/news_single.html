@@ -19,13 +19,7 @@
       {% endif %}
       <p>
         <strong>
-          <a href="{% url 'users:detail' news.user.username  %}">
-            {% if news.user.name %}
-              {{ news.user.name|title }}
-            {% else %}
-              {{ news.user.username|title }}
-            {% endif %}
-          </a>
+          <a href="{% url 'users:detail' news.user.username  %}">{{ news.user.get_profile_name|title }}</a>
         </strong>
       </p>
       <p>{{ news }}</p>

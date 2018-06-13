@@ -10,14 +10,7 @@
 {% block content %}
 
   <div class="page-header">
-    <h1>
-      {% if request.user.name %}
-        {{ request.user.name|title }}
-      {% else %}
-        {{ request.user.username|title }}
-      {% endif %}
-      {% trans 'Conversations' %}
-    </h1>
+    <h1>{{ request.user.get_profile_name|title }} {% trans 'Conversations' %}</h1>
   </div>
   <div class="row" style="margin-top: 1em">
     <div class="col-md-3 list-group users-list">
@@ -29,11 +22,7 @@
           {% empty %}
             <img src="{% static 'img/user.png' %}" height="30px" alt="{% trans 'No Profile Picture' %}" />
           {% endthumbnail %}
-          {% if user.name %}
-            {{ user.name|title }}
-          {% else %}
-            {{ user.username|title }}
-          {% endif %}
+          {{ user.get_profile_name|title }}
         </a>
       {% endfor %}
     </div>

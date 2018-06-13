@@ -21,13 +21,7 @@
         <h1 class="mt-4">{{ article.title|title }}</h1>
         <!-- Author -->
         <p class="lead">{% trans 'by' %}
-          <a href="{% url 'users:detail' article.user.username %}">
-            {% if article.user.name %}
-              {{ article.user.name|title }}
-            {% else %}
-              {{ article.user.username|title }}
-            {% endif %}
-          </a>
+          <a href="{% url 'users:detail' article.user.username %}">{{ article.user.get_profile_name|title }}</a>
         </p>
         <hr>
         <!-- Date/Time -->
@@ -71,13 +65,7 @@
               <img class="d-flex mr-3 rounded-circle" src="{% static 'img/user.png' %}" height="50px" alt="{% trans 'No Profile Picture' %}" />
             {% endthumbnail %}
             <div class="media-body">
-              <h5 class="mt-0">
-                {% if comment.user.name %}
-                  {{ comment.user.name|title }}
-                {% else %}
-                  {{ comment.user.username|title }}
-                {% endif %}
-              </h5>
+              <h5 class="mt-0">{{ comment.user.get_profile_name|title }}</h5>
               {{ comment }}
             </div>
           </div>
