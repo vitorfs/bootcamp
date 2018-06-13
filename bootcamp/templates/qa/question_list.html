@@ -20,11 +20,31 @@
     </a>
     <h1>{% trans "Questions" %}</h1>
   </div>
+  <div class="card my-4">
+    <h5 class="card-header">{% trans 'Questions by topic' %}</h5>
+    <div class="card-body">
+      {% for tag, count in popular_tags %}
+        <a href="#"><span class="badge badge-info">{{ count }} {{ tag }}</span></a>
+      {% endfor %}
+    </div>
+  </div>
   <div>
     <ul class="nav nav-tabs">
-      <li class="nav-item"><a class="nav-link active{% if active == 'unanswered' %} active{% endif %}" href="#">{% trans "Unanswered" %}</a></li>
-      <li class="nav-item"><a class="nav-link{% if active == 'answered' %} active{% endif %}" href="#">{% trans "Answered" %}</a></li>
-      <li class="nav-item"><a class="nav-link{% if active == 'all' %} active{% endif %}" href="#">{% trans "All Questions" %}</a></li>
+      <li class="nav-item">
+        <a class="nav-link{% if active == 'unanswered' %} active{% endif %}" href="{% url 'qa:index_noans' %}">
+          {% trans "Unanswered" %}
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link{% if active == 'answered' %} active{% endif %}" href="{% url 'qa:index_ans' %}">
+          {% trans "Answered" %}
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link{% if active == 'all' %} active{% endif %}" href="{% url 'qa:index_all' %}">
+          {% trans "All Questions" %}
+        </a>
+      </li>
     </ul>
     {% for question in questions %}
       {% include 'qa/question_sample.html' with question=question %}
