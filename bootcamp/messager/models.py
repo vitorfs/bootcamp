@@ -9,6 +9,7 @@ from asgiref.sync import async_to_sync
 
 from channels.layers import get_channel_layer
 
+
 class MessageQuerySet(models.query.QuerySet):
     """Personalized queryset created to improve model usability."""
 

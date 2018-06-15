@@ -2,8 +2,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import redirect, render
+from django.http import JsonResponse
 from django.views.generic import ListView
 
 from taggit.models import Tag
@@ -12,7 +11,6 @@ from bootcamp.articles.models import Article
 from bootcamp.news.models import News
 from bootcamp.helpers import ajax_required
 from bootcamp.qa.models import Question
-
 
 
 class SearchListView(LoginRequiredMixin, ListView):
@@ -43,10 +41,8 @@ class SearchListView(LoginRequiredMixin, ListView):
         context["users_count"] = context["users_list"].count()
         context["tags_count"] = context["tags_list"].count()
         context["total_results"] = context["news_count"] + \
-                                   context["articles_count"] + \
-                                   context["questions_count"] + \
-                                   context["users_count"] + \
-                                   context["tags_count"]
+            context["articles_count"] + context["questions_count"] + \
+            context["users_count"] + context["tags_count"]
         return context
 
 

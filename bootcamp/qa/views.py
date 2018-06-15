@@ -1,5 +1,4 @@
 from django.db.utils import IntegrityError
-from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
@@ -9,7 +8,7 @@ from django.utils.translation import ugettext as _
 from django.views.generic import CreateView, ListView, DetailView
 
 from bootcamp.helpers import ajax_required
-from bootcamp.qa.models import Question, Answer, Vote
+from bootcamp.qa.models import Question, Answer
 from bootcamp.qa.forms import QuestionForm
 
 
