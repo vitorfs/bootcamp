@@ -1,47 +1,46 @@
 from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
-from django.contrib.auth import views as auth_views
+from django.contrib import admin
+from django.views.generic import TemplateView
+from django.views import defaults as default_views
 
-from bootcamp.activities import views as activities_views
-from bootcamp.authentication import views as bootcamp_auth_views
-from bootcamp.core import views as core_views
-from bootcamp.search import views as search_views
+from graphene_django.views import GraphQLView
 
 urlpatterns = [
-    url(r'^$', core_views.home, name='home'),
-    url(r'^login', auth_views.login, {'template_name': 'core/cover.html'},
-        name='login'),
-    url(r'^logout', auth_views.logout, {'next_page': '/'}, name='logout'),
-    url(r'^signup/$', bootcamp_auth_views.signup, name='signup'),
-    url(r'^settings/$', core_views.settings, name='settings'),
-    url(r'^settings/picture/$', core_views.picture, name='picture'),
-    url(r'^settings/upload_picture/$', core_views.upload_picture,
-        name='upload_picture'),
-    url(r'^settings/save_uploaded_picture/$', core_views.save_uploaded_picture,
-        name='save_uploaded_picture'),
-    url(r'^settings/password/$', core_views.password, name='password'),
-    url(r'^network/$', core_views.network, name='network'),
-    url(r'^feeds/', include('bootcamp.feeds.urls')),
-    url(r'^questions/', include('bootcamp.questions.urls')),
-    url(r'^articles/', include('bootcamp.articles.urls')),
-    url(r'^messages/', include('bootcamp.messenger.urls')),
-    url(r'^notifications/$', activities_views.notifications,
-        name='notifications'),
-    url(r'^notifications/last/$', activities_views.last_notifications,
-        name='last_notifications'),
-    url(r'^notifications/check/$', activities_views.check_notifications,
-        name='check_notifications'),
-    # For autocomplete suggestions
-    url(r'^autocomplete/$',
-        search_views.get_autocomplete_suggestions, name='autocomplete'),
-    url(r'^search/$', search_views.search, name='search'),
-    url(r'^(?P<username>[^/]+)/$', core_views.profile, name='profile'),
-    url(r'^i18n/', include('django.conf.urls.i18n', namespace='i18n')),
+    url(r'^$',
+        TemplateView.as_view(template_name='pages/home.html'), name='home'),
+    url(r'^about/$',
+        TemplateView.as_view(template_name='pages/about.html'), name='about'),
+    # Django Admin, use {% url 'admin:index' %}
+    url(settings.ADMIN_URL, admin.site.urls),
+    # User management
+    url(r'^users/', include('bootcamp.users.urls', namespace='users')),
+    url(r'^accounts/', include('allauth.urls')),
+    # Third party apps here
+    url(r'^comments/', include('django_comments.urls')),
+    url(r'^graphql', GraphQLView.as_view(graphiql=True)),
+    # Local apps here
+    url(r'^notifications/',
+        include('bootcamp.notifications.urls', namespace='notifications')),
+    url(r'^articles/',
+        include('bootcamp.articles.urls', namespace='articles')),
+    url(r'^news/', include('bootcamp.news.urls', namespace='news')),
+    url(r'^messages/',
+        include('bootcamp.messager.urls', namespace='messager')),
+    url(r'^qa/', include('bootcamp.qa.urls', namespace='qa')),
+    url(r'^search/', include('bootcamp.search.urls', namespace='search')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
+    # This allows the error pages to be debugged during development
+    urlpatterns += [
+        url(r'^400/$', default_views.bad_request, kwargs={'exception': Exception('Bad Request!')}),
+        url(r'^403/$', default_views.permission_denied, kwargs={'exception': Exception('Permission Denied')}),
+        url(r'^404/$', default_views.page_not_found, kwargs={'exception': Exception('Page not Found')}),
+        url(r'^500/$', default_views.server_error),
+    ]
     if 'debug_toolbar' in settings.INSTALLED_APPS:
         import debug_toolbar
         urlpatterns = [

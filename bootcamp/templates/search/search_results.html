@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+{% load humanize thumbnail %}
+
+{% block title %} {% trans 'Search Results' %} {% endblock %}
+
+{% block head %}
+{% endblock head %}
+
+{% block content %}
+
+  <!-- Page Content -->
+  <div class="container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'news:list' %}">{% trans 'Home' %}</a></li>
+        <li class="breadcrumb-item active"><a href="#">{% trans 'Search Results' %}</a></li>
+      </ol>
+    </nav>
+    <!-- row -->
+    <div class="row">
+      <div class="col-md-3">
+        <div class="list-group" id="list-tab" role="tablist">
+          <a class="list-group-item list-group-item-action active" id="list-articles-list" data-toggle="list" href="#list-articles" role="tab" aria-controls="articles">{% trans 'Articles' %}<span class="badge badge-primary pull-right">{{ articles_count }}</span></a>
+          <a class="list-group-item list-group-item-action" id="list-news-list" data-toggle="list" href="#list-news" role="tab" aria-controls="news">{% trans 'News' %}<span class="badge badge-primary pull-right">{{ news_count }}</span></a>
+          <a class="list-group-item list-group-item-action" id="list-questions-list" data-toggle="list" href="#list-questions" role="tab" aria-controls="questions">{% trans 'Questions' %}<span class="badge badge-primary pull-right">{{ questions_count }}</span></a>
+          <a class="list-group-item list-group-item-action" id="list-users-list" data-toggle="list" href="#list-users" role="tab" aria-controls="users">{% trans 'Users' %}<span class="badge badge-primary pull-right">{{ users_count }}</span></a>
+          <a class="list-group-item list-group-item-action" id="list-tags-list" data-toggle="list" href="#list-tags" role="tab" aria-controls="tags">{% trans 'Tags' %}<span class="badge badge-primary pull-right">{{ tags_count }}</span></a>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <div class="tab-content" id="nav-tabContent">
+          <div class="tab-pane fade show active" id="list-articles" role="tabpanel" aria-labelledby="list-articles-list">
+            {% for article in articles_list %}
+              <div class="card mb-4">
+                {% thumbnail article.image "750x300" as im %}
+                  <img src="{{ im.url }}" alt="{% trans 'Featured Image' %}" class="card-img-top">
+                {% empty %}
+                  <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
+                {% endthumbnail %}
+                <div class="card-body">
+                  <h2 class="card-title">{{ article.title|title }}</h2>
+                  <p class="card-text">{{ article.content|truncatechars:250 }}</p>
+                </div>
+              </div>
+            {% empty %}
+              <h4 class="no-data">{% trans 'There are no results related to your search' %}.</h4>
+            {% endfor %}
+          </div>
+          <div class="tab-pane fade" id="list-news" role="tabpanel" aria-labelledby="list-news-list">
+            {% for news in news_list %}
+              {% include 'news/news_single.html' with news=news %}
+            {% empty %}
+              <h4 class="no-data">{% trans 'There are no results related to your search' %}.</h4>
+            {% endfor %}
+          </div>
+          <div class="tab-pane fade" id="list-questions" role="tabpanel" aria-labelledby="list-questions-list">
+            {% for question in questions_list %}
+              {% include 'qa/question_sample.html' with question=question %}
+            {% empty %}
+              <h4 class="no-data">{% trans 'There are no results related to your search' %}.</h4>
+            {% endfor %}
+          </div>
+          <div class="tab-pane fade" id="list-users" role="tabpanel" aria-labelledby="list-users-list">
+            {% for user in users_list %}
+              <div class="pull-left">
+                <a href="{% url 'users:detail' user.username  %}">
+                  {% thumbnail user.picture "x40" as im %}
+                    <img src="{{ im.url }}" alt="{% trans 'Picture Profile' %}" id="pic">
+                  {% empty %}
+                    <img src="{% static 'img/user.png' %}" height="40px" alt="{% trans 'No Profile Picture' %}" />
+                  {% endthumbnail %}
+                </a>
+              </div>
+              <div>
+                <p>
+                  <i class="fa fa-envelope" aria-hidden="true"></i>
+                  <a class="email" href="mailto:{{ user.email }}">
+                    {{ user.get_profile_name|title }}
+                  </a>
+                  <span>
+                    {% if user.job_title %}
+                      <i class="fa fa-briefcase" aria-hidden="true"></i>
+                      <i>  {{ user.job_title}}</i>
+                    {% endif %}
+                  </span>
+                  <span>
+                    {% if user.location %}
+                      <i class="fa fa-map-marker" aria-hidden="true"></i>
+                      <i>  {{ user.location }}</i>
+                    {% endif %}
+                  </span>
+                </p>
+              </div>
+            {% empty %}
+              <h4 class="no-data">{% trans 'There are no results related to your search' %}.</h4>
+            {% endfor %}
+          </div>
+          <div class="tab-pane fade" id="list-tags" role="tabpanel" aria-labelledby="list-tags-list">
+            <div class="card my-4">
+              <div class="card-body">
+                {% for tag in tags_list %}
+                  <a href="#"><span class="badge badge-info">{{ tag }}</span></a>
+                {% empty %}
+                  <h4 class="no-data">{% trans 'There are no results related to your search' %}.</h4>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container -->
+
+{% endblock content %}

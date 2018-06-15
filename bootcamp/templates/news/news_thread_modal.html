@@ -1,0 +1,43 @@
+{% load i18n static %}
+{% load thumbnail %}
+
+<div class="modal fade" id="newsThreadModal" tabindex="-1" role="dialog" aria-labelledby="newsThreadModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Body -->
+      <div class="modal-body" >
+        <ul class="stream" id="newsContent"></ul>
+        <ul class="stream">
+          <li class="card">
+            <div class="card-body">
+              <div class="profile-picture">
+                {% thumbnail request.user.picture "x60" as im %}
+                  <img src="{{ im.url }}" class="pull-left" style="border-radius: 50%;" alt="{% trans 'User Image' %}" class="user-image">
+                {% empty %}
+                  <img src="{% static 'img/user.png' %}" class="pull-left" height="60px" alt="{% trans 'No Profile Picture' %}" />
+                {% endthumbnail %}
+              </div>
+              <div class="post">
+                <form id="replyNewsForm" role="form" method="post" action="#" onsubmit="return false">
+                  {% csrf_token %}
+                  <input type="hidden" name="parent" value="">
+                  <div class="form-group">
+                    <textarea id="replyInput" name="reply" rows="2" class="form-control" maxlength="280"></textarea>
+                    <span id="replyCounter" class="pull-right">280</span>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="button" id="replyNews" class="btn btn-primary pull-right">
+                <i class="fa fa-paper-plane" aria-hidden="true"></i> {% trans 'Reply' %}
+              </button>
+            </div>
+          </li>
+        </ul>
+        <ul class="stream" id="threadContent"></ul>
+      </div>
+      <!-- Body -->
+    </div>
+  </div>
+</div>

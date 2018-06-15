@@ -10,6 +10,11 @@ APPS_DIR = ROOT_DIR.path('bootcamp')
 env = environ.Env()
 env.read_env(str(ROOT_DIR.path('.env')))
 
+# READ_DOT_ENV_FILE = env.bool('DJANGO_READ_DOT_ENV_FILE', default=False)
+# if READ_DOT_ENV_FILE:
+    # OS environment variables take precedence over variables from .env
+    # env.read_env(str(ROOT_DIR.path('.env')))
+
 # GENERAL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
@@ -29,15 +34,6 @@ USE_I18N = True
 USE_L10N = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#use-tz
 USE_TZ = True
-
-LANGUAGES = (
-    ('en', 'English'),
-    ('pt-br', 'Portuguese'),
-    ('es', 'Spanish'),
-    ('zh-cn', 'Chinese'),
-)
-
-LOCALE_PATHS = (str(APPS_DIR.path('locale')), )
 
 # DATABASES
 # ------------------------------------------------------------------------------
@@ -64,28 +60,58 @@ DJANGO_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'django.contrib.admin',
 ]
 THIRD_PARTY_APPS = [
-    'taggit',
+    'crispy_forms',
+    'sorl.thumbnail',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    # 'allauth.socialaccount.providers.amazon',
+    # 'allauth.socialaccount.providers.github',
+    # 'allauth.socialaccount.providers.google',
+    # 'allauth.socialaccount.providers.linkedin',
+    # 'allauth.socialaccount.providers.slack',
     'channels',
+    'taggit',
+    'django_comments',
+    'graphene_django',
 ]
 LOCAL_APPS = [
-    'bootcamp.activities',
-    'bootcamp.articles',
-    'bootcamp.authentication',
-    'bootcamp.core',
-    'bootcamp.feeds',
-    'bootcamp.messenger',
-    'bootcamp.questions',
-    'bootcamp.search',
+    'bootcamp.users.apps.UsersConfig',
+    # Your stuff: custom apps go here
+    'bootcamp.activities.apps.ActivitiesConfig',
+    'bootcamp.articles.apps.ArticlesConfig',
+    'bootcamp.messager.apps.MessagerConfig',
+    'bootcamp.news.apps.NewsConfig',
+    'bootcamp.notifications.apps.NotificationsConfig',
+    'bootcamp.qa.apps.QaConfig',
+    'bootcamp.search.apps.SearchConfig'
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
+# MIGRATIONS
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/dev/ref/settings/#migration-modules
+MIGRATION_MODULES = {
+    'sites': 'bootcamp.contrib.sites.migrations'
+}
+
+# AUTHENTICATION
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/dev/ref/settings/#authentication-backends
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+# https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
+AUTH_USER_MODEL = 'users.User'
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
-LOGIN_REDIRECT_URL = 'feeds'
+LOGIN_REDIRECT_URL = 'news:list'
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
-LOGIN_URL = '/'
+LOGIN_URL = 'account_login'
 
 # PASSWORDS
 # ------------------------------------------------------------------------------
@@ -125,7 +151,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
 ]
 
 # STATIC
@@ -185,29 +210,67 @@ TEMPLATES = [
         },
     },
 ]
+# http://django-crispy-forms.readthedocs.io/en/latest/install.html#template-packs
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# FIXTURES
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/dev/ref/settings/#fixture-dirs
+FIXTURE_DIRS = (
+    str(APPS_DIR.path('fixtures')),
+)
 
 # EMAIL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
 EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
 
-ALLOWED_SIGNUP_DOMAINS = ['*']
+# ADMIN
+# ------------------------------------------------------------------------------
+# Django Admin URL regex.
+ADMIN_URL = r'^admin/'
+# https://docs.djangoproject.com/en/dev/ref/settings/#admins
+# ADMINS = [
+#     ("""Vitor Freitas""", 'vitor-freitas@example.com'),
+# ]
+# https://docs.djangoproject.com/en/dev/ref/settings/#managers
+# MANAGERS = ADMINS
 
-FILE_UPLOAD_TEMP_DIR = '/tmp/'
-FILE_UPLOAD_PERMISSIONS = 0o644
 
-TAGGIT_CASE_INSENSITIVE = True
+# django-allauth
+# ------------------------------------------------------------------------------
+ACCOUNT_ALLOW_REGISTRATION = env.bool('ACCOUNT_ALLOW_REGISTRATION', True)
+# https://django-allauth.readthedocs.io/en/latest/configuration.html
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+# https://django-allauth.readthedocs.io/en/latest/configuration.html
+ACCOUNT_EMAIL_REQUIRED = True
+# https://django-allauth.readthedocs.io/en/latest/configuration.html
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+# https://django-allauth.readthedocs.io/en/latest/configuration.html
+ACCOUNT_ADAPTER = 'bootcamp.users.adapters.AccountAdapter'
+# https://django-allauth.readthedocs.io/en/latest/configuration.html
+SOCIALACCOUNT_ADAPTER = 'bootcamp.users.adapters.SocialAccountAdapter'
+
+
+# Your stuff...
+# ------------------------------------------------------------------------------
 
 # REDIS setup
-REDIS_URL = env.str('REDIS_URL', default=('localhost', 6379))
-# Channels configuration
+REDIS_URL = f'{env("REDIS_URL", default="redis://127.0.0.1:6379")}/{0}'
+
+# django-channels setup
+ASGI_APPLICATION = 'config.routing.application'
 
 CHANNEL_LAYERS = {
     'default': {
-        'BACKEND': 'asgi_redis.RedisChannelLayer',
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
             'hosts': [REDIS_URL, ],
         },
-        'ROUTING': 'config.routing.channel_routing',
     }
+}
+
+# GraphQL settings
+GRAPHENE = {
+    'SCHEMA': 'bootcamp.schema.schema'
 }

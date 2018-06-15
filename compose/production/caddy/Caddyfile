@@ -1,5 +1,5 @@
 www.{$DOMAIN_NAME} {
-    redir https://http://trybootcamp.vitorfs.com
+    redir https://vitor@freitas.com trybootcamp.vitorfs.com
 }
 
 {$DOMAIN_NAME} {
