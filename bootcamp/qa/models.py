@@ -23,8 +23,7 @@ class Vote(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     value = models.BooleanField(default=True)
     content_type = models.ForeignKey(ContentType,
-        blank=True, null=True, related_name="votes_on",
-        on_delete=models.CASCADE)
+        blank=True, null=True, related_name="votes_on", on_delete=models.CASCADE)
     object_id = models.CharField(
         max_length=50, blank=True, null=True)
     vote = GenericForeignKey(
@@ -86,7 +85,6 @@ class Question(models.Model):
     votes = GenericRelation(Vote)
     tags = TaggableManager()
     objects = QuestionQuerySet.as_manager()
-
 
     class Meta:
         ordering = ["-timestamp"]

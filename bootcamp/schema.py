@@ -9,4 +9,5 @@ class Query(NewsQuery, UserQuery, graphene.ObjectType):
     # as we begin to add more apps to our project
     pass
 
+
 schema = graphene.Schema(query=Query)

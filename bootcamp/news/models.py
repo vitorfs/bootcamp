@@ -48,7 +48,6 @@ class News(models.Model):
                 }
             async_to_sync(channel_layer.group_send)('notifications', payload)
 
-
     def get_absolute_url(self):
         return reverse("news:detail", kwargs={"uuid_id": self.uuid})
 
@@ -57,7 +56,6 @@ class News(models.Model):
             self.liked.remove(user)
 
         else:
-            is_liked = True
             self.liked.add(user)
             notification_handler(user, self.user,
                                  Notification.LIKED, action_object=self,

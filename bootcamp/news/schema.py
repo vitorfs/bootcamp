@@ -39,7 +39,6 @@ class NewsQuery(object):
     def resolve_all_news(self, info, **kwargs):
         return News.objects.filter(reply=False)
 
-
     def resolve_paginated_news(self, info, page):
         """Resolver functions to query the objects and turn the queryset into
         the PaginatedType using the helper function"""
