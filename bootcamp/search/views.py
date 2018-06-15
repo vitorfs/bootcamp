@@ -32,8 +32,8 @@ class SearchListView(LoginRequiredMixin, ListView):
             title__icontains=query) | Q(content__icontains=query) | Q(
                 tags__name__icontains=query), status="P")
         context["questions_list"] = Question.objects.filter(
-            Q(title__icontains=query) | Q(
-                content__icontains=query) | Q(tags__name__icontains=query))
+            Q(title__icontains=query) | Q(content__icontains=query) | Q(
+                tags__name__icontains=query))
         context["users_list"] = get_user_model().objects.filter(
             Q(username__icontains=query) | Q(
                 name__icontains=query))
@@ -53,20 +53,17 @@ class SearchListView(LoginRequiredMixin, ListView):
 # For autocomplete suggestions
 @login_required
 @ajax_required
-def get_autocomplete_suggestions(request):
-    querystring = request.GET.get('term', '')
+def get_suggestions(request):
     # Convert users, articles, questions objects into list to be
     # represented as a single list.
-    users = list(User.objects.filter(
-        Q(username__icontains=querystring) | Q(
-            first_name__icontains=querystring) | Q(
-                last_name__icontains=querystring)))
-    articles = list(
-        Article.objects.filter(Q(title__icontains=querystring) | Q(
-            content__icontains=querystring), status='P'))
-    questions = list(Question.objects.filter(
-        Q(title__icontains=querystring) | Q(
-            description__icontains=querystring)))
+    query = request.GET.get('term', '')
+    users = list(get_user_model().objects.filter(
+        Q(username__icontains=query) | Q(name__icontains=query)))
+    articles = list(Article.objects.filter(
+        Q(title__icontains=query) | Q(content__icontains=query) | Q(
+            tags__name__icontains=query), status="P"))
+    questions = list(Question.objects.filter(Q(title__icontains=query) | Q(
+        content__icontains=query) | Q(tags__name__icontains=query)))
     # Add all the retrieved users, articles, questions to data_retrieved
     # list.
     data_retrieved = users
@@ -75,8 +72,7 @@ def get_autocomplete_suggestions(request):
     results = []
     for data in data_retrieved:
         data_json = {}
-
-        if isinstance(data, User):
+        if isinstance(data, get_user_model()):
             data_json['id'] = data.id
             data_json['label'] = data.username
             data_json['value'] = data.username
