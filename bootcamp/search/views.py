@@ -25,15 +25,15 @@ class SearchListView(LoginRequiredMixin, ListView):
         query = self.request.GET.get("query")
         context["active"] = 'news'
         context["hide_search"] = True
-        context["tags_list"] = Tag.objects.all()
+        context["tags_list"] = Tag.objects.filter(name=query)
         context["news_list"] = News.objects.filter(
             content__icontains=query, reply=False)
-        context["articles_list"] = Article.objects.filter(
-            Q(title__icontains=query) | Q(
-                content__icontains=query), status="P")
+        context["articles_list"] = Article.objects.filter(Q(
+            title__icontains=query) | Q(content__icontains=query) | Q(
+                tags__name__icontains=query), status="P")
         context["questions_list"] = Question.objects.filter(
             Q(title__icontains=query) | Q(
-                content__icontains=query))
+                content__icontains=query) | Q(tags__name__icontains=query))
         context["users_list"] = get_user_model().objects.filter(
             Q(username__icontains=query) | Q(
                 name__icontains=query))

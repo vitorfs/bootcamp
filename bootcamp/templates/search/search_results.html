@@ -21,11 +21,11 @@
     <div class="row">
       <div class="col-md-3">
         <div class="list-group" id="list-tab" role="tablist">
-          <a class="list-group-item list-group-item-action active" id="list-articles-list" data-toggle="list" href="#list-articles" role="tab" aria-controls="articles">articles</a>
-          <a class="list-group-item list-group-item-action" id="list-news-list" data-toggle="list" href="#list-news" role="tab" aria-controls="news">news</a>
-          <a class="list-group-item list-group-item-action" id="list-questions-list" data-toggle="list" href="#list-questions" role="tab" aria-controls="questions">questions</a>
-          <a class="list-group-item list-group-item-action" id="list-users-list" data-toggle="list" href="#list-users" role="tab" aria-controls="users">users</a>
-          <a class="list-group-item list-group-item-action" id="list-tags-list" data-toggle="list" href="#list-tags" role="tab" aria-controls="tags">tags</a>
+          <a class="list-group-item list-group-item-action active" id="list-articles-list" data-toggle="list" href="#list-articles" role="tab" aria-controls="articles">{% trans 'Articles' %}<span class="badge badge-primary pull-right">{{ articles_count }}</span></a>
+          <a class="list-group-item list-group-item-action" id="list-news-list" data-toggle="list" href="#list-news" role="tab" aria-controls="news">{% trans 'News' %}<span class="badge badge-primary pull-right">{{ news_count }}</span></a>
+          <a class="list-group-item list-group-item-action" id="list-questions-list" data-toggle="list" href="#list-questions" role="tab" aria-controls="questions">{% trans 'Questions' %}<span class="badge badge-primary pull-right">{{ questions_count }}</span></a>
+          <a class="list-group-item list-group-item-action" id="list-users-list" data-toggle="list" href="#list-users" role="tab" aria-controls="users">{% trans 'Users' %}<span class="badge badge-primary pull-right">{{ users_count }}</span></a>
+          <a class="list-group-item list-group-item-action" id="list-tags-list" data-toggle="list" href="#list-tags" role="tab" aria-controls="tags">{% trans 'Tags' %}<span class="badge badge-primary pull-right">{{ tags_count }}</span></a>
         </div>
       </div>
       <div class="col-md-9">
@@ -97,11 +97,15 @@
             {% endfor %}
           </div>
           <div class="tab-pane fade" id="list-tags" role="tabpanel" aria-labelledby="list-tags-list">
-            {% for tag in tags_list %}
-              <a href="#"><span class="badge badge-info">{{ tag }}</span></a>
-            {% empty %}
-              <h4 class="no-data">{% trans 'There are no results related to your search' %}.</h4>
-            {% endfor %}
+            <div class="card my-4">
+              <div class="card-body">
+                {% for tag in tags_list %}
+                  <a href="#"><span class="badge badge-info">{{ tag }}</span></a>
+                {% empty %}
+                  <h4 class="no-data">{% trans 'There are no results related to your search' %}.</h4>
+                {% endfor %}
+              </div>
+            </div>
           </div>
         </div>
       </div>
