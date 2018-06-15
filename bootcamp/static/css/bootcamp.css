@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Audiowide);
 
 body {
-  padding-top: 70px;
+  padding-top: 80px;
 }
 
 header .navbar-brand {
@@ -10,12 +10,9 @@ header .navbar-brand {
   font-family: "Audiowide", cursive;
 }
 
-main .container {
-
-}
-
 .page-header {
-  margin: 0;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .page-header h1 {
@@ -37,6 +34,19 @@ main .container {
 
 #notifications.new-notifications {
   color: #428bca;
+}
+
+
+.alert-debug {
+  color: black;
+  background-color: white;
+  border-color: #d6e9c6;
+}
+
+.alert-error {
+  color: #b94a48;
+  background-color: #f2dede;
+  border-color: #eed3d7;
 }
 
 .popover {
@@ -69,8 +79,4 @@ main .container {
   padding: 0 0 0 .6em;
   margin-left: 45px;
   margin-bottom: 0;
-}
-
-.markdown {
-  margin-bottom: .8em;
 }

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% load thumbnail %}
+{% block title %}{% trans 'Messages' %}{% endblock %}
+
+{% block head %}
+  <link href="{% static 'css/messager.css' %}" rel="stylesheet">
+{% endblock head %}
+
+{% block content %}
+
+  <div class="page-header">
+    <h1>{{ request.user.get_profile_name|title }} {% trans 'Conversations' %}</h1>
+  </div>
+  <div class="row" style="margin-top: 1em">
+    <div class="col-md-3 list-group users-list">
+      {% for user in users_list %}
+        <a href="{% url 'messager:conversation_detail' user.username  %}"
+           class="list-group-item list-group-item-action {% if active == user.username %}active{% endif %}">
+          {% thumbnail user.picture "x30" as im %}
+            <img src="{{ im.url }}" alt="{% trans 'Picture Profile' %}">
+          {% empty %}
+            <img src="{% static 'img/user.png' %}" height="30px" alt="{% trans 'No Profile Picture' %}" />
+          {% endthumbnail %}
+          {{ user.get_profile_name|title }}
+        </a>
+      {% endfor %}
+    </div>
+    <div id="conversation" class="col-md-9">
+      <div class="messages-list">
+        {% if message_list %}
+          {% for message in message_list %}
+            {% include 'messager/single_message.html' with message=message %}
+          {% endfor %}
+        {% else %}
+          <h4>{% trans 'This is the begining of a great new conversation.' %}</h4>
+          <p>{% trans "Let's get started now!" %}</p>
+        {% endif %}
+        <li class="send-message"></li>
+      </div>
+      <div class="chat-box">
+        <form role="form" method="post" action="#" id="send">
+          <div class="form-group">
+            {% csrf_token %}
+            <input type="hidden" name="to" value="{{ active }}">
+            <input class="form-control" type="text" name="message" placeholder="{% trans 'Write a message...' %}" maxlength="1000" autocomplete="off">
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+{% endblock content %}
+
+{% block modal %}
+  <script type="text/javascript">
+      var activeUser = "{{ active }}";
+      window.onload = $('.messages-list').scrollTop($('.messages-list')[0].scrollHeight);
+  </script>
+  <script src="{% static 'js/messager.js' %}" type="text/javascript"></script>
+{% endblock modal %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% load thumbnail %}
+{% block title %}{% trans 'Contacts' %}{% endblock %}
+
+{% block head %}
+  <link href="{% static 'css/user_list.css' %}" rel="stylesheet">
+{% endblock head %}
+
+{% block content %}
+
+  <div class="page-header">
+    <h1>{% trans 'Contacts' %}</h1>
+  </div>
+
+  <ul class="user-profiles-list">
+    {% for user in user_list %}
+      <li>
+        <div class="user-avatar">
+          <a href="{% url 'users:detail' user.username  %}" class="user-avatar">
+            {% thumbnail user.picture "x80" as im %}
+              <img src="{{ im.url }}" alt="{% trans 'Picture Profile' %}" id="pic">
+            {% empty %}
+              <img src="{% static 'img/user.png' %}" height="80px" alt="{% trans 'No Profile Picture' %}" />
+            {% endthumbnail %}
+          </a>
+        </div>
+        <p>
+          <i class="fa fa-envelope" aria-hidden="true"></i>
+          <a class="email" href="mailto:{{ user.email }}">
+            {{ user.get_profile_name|title }}
+          </a>
+          <span>
+            {% if user.job_title %}
+              <i class="fa fa-briefcase" aria-hidden="true"></i>
+              <i>  {{ user.job_title}}</i>
+            {% endif %}
+          </span>
+          <span>
+            {% if user.location %}
+              <i class="fa fa-map-marker" aria-hidden="true"></i>
+              <i>  {{ user.location }}</i>
+            {% endif %}
+          </span>
+        </p>
+      </li>
+    {% endfor %}
+  </ul>
+
+{% endblock content %}

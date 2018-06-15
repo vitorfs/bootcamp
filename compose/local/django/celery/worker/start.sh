@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 set -o errexit
 set -o pipefail
@@ -6,4 +6,4 @@ set -o nounset
 set -o xtrace
 
 
-celery -A bootcamp_v_two.taskapp worker -l INFO
+celery -A bootcamp.taskapp worker -l INFO

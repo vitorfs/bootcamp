@@ -1,0 +1,45 @@
+{% load i18n %}
+{% load humanize static %}
+{% load thumbnail %}
+
+<li class="infinite-item card" news-id="{{ news.uuid_id }}">
+  <div class="card-body">
+    <div class="profile-picture">
+      {% thumbnail news.user.picture "x60" as im %}
+        <img src="{{ im.url }}" class="pull-left" style="border-radius: 50%;" alt="{% trans 'User Image' %}" class="user-image">
+      {% empty %}
+        <img src="{% static 'img/user.png' %}" class="pull-left" height="60px" alt="{% trans 'No Profile Picture' %}" />
+      {% endthumbnail %}
+    </div>
+    <div class="post">
+      {% if news.user == request.user %}
+        <a href="{% url 'news:delete_news' news.pk %}">
+          <i class="fa fa-times pull-right" aria-hidden="true" title="{% trans 'Click to remove this news' %}"></i>
+        </a>
+      {% endif %}
+      <p>
+        <strong>
+          <a href="{% url 'users:detail' news.user.username  %}">{{ news.user.get_profile_name|title }}</a>
+        </strong>
+      </p>
+      <p>{{ news }}</p>
+      {% if news.image %}
+        <img class="card-img-top" src="{{ news.image }}" alt="Card image cap">
+      {% endif %}
+    </div>
+  </div>
+  <div class="interaction" id="interaction">
+    <a href="#" class="like" title="{% for i in news.get_likers %}{{ i }}&#10;{% endfor %}">
+      {% if request.user in news.get_likers %}
+        <i class="heart fa fa-heart" aria-hidden="true"></i>
+      {% else %}
+        <i class="heart fa fa-heart-o" aria-hidden="true"></i>
+      {% endif %}
+      <span class="like-count">{{ news.count_likers }}</span>
+    </a>
+    <a href="#" class="comment"><i class="fa fa-comment-o" aria-hidden="true"></i>
+      <span class="comment-count">{{ news.count_thread }}</span>
+    </a>
+    <span class="timestamp">{{ news.timestamp|naturaltime }}</span>
+  </div>
+</li>

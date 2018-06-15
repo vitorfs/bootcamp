@@ -1,0 +1,40 @@
+.notifications {
+  list-style: none;
+  padding: 0;
+}
+.notification {
+  display: block;
+  padding: 9.6px 12px;
+  border-width: 0 0 1px 0;
+  border-style: solid;
+  border-color: #eeeeee;
+  background-color: #fff;
+  color: #333333;
+  text-decoration: none;
+}
+.notification:last-child {
+  border-bottom: 0;
+}
+.notification:hover,
+.notification.active:hover {
+  background-color: #f9f9f9;
+  border-color: #eeeeee;
+}
+.notification.active {
+  background-color: #f4f4f4;
+}
+a.notification:hover {
+  text-decoration: none;
+}
+.notification-title {
+  font-size: 15px;
+  margin-bottom: 0;
+}
+.notification-desc {
+  margin-bottom: 0;
+}
+.notification .media-body {
+  padding-top: 5.6px;
+  padding-left: 15px;
+
+}

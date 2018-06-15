@@ -1,0 +1,20 @@
+{% load static i18n thumbnail %}<!DOCTYPE html>
+
+<ul>
+  {% if notifications %}
+    {% for notification in notifications %}
+      <li class="clearfix">
+        <span class="fa-stack fa-2x float-left">
+          <i class="fa fa-circle-thin fa-stack-2x"></i>
+          <i class="fa {{ notification.get_icon }} fa-stack-1x"></i>
+        </span>
+        <p>{{ notification|safe }}</p>
+        <p><small>{{ notification.timestamp }}</small></p>
+      </li>
+    {% endfor %}
+    <a type="button" class="btn btn-light text-center float-left" href="{% url 'notifications:unread' %}">{% trans 'See all' %}</a>
+    <a type="button" class="btn btn-light text-center float-right" href="{% url 'notifications:mark_all_read' %}">{% trans 'Mark all as read' %}</a>
+  {% else %}
+    <li class="text-center">{% trans 'You have no unread notification' %}</li>
+  {% endif %}
+</ul>
