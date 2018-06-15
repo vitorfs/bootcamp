@@ -81,7 +81,6 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     'bootcamp.users.apps.UsersConfig',
     # Your stuff: custom apps go here
-    'bootcamp.activities.apps.ActivitiesConfig',
     'bootcamp.articles.apps.ArticlesConfig',
     'bootcamp.messager.apps.MessagerConfig',
     'bootcamp.news.apps.NewsConfig',
