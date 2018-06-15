@@ -28,7 +28,8 @@ urlpatterns = [
     url(r'^news/', include('bootcamp.news.urls', namespace='news')),
     url(r'^messages/',
         include('bootcamp.messager.urls', namespace='messager')),
-    url(r'^qa/', include('bootcamp.qa.urls', namespace='qa'))
+    url(r'^qa/', include('bootcamp.qa.urls', namespace='qa')),
+    url(r'^search/', include('bootcamp.search.urls', namespace='search')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

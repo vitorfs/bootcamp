@@ -33,16 +33,13 @@
               </button>
               <a class="navbar-brand" href="#">Bootcamp</a>
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
                 <ul class="navbar-nav">
                   <li class="nav-item">
                     <a class="btn btn-md" href="#" id="notifications" data-toggle="popover" data-title="{% trans 'Notifications' %}">
                         <i class="fa fa-bell-o" aria-hidden="true"></i>
                     </a>
                   </li>
-
                 </ul>
-
                 <ul class="navbar-nav mr-auto">
                   <li class="nav-item"><a class="nav-link" href="{% url 'news:list' %}">{% trans 'News' %} <span class="sr-only">(current)</span></a></li>
                   <li class="nav-item"><a class="nav-link" href="{% url 'articles:list' %}">Blog</a></li>
@@ -52,14 +49,24 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                   {% if not hide_search %}
-                    <form class="form-inline navbar-left" role="search" action="#">
+                    <form class="form-inline navbar-left" role="search" action="{% url 'search:results' %}">
                       <div class="input-group">
-                        <input name="q" type="search" class="form-control" placeholder="{% trans 'Search' %}" aria-label="Search">
+                        <input name="query" type="search" id="searchInput" class="form-control" placeholder="{% trans 'Search' %}" aria-label="Search">
                         <div class="input-group-append">
                           <span class="input-group-text"><i class="fa fa-search" aria-hidden="true"></i></span>
                         </div>
                       </div>
                     </form>
+                    <!-- JQuery code for Ajax autocomplete search suggestion -->
+                        <script type="text/javascript">
+                          $(function() {
+                              $("#searchInput").autocomplete({
+                                  source: "{% url 'search:suggestions' %}",
+                                  minLength: 2
+                              });
+                          });
+                        </script>
+                    <!-- End JQuery code for Ajax autocomplete search suggestion -->
                   {% endif %}
 
                   <li class="nav-item dropdown">
@@ -81,10 +88,8 @@
               </div>
             </div>
           </nav>
-
         {% endif %}
       </div>
-
       <div id="header" class="container">
         {% if messages %}
           {% for message in messages %}
