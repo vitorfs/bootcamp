@@ -85,4 +85,4 @@ def get_suggestions(request):
 
         results.append(data_json)
 
-    return JsonResponse(results)
+    return JsonResponse(results, safe=False)
