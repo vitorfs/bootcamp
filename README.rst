@@ -3,22 +3,18 @@ Bootcamp
 
 An enterprise oriented social network
 
-|Build Status|
 .. image:: https://travis-ci.org/vitorfs/bootcamp.svg?branch=master
     :target: https://travis-ci.org/vitorfs/bootcamp
     :alt: TravisCI Status
 
-|Coverage Status|
 .. image:: https://coveralls.io/repos/github/vitorfs/bootcamp/badge.svg?branch=master
     :target: https://coveralls.io/github/vitorfs/bootcamp?branch=master
     :alt: Coverage
 
-|Requirements Status|
 .. image:: https://requires.io/github/vitorfs/bootcamp/requirements.svg?branch=master
     :target: https://requires.io/github/vitorfs/bootcamp/requirements/?branch=master
     :alt: Requirements
 
-|Templating|
 .. image:: https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg
     :target: https://github.com/pydanny/cookiecutter-django/
     :alt: Built with Cookiecutter Django
