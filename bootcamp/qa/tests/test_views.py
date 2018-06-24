@@ -64,29 +64,12 @@ class QAModelsTest(TestCase):
         self.assertTrue("This is a sample question" in str(
             response.context["question"]))
 
-    # def test_individual_question(self):
-    #     response = self.client.get(
-    #         "/questions/{}/".format(self.question_one.id))
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertTrue(
-    #         "This is a sample question" in str(response.context["question"]))
-
-    # def test_answer_question(self):
-    #     current_answer_count = Answer.objects.count()
-    #     response = self.client.post(
-    #         reverse("answer"),
-    #         {"question": self.question_one.id,
-    #          "description": "A reaaaaally loooong content"})
-    #     self.assertEqual(response.status_code, 302)
-    #     self.assertEqual(Answer.objects.count(), current_answer_count + 1)
-
-    # def test_empty_answer(self):
-    #     current_answer_count = Answer.objects.count()
-    #     response = self.client.post(reverse("answer"),
-    #                                 {"question": self.question_one.id})
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertEqual(Answer.objects.count(), current_answer_count)
-
-    # def test_answer_redirects(self):
-    #     response = self.other_client.get(reverse("answer"))
-    #     self.assertRedirects(response, reverse("questions"), status_code=302)
+    def test_answer_question(self):
+        current_answer_count = Answer.objects.count()
+        response = self.client.post(
+            reverse("qa:propose_answer",
+                    kwargs={"question_id": self.question_one.id}),
+            {"content": "A reaaaaally loooong content"}
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Answer.objects.count(), current_answer_count + 1)
