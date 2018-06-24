@@ -53,7 +53,7 @@ class QuestionDetailView(LoginRequiredMixin, DetailView):
     """View to call a given Question object and to render all the details about
     that Question."""
     model = Question
-    context_object_name = 'question'
+    context_object_name = "question"
 
 
 class CreateQuestionView(LoginRequiredMixin, CreateView):
@@ -62,7 +62,7 @@ class CreateQuestionView(LoginRequiredMixin, CreateView):
     """
     form_class = QuestionForm
     template_name = "qa/question_form.html"
-    message = _('Your question has been created.')
+    message = _("Your question has been created.")
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -70,7 +70,7 @@ class CreateQuestionView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         messages.success(self.request, self.message)
-        return reverse("qa:index")
+        return reverse("qa:index_noans")
 
 
 class CreateAnswerView(LoginRequiredMixin, CreateView):
@@ -83,7 +83,7 @@ class CreateAnswerView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        form.instance.question_id = self.kwargs['question_id']
+        form.instance.question_id = self.kwargs["question_id"]
         return super().form_valid(form)
 
     def get_success_url(self):
