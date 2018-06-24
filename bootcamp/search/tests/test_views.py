@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.test import Client
 
@@ -21,8 +20,7 @@ class TestViews(TestCase):
         self.client = Client()
         self.other_client = Client()
         self.client.login(username="first_user", password="password")
-        self.other_client.login(
-            username="second_user", password="password")
+        self.other_client.login(username="second_user", password="password")
         self.title = "A really nice to-be first title "
         self.content = """This is a really good content, just if somebody
         published it, that would be awesome, but no, nobody wants to publish

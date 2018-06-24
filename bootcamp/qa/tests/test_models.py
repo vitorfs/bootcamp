@@ -3,7 +3,7 @@ from test_plus.test import TestCase
 from bootcamp.qa.models import Question, Answer, Vote
 
 
-class QuestionsTest(TestCase):
+class QAModelsTest(TestCase):
     def setUp(self):
         self.user = self.make_user("test_user")
         self.other_user = self.make_user("other_test_user")
