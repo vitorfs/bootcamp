@@ -24,17 +24,9 @@ class ArticlesListView(LoginRequiredMixin, ListView):
         return Article.objects.get_published()
 
 
-class DraftsListView(LoginRequiredMixin, ListView):
-    """Basic ListView implementation to call the drafts articles list."""
-    model = Article
-    paginate_by = 15
-    context_object_name = "articles"
-
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        context['popular_tags'] = Article.get_counted_tags()
-        return context
-
+class DraftsListView(ArticlesListView):
+    """Overriding the original implementation to call the drafts articles
+    list."""
     def get_queryset(self, **kwargs):
         return Article.objects.get_drafts()
 

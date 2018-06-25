@@ -33,9 +33,10 @@
         {% empty %}
           <img class="img-fluid rounded" src="http://placehold.it/900x300" alt="Card Image">
         {% endthumbnail %}
+        <!-- <img src="{{ MEDIA_URL }}{{ article.image }}" lt="{% trans 'Featured Image' %}" class="card-img-top"> -->
         <hr>
         <!-- Post Content -->
-        <p>{{ article.content }}</p>
+        <p class="card-text">{{ article.content }}</p>
         <hr>
 
         <!-- Comments Form -->
