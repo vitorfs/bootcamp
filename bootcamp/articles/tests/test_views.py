@@ -95,35 +95,3 @@ class QAModelsTest(TestCase):
         assert resp.status_code == 200
         assert response.status_code == 302
         assert resp.context["articles"][0].slug == "first-user-a-not-that-really-nice-title"
-
-
-    # def test_edits_article(self):
-    #     """
-    #     """
-    #     response = self.client.post(reverse("write"), {"title": self.title,
-    #                                                    "content": self.content,
-    #                                                    "tags": "list, lists",
-    #                                                    "status": "P"
-    #                                                    })
-    #     art = Article.objects.latest("create_date")
-    #     art_content = art.content
-    #     response_two = self.client.post(
-    #         reverse("edit_article", kwargs={"pk": art.id}),
-    #         {"content": "some_different_content_here",
-    #          "title": self.title,
-    #          "tags": "list, lists",
-    #          "status": "P"})
-    #     art.refresh_from_db()
-    #     self.assertEqual(response.status_code, 302)
-    #     self.assertEqual(response_two.status_code, 302)
-    #     self.assertNotEqual(art_content, art.content)
-
-    # def test_bad_request_preview(self):
-    #     request = self.client.get(reverse("preview"))
-    #     self.assertEqual(request.status_code, 400)
-    #     self.assertTrue(isinstance(request, HttpResponseBadRequest))
-
-    # def test_bad_request_comment(self):
-    #     request = self.client.get(reverse("comment"))
-    #     self.assertEqual(request.status_code, 400)
-    #     self.assertTrue(isinstance(request, HttpResponseBadRequest))
