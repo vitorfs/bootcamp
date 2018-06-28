@@ -6,7 +6,7 @@ from test_plus.test import TestCase
 from bootcamp.qa.models import Question, Answer, Vote
 
 
-class QAModelsTest(TestCase):
+class QAViewsTest(TestCase):
     def setUp(self):
         self.user = self.make_user("first_user")
         self.other_user = self.make_user("second_user")
