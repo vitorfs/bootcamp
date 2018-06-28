@@ -9,7 +9,7 @@ from bootcamp.news.models import News
 from bootcamp.search.views import SearchListView
 
 
-class TestViews(TestCase):
+class SearchViewsTests(TestCase):
     """
     Includes tests for all the functionality
     associated with Views

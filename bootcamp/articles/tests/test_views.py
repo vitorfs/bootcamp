@@ -20,7 +20,7 @@ def get_temp_img():
     return open(f.name, mode="rb")
 
 
-class QAModelsTest(TestCase):
+class ArticlesViewsTest(TestCase):
     def setUp(self):
         self.user = self.make_user("first_user")
         self.other_user = self.make_user("second_user")
