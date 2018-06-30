@@ -3,7 +3,7 @@ from django.urls import reverse
 
 from test_plus.test import TestCase
 
-from bootcamp.qa.models import Question, Answer, Vote
+from bootcamp.qa.models import Question, Answer
 
 
 class QAViewsTest(TestCase):
@@ -36,6 +36,7 @@ class QAViewsTest(TestCase):
             content="A reaaaaally loooong content",
             is_answer=True
         )
+
     def test_index_questions(self):
         response = self.client.get(reverse("qa:index_all"))
         assert response.status_code == 200
