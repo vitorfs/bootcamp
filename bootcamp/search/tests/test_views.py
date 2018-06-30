@@ -6,7 +6,6 @@ from test_plus.test import TestCase
 from bootcamp.articles.models import Article
 from bootcamp.qa.models import Question
 from bootcamp.news.models import News
-from bootcamp.search.views import SearchListView
 
 
 class SearchViewsTests(TestCase):

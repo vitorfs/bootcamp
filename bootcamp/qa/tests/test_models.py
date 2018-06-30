@@ -1,6 +1,6 @@
 from test_plus.test import TestCase
 
-from bootcamp.qa.models import Question, Answer, Vote
+from bootcamp.qa.models import Question, Answer
 
 
 class QAModelsTest(TestCase):
