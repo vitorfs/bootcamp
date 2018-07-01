@@ -61,9 +61,8 @@ class QAViewsTest(TestCase):
 
     def test_unanswered_questions(self):
         response = self.client.get(reverse("qa:index_noans"))
-        self.assertEqual(response.status_code, 200)
-        self.assertTrue("This is a sample question" in str(
-            response.context["question"]))
+        assert response.status_code == 200
+        assert "This is a sample question" in str(response.context["question"])
 
     def test_answer_question(self):
         current_answer_count = Answer.objects.count()
@@ -72,5 +71,5 @@ class QAViewsTest(TestCase):
                     kwargs={"question_id": self.question_one.id}),
             {"content": "A reaaaaally loooong content"}
         )
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(Answer.objects.count(), current_answer_count + 1)
+        assert response.status_code == 302
+        assert Answer.objects.count() == current_answer_count + 1
