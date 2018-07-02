@@ -6,7 +6,7 @@ from test_plus.test import TestCase
 from bootcamp.messager.models import Message
 
 
-class MessagerTests(TestCase):
+class MessagerViewsTests(TestCase):
     def setUp(self):
         self.user = self.make_user("first_user")
         self.other_user = self.make_user("second_user")
