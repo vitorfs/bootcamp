@@ -69,3 +69,8 @@ class NotificationsModelsTest(TestCase):
         Notification.objects.mark_all_as_read()
         notification_handler(self.user, "global", "C")
         assert Notification.objects.unread().count() == 1
+
+    def test_list_notification(self):
+        Notification.objects.mark_all_as_read()
+        notification_handler(self.user, [self.user, self.other_user], "C")
+        assert Notification.objects.unread().count() == 2
