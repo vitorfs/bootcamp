@@ -74,9 +74,10 @@ THIRD_PARTY_APPS = [
     # 'allauth.socialaccount.providers.linkedin',
     # 'allauth.socialaccount.providers.slack',
     'channels',
-    'taggit',
     'django_comments',
     'graphene_django',
+    'markdownx',
+    'taggit',
 ]
 LOCAL_APPS = [
     'bootcamp.users.apps.UsersConfig',
