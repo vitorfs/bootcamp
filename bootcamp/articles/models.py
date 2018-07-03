@@ -7,6 +7,7 @@ from slugify import slugify
 
 from django_comments.signals import comment_was_posted
 from markdownx.models import MarkdownxField
+from markdownx.utils import markdownify
 from taggit.managers import TaggableManager
 
 
@@ -75,6 +76,9 @@ class Article(models.Model):
                                 to_lower=True, max_length=80)
 
         super().save(*args, **kwargs)
+
+    def get_markdown(self):
+        return markdownify(self.content)
 
 
 def notify_comment(**kwargs):
