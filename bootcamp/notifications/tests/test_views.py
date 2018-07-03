@@ -29,3 +29,24 @@ class NewsViewsTest(TestCase):
                 recipient=self.user,
                 verb="A"
             )
+
+    def test_notification_list(self):
+        response = self.client.get(reverse("notifications:unread"))
+        assert response.status_code == 200
+        assert self.third_notification in response.context["notification_list"]
+
+    def test_mark_all_as_read(self):
+        response = self.client.get(reverse("notifications:mark_all_read"), follow=True)
+        assert '/notifications/' in str(response.context["request"])
+        assert Notification.objects.unread().count() == 2
+
+    def test_mark_as_read(self):
+        response = self.client.get(
+            reverse("notifications:mark_as_read", kwargs={"slug": self.first_notification.slug}))
+        assert response.status_code == 302
+        assert Notification.objects.unread().count() == 2
+
+    def test_latest_notifications(self):
+        response = self.client.get(reverse("notifications:latest_notifications"))
+        assert response.status_code == 200
+        assert self.third_notification in response.context["notifications"]
