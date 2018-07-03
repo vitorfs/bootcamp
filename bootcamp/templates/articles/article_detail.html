@@ -36,7 +36,7 @@
         <!-- <img src="{{ MEDIA_URL }}{{ article.image }}" lt="{% trans 'Featured Image' %}" class="card-img-top"> -->
         <hr>
         <!-- Post Content -->
-        <p class="card-text">{{ article.content }}</p>
+        <p class="card-text">{{ article.get_markdown|safe }}</p>
         <hr>
 
         <!-- Comments Form -->
