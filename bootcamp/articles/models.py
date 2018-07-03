@@ -5,8 +5,10 @@ from django.utils.translation import ugettext_lazy as _
 
 from slugify import slugify
 
-from taggit.managers import TaggableManager
 from django_comments.signals import comment_was_posted
+from markdownx.models import MarkdownxField
+from taggit.managers import TaggableManager
+
 
 from bootcamp.notifications.models import Notification, notification_handler
 
@@ -54,7 +56,7 @@ class Article(models.Model):
     title = models.CharField(max_length=255, null=False, unique=True)
     slug = models.SlugField(max_length=80, null=True, blank=True)
     status = models.CharField(max_length=1, choices=STATUS, default=DRAFT)
-    content = models.TextField(max_length=5000)
+    content = MarkdownxField()
     edited = models.BooleanField(default=False)
     tags = TaggableManager()
     objects = ArticleQuerySet.as_manager()
