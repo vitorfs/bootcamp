@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+{% load comments crispy_forms_tags thumbnail humanize %}
+
+{% block title %}{{ article.title|title }}{% endblock %}
+
+{% block content %}
+  <!-- Page Content -->
+  <div class="container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">{% trans 'Home' %}</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'articles:list' %}">{% trans 'Articles' %}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ article.title|title }}</li>
+      </ol>
+    </nav>
+    <div class="row">
+      <!-- Post Content Column -->
+      <div class="col-lg-8">
+        <!-- Title -->
+        <h1 class="mt-4">{{ article.title|title }}</h1>
+        <!-- Author -->
+        <p class="lead">{% trans 'by' %}
+          <a href="{% url 'users:detail' article.user.username %}">{{ article.user.get_profile_name|title }}</a>
+        </p>
+        <hr>
+        <!-- Date/Time -->
+        <p>{% trans 'Posted' %} {{ article.timestamp|naturaltime }}  </p>
+        <hr>
+        <!-- Featured Image -->
+        {% thumbnail article.image "900x300" as im %}
+          <img src="{{ im.url }}" alt="{% trans 'Featured Image' %}" class="card-img-top">
+        {% empty %}
+          <img class="img-fluid rounded" src="http://placehold.it/900x300" alt="Card Image">
+        {% endthumbnail %}
+        <!-- <img src="{{ MEDIA_URL }}{{ article.image }}" lt="{% trans 'Featured Image' %}" class="card-img-top"> -->
+        <hr>
+        <!-- Post Content -->
+        <p class="card-text">{{ article.get_markdown|safe }}</p>
+        <hr>
+
+        <!-- Comments Form -->
+        <div class="card my-4">
+          <h5 class="card-header">{% trans 'Leave a Comment' %}:</h5>
+          <div class="card-body">
+            {% if user.is_authenticated %}
+              {% get_comment_form for article as form %}
+              <form action="{% comment_form_target %}" method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input type="hidden" name="next" value="{% url 'articles:article' article.slug %}" />
+                <input type="submit" value="{% trans 'Add comment' %}" id="id_submit" />
+              </form>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Single Comment -->
+
+        {% get_comment_list for article as comment_list %}
+        {% for comment in comment_list %}
+          <div class="media mb-4">
+            {% thumbnail comment.user.picture "x50" as im %}
+              <img class="d-flex mr-3 rounded-circle" src="{{ im.url }}" alt="{% trans 'Picture Profile' %}" id="pic" />
+            {% empty %}
+              <img class="d-flex mr-3 rounded-circle" src="{% static 'img/user.png' %}" height="50px" alt="{% trans 'No Profile Picture' %}" />
+            {% endthumbnail %}
+            <div class="media-body">
+              <h5 class="mt-0">{{ comment.user.get_profile_name|title }}</h5>
+              {{ comment }}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- Sidebar Widgets Column -->
+      <div class="col-md-4">
+
+        <!-- Write Article Widget -->
+        {% if request.user.is_authenticated %}
+          <div class="card my-4">
+            <div class="card-body text-center">
+              <a class="btn btn-success" href="{% url 'articles:write_new' %}" title="{% trans 'Write a new article' %}"><i class="fa fa-pencil" aria-hidden="true"></i> {% trans 'New Article' %}</a>
+              <a class="btn btn-primary" href="{% url 'articles:edit_article' article.id %}" title="{% trans 'Edit this article' %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {% trans 'Edit' %}</a>
+            </div>
+          </div>
+        {% endif %}
+        <!-- Cloud Tag Widget -->
+        <div class="card my-4">
+          <h5 class="card-header">{% trans 'Cloud tag' %}</h5>
+          <div class="card-body">
+            {% for tag in article.tags.all %}
+              <a href="#"><span class="badge badge-info">{{ tag }}</span></a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container -->
+{% endblock content %}

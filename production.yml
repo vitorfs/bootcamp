@@ -10,11 +10,21 @@ services:
     build:
       context: .
       dockerfile: ./compose/production/django/Dockerfile
+    env_file: .env
     depends_on:
       - postgres
       - redis
+    command: daphne -b 0.0.0.0 -p 8000 config.asgi:channel_layer
+
+  worker:
+    build:
+      context: .
+      dockerfile: ./compose/production/django/Dockerfile
+    command: python manage.py runworker
     env_file: .env
-    command: /gunicorn.sh
+    depends_on:
+      - postgres
+      - redis
 
   postgres:
     build:
@@ -23,7 +33,6 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - postgres_backup:/backups
-    env_file: .env
 
   caddy:
     build:
@@ -40,4 +49,3 @@ services:
 
   redis:
     image: redis:3.0
-

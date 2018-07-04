@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}{% trans 'Ask a question' %}{% endblock %}
+
+{% block content %}
+
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'news:list' %}">{% trans 'Home' %}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'qa:index_all' %}">{% trans 'Q&A' %}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{% trans 'Ask a question' %}</li>
+    </ol>
+  </nav>
+  <form action="{% url 'qa:ask_question' %}" enctype="multipart/form-data"  id="question-form" method="post" role="form">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class="form-group">
+      <button id="publish" type="button" class="btn btn-primary">{% trans 'Publish' %}</button>
+      <button id="draft" type="button" class="btn btn-default">{% trans 'Save as draft' %}</button>
+      <a href="{% url 'qa:index_all' %}" class="btn btn-default">{% trans 'Cancel' %}</a>
+    </div>
+  </form>
+  {{ form.media }}
+
+{% endblock content %}
+
+{% block modal %}
+  <script src="{% static 'js/qa.js' %}"></script>
+{% endblock modal %}

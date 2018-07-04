@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% load thumbnail %}
+
+{% block title %}{{ object.username }}{% endblock %}
+
+{% block head %}
+  <link href="{% static 'css/user_profile.css' %}?v=1" rel="stylesheet">
+{% endblock head %}
+
+{% block content %}
+  <div class="container">
+
+    {% thumbnail object.picture "x250" as im %}
+      <img src="{{ im.url }}" alt="Picture Profile" id="pic">
+    {% empty %}
+      <img class="pull-right" src="{% static 'img/user.png' %}" height="250px" alt="No Profile Picture" />
+    {% endthumbnail %}
+
+    <div id="contact-info" class="vcard">
+        <h1 class="fn">
+          {{ object.username|title }}
+          {% if object.short_bio %}
+            <br /><small style="font-size: 50%">{{ object.short_bio }}</small>
+          {% endif %}
+        </h1>
+        <p>
+          <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+          {{ object.get_profile_name|title }}
+          <br />
+          <i class="fa fa-envelope" aria-hidden="true"></i><a class="email" href="mailto:{{ object.email }}">   {{ object.email }}</a><br />
+          {% if object.job_title %}
+            <i class="fa fa-briefcase" aria-hidden="true"></i>  {{ object.job_title }} <br />
+          {% endif %}
+          {% if object.location %}
+            <i class="fa fa-map-marker" aria-hidden="true"></i>  {{ object.location }} <br />
+          {% endif %}
+        </p>
+    </div>
+    <div id="objective"><p>{{ object.bio }}</p></div>
+    <div class="clear"></div>
+    {% if object.personal_url %}
+      <a href="{{ object.personal_url }}" style="font-size: 2em" title="{% trans 'RSS Channel' %}"><i class="fa fa-rss"></i>  </a>
+    {% endif %}
+    {% if object.twitter_account %}
+      <a href="{{ object.twitter_account }}" style="font-size: 2em" title="{% trans 'Twitter Profile' %}"><i class="fa fa-twitter"></i>  </a>
+    {% endif %}
+    {% if object.github_account %}
+      <a href="{{ object.github_account }}" style="font-size: 2em" title="{% trans 'Github Profile' %}"><i class="fa fa-github"></i>  </a>
+    {% endif %}
+    {% if object.linkedin_account %}
+      <a href="{{ object.linkedin_account }}" style="font-size: 2em" title="{% trans 'LinkedIn Profile' %}"><i class="fa fa-linkedin"></i>  </a>
+    {% endif %}
+    {% if object.facebook_account %}
+      <a href="{{ object.facebook_account }}" style="font-size: 2em" title="{% trans 'Facebook Profile' %}"><i class="fa fa-facebook"></i>  </a>
+    {% endif %}
+    <a class="btn btn-dark pull-right" href="{% url 'users:update' %}">{% trans 'Update Profile' %}</a>
+  </div>
+  {% if request.user.username == object.username %}
+    <!-- Data tiles -->
+    <div class="row tile_count">
+      <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
+        <span class="count_top"><i class="glyphicon glyphicon-envelope"></i> {% trans 'Feeds' %}</span>
+        <div class="count">0</div>
+      </div>
+      <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
+        <span class="count_top"><i class="glyphicon glyphicon-pencil"></i> {% trans 'Articles' %}</span>
+        <div class="count">0</div>
+      </div>
+      <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
+        <span class="count_top"><i class="glyphicon glyphicon-comment"></i> {% trans 'Comments' %}</span>
+        <div class="count">0</div>
+      </div>
+      <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
+        <span class="count_top"><i class="glyphicon glyphicon-question-sign"></i> {% trans 'Questions' %}</span>
+        <div class="count">0</div>
+      </div>
+      <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
+        <span class="count_top"><i class="glyphicon glyphicon-education"></i> {% trans 'Answers' %}</span>
+        <div class="count">0</div>
+      </div>
+      <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
+        <span class="count_top"><i class="glyphicon glyphicon-fire"></i> {% trans 'Global Interactions' %}</span>
+        <div class="count">0</div>
+      </div>
+    </div>
+    <!-- /data tiles -->
+  {% endif %}
+{% endblock content %}

@@ -1,0 +1,24 @@
+{% load i18n %}
+
+<div class="markdownx row">
+  <div class="col-md-12">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="editor-tab" data-toggle="tab" href="#editor" role="tab" aria-controls="editor" aria-selected="true">{% trans 'Editor' %}</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="preview-tab" data-toggle="tab" href="#preview" role="tab" aria-controls="preview" aria-selected="false">{% trans 'Preview' %}</a>
+      </li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div class="tab-pane active" id="editor" role="tabpanel" aria-labelledby="editor-tab">
+        {% include 'django/forms/widgets/textarea.html' %}
+      </div>
+      <div class="tab-pane" id="preview" role="tabpanel" aria-labelledby="preview-tab">
+        <div class="markdownx-preview mt-3"></div>
+      </div>
+    </div>
+  </div>
+</div>

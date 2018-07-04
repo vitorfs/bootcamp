@@ -1,0 +1,137 @@
+.questions {
+  border-style: none none solid none;
+}
+
+.questions .pagination {
+  margin: 0;
+}
+
+.questions .user {
+  width: 25px;
+  border-radius: 3px;
+}
+
+.questions .asked {
+  color: #aaaaaa;
+  font-size: .8em;
+}
+
+.questions .username {
+  margin-left: .3em;
+  font-weight: 500;
+  font-size: 0.8em;
+}
+
+.questions .panel-body:hover {
+  background-color: #f5f8fa;
+  cursor: pointer;
+}
+
+.questions .question-user {
+  margin-bottom: .6em;
+}
+
+.options {
+  text-align: center;
+
+}
+
+.options i {
+  display: block;
+  font-size: 1.2em;
+}
+
+.options i.favorite {
+  font-size: 2em;
+  margin-top: .4em;
+}
+
+.options i.vote {
+  font-size: 2em;
+  color: #ddd;
+}
+
+.options i.vote:hover {
+  cursor: pointer;
+  color: #428bca;
+}
+
+.options i.voted {
+  color:#ffa700;
+}
+
+.options i.accept {
+  font-size: 2.6em;
+  color: #dddddd;
+  margin-top: .2em;
+}
+
+.options i.accept:hover {
+  cursor: pointer;
+  color: #5cb85c;
+}
+
+.options i.accepted {
+  color: #5cb85c;
+}
+
+.answer {
+  margin-top: 1em;
+}
+
+.answer .answer-user, .question .question-user {
+  margin-bottom: .6em;
+}
+
+.answer .answer-user .user, .question .question-user .user {
+  width: 40px;
+  border-radius: 5px;
+}
+
+.answer .answer-user .username, .question .question-user .username {
+  margin-left: .4em;
+}
+
+.answer .answered, .question .asked {
+  color: #aaaaaa;
+  margin-left: .6em;
+}
+
+.favorite {
+  cursor: pointer;
+}
+
+.favorite:hover {
+  color: #f0ad4e;
+}
+
+.favorited {
+  color: #f0ad4e;
+}
+
+.question-info {
+  text-align: center;
+  float: left;
+  padding: 0 1em;
+}
+
+.question-title {
+  margin-top: 10px;
+}
+
+.question-info h5 {
+  margin: 0;
+  margin-bottom: .2em;
+}
+
+.question-info .info:first-child {
+  margin-bottom: 1.2em;
+}
+
+.question-info .info:nth-child(2) {
+  margin-bottom: 1.2em;
+}
+
+.glyphicon-star-empty {
+  font-size: 1em;
+}

@@ -1,0 +1,66 @@
+.user-profiles-list{
+  line-height: 1;
+  list-style:none;
+  text-align: center;
+  margin:0;
+  padding:0;
+}
+
+.user-profiles-list li{
+  display: inline-block;
+  box-sizing:border-box;
+  position: relative;
+
+  text-align:left;
+  font:normal 16px sans-serif;
+  padding: 15px 30px 15px 20px;
+  margin: 12px;
+
+  background-color:#f4f8fa;
+  border:1px solid #dbe3e7;
+  box-shadow: 0 2px 3px #dbe3e7;
+}
+
+.user-profiles-list .user-avatar{
+  float: left;
+  width:100px;
+  text-align: left;
+}
+
+.user-profiles-list .user-avatar img{
+  border-radius: 50%;
+  border:0;
+}
+
+.user-profiles-list p{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  text-align: left;
+  margin-top: 20px;
+  max-width:340px;
+}
+
+.user-profiles-list p a{
+  color:#5d6569;
+  text-decoration: none;
+  font-weight:bold;
+  font-size:18px;
+}
+
+.user-profiles-list p span{
+  display: block;
+  font-size: 13px;
+  color:#808d93;
+  padding-top:4px;
+}
+
+/* Making the list responsive */
+
+@media (max-width: 400px) {
+
+  .user-profiles-list li{
+      margin: 10px 0;
+  }
+
+}

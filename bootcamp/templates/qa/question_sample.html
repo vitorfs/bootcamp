@@ -1,0 +1,30 @@
+{% load humanize i18n static humanize %}
+{% load thumbnail %}
+
+<div class="card questions">
+  <div class="card-body">
+    <div class="question-info pull-left text-center">
+      <h3 class="{% if question.has_answer %}bg-success text-white{% endif %}">{{ question.count_answers }}</h3>
+      <small class="text-secondary">{% trans 'Answers' %}</small>
+      <h3>{{ question.total_votes }}</h3>
+      <small class="text-secondary">{% trans 'Votes' %}</small>
+    </div>
+    <div>
+      <h4 class="card-title">
+        <a href="{% url 'qa:question_detail' question.pk %}">{{ question.title }}</a>
+      </h4>
+      <p>{{ question.get_markdown|safe|truncatechars:100 }}</p>
+      <div class="question-user pull-right">
+        <span class="text-secondary">{% trans 'Asked' %} {{ question.timestamp|naturaltime }} {% trans 'by' %}</span>
+        <a href="{% url 'users:detail' question.user.username  %}">{{ question.user.get_profile_name|title }}</a>
+        {% if question.tags.names %}
+          <p style="position: absolute; bottom: 0;">
+            {% for tag in question.tags.names %}
+              <span class="badge badge-primary">{{ tag }}</span>
+            {% endfor %}
+          </p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

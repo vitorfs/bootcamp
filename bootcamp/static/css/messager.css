@@ -1,0 +1,42 @@
+.users-list {
+  height: 83vh;
+  overflow-y: auto;
+}
+
+.chat-status {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.messages-list {
+  margin: 0;
+  padding: 0;
+  height: 78vh;
+  overflow-y: auto;
+}
+
+.messages-list li {
+  list-style: none;
+  padding: .6em 0;
+}
+
+.messages-list li h5 {
+  margin: 0;
+  margin-bottom: .2em;
+}
+
+.messages-list li div {
+  margin-left: 60px;
+}
+
+.messages-list .picture {
+  border-radius: 5px;
+  float: left;
+}
+
+.chat-box {
+  position: fixed;
+  bottom: 0;
+  width: 43%;
+  background-color: white;
+}
