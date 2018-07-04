@@ -20,6 +20,7 @@ urlpatterns = [
     # Third party apps here
     url(r'^comments/', include('django_comments.urls')),
     url(r'^graphql', GraphQLView.as_view(graphiql=True)),
+    url(r'^markdownx/', include('markdownx.urls')),
     # Local apps here
     url(r'^notifications/',
         include('bootcamp.notifications.urls', namespace='notifications')),

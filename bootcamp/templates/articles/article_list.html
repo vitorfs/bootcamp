@@ -31,7 +31,7 @@
             {% endthumbnail %}
             <div class="card-body">
               <h2 class="card-title">{{ article.title|title }}</h2>
-              <p class="card-text">{{ article.content|truncatechars:250 }}</p>
+              <p class="card-text">{{ article.get_markdown|safe|truncatechars:150 }}</p>
               <a href="{% url 'articles:article' article.slug %}" class="btn btn-primary">{% trans 'Read More' %} &rarr;</a>
             </div>
             <div class="card-footer text-muted">

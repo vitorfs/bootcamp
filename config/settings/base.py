@@ -61,6 +61,7 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django.contrib.admin',
+    'django.forms',
 ]
 THIRD_PARTY_APPS = [
     'crispy_forms',
@@ -74,9 +75,10 @@ THIRD_PARTY_APPS = [
     # 'allauth.socialaccount.providers.linkedin',
     # 'allauth.socialaccount.providers.slack',
     'channels',
-    'taggit',
     'django_comments',
     'graphene_django',
+    'markdownx',
+    'taggit',
 ]
 LOCAL_APPS = [
     'bootcamp.users.apps.UsersConfig',
@@ -90,7 +92,7 @@ LOCAL_APPS = [
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
-
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 # MIGRATIONS
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#migration-modules

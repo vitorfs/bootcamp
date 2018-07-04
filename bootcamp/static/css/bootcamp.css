@@ -10,6 +10,12 @@ header .navbar-brand {
   font-family: "Audiowide", cursive;
 }
 
+.markdownx .markdownx-editor {
+  border-style: none solid solid solid;
+  width: 100%;
+  margin-bottom: 25px;
+}
+
 .page-header {
   margin-top: 15px;
   margin-bottom: 15px;
