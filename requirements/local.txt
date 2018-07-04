@@ -24,5 +24,4 @@ django-coverage-plugin==1.5.0  # https://github.com/nedbat/django_coverage_plugi
 django-debug-toolbar==1.9.1  # https://github.com/jazzband/django-debug-toolbar
 django-extensions==2.0.5  # https://github.com/django-extensions/django-extensions
 django-test-plus==1.0.22  # https://github.com/revsys/django-test-plus
-factory-boy==2.10.0  # https://github.com/FactoryBoy/factory_boy
 pytest-django==3.1.2  # https://github.com/pytest-dev/pytest-django
