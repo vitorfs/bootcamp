@@ -1,10 +1,10 @@
 language: python
 python:
   - "3.6"
+  - "3.7"
 env:
-  matrix:
-   - DJANGO="Django>=1.10,<1.11"
-   - DJANGO="Django>=1.11,<1.12"
+  - DJANGO_VERSION=2.0.8
+  - DJANGO_VERSION=1.11.14
 branches:
     only:
         - master
@@ -13,10 +13,9 @@ services:
   - redis-server
 # command to install dependencies
 install:
-  - pip install "$DJANGO"
+  - pip install -q Django==$DJANGO_VERSION
   - pip install -r requirements/local.txt
   - pip install python-coveralls
-  - pip install coverage
 before_script:
   - cp .env.example .env
   - python manage.py migrate
