@@ -11,6 +11,8 @@ from django.utils.translation import ugettext_lazy as _
 from slugify import slugify
 
 from taggit.managers import TaggableManager
+from markdownx.models import MarkdownxField
+from markdownx.utils import markdownify
 
 
 class Vote(models.Model):
@@ -79,7 +81,7 @@ class Question(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(max_length=80, null=True, blank=True)
     status = models.CharField(max_length=1, choices=STATUS, default=DRAFT)
-    content = models.TextField(max_length=2500)
+    content = MarkdownxField()
     has_answer = models.BooleanField(default=False)
     total_votes = models.IntegerField(default=0)
     votes = GenericRelation(Vote)
@@ -132,7 +134,7 @@ class Answer(models.Model):
     to its respective question."""
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    content = models.TextField(max_length=2500)
+    content = MarkdownxField()
     uuid_id = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False)
     total_votes = models.IntegerField(default=0)
