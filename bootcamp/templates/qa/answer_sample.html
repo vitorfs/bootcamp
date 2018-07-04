@@ -21,7 +21,7 @@
       <small class="answered">{% trans "answered" %} {{ answer.timestamp|naturaltime }}</small>
     </div>
     <div class="answer-description">
-      {{ answer.content }}
+      {{ answer.get_markdown|safe }}
     </div>
   </div>
 </div>
