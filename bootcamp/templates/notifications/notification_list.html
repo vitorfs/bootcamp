@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% load thumbnail %}
+{% block title %}{% trans 'Notifications' %}{% endblock %}
+
+{% block head %}
+  <link href="{% static 'css/notifications.css' %}" rel="stylesheet">
+{% endblock head %}
+
+{% block content %}
+  <h1>
+    {% trans 'Unread notifications for' %}
+    {{ request.user.get_profile_name|title }}
+    <a class="btn btn-dark pull-right" href="{% url 'notifications:mark_all_read' %}">{% trans 'Mark all as read' %}</a>
+  </h1>
+  <ul class="notifications">
+    {% for notification in notification_list %}
+      <li class="notification">
+        <div class="media">
+          <div class="media-left">
+            <div class="media-object">
+              {% thumbnail notification.actor.picture "x70" as im %}
+                <img src="{{ im.url }}" style="border-radius: 50%;" alt="{% trans 'Picture Profile' %}" id="pic">
+              {% empty %}
+                <img src="{% static 'img/user.png' %}" height="70px" alt="{% trans 'No Profile Picture' %}" />
+              {% endthumbnail %}
+            </div>
+          </div>
+          <div class="media-body">
+            <a class="btn btn-success btn-sm pull-right" title="{% trans 'Mark as read' %}" href="{% url 'notifications:mark_as_read' notification.slug %}"><i class="fa fa-check-circle"></i></a>
+            <strong class="notification-title">
+              <a href="{% url 'users:detail' notification.actor.username  %}">{{ notification.actor.get_profile_name|title }}</a>
+            </strong>
+            <p class="notification-desc">
+              {{ notification.get_verb_display }}
+              {% if notification.action_object %}
+                {{ notification.action_object }}
+              {% endif %}
+            </p>
+            <div class="notification-meta">
+              <small class="timestamp">{{ notification.time_since }} ago</small>
+            </div>
+          </div>
+        </div>
+      </li>
+    {% empty %}
+      Sorry nothing here
+    {% endfor %}
+  </ul>
+
+{% endblock content %}

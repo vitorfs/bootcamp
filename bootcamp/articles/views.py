@@ -1,125 +1,68 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView, UpdateView
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.http import HttpResponse, HttpResponseBadRequest
-from django.shortcuts import get_object_or_404, render
-from django.template.loader import render_to_string
-from django.urls import reverse_lazy
+from django.views.generic import CreateView, ListView, UpdateView, DetailView
+from django.urls import reverse
+from django.utils.translation import ugettext_lazy as _
 
-import markdown
+from bootcamp.helpers import AuthorRequiredMixin
+from bootcamp.articles.models import Article
 from bootcamp.articles.forms import ArticleForm
-from bootcamp.articles.models import Article, ArticleComment
-from bootcamp.decorators import ajax_required
 
 
-def _articles(request, articles):
-    paginator = Paginator(articles, 10)
-    page = request.GET.get('page')
-    try:
-        articles = paginator.page(page)
+class ArticlesListView(LoginRequiredMixin, ListView):
+    """Basic ListView implementation to call the published articles list."""
+    model = Article
+    paginate_by = 15
+    context_object_name = "articles"
 
-    except PageNotAnInteger:
-        articles = paginator.page(1)
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['popular_tags'] = Article.objects.get_counted_tags()
+        return context
 
-    except EmptyPage:   # pragma: no cover
-        articles = paginator.page(paginator.num_pages)
-
-    popular_tags = Article.get_counted_tags()
-
-    return render(request, 'articles/articles.html', {
-        'articles': articles,
-        'popular_tags': popular_tags
-    })
+    def get_queryset(self, **kwargs):
+        return Article.objects.get_published()
 
 
-class CreateArticle(LoginRequiredMixin, CreateView):
-    """
-    """
-    template_name = 'articles/write.html'
+class DraftsListView(ArticlesListView):
+    """Overriding the original implementation to call the drafts articles
+    list."""
+    def get_queryset(self, **kwargs):
+        return Article.objects.get_drafts()
+
+
+class CreateArticleView(LoginRequiredMixin, CreateView):
+    """Basic CreateView implementation to create new articles."""
+    model = Article
+    message = _("Your article has been created.")
     form_class = ArticleForm
-    success_url = reverse_lazy('articles')
+    template_name = 'articles/article_create.html'
 
     def form_valid(self, form):
-        form.instance.create_user = self.request.user
-        return super(CreateArticle, self).form_valid(form)
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        messages.success(self.request, self.message)
+        return reverse('articles:list')
 
 
-class EditArticle(LoginRequiredMixin, UpdateView):
-    template_name = 'articles/edit.html'
+class EditArticleView(LoginRequiredMixin, AuthorRequiredMixin, UpdateView):
+    """Basic EditView implementation to edit existing articles."""
     model = Article
+    message = _("Your article has been updated.")
     form_class = ArticleForm
-    success_url = reverse_lazy('articles')
+    template_name = 'articles/article_update.html'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        messages.success(self.request, self.message)
+        return reverse('articles:list')
 
 
-@login_required
-def articles(request):
-    all_articles = Article.get_published()
-    return _articles(request, all_articles)
-
-
-@login_required
-def article(request, slug):
-    article = get_object_or_404(Article, slug=slug, status=Article.PUBLISHED)
-    return render(request, 'articles/article.html', {'article': article})
-
-
-@login_required
-def tag(request, tag_name):
-    articles = Article.objects.filter(tags__name=tag_name).filter(status='P')
-    return _articles(request, articles)
-
-
-@login_required
-def drafts(request):
-    drafts = Article.objects.filter(create_user=request.user,
-                                    status=Article.DRAFT)
-    return render(request, 'articles/drafts.html', {'drafts': drafts})
-
-
-@login_required
-@ajax_required
-def preview(request):
-    try:
-        if request.method == 'POST':
-            content = request.POST.get('content')
-            html = 'Nothing to display :('
-            if len(content.strip()) > 0:
-                html = markdown.markdown(content, safe_mode='escape')
-
-            return HttpResponse(html)
-
-        else:   # pragma: no cover
-            return HttpResponseBadRequest()
-
-    except Exception:   # pragma: no cover
-        return HttpResponseBadRequest()
-
-
-@login_required
-@ajax_required
-def comment(request):
-    try:
-        if request.method == 'POST':
-            article_id = request.POST.get('article')
-            article = Article.objects.get(pk=article_id)
-            comment = request.POST.get('comment')
-            comment = comment.strip()
-            if len(comment) > 0:
-                article_comment = ArticleComment(user=request.user,
-                                                 article=article,
-                                                 comment=comment)
-                article_comment.save()
-            html = ''
-            for comment in article.get_comments():
-                html = '{0}{1}'.format(html, render_to_string(
-                    'articles/partial_article_comment.html',
-                    {'comment': comment}))
-
-            return HttpResponse(html)
-
-        else:   # pragma: no cover
-            return HttpResponseBadRequest()
-
-    except Exception:   # pragma: no cover
-        return HttpResponseBadRequest()
+class DetailArticleView(LoginRequiredMixin, DetailView):
+    """Basic DetailView implementation to call an individual article."""
+    model = Article

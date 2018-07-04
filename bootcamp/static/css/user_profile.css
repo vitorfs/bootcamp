@@ -1,0 +1,141 @@
+body {
+    font: 16px Helvetica, Sans-Serif;
+    line-height: 24px;
+    padding-top: 120px;
+}
+
+.clear {
+    clear: both;
+}
+
+#page-wrap {
+    width: 800px;
+    margin: 40px auto 60px;
+}
+
+#pic {
+    float: right;
+    margin: -30px 0 0 0;
+}
+
+h1 {
+    margin: 0 0 16px 0;
+    padding: 0 0 16px 0;
+    font-size: 42px;
+    font-weight: bold;
+    letter-spacing: -2px;
+    border-bottom: 1px solid #999;
+}
+
+h2 {
+    font-size: 20px;
+    margin: 0 0 6px 0;
+    position: relative;
+}
+
+h2 span {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-style: italic;
+    font-family: Georgia, Serif;
+    font-size: 16px;
+    color: #999;
+    font-weight: normal;
+}
+
+p {
+    margin: 0 0 16px 0;
+}
+
+a {
+    color: #999;
+}
+
+a:hover {
+    color: black;
+}
+
+ul {
+    margin: 0 0 32px 17px;
+}
+
+#objective {
+    width: 500px;
+    float: left;
+}
+
+#objective p {
+    font-family: Georgia, Serif;
+    font-style: italic;
+    color: #666;
+}
+
+
+/** top tiles  */
+.tile_count {
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
+  .tile_count .tile_stats_count {
+    border-bottom: 1px solid #D9DEE4;
+    padding: 0 10px 0 20px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+  }
+
+  @media (min-width: 992px) {
+    footer {
+      margin-left: 230px;
+    }
+  }
+
+  @media (min-width: 992px) {
+    .tile_count .tile_stats_count {
+      margin-bottom: 10px;
+      border-bottom: 0;
+      padding-bottom: 10px;
+    }
+  }
+  .tile_count .tile_stats_count:before {
+    content:"";
+    position: absolute;
+    left: 0;
+    height: 65px;
+    border-left: 2px solid #ADB2B5;
+    margin-top: 10px;
+  }
+  @media (min-width:992px) {
+    .tile_count .tile_stats_count:first-child:before {
+      border-left: 0;
+    }
+  }
+  .tile_count .tile_stats_count .count {
+    font-size: 30px;
+    line-height: 47px;
+    font-weight: 600;
+  }
+  @media (min-width:768px) {
+    .tile_count .tile_stats_count .count {
+      font-size: 40px;
+    }
+  }
+  @media (min-width: 992px) and (max-width: 1100px) {
+    .tile_count .tile_stats_count .count {
+      font-size: 30px;
+    }
+  }
+  .tile_count .tile_stats_count span {
+    font-size: 12px;
+  }
+  @media (min-width:768px) {
+    .tile_count .tile_stats_count span {
+      font-size: 13px;
+    }
+  }
+  .tile_count .tile_stats_count .count_bottom i {
+    width: 12px;
+  }
+  /** /top tiles **/

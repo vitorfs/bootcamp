@@ -1,0 +1,28 @@
+{% load i18n humanize %}
+
+<div class="row answer" answer-id="{{ answer.uuid_id }}">
+  {% csrf_token %}
+  <div class="col-md-1 options">
+    <i class="fa fa-chevron-up vote up-vote answer-vote {% if request.user in answer.get_upvoters %}voted{% endif %}" aria-hidden="true" title="{% trans 'Click to up vote; click again to toggle' %}"></i>
+    <span id="answerVotes" class="votes">{{ answer.total_votes }}</span>
+    <i class="fa fa-chevron-down vote down-vote answer-vote {% if request.user in answer.get_downvoters %}voted{% endif %}" aria-hidden="true" title="{% trans 'Click to down vote; click again to toggle' %}"></i>
+    {% if answer.is_answer and user == question.user %}
+      <i id="acceptAnswer" class="fa fa-check accept accepted" aria-hidden="true" title="{% trans 'Click to unaccept the answer' %}"></i>
+    {% elif answer.is_answer %}
+      <i id="acceptAnswer" class="fa fa-check accept accepted" aria-hidden="true" style="cursor: default"></i>
+    {% elif user == question.user %}
+      <i id="acceptAnswer" class="fa fa-check accept" aria-hidden="true" title="{% trans 'Click to accept the answer' %}"></i>
+    {% endif %}
+  </div>
+  <div class="col-md-11">
+    <div class="answer-user">
+      <a href="#"><img src="{{ answer.user.picture }}" class="user"></a>
+      <a href="#" class="username">{{ answer.user.username }}</a>
+      <small class="answered">{% trans "answered" %} {{ answer.timestamp|naturaltime }}</small>
+    </div>
+    <div class="answer-description">
+      {{ answer.get_markdown|safe }}
+    </div>
+  </div>
+</div>
+<hr>
