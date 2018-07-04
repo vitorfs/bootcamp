@@ -25,19 +25,19 @@ Bootcamp is an open source **enterprise social network** of open purpose, on whi
 
 The project has four basic apps:
 
-* Feeds (A Twitter-like microblog)
+* News (A Twitter-like microblog)
 * Articles (A collaborative blog)
 * Question & Answers (A Stack Overflow-like platform)
-* Messenger (A basic chat-a-like tool for asynchronous communication.)
+* Messeger (A basic chat-a-like tool for asynchronous communication.)
 
 Technology Stack
 ----------------
 
-* Python_ 3.6.x and up
+* Python_ 3.6.x
 * `Django Web Framework`_ 1.11.x / 2.0.x
 * PostgreSQL_
 * `Redis 3.2`_
-* Gunicorn_
+* Daphne_
 * Caddy_
 * Docker_
 * docker-compose_
@@ -52,7 +52,7 @@ Technology Stack
 .. _`Django Web Framework`: https://www.djangoproject.com/
 .. _PostgreSQL: https://www.postgresql.org/
 .. _`Redis 3.2`: https://redis.io/documentation
-.. _Gunicorn: http://gunicorn.org/#docs
+.. _Daphne: https://github.com/django/daphne/
 .. _Caddy: https://caddyserver.com/docs
 .. _Docker: https://docs.docker.com/
 .. _docker-compose: https://docs.docker.com/compose/
