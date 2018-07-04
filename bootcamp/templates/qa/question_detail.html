@@ -34,7 +34,7 @@
         </div>
       </div>
       <div class="col-md-11">
-        <p>{{ question.content }}</p>
+        <p>{{ question.get_markdown|safe }}</p>
         <div class="question-user pull-right">
           <span class="text-secondary">{% trans 'Asked' %} {{ question.timestamp|naturaltime }} {% trans 'by' %}</span>
           <a href="{% url 'users:detail' question.user.username  %}">{{ question.user.get_profile_name|title }}</a>

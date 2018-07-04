@@ -13,7 +13,7 @@
       <h4 class="card-title">
         <a href="{% url 'qa:question_detail' question.pk %}">{{ question.title }}</a>
       </h4>
-      <p>{{ question.content|truncatechars:100 }}</p>
+      <p>{{ question.get_markdown|safe|truncatechars:100 }}</p>
       <div class="question-user pull-right">
         <span class="text-secondary">{% trans 'Asked' %} {{ question.timestamp|naturaltime }} {% trans 'by' %}</span>
         <a href="{% url 'users:detail' question.user.username  %}">{{ question.user.get_profile_name|title }}</a>
