@@ -128,6 +128,9 @@ class Question(models.Model):
     def get_accepted_answer(self):
         return Answer.objects.get(question=self, is_answer=True)
 
+    def get_markdown(self):
+        return markdownify(self.content)
+
 
 class Answer(models.Model):
     """Model class to contain every answer in the forum and to link it
@@ -149,6 +152,9 @@ class Answer(models.Model):
 
     def __str__(self):  # pragma: no cover
         return self.content
+
+    def get_markdown(self):
+        return markdownify(self.content)
 
     def count_votes(self):
         """Method to update the sum of the total votes. Uses this complex query
