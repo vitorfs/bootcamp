@@ -1,9 +1,8 @@
 language: python
 python:
   - "3.6"
-  - "3.7"
 env:
-  - DJANGO_VERSION=2.0.8
+  - DJANGO_VERSION=2.0.7
   - DJANGO_VERSION=1.11.14
 branches:
     only:
@@ -11,12 +10,15 @@ branches:
 # Start services.
 services:
   - redis-server
+  - postgresql
 # command to install dependencies
 install:
   - pip install -q Django==$DJANGO_VERSION
   - pip install -r requirements/local.txt
   - pip install python-coveralls
 before_script:
+  - psql -c "CREATE USER bootcamp_usr WITH PASSWORD 'mysecretpass'"
+  - psql -c "CREATE DATABASE bootcamp;" -U postgres
   - cp .env.example .env
   - python manage.py migrate
   - python manage.py collectstatic --noinput
