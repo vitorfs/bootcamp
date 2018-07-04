@@ -4,7 +4,6 @@
 
 boto3==1.6.2  # pyup: update minor  # https://github.com/boto/boto3
 gevent==1.2.2  # https://github.com/gevent/gevent
-gunicorn==19.7.1  # https://github.com/benoitc/gunicorn
 raven==6.6.0  # https://github.com/getsentry/raven-python
 
 # Django
