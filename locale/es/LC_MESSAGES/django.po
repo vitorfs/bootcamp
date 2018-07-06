@@ -323,8 +323,8 @@ msgid ""
 "This e-mail confirmation link expired or is invalid. Please <a href="
 "\"%(email_url)s\">issue a new e-mail confirmation request</a>."
 msgstr ""
-"El enlace de confirmacion ya expiro o es invalido. Por favor"
-"<a href="%(email_url)s\"> solicite una nueva confirmacion</a>."
+"El enlace de confirmacion ya expiro o es invalido. Por favor <a href="
+"\"%(email_url)s\">solicite una nueva confirmacion</a>."
 
 #: bootcamp/templates/account/login.html:8
 #: bootcamp/templates/account/login.html:23
@@ -350,7 +350,7 @@ msgid ""
 "If you have not created an account yet, then please\n"
 "              sign up first."
 msgstr ""
-"Si no ha creado una cuenta aun, por favor registrese primero".
+"Si no ha creado una cuenta aun, por favor registrese primero"
 
 #: bootcamp/templates/account/login.html:48
 msgid "Login"
@@ -458,7 +458,7 @@ msgstr "Inicio de sesion"
 #: bootcamp/templates/account/signup.html:24
 #, python-format
 msgid ""
-"Already have an account? Then please "
+"Already have an account? Then please <a href=\"%(login_url)s\">sign up</a>."
 msgstr ""
 "¿Ya tiene una cuenta? Inicie sesion <a href=\"%(login_url)s\">aqui</a>."
 
