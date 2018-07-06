@@ -1,0 +1,957 @@
+# BOOTCAMP SPANISH TRANSLATION.
+# Copyright (C) 2018
+# This file is distributed under the same license as the BOOTCAMP software.
+# SEBASTIAN REYES ESPINOSA <SEBASLANDER@GMAIL.COM>, 2018.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 2.0.4\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-07-06 18:24+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: SEBASTIAN REYES ESPINOSA <SEBASLANDER@GMAIL.COM>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: bootcamp/articles/apps.py:7 bootcamp/articles/models.py:67
+#: bootcamp/templates/articles/article_create.html:13
+#: bootcamp/templates/articles/article_detail.html:13
+#: bootcamp/templates/articles/article_list.html:5
+#: bootcamp/templates/articles/article_list.html:18
+#: bootcamp/templates/search/search_results.html:24
+#: bootcamp/templates/users/user_detail.html:67
+msgid "Articles"
+msgstr "Artículos"
+
+#: bootcamp/articles/models.py:47 bootcamp/qa/models.py:77
+msgid "Draft"
+msgstr "Borrador"
+
+#: bootcamp/articles/models.py:48
+msgid "Published"
+msgstr "Publicado"
+
+#: bootcamp/articles/models.py:55
+msgid "Featured image"
+msgstr "Imagen destacada"
+
+#: bootcamp/articles/models.py:66
+msgid "Article"
+msgstr "Articulo"
+
+#: bootcamp/articles/views.py:37
+msgid "Your article has been created."
+msgstr "Su articulo ha sido creado."
+
+#: bootcamp/articles/views.py:53
+msgid "Your article has been updated."
+msgstr "Su articulo ha sido actualizado."
+
+#: bootcamp/messager/apps.py:7
+msgid "Messager"
+msgstr "Messager"
+
+#: bootcamp/messager/models.py:48
+msgid "Sender"
+msgstr "Remitente"
+
+#: bootcamp/messager/models.py:51
+msgid "Recipient"
+msgstr "Receptor"
+
+#: bootcamp/messager/models.py:58
+msgid "Message"
+msgstr "Mensaje"
+
+#: bootcamp/messager/models.py:59
+#: bootcamp/templates/messager/message_list.html:4
+msgid "Messages"
+msgstr "Mensajes"
+
+#: bootcamp/news/apps.py:7 bootcamp/news/models.py:32
+#: bootcamp/news/models.py:33 bootcamp/templates/base.html:44
+#: bootcamp/templates/news/news_list.html:16
+#: bootcamp/templates/search/search_results.html:25
+msgid "News"
+msgstr "Noticias"
+
+#: bootcamp/news/models.py:29
+msgid "Is a reply?"
+msgstr "¿Es una respuesta?"
+
+#: bootcamp/news/views.py:54
+#, python-brace-format
+msgid "Text is {lenght} characters longer than accepted."
+msgstr "El texto es {lenght} caracteres mas largo de lo aceptado."
+
+#: bootcamp/news/views.py:57 bootcamp/news/views.py:73
+#: bootcamp/news/views.py:112 bootcamp/qa/views.py:122 bootcamp/qa/views.py:152
+#: bootcamp/qa/views.py:167
+msgid "Wrong request type."
+msgstr "Tipo de request equivocado."
+
+#: bootcamp/notifications/apps.py:7 bootcamp/notifications/models.py:136
+#: bootcamp/templates/base.html:38
+#: bootcamp/templates/notifications/notification_list.html:4
+msgid "Notifications"
+msgstr "Notificaciones"
+
+#: bootcamp/notifications/models.py:100
+msgid "liked"
+msgstr "le gustó"
+
+#: bootcamp/notifications/models.py:101
+msgid "commented"
+msgstr "comentó"
+
+#: bootcamp/notifications/models.py:102
+msgid "cavorited"
+msgstr ""
+
+#: bootcamp/notifications/models.py:103
+#: bootcamp/templates/qa/answer_sample.html:21
+msgid "answered"
+msgstr "respondió"
+
+#: bootcamp/notifications/models.py:104
+msgid "accepted"
+msgstr "aceptó"
+
+#: bootcamp/notifications/models.py:105
+msgid "edited"
+msgstr "editó"
+
+#: bootcamp/notifications/models.py:106
+msgid "also commented"
+msgstr "tambien comentó"
+
+#: bootcamp/notifications/models.py:107
+msgid "logged in"
+msgstr "inició sesión"
+
+#: bootcamp/notifications/models.py:108
+msgid "logged out"
+msgstr "cerró sesión"
+
+#: bootcamp/notifications/models.py:109
+msgid "voted on"
+msgstr "votó por"
+
+#: bootcamp/notifications/models.py:110
+msgid "shared"
+msgstr "compartió"
+
+#: bootcamp/notifications/models.py:111
+msgid "created an account"
+msgstr "creó una cuenta"
+
+#: bootcamp/notifications/models.py:112
+msgid "replied to"
+msgstr "respondió a"
+
+#: bootcamp/notifications/models.py:135
+msgid "Notification"
+msgstr "Notificación"
+
+#: bootcamp/notifications/views.py:30
+#, python-brace-format
+msgid "All notifications to {request.user.username} have been marked as read."
+msgstr "Todas las notificaciones para {request.user.username} se marcaron como leidas."
+
+#: bootcamp/notifications/views.py:48
+#, python-brace-format
+msgid "The notification {notification.slug} has been marked as read."
+msgstr "La notificación {notification.slug} se marcó como leida."
+
+#: bootcamp/qa/apps.py:7 bootcamp/templates/base.html:46
+#: bootcamp/templates/qa/answer_form.html:12
+#: bootcamp/templates/qa/question_form.html:12
+msgid "Q&A"
+msgstr ""
+
+#: bootcamp/qa/models.py:35
+msgid "Vote"
+msgstr "Voto"
+
+#: bootcamp/qa/models.py:36 bootcamp/templates/qa/question_detail.html:33
+#: bootcamp/templates/qa/question_sample.html:10
+msgid "Votes"
+msgstr "Votos"
+
+#: bootcamp/qa/models.py:75
+msgid "Open"
+msgstr "Abierta"
+
+#: bootcamp/qa/models.py:76
+msgid "Closed"
+msgstr "Cerrada"
+
+#: bootcamp/qa/models.py:93
+msgid "Question"
+msgstr "Pregunta"
+
+#: bootcamp/qa/models.py:94 bootcamp/templates/qa/question_list.html:4
+#: bootcamp/templates/qa/question_list.html:21
+#: bootcamp/templates/search/search_results.html:26
+#: bootcamp/templates/users/user_detail.html:75
+msgid "Questions"
+msgstr "Preguntas"
+
+#: bootcamp/qa/models.py:150 bootcamp/templates/qa/answer_form.html:20
+msgid "Answer"
+msgstr "Respuesta"
+
+#: bootcamp/qa/models.py:151 bootcamp/templates/qa/question_detail.html:29
+#: bootcamp/templates/qa/question_detail.html:53
+#: bootcamp/templates/qa/question_sample.html:8
+#: bootcamp/templates/users/user_detail.html:79
+msgid "Answers"
+msgstr "Respuestas"
+
+#: bootcamp/qa/views.py:65
+msgid "Your question has been created."
+msgstr "Su pregunta se ha creado."
+
+#: bootcamp/qa/views.py:82
+msgid "Thank you! Your answer has been posted."
+msgstr "¡Muchas gracias! Su respuesta ha sido publicada."
+
+#: bootcamp/qa/views.py:118 bootcamp/qa/views.py:148
+msgid "Database integrity error."
+msgstr "Error de integridad de la base de datos."
+
+#: bootcamp/search/apps.py:7 bootcamp/templates/base.html:54
+msgid "Search"
+msgstr "Buscar"
+
+#: bootcamp/templates/account/account_inactive.html:5
+#: bootcamp/templates/account/account_inactive.html:8
+msgid "Account Inactive"
+msgstr "Cuenta inactiva"
+
+#: bootcamp/templates/account/account_inactive.html:10
+msgid "This account is inactive."
+msgstr "Esta cuenta esta inactiva."
+
+#: bootcamp/templates/account/email.html:7
+msgid "Account"
+msgstr "Cuenta"
+
+#: bootcamp/templates/account/email.html:10
+msgid "E-mail Addresses"
+msgstr "Dirección de correo electronico"
+
+#: bootcamp/templates/account/email.html:13
+msgid "The following e-mail addresses are associated with your account:"
+msgstr "Las siguientes direcciones de correo estan asociadas con su cuenta"
+
+#: bootcamp/templates/account/email.html:27
+msgid "Verified"
+msgstr "Verificado"
+
+#: bootcamp/templates/account/email.html:29
+msgid "Unverified"
+msgstr "Sin verificar"
+
+#: bootcamp/templates/account/email.html:31
+msgid "Primary"
+msgstr "Principal"
+
+#: bootcamp/templates/account/email.html:37
+msgid "Make Primary"
+msgstr "Hacerlo principal"
+
+#: bootcamp/templates/account/email.html:38
+msgid "Re-send Verification"
+msgstr "Reenviar verificación"
+
+#: bootcamp/templates/account/email.html:39
+msgid "Remove"
+msgstr "Remover"
+
+#: bootcamp/templates/account/email.html:46
+msgid "Warning:"
+msgstr "Advertencia:"
+
+#: bootcamp/templates/account/email.html:46
+msgid ""
+"You currently do not have any e-mail address set up. You should really add "
+"an e-mail address so you can receive notifications, reset your password, etc."
+msgstr ""
+"Actualmente usted no ha configurado una dirección de correo electronico."
+"Se requiere una para que pueda recibir nuestras notificaciones, reiniciar su"
+"contraseña, etc."
+
+#: bootcamp/templates/account/email.html:51
+msgid "Add E-mail Address"
+msgstr "Agregue una direccion de correo electronico"
+
+#: bootcamp/templates/account/email.html:56
+msgid "Add E-mail"
+msgstr "Agregue una direccion de correo electronico"
+
+#: bootcamp/templates/account/email.html:66
+msgid "Do you really want to remove the selected e-mail address?"
+msgstr "¿Desea borrar esta direccion de correo?"
+
+#: bootcamp/templates/account/email_confirm.html:6
+#: bootcamp/templates/account/email_confirm.html:10
+msgid "Confirm E-mail Address"
+msgstr "Confirme su direccion de correo electronico"
+
+#: bootcamp/templates/account/email_confirm.html:16
+#, python-format
+msgid ""
+"Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
+"address for user %(user_display)s."
+msgstr ""
+"Por favor confirme que <a href=\"mailto:%(email)s\">%(email)s</a> es una "
+"direccion de correo valida para el usuario %(user_display)s."
+
+#: bootcamp/templates/account/email_confirm.html:20
+msgid "Confirm"
+msgstr "Confirme"
+
+#: bootcamp/templates/account/email_confirm.html:27
+#, python-format
+msgid ""
+"This e-mail confirmation link expired or is invalid. Please <a href="
+"\"%(email_url)s\">issue a new e-mail confirmation request</a>."
+msgstr ""
+"El enlace de confirmacion ya expiro o es invalido. Por favor"
+"<a href="%(email_url)s\"> solicite una nueva confirmacion</a>."
+
+#: bootcamp/templates/account/login.html:8
+#: bootcamp/templates/account/login.html:23
+#: bootcamp/templates/account/signup.html:8
+msgid "Account Login"
+msgstr "Inicio de sesion"
+
+#: bootcamp/templates/account/login.html:26
+#, python-format
+msgid ""
+"Please sign in with one\n"
+"              of your existing third party accounts. Or, sign up for a "
+"%(site_name)s\n"
+"              account and sign in below:"
+msgstr ""
+
+#: bootcamp/templates/account/login.html:33
+msgid "or"
+msgstr "o"
+
+#: bootcamp/templates/account/login.html:37
+msgid ""
+"If you have not created an account yet, then please\n"
+"              sign up first."
+msgstr ""
+"Si no ha creado una cuenta aun, por favor registrese primero".
+
+#: bootcamp/templates/account/login.html:48
+msgid "Login"
+msgstr "Iniciar de sesion"
+
+#: bootcamp/templates/account/login.html:51
+msgid "Or sign up for Bootcamp"
+msgstr "O registrese en Bootcamp"
+
+#: bootcamp/templates/account/login.html:52
+msgid "Forgot your password?"
+msgstr "Olvido su contraseña"
+
+#: bootcamp/templates/account/logout.html:5
+#: bootcamp/templates/account/logout.html:8
+#: bootcamp/templates/account/logout.html:17
+msgid "Sign Out"
+msgstr "Cerrar sesion"
+
+#: bootcamp/templates/account/logout.html:10
+msgid "Are you sure you want to sign out?"
+msgstr "¿Esta seguro que quiere cerrar la sesion?"
+
+#: bootcamp/templates/account/password_change.html:6
+#: bootcamp/templates/account/password_change.html:9
+#: bootcamp/templates/account/password_change.html:14
+#: bootcamp/templates/account/password_reset_from_key.html:5
+#: bootcamp/templates/account/password_reset_from_key.html:8
+#: bootcamp/templates/account/password_reset_from_key_done.html:4
+#: bootcamp/templates/account/password_reset_from_key_done.html:7
+msgid "Change Password"
+msgstr "Cambiar contraseña"
+
+#: bootcamp/templates/account/password_reset.html:7
+#: bootcamp/templates/account/password_reset.html:11
+#: bootcamp/templates/account/password_reset_done.html:6
+#: bootcamp/templates/account/password_reset_done.html:9
+msgid "Password Reset"
+msgstr "Reiniciar contraseña"
+
+#: bootcamp/templates/account/password_reset.html:16
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we'll send you "
+"an e-mail allowing you to reset it."
+msgstr ""
+"¿Olvido su contraseña? Ingrese su direccion de correo electronico para enviar "
+"un correo de recuperacion."
+
+#: bootcamp/templates/account/password_reset.html:21
+msgid "Reset My Password"
+msgstr "Reiniciar mi contraseña"
+
+#: bootcamp/templates/account/password_reset.html:24
+msgid "Please contact us if you have any trouble resetting your password."
+msgstr "Por favor contactenos si tiene un problema reiniciando su contraseña."
+
+#: bootcamp/templates/account/password_reset_done.html:15
+msgid ""
+"We have sent you an e-mail. Please contact us if you do not receive it "
+"within a few minutes."
+msgstr ""
+"Le hemos enviado un correo electronico. Por favor contactenos si no lo recibe "
+"en los proximos minutos."
+
+#: bootcamp/templates/account/password_reset_from_key.html:8
+msgid "Bad Token"
+msgstr "Token erroneo"
+
+#: bootcamp/templates/account/password_reset_from_key.html:12
+#, python-format
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
+"a>."
+msgstr ""
+"El enlace de reinicio de contraseña es invalido, seguramente ya fue usado."
+"Por favor solicite un nuevo <a href=\"%(passwd_reset_url)s\">reinicio</a>."
+
+#: bootcamp/templates/account/password_reset_from_key.html:18
+msgid "change password"
+msgstr "cambie contraseña"
+
+#: bootcamp/templates/account/password_reset_from_key.html:21
+#: bootcamp/templates/account/password_reset_from_key_done.html:8
+msgid "Your password is now changed."
+msgstr "Su contraseña ha sido cambiada."
+
+#: bootcamp/templates/account/password_set.html:6
+#: bootcamp/templates/account/password_set.html:9
+#: bootcamp/templates/account/password_set.html:14
+msgid "Set Password"
+msgstr "Confirme contraseña"
+
+#: bootcamp/templates/account/signup.1.html:6
+msgid "Signup"
+msgstr "Inicie sesion"
+
+#: bootcamp/templates/account/signup.1.html:9
+#: bootcamp/templates/account/signup.1.html:19
+#: bootcamp/templates/account/signup.html:34
+msgid "Sign Up"
+msgstr "Inicio de sesion"
+
+#: bootcamp/templates/account/signup.1.html:11
+#: bootcamp/templates/account/signup.html:24
+#, python-format
+msgid ""
+"Already have an account? Then please "
+msgstr ""
+"¿Ya tiene una cuenta? Inicie sesion <a href=\"%(login_url)s\">aqui</a>."
+
+#: bootcamp/templates/account/signup.html:22
+msgid "Account Creation"
+msgstr "Creacion de cuenta"
+
+#: bootcamp/templates/account/signup_closed.html:5
+#: bootcamp/templates/account/signup_closed.html:8
+msgid "Sign Up Closed"
+msgstr "La creacion de cuentas esta suspendida"
+
+#: bootcamp/templates/account/signup_closed.html:10
+msgid "We are sorry, but the sign up is currently closed."
+msgstr "Lo lamentamos, pero la creacion de cuentas esta suspendida."
+
+#: bootcamp/templates/account/verification_sent.html:5
+#: bootcamp/templates/account/verification_sent.html:8
+#: bootcamp/templates/account/verified_email_required.html:5
+#: bootcamp/templates/account/verified_email_required.html:8
+msgid "Verify Your E-mail Address"
+msgstr "Verifique su direccion de correo electronico"
+
+#: bootcamp/templates/account/verification_sent.html:10
+msgid ""
+"We have sent an e-mail to you for verification. Follow the link provided to "
+"finalize the signup process. Please contact us if you do not receive it "
+"within a few minutes."
+msgstr ""
+"Le enviamos un correo electronico de verificación. Ingrese en el enlace "
+"provisto para finalizar el proceso. Pongase en contacto con nosotros si no "
+"lo recibe en los proximos minutos."
+
+#: bootcamp/templates/account/verified_email_required.html:12
+msgid ""
+"This part of the site requires us to verify that\n"
+"you are who you claim to be. For this purpose, we require that you\n"
+"verify ownership of your e-mail address. "
+msgstr ""
+"Para continuar requerimos verificar que usted sea quien dice ser. Con ese "
+"proposito requerimos que verifique su direccion de correo electronico."
+
+#: bootcamp/templates/account/verified_email_required.html:16
+msgid ""
+"We have sent an e-mail to you for\n"
+"verification. Please click on the link inside this e-mail. Please\n"
+"contact us if you do not receive it within a few minutes."
+msgstr ""
+
+#: bootcamp/templates/account/verified_email_required.html:20
+#, python-format
+msgid ""
+"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
+"mail address</a>."
+msgstr ""
+
+#: bootcamp/templates/articles/article_create.html:12
+#: bootcamp/templates/articles/article_detail.html:12
+#: bootcamp/templates/articles/article_list.html:17
+#: bootcamp/templates/articles/article_update.html:12
+#: bootcamp/templates/qa/answer_form.html:11
+#: bootcamp/templates/qa/question_detail.html:14
+#: bootcamp/templates/qa/question_form.html:11
+#: bootcamp/templates/qa/question_list.html:13
+#: bootcamp/templates/search/search_results.html:16
+msgid "Home"
+msgstr "Inicio"
+
+#: bootcamp/templates/articles/article_create.html:14
+#: bootcamp/templates/articles/article_detail.html:83
+#: bootcamp/templates/articles/article_list.html:80
+msgid "Write a new article"
+msgstr "Escribir articulo nuevo"
+
+#: bootcamp/templates/articles/article_create.html:21
+#: bootcamp/templates/qa/question_form.html:20
+msgid "Publish"
+msgstr "Publicar"
+
+#: bootcamp/templates/articles/article_create.html:22
+#: bootcamp/templates/articles/article_update.html:22
+#: bootcamp/templates/qa/question_form.html:21
+msgid "Save as draft"
+msgstr "Borrador"
+
+#: bootcamp/templates/articles/article_create.html:23
+#: bootcamp/templates/articles/article_update.html:23
+#: bootcamp/templates/news/news_form_modal.html:25
+#: bootcamp/templates/qa/answer_form.html:21
+#: bootcamp/templates/qa/question_form.html:22
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: bootcamp/templates/articles/article_detail.html:23
+#: bootcamp/templates/qa/question_detail.html:39
+#: bootcamp/templates/qa/question_sample.html:18
+msgid "by"
+msgstr "por"
+
+#: bootcamp/templates/articles/article_detail.html:28
+#: bootcamp/templates/articles/article_list.html:38
+msgid "Posted"
+msgstr "Publicado"
+
+#: bootcamp/templates/articles/article_detail.html:32
+#: bootcamp/templates/articles/article_detail.html:36
+#: bootcamp/templates/articles/article_list.html:28
+#: bootcamp/templates/search/search_results.html:37
+msgid "Featured Image"
+msgstr "Imagen destacada"
+
+#: bootcamp/templates/articles/article_detail.html:44
+msgid "Leave a Comment"
+msgstr "Deje un comentario"
+
+#: bootcamp/templates/articles/article_detail.html:52
+msgid "Add comment"
+msgstr "Agregue un comentario"
+
+#: bootcamp/templates/articles/article_detail.html:64
+#: bootcamp/templates/messager/message_list.html:21
+#: bootcamp/templates/messager/single_message.html:6
+#: bootcamp/templates/notifications/notification_list.html:23
+#: bootcamp/templates/search/search_results.html:69
+#: bootcamp/templates/users/user_list.html:22
+msgid "Picture Profile"
+msgstr "Imagen de perfil"
+
+#: bootcamp/templates/articles/article_detail.html:66
+#: bootcamp/templates/base.html:67
+#: bootcamp/templates/messager/message_list.html:23
+#: bootcamp/templates/messager/single_message.html:8
+#: bootcamp/templates/news/news_single.html:11
+#: bootcamp/templates/news/news_thread.html:13
+#: bootcamp/templates/news/news_thread_modal.html:17
+#: bootcamp/templates/notifications/notification_list.html:25
+#: bootcamp/templates/search/search_results.html:71
+#: bootcamp/templates/users/user_list.html:24
+msgid "No Profile Picture"
+msgstr "Sin imagen de perfil"
+
+#: bootcamp/templates/articles/article_detail.html:83
+#: bootcamp/templates/articles/article_list.html:80
+msgid "New Article"
+msgstr "Articulo nuevo"
+
+#: bootcamp/templates/articles/article_detail.html:84
+msgid "Edit this article"
+msgstr "Edite este articulo"
+
+#: bootcamp/templates/articles/article_detail.html:84
+msgid "Edit"
+msgstr "Editar"
+
+#: bootcamp/templates/articles/article_detail.html:90
+#: bootcamp/templates/articles/article_list.html:87
+msgid "Cloud tag"
+msgstr "Nube tematica"
+
+#: bootcamp/templates/articles/article_list.html:35
+msgid "Read More"
+msgstr "Leer mas"
+
+#: bootcamp/templates/articles/article_list.html:47
+msgid "There is no published article yet"
+msgstr "No se ha publica ningun articulo aun"
+
+#: bootcamp/templates/articles/article_list.html:47
+msgid "Be the first one to publish one"
+msgstr "Sea el primero en publicar uno"
+
+#: bootcamp/templates/articles/article_list.html:53
+#: bootcamp/templates/qa/question_list.html:58
+msgid "Newer"
+msgstr "Mas recientes"
+
+#: bootcamp/templates/articles/article_list.html:65
+#: bootcamp/templates/qa/question_list.html:70
+msgid "Older"
+msgstr "Mas antiguos"
+
+#: bootcamp/templates/articles/article_list.html:81
+#: bootcamp/templates/articles/article_update.html:13
+msgid "Drafts"
+msgstr "Borradores"
+
+#: bootcamp/templates/articles/article_update.html:14
+msgid "Update an article"
+msgstr "Actualizar un articulo"
+
+#: bootcamp/templates/articles/article_update.html:21
+msgid "Update"
+msgstr "Actualizar"
+
+#: bootcamp/templates/base.html:47
+msgid "Inbox"
+msgstr "Bandeja de entrada"
+
+#: bootcamp/templates/base.html:48 bootcamp/templates/users/user_list.html:4
+#: bootcamp/templates/users/user_list.html:13
+msgid "Contacts"
+msgstr "Contactos"
+
+#: bootcamp/templates/base.html:65 bootcamp/templates/news/news_single.html:9
+#: bootcamp/templates/news/news_thread.html:11
+#: bootcamp/templates/news/news_thread_modal.html:15
+msgid "User Image"
+msgstr "Imagen de usario"
+
+#: bootcamp/templates/base.html:72
+msgid "Profile Settings"
+msgstr "Configuraciones de cuenta"
+
+#: bootcamp/templates/base.html:74
+msgid "Log Out"
+msgstr "Cerrar sesion"
+
+#: bootcamp/templates/markdownx/widget2.html:8
+msgid "Editor"
+msgstr "Editor"
+
+#: bootcamp/templates/markdownx/widget2.html:11
+msgid "Preview"
+msgstr "Vista previa"
+
+#: bootcamp/templates/messager/message_list.html:13
+msgid "Conversations"
+msgstr "Conversaciones"
+
+#: bootcamp/templates/messager/message_list.html:36
+msgid "This is the begining of a great new conversation."
+msgstr "Este es el inicio de una gran conversacion."
+
+#: bootcamp/templates/messager/message_list.html:37
+msgid "Let's get started now!"
+msgstr "¡Iniciemos ahora!"
+
+#: bootcamp/templates/messager/message_list.html:46
+msgid "Write a message..."
+msgstr "Escriba un mensaje..."
+
+#: bootcamp/templates/news/news_confirm_delete.html:5
+msgid "Delete news"
+msgstr "Borrar noticia"
+
+#: bootcamp/templates/news/news_confirm_delete.html:8
+msgid "Delete a posted news"
+msgstr "Borrar una noticia publicada"
+
+#: bootcamp/templates/news/news_confirm_delete.html:10
+msgid ""
+"Are you sure you want to continue? If you do this you will delete this news"
+msgstr "¿Esta seguro de continuar? Este cambio es irreversible"
+
+#: bootcamp/templates/news/news_confirm_delete.html:14
+msgid "Delete"
+msgstr "Borrar"
+
+#: bootcamp/templates/news/news_form_modal.html:7
+msgid "Share something new!"
+msgstr "¡Comparta algo!"
+
+#: bootcamp/templates/news/news_form_modal.html:23
+msgid "Post"
+msgstr "Publicar"
+
+#: bootcamp/templates/news/news_list.html:18
+msgid "Share something"
+msgstr "Compartir algo"
+
+#: bootcamp/templates/news/news_list.html:23
+msgid "Most Recent Posts"
+msgstr "Publicaciones mas recientes"
+
+#: bootcamp/templates/news/news_list.html:33
+msgid "There are new posts"
+msgstr "Hay publicaciones nuevas"
+
+#: bootcamp/templates/news/news_single.html:17
+#: bootcamp/templates/news/news_thread.html:19
+msgid "Click to remove this news"
+msgstr "Click aqui para borrar"
+
+#: bootcamp/templates/news/news_thread_modal.html:33
+msgid "Reply"
+msgstr "Contestar"
+
+#: bootcamp/templates/notifications/most_recent.html:15
+msgid "See all"
+msgstr "Ver todas"
+
+#: bootcamp/templates/notifications/most_recent.html:16
+#: bootcamp/templates/notifications/notification_list.html:14
+msgid "Mark all as read"
+msgstr "Marcar todas como leidas"
+
+#: bootcamp/templates/notifications/most_recent.html:18
+msgid "You have no unread notification"
+msgstr "Usted no tiene notificaciones sin leer"
+
+#: bootcamp/templates/notifications/notification_list.html:12
+msgid "Unread notifications for"
+msgstr "Notificaciones sin leer de"
+
+#: bootcamp/templates/notifications/notification_list.html:30
+msgid "Mark as read"
+msgstr "Marcar como leidos"
+
+#: bootcamp/templates/pages/home.html:31
+msgid "Welcome to Bootcamp"
+msgstr "Bienvenido a Bootcamp"
+
+#: bootcamp/templates/pages/home.html:35
+msgid "Your enterprise oriented social network."
+msgstr "Su red social corporativa."
+
+#: bootcamp/templates/pages/home.html:36
+msgid "Start Session"
+msgstr "Inicie sesion"
+
+#: bootcamp/templates/qa/answer_form.html:5
+#: bootcamp/templates/qa/answer_form.html:13
+msgid "Answer a question"
+msgstr "Responder una pregunta"
+
+#: bootcamp/templates/qa/answer_sample.html:6
+#: bootcamp/templates/qa/question_detail.html:30
+msgid "Click to up vote; click again to toggle"
+msgstr "Click para votar; otra vez para cambiar el voto"
+
+#: bootcamp/templates/qa/answer_sample.html:8
+#: bootcamp/templates/qa/question_detail.html:32
+msgid "Click to down vote; click again to toggle"
+msgstr "Click para votar; otra vez para cambiar el voto"
+
+#: bootcamp/templates/qa/answer_sample.html:10
+msgid "Click to unaccept the answer"
+msgstr "Click para desmarcar la respuesta"
+
+#: bootcamp/templates/qa/answer_sample.html:14
+msgid "Click to accept the answer"
+msgstr "Click para aceptar la respuesta"
+
+#: bootcamp/templates/qa/question_detail.html:15
+#: bootcamp/templates/qa/question_list.html:14
+msgid "Q.A"
+msgstr ""
+
+#: bootcamp/templates/qa/question_detail.html:21
+#: bootcamp/templates/qa/question_list.html:19
+msgid "Ask a Question"
+msgstr "Haga una pregunta"
+
+#: bootcamp/templates/qa/question_detail.html:39
+#: bootcamp/templates/qa/question_sample.html:18
+msgid "Asked"
+msgstr "Preguntado"
+
+#: bootcamp/templates/qa/question_detail.html:50
+msgid "Submit an answer"
+msgstr "Ofrezca una respuesta"
+
+#: bootcamp/templates/qa/question_detail.html:61
+msgid "There are no answers yet."
+msgstr "Aun no hay respuestas."
+
+#: bootcamp/templates/qa/question_detail.html:62
+msgid "Submit your answer now."
+msgstr "Suministre una respuesta ahora."
+
+#: bootcamp/templates/qa/question_form.html:5
+#: bootcamp/templates/qa/question_form.html:13
+msgid "Ask a question"
+msgstr "Haga una pregunta"
+
+#: bootcamp/templates/qa/question_list.html:24
+msgid "Questions by topic"
+msgstr "Preguntas por tema"
+
+#: bootcamp/templates/qa/question_list.html:35
+msgid "Unanswered"
+msgstr "Sin respuesta"
+
+#: bootcamp/templates/qa/question_list.html:40
+msgid "Answered"
+msgstr "Contestadas"
+
+#: bootcamp/templates/qa/question_list.html:45
+msgid "All Questions"
+msgstr "Todas las preguntas"
+
+#: bootcamp/templates/qa/question_list.html:52
+msgid "No question to display"
+msgstr "No hay preguntas"
+
+#: bootcamp/templates/search/search_results.html:5
+#: bootcamp/templates/search/search_results.html:17
+msgid "Search Results"
+msgstr "Resultados de la busqueda"
+
+#: bootcamp/templates/search/search_results.html:27 bootcamp/users/apps.py:7
+msgid "Users"
+msgstr "Usuarios"
+
+#: bootcamp/templates/search/search_results.html:28
+msgid "Tags"
+msgstr "Etiquetas"
+
+#: bootcamp/templates/search/search_results.html:47
+#: bootcamp/templates/search/search_results.html:54
+#: bootcamp/templates/search/search_results.html:61
+#: bootcamp/templates/search/search_results.html:96
+#: bootcamp/templates/search/search_results.html:105
+msgid "There are no results related to your search"
+msgstr "No hay resultados relacionados con su busqueda"
+
+#: bootcamp/templates/users/user_detail.html:43
+msgid "RSS Channel"
+msgstr "Canal RSS"
+
+#: bootcamp/templates/users/user_detail.html:46
+msgid "Twitter Profile"
+msgstr "Perfil de Twitter"
+
+#: bootcamp/templates/users/user_detail.html:49
+msgid "Github Profile"
+msgstr "Perfil de Github"
+
+#: bootcamp/templates/users/user_detail.html:52
+msgid "LinkedIn Profile"
+msgstr "Perfil de LinkedIn"
+
+#: bootcamp/templates/users/user_detail.html:55
+msgid "Facebook Profile"
+msgstr "Perfil de Facebook"
+
+#: bootcamp/templates/users/user_detail.html:57
+#: bootcamp/templates/users/user_form.html:33
+msgid "Update Profile"
+msgstr "Actualizar perfil"
+
+#: bootcamp/templates/users/user_detail.html:63
+msgid "Feeds"
+msgstr "Noticias"
+
+#: bootcamp/templates/users/user_detail.html:71
+msgid "Comments"
+msgstr "Comentarios"
+
+#: bootcamp/templates/users/user_detail.html:83
+msgid "Global Interactions"
+msgstr "Interacciones globales"
+
+#: bootcamp/users/models.py:12
+msgid "User's name"
+msgstr "Nombre de usuario"
+
+#: bootcamp/users/models.py:14
+msgid "Profile picture"
+msgstr "Imagen de perfil"
+
+#: bootcamp/users/models.py:16
+msgid "Location"
+msgstr "ubicacion"
+
+#: bootcamp/users/models.py:18
+msgid "Job title"
+msgstr "Titulo laboral"
+
+#: bootcamp/users/models.py:20
+msgid "Personal URL"
+msgstr "URL Personal"
+
+#: bootcamp/users/models.py:22
+msgid "Facebook profile"
+msgstr "Perfil de Facebook"
+
+#: bootcamp/users/models.py:24
+msgid "Twitter account"
+msgstr "Perfil de Twitter"
+
+#: bootcamp/users/models.py:26
+msgid "GitHub profile"
+msgstr "Perfil de GitHub"
+
+#: bootcamp/users/models.py:28
+msgid "LinkedIn profile"
+msgstr "Perfil de LinkedIn"
+
+#: bootcamp/users/models.py:30
+msgid "Describe yourself"
+msgstr "Su descripción"
+
+#: bootcamp/users/models.py:32
+msgid "Short bio"
+msgstr "Una biografia corta"
