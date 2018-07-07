@@ -131,10 +131,6 @@ ANYMAIL = {
     'MAILGUN_SENDER_DOMAIN': env('MAILGUN_SENDER_DOMAIN')
 }
 
-# Gunicorn
-# ------------------------------------------------------------------------------
-INSTALLED_APPS += ['gunicorn']  # noqa F405
-
 # WhiteNoise
 # ------------------------------------------------------------------------------
 # http://whitenoise.evans.io/en/latest/django.html#enable-whitenoise
