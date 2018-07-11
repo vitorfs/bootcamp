@@ -11,6 +11,7 @@ services:
       dockerfile: ./compose/local/django/Dockerfile
     depends_on:
       - postgres
+      - redis
     volumes:
       - .:/app
     env_file: .env
@@ -26,3 +27,8 @@ services:
       - postgres_data_local:/var/lib/postgresql/data
       - postgres_backup_local:/backups
     env_file: .env
+
+  redis:
+    image: redis:3.0
+    ports:
+      - '6379:6379'
