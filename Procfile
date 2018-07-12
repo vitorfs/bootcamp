@@ -1,2 +1,1 @@
-web: gunicorn config.wsgi:application
-
+web: daphne -b 0.0.0.0 -p 8000 config.asgi:channel_layer
