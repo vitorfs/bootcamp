@@ -9,7 +9,7 @@
 
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="#">{% trans 'Home' %}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'news:list' %}">{% trans 'Home' %}</a></li>
       <li class="breadcrumb-item"><a href="{% url 'articles:drafts' %}">{% trans 'Drafts' %}</a></li>
       <li class="breadcrumb-item active" aria-current="page">{% trans 'Update an article' %}</li>
     </ol>
