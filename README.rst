@@ -46,6 +46,7 @@ Technology Stack
 * `jQuery 3`_
 * Django-channels_ (for WebSockets)
 * Sentry_
+* Mailgun_
 * Cookiecutter_
 
 .. _Python: https://www.python.org/
@@ -61,6 +62,7 @@ Technology Stack
 .. _`jQuery 3`: https://api.jquery.com/
 .. _Django-channels: https://channels.readthedocs.io/en/latest/
 .. _Sentry: https://docs.sentry.io/
+.. _Mailgun: https://www.mailgun.com/
 .. _Cookiecutter: http://cookiecutter-django.readthedocs.io/en/latest/index.html
 
 Basic Commands
