@@ -10,7 +10,6 @@ branches:
 # Start services.
 services:
   - redis-server
-  - postgresql
 # command to install dependencies
 install:
   - pip install -q Django==$DJANGO_VERSION
@@ -22,6 +21,6 @@ before_script:
   - python manage.py collectstatic --noinput
 # command to run tests
 script:
-    - pytest
+  - pytest
 after_success:
-    - coveralls
+  - coveralls
