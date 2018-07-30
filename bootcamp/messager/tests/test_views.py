@@ -51,3 +51,36 @@ class MessagerViewsTests(TestCase):
         assert request.status_code == 200
         new_msm_count = Message.objects.count()
         assert new_msm_count == message_count + 1
+
+    def test_wrong_requests_send_message(self):
+        get_request = self.client.get(reverse("messager:send_message"),
+                                   {"to": "second_user",
+                                    "message": "A new short message"},
+                                   HTTP_X_REQUESTED_WITH="XMLHttpRequest")
+        no_ajax_request = self.client.get(reverse("messager:send_message"),
+                                   {"to": "second_user",
+                                    "message": "A new short message"})
+        same_user_request = self.client.post(reverse("messager:send_message"),
+                                   {"to": "first_user",
+                                    "message": "A new short message"},
+                                   HTTP_X_REQUESTED_WITH="XMLHttpRequest")
+        no_lenght_request = self.client.post(reverse("messager:send_message"),
+                                   {"to": "second_user",
+                                    "message": ""},
+                                   HTTP_X_REQUESTED_WITH="XMLHttpRequest")
+        assert get_request.status_code == 405
+        assert no_ajax_request.status_code == 400
+        assert same_user_request.status_code == 200
+        assert no_lenght_request.status_code == 200
+
+    def test_message_reception_view(self):
+        request = self.client.get(reverse("messager:receive_message"),
+                                   {"message_id": self.third_message.uuid_id},
+                                   HTTP_X_REQUESTED_WITH="XMLHttpRequest")
+        assert b"An answer message." in request.content
+
+    def test_wrong_request_recieve_message_view(self):
+        request = self.client.post(reverse("messager:receive_message"),
+                                   {"message_id": self.third_message.uuid_id},
+                                   HTTP_X_REQUESTED_WITH="XMLHttpRequest")
+        assert request.status_code == 405
