@@ -2,7 +2,7 @@ from django.db.utils import IntegrityError
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-from django.http import HttpResponseBadRequest, JsonResponse
+from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.urls import reverse
 from django.utils.translation import ugettext as _
