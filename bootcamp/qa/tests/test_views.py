@@ -74,17 +74,31 @@ class QAViewsTest(TestCase):
         assert response.status_code == 302
         assert Answer.objects.count() == current_answer_count + 1
 
-    def test_question_vote(self):
+    def test_question_upvote(self):
         response_one = self.client.post(
             reverse("qa:question_vote"),
             {"value": "U", "question": self.question_one.id},
             HTTP_X_REQUESTED_WITH="XMLHttpRequest")
         assert response_one.status_code == 200
 
-    def test_answer_vote(self):
+    def test_question_downvote(self):
+        response_one = self.client.post(
+            reverse("qa:question_vote"),
+            {"value": "D", "question": self.question_one.id},
+            HTTP_X_REQUESTED_WITH="XMLHttpRequest")
+        assert response_one.status_code == 200
+
+    def test_answer_upvote(self):
         response_one = self.client.post(
             reverse("qa:answer_vote"),
             {"value": "U", "answer": self.answer.uuid_id},
+            HTTP_X_REQUESTED_WITH="XMLHttpRequest")
+        assert response_one.status_code == 200
+
+    def test_answer_downvote(self):
+        response_one = self.client.post(
+            reverse("qa:answer_vote"),
+            {"value": "D", "answer": self.answer.uuid_id},
             HTTP_X_REQUESTED_WITH="XMLHttpRequest")
         assert response_one.status_code == 200
 
