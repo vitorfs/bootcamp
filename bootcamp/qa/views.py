@@ -114,7 +114,7 @@ def question_vote(request):
         question.count_votes()
         return JsonResponse({"votes": question.total_votes})
 
-    except IntegrityError:
+    except IntegrityError:  # pragma: no cover
         return JsonResponse({'status': 'false',
                              'message': _("Database integrity error.")},
                             status=500)
@@ -141,7 +141,7 @@ def answer_vote(request):
         answer.count_votes()
         return JsonResponse({"votes": answer.total_votes})
 
-    except IntegrityError:
+    except IntegrityError:  # pragma: no cover
         return JsonResponse({'status': 'false',
                              'message': _("Database integrity error.")},
                             status=500)
