@@ -72,3 +72,15 @@ class MessagerViewsTests(TestCase):
         assert no_ajax_request.status_code == 400
         assert same_user_request.status_code == 200
         assert no_lenght_request.status_code == 200
+
+    def test_message_reception_view(self):
+        request = self.client.get(reverse("messager:receive_message"),
+                                   {"message_id": self.third_message.uuid_id},
+                                   HTTP_X_REQUESTED_WITH="XMLHttpRequest")
+        assert b"An answer message." in request.content
+
+    def test_wrong_request_recieve_message_view(self):
+        request = self.client.post(reverse("messager:receive_message"),
+                                   {"message_id": self.third_message.uuid_id},
+                                   HTTP_X_REQUESTED_WITH="XMLHttpRequest")
+        assert request.status_code == 400
