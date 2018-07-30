@@ -54,5 +54,5 @@ def broadcast_logout(sender, user, request, **kwargs):
     notification_handler(user, "global", Notification.LOGGED_OUT)
 
 
-user_logged_in.connect(broadcast_login)
-user_logged_out.connect(broadcast_logout)
+# user_logged_in.connect(broadcast_login)
+# user_logged_out.connect(broadcast_logout)
