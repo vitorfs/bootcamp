@@ -68,7 +68,7 @@ class MessagerViewsTests(TestCase):
                                    {"to": "second_user",
                                     "message": ""},
                                    HTTP_X_REQUESTED_WITH="XMLHttpRequest")
-        assert get_request.status_code == 400
+        assert get_request.status_code == 405
         assert no_ajax_request.status_code == 400
         assert same_user_request.status_code == 200
         assert no_lenght_request.status_code == 200
@@ -83,4 +83,4 @@ class MessagerViewsTests(TestCase):
         request = self.client.post(reverse("messager:receive_message"),
                                    {"message_id": self.third_message.uuid_id},
                                    HTTP_X_REQUESTED_WITH="XMLHttpRequest")
-        assert request.status_code == 400
+        assert request.status_code == 405
