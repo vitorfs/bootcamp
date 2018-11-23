@@ -57,6 +57,7 @@ docs/_build/
 .DS_Store
 *.sqlite3
 media/
+-node_modules/
 
 .env
 
