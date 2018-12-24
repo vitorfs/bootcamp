@@ -14,7 +14,7 @@ services:
     depends_on:
       - postgres
       - redis
-    command: daphne -b 0.0.0.0 -p 8000 config.asgi:channel_layer
+    command: daphne -b 0.0.0.0 -p 8000 config.asgi:application
 
   worker:
     build:
@@ -48,4 +48,4 @@ services:
       - "0.0.0.0:443:443"
 
   redis:
-    image: redis:3.0
+    image: redis:4.0

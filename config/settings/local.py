@@ -15,7 +15,7 @@ SECRET_KEY = env('SECRET_KEY', default='fOqtAorZrVqWYbuMPOcZnTzw2D5bKeHGpXUwCaNB
 ALLOWED_HOSTS = [
     "localhost",
     "0.0.0.0",
-	"127.0.0.1",
+    "127.0.0.1",
 ]
 
 # CACHES

@@ -22,6 +22,9 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+.idea
+*.sublime-project
+*.sublime-workspace
 
 # Installer logs
 pip-log.txt
@@ -57,9 +60,9 @@ docs/_build/
 .DS_Store
 *.sqlite3
 media/
+node_modules/
 
 .env
 
 venv_bootcamp/
 staticfiles
-.idea

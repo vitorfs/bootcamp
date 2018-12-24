@@ -104,6 +104,7 @@ def post_comment(request):
     else:
         return HttpResponseBadRequest()
 
+
 @login_required
 @ajax_required
 @require_http_methods(["POST"])
