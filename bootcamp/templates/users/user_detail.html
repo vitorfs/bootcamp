@@ -28,7 +28,12 @@
           <i class="fa fa-user-circle-o" aria-hidden="true"></i>
           {{ object.get_profile_name|title }}
           <br />
-          <i class="fa fa-envelope" aria-hidden="true"></i><a class="email" href="mailto:{{ object.email }}">   {{ object.email }}</a><br />
+          <i class="fa fa-envelope" aria-hidden="true"></i>
+          {% if request.user.username == object.username %}
+          <a class="email">{{ object.email }}</a><br />
+          {% else %}
+          <a  href="{% url 'messager:messages_list' %}{{object.username}}">{% trans 'Write Message' %}</a>
+          {% endif %}<br />
           {% if object.job_title %}
             <i class="fa fa-briefcase" aria-hidden="true"></i>  {{ object.job_title }} <br />
           {% endif %}
