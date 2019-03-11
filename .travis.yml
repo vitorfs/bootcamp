@@ -15,7 +15,7 @@ services:
 install:
   - pip install -q Django==$DJANGO_VERSION
   - pip install -r requirements/local.txt
-  - pip install python-coveralls
+  - pip install coveralls
 before_script:
   - psql -c "CREATE DATABASE bootcamp;" -U postgres
   - cp .env.example .env

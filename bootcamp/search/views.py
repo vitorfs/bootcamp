@@ -25,16 +25,16 @@ class SearchListView(LoginRequiredMixin, ListView):
         context["hide_search"] = True
         context["tags_list"] = Tag.objects.filter(name=query)
         context["news_list"] = News.objects.filter(
-            content__icontains=query, reply=False)
+            content__icontains=query, reply=False).distinct()
         context["articles_list"] = Article.objects.filter(Q(
             title__icontains=query) | Q(content__icontains=query) | Q(
-                tags__name__icontains=query), status="P")
+                tags__name__icontains=query), status="P").distinct()
         context["questions_list"] = Question.objects.filter(
             Q(title__icontains=query) | Q(content__icontains=query) | Q(
-                tags__name__icontains=query))
+                tags__name__icontains=query)).distinct()
         context["users_list"] = get_user_model().objects.filter(
             Q(username__icontains=query) | Q(
-                name__icontains=query))
+                name__icontains=query)).distinct()
         context["news_count"] = context["news_list"].count()
         context["articles_count"] = context["articles_list"].count()
         context["questions_count"] = context["questions_list"].count()
