@@ -28,7 +28,7 @@ The project has four basic apps:
 * News (A Twitter-like microblog)
 * Articles (A collaborative blog)
 * Question & Answers (A Stack Overflow-like platform)
-* Messeger (A basic chat-a-like tool for asynchronous communication.)
+* Messenger (A basic chat-a-like tool for asynchronous communication.)
 
 Technology Stack
 ----------------
