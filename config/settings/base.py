@@ -273,5 +273,5 @@ CHANNEL_LAYERS = {
 
 # GraphQL settings
 GRAPHENE = {
-    'SCHEMA': 'bootcamp.config.schema.schema'
+    'SCHEMA': 'config.schema.schema'
 }
