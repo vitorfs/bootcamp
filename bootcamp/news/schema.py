@@ -8,6 +8,7 @@ from bootcamp.helpers import paginate_data
 
 class NewsType(DjangoObjectType):
     """DjangoObjectType to acces the News model."""
+
     count_thread = graphene.Int()
     count_likers = graphene.Int()
 
@@ -30,6 +31,7 @@ class NewsType(DjangoObjectType):
 class NewsPaginatedType(graphene.ObjectType):
     """A paginated type generic object to provide pagination to the news
     graph."""
+
     page = graphene.Int()
     pages = graphene.Int()
     has_next = graphene.Boolean()
@@ -53,9 +55,26 @@ class NewsQuery(object):
         return paginate_data(qs, page_size, page, NewsPaginatedType)
 
     def resolve_news(self, info, **kwargs):
-        uuid_id = kwargs.get('uuid_id')
+        uuid_id = kwargs.get("uuid_id")
 
         if uuid_id is not None:
             return News.objects.get(uuid_id=uuid_id)
 
         return None
+
+
+class NewsMutation(graphene.Mutation):
+    """Mutation to create news objects on a efective way."""
+
+    class Arguments:
+        content = graphene.String()
+        user = graphene.ID()
+        parent = graphene.ID()
+
+    content = graphene.String()
+    user = graphene.ID()
+    parent = graphene.ID()
+    news = graphene.Field(lambda: News)
+
+    def mutate(self, **kwargs):
+        print(kwargs)
