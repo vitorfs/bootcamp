@@ -36,7 +36,7 @@ def post_news(request):
     user = request.user
     post = request.POST['post']
     post = post.strip()
-    if len(post) > 0 and len(post) <= 280:
+    if 0 < len(post) <= 280:
         posted = News.objects.create(
             user=user,
             content=post,
@@ -50,9 +50,9 @@ def post_news(request):
         return HttpResponse(html)
 
     else:
-        lenght = len(post) - 280
+        length = len(post) - 280
         return HttpResponseBadRequest(
-            content=_(f'Text is {lenght} characters longer than accepted.'))
+            content=_(f'Text is {length} characters longer than accepted.'))
 
 
 @login_required
