@@ -14,6 +14,7 @@ pytest-django  # https://github.com/pytest-dev/pytest-django
 # Code quality
 # ------------------------------------------------------------------------------
 coverage  # https://github.com/nedbat/coveragepy
+bandit  # https://github.com/PyCQA/bandit
 pylint-common  # https://github.com/landscapeio/pylint-common
 pylint-django  # https://github.com/PyCQA/pylint-django
 pylint  # https://github.com/PyCQA/pylint
