@@ -83,52 +83,60 @@ class Notification(models.Model):
         <Sebastian> <Logged In> <1 minute ago>
         <Sebastian> <commented> <Article> <2 hours ago>
     """
-    LIKED = 'L'
-    COMMENTED = 'C'
-    FAVORITED = 'F'
-    ANSWERED = 'A'
-    ACCEPTED_ANSWER = 'W'
-    EDITED_ARTICLE = 'E'
-    ALSO_COMMENTED = 'K'
-    LOGGED_IN = 'I'
-    LOGGED_OUT = 'O'
-    VOTED = 'V'
-    SHARED = 'S'
-    SIGNUP = 'U'
-    REPLY = 'R'
+
+    LIKED = "L"
+    COMMENTED = "C"
+    FAVORITED = "F"
+    ANSWERED = "A"
+    ACCEPTED_ANSWER = "W"
+    EDITED_ARTICLE = "E"
+    ALSO_COMMENTED = "K"
+    LOGGED_IN = "I"
+    LOGGED_OUT = "O"
+    VOTED = "V"
+    SHARED = "S"
+    SIGNUP = "U"
+    REPLY = "R"
     NOTIFICATION_TYPES = (
-        (LIKED, _('liked')),
-        (COMMENTED, _('commented')),
-        (FAVORITED, _('cavorited')),
-        (ANSWERED, _('answered')),
-        (ACCEPTED_ANSWER, _('accepted')),
-        (EDITED_ARTICLE, _('edited')),
-        (ALSO_COMMENTED, _('also commented')),
-        (LOGGED_IN, _('logged in')),
-        (LOGGED_OUT, _('logged out')),
-        (VOTED, _('voted on')),
-        (SHARED, _('shared')),
-        (SIGNUP, _('created an account')),
-        (REPLY, _('replied to'))
-        )
-    actor = models.ForeignKey(settings.AUTH_USER_MODEL,
-                              related_name="notify_actor",
-                              on_delete=models.CASCADE)
-    recipient = models.ForeignKey(settings.AUTH_USER_MODEL, blank=False,
-        related_name="notifications", on_delete=models.CASCADE)
+        (LIKED, _("liked")),
+        (COMMENTED, _("commented")),
+        (FAVORITED, _("cavorited")),
+        (ANSWERED, _("answered")),
+        (ACCEPTED_ANSWER, _("accepted")),
+        (EDITED_ARTICLE, _("edited")),
+        (ALSO_COMMENTED, _("also commented")),
+        (LOGGED_IN, _("logged in")),
+        (LOGGED_OUT, _("logged out")),
+        (VOTED, _("voted on")),
+        (SHARED, _("shared")),
+        (SIGNUP, _("created an account")),
+        (REPLY, _("replied to")),
+    )
+    actor = models.ForeignKey(
+        settings.AUTH_USER_MODEL, related_name="notify_actor", on_delete=models.CASCADE
+    )
+    recipient = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        blank=False,
+        related_name="notifications",
+        on_delete=models.CASCADE,
+    )
     unread = models.BooleanField(default=True, db_index=True)
     timestamp = models.DateTimeField(auto_now_add=True)
-    uuid_id = models.UUIDField(
-        primary_key=True, default=uuid.uuid4, editable=False)
+    uuid_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     slug = models.SlugField(max_length=210, null=True, blank=True)
     verb = models.CharField(max_length=1, choices=NOTIFICATION_TYPES)
-    action_object_content_type = models.ForeignKey(ContentType,
-        blank=True, null=True, related_name="notify_action_object",
-        on_delete=models.CASCADE)
-    action_object_object_id = models.CharField(
-        max_length=50, blank=True, null=True)
+    action_object_content_type = models.ForeignKey(
+        ContentType,
+        blank=True,
+        null=True,
+        related_name="notify_action_object",
+        on_delete=models.CASCADE,
+    )
+    action_object_object_id = models.CharField(max_length=50, blank=True, null=True)
     action_object = GenericForeignKey(
-        "action_object_content_type", "action_object_object_id")
+        "action_object_content_type", "action_object_object_id"
+    )
     objects = NotificationQuerySet.as_manager()
 
     class Meta:
@@ -138,14 +146,17 @@ class Notification(models.Model):
 
     def __str__(self):
         if self.action_object:
-            return f'{self.actor} {self.get_verb_display()} {self.action_object} {self.time_since()} ago'
+            return f"{self.actor} {self.get_verb_display()} {self.action_object} {self.time_since()} ago"
 
-        return f'{self.actor} {self.get_verb_display()} {self.time_since()} ago'
+        return f"{self.actor} {self.get_verb_display()} {self.time_since()} ago"
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(f'{self.recipient} {self.uuid_id} {self.verb}',
-                                to_lower=True, max_length=200)
+            self.slug = slugify(
+                f"{self.recipient} {self.uuid_id} {self.verb}",
+                to_lower=True,
+                max_length=200,
+            )
 
         super().save(*args, **kwargs)
 
@@ -162,32 +173,32 @@ class Notification(models.Model):
         """Model method to validate notification type and return the closest
         icon to the verb.
         """
-        if self.verb == 'C' or self.verb == 'A' or self.verb == 'K':
-            return 'fa-comment'
+        if self.verb == "C" or self.verb == "A" or self.verb == "K":
+            return "fa-comment"
 
-        elif self.verb == 'I' or self.verb == 'U' or self.verb == 'O':
-            return 'fa-users'
+        elif self.verb == "I" or self.verb == "U" or self.verb == "O":
+            return "fa-users"
 
-        elif self.verb == 'L':
-            return 'fa-heart'
+        elif self.verb == "L":
+            return "fa-heart"
 
-        elif self.verb == 'F':
-            return 'fa-star'
+        elif self.verb == "F":
+            return "fa-star"
 
-        elif self.verb == 'W':
-            return 'fa-check-circle'
+        elif self.verb == "W":
+            return "fa-check-circle"
 
-        elif self.verb == 'E':
-            return 'fa-pencil'
+        elif self.verb == "E":
+            return "fa-pencil"
 
-        elif self.verb == 'V':
-            return 'fa-plus'
+        elif self.verb == "V":
+            return "fa-plus"
 
-        elif self.verb == 'S':
-            return 'fa-share-alt'
+        elif self.verb == "S":
+            return "fa-share-alt"
 
-        elif self.verb == 'R':
-            return 'fa-reply'
+        elif self.verb == "R":
+            return "fa-reply"
 
     def mark_as_read(self):
         if self.unread:
@@ -214,16 +225,16 @@ def notification_handler(actor, recipient, verb, **kwargs):
     :param key: String defining what kind of notification is going to be created.
     :param id_value: UUID value assigned to a specific element in the DOM.
     """
-    key = kwargs.pop('key', 'notification')
-    id_value = kwargs.pop('id_value', None)
-    if recipient == 'global':
+    key = kwargs.pop("key", "notification")
+    id_value = kwargs.pop("id_value", None)
+    if recipient == "global":
         users = get_user_model().objects.all().exclude(username=actor.username)
         for user in users:
             Notification.objects.create(
                 actor=actor,
                 recipient=user,
                 verb=verb,
-                action_object=kwargs.pop('action_object', None)
+                action_object=kwargs.pop("action_object", None),
             )
         notification_broadcast(actor, key)
 
@@ -233,7 +244,7 @@ def notification_handler(actor, recipient, verb, **kwargs):
                 actor=actor,
                 recipient=get_user_model().objects.get(username=user),
                 verb=verb,
-                action_object=kwargs.pop('action_object', None)
+                action_object=kwargs.pop("action_object", None),
             )
 
     elif isinstance(recipient, get_user_model()):
@@ -241,10 +252,11 @@ def notification_handler(actor, recipient, verb, **kwargs):
             actor=actor,
             recipient=recipient,
             verb=verb,
-            action_object=kwargs.pop('action_object', None)
+            action_object=kwargs.pop("action_object", None),
         )
         notification_broadcast(
-            actor, key, id_value=id_value, recipient=recipient.username)
+            actor, key, id_value=id_value, recipient=recipient.username
+        )
 
     else:
         pass
@@ -264,13 +276,13 @@ def notification_broadcast(actor, key, **kwargs):
                       notified.
     """
     channel_layer = get_channel_layer()
-    id_value = kwargs.pop('id_value', None)
-    recipient = kwargs.pop('recipient', None)
+    id_value = kwargs.pop("id_value", None)
+    recipient = kwargs.pop("recipient", None)
     payload = {
-            'type': 'receive',
-            'key': key,
-            'actor_name': actor.username,
-            'id_value': id_value,
-            'recipient': recipient
-        }
-    async_to_sync(channel_layer.group_send)('notifications', payload)
+        "type": "receive",
+        "key": key,
+        "actor_name": actor.username,
+        "id_value": id_value,
+        "recipient": recipient,
+    }
+    async_to_sync(channel_layer.group_send)("notifications", payload)

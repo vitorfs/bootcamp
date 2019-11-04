@@ -15,18 +15,16 @@ class NewsViewsTest(TestCase):
         self.client.login(username="first_user", password="password")
         self.other_client.login(username="second_user", password="password")
         self.first_news = News.objects.create(
-            user=self.user,
-            content="This is a short content."
+            user=self.user, content="This is a short content."
         )
         self.second_news = News.objects.create(
-            user=self.user,
-            content="This the second content."
+            user=self.user, content="This the second content."
         )
         self.third_news = News.objects.create(
             user=self.other_user,
             content="This is an answer to the first news.",
             reply=True,
-            parent=self.first_news
+            parent=self.first_news,
         )
 
     def test_news_list(self):
@@ -39,15 +37,18 @@ class NewsViewsTest(TestCase):
     def test_delete_news(self):
         initial_count = News.objects.count()
         response = self.client.post(
-            reverse("news:delete_news", kwargs={"pk": self.second_news.pk}))
+            reverse("news:delete_news", kwargs={"pk": self.second_news.pk})
+        )
         assert response.status_code == 302
         assert News.objects.count() == initial_count - 1
 
     def test_post_news(self):
         initial_count = News.objects.count()
         response = self.client.post(
-            reverse("news:post_news"), {"post": "This a third element."},
-            HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+            reverse("news:post_news"),
+            {"post": "This a third element."},
+            HTTP_X_REQUESTED_WITH="XMLHttpRequest",
+        )
         assert response.status_code == 200
         assert News.objects.count() == initial_count + 1
 
@@ -55,7 +56,8 @@ class NewsViewsTest(TestCase):
         response = self.client.post(
             reverse("news:like_post"),
             {"news": self.first_news.pk},
-            HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+            HTTP_X_REQUESTED_WITH="XMLHttpRequest",
+        )
         assert response.status_code == 200
         assert self.first_news.count_likers() == 1
         assert self.user in self.first_news.get_likers()
@@ -65,7 +67,8 @@ class NewsViewsTest(TestCase):
         response = self.client.get(
             reverse("news:get_thread"),
             {"news": self.first_news.pk},
-            HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+            HTTP_X_REQUESTED_WITH="XMLHttpRequest",
+        )
         assert response.status_code == 200
         assert response.json()["uuid"] == str(self.first_news.pk)
         assert "This is a short content." in response.json()["news"]
@@ -74,11 +77,9 @@ class NewsViewsTest(TestCase):
     def test_posting_comments(self):
         response = self.client.post(
             reverse("news:post_comments"),
-            {
-                "reply": "This a third element.",
-                "parent": self.second_news.pk
-            },
-            HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+            {"reply": "This a third element.", "parent": self.second_news.pk},
+            HTTP_X_REQUESTED_WITH="XMLHttpRequest",
+        )
         assert response.status_code == 200
         assert response.json()["comments"] == 1
 
@@ -86,22 +87,23 @@ class NewsViewsTest(TestCase):
         first_response = self.client.post(
             reverse("news:like_post"),
             {"news": self.first_news.pk},
-            HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+            HTTP_X_REQUESTED_WITH="XMLHttpRequest",
+        )
         second_response = self.other_client.post(
             reverse("news:like_post"),
             {"news": self.first_news.pk},
-            HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+            HTTP_X_REQUESTED_WITH="XMLHttpRequest",
+        )
         third_response = self.client.post(
             reverse("news:post_comments"),
-            {
-                "reply": "This a third element.",
-                "parent": self.first_news.pk
-            },
-            HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+            {"reply": "This a third element.", "parent": self.first_news.pk},
+            HTTP_X_REQUESTED_WITH="XMLHttpRequest",
+        )
         fourth_response = self.client.post(
             reverse("news:update_interactions"),
             {"id_value": self.first_news.pk},
-            HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+            HTTP_X_REQUESTED_WITH="XMLHttpRequest",
+        )
         assert first_response.status_code == 200
         assert second_response.status_code == 200
         assert third_response.status_code == 200

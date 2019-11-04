@@ -12,29 +12,66 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('taggit', '0002_auto_20150616_2121'),
+        ("taggit", "0002_auto_20150616_2121"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Article',
+            name="Article",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('image', models.ImageField(upload_to='articles_pictures/%Y/%m/%d/', verbose_name='Featured image')),
-                ('timestamp', models.DateTimeField(auto_now_add=True)),
-                ('title', models.CharField(max_length=255, unique=True)),
-                ('slug', models.SlugField(blank=True, max_length=80, null=True)),
-                ('status', models.CharField(choices=[('D', 'Draft'), ('P', 'Published')], default='D', max_length=1)),
-                ('content', markdownx.models.MarkdownxField()),
-                ('edited', models.BooleanField(default=False)),
-                ('tags', taggit.managers.TaggableManager(help_text='A comma-separated list of tags.', through='taggit.TaggedItem', to='taggit.Tag', verbose_name='Tags')),
-                ('user', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='author', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "image",
+                    models.ImageField(
+                        upload_to="articles_pictures/%Y/%m/%d/",
+                        verbose_name="Featured image",
+                    ),
+                ),
+                ("timestamp", models.DateTimeField(auto_now_add=True)),
+                ("title", models.CharField(max_length=255, unique=True)),
+                ("slug", models.SlugField(blank=True, max_length=80, null=True)),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[("D", "Draft"), ("P", "Published")],
+                        default="D",
+                        max_length=1,
+                    ),
+                ),
+                ("content", markdownx.models.MarkdownxField()),
+                ("edited", models.BooleanField(default=False)),
+                (
+                    "tags",
+                    taggit.managers.TaggableManager(
+                        help_text="A comma-separated list of tags.",
+                        through="taggit.TaggedItem",
+                        to="taggit.Tag",
+                        verbose_name="Tags",
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="author",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Article',
-                'verbose_name_plural': 'Articles',
-                'ordering': ('-timestamp',),
+                "verbose_name": "Article",
+                "verbose_name_plural": "Articles",
+                "ordering": ("-timestamp",),
             },
-        ),
+        )
     ]

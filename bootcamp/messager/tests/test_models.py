@@ -10,17 +10,13 @@ class MessagerModelsTest(TestCase):
         self.first_message = Message.objects.create(
             sender=self.user,
             recipient=self.other_user,
-            message="A not that long message."
+            message="A not that long message.",
         )
         self.second_message = Message.objects.create(
-            sender=self.user,
-            recipient=self.other_user,
-            message="A follow up message."
+            sender=self.user, recipient=self.other_user, message="A follow up message."
         )
         self.third_message = Message.objects.create(
-            sender=self.other_user,
-            recipient=self.user,
-            message="An answer message."
+            sender=self.other_user, recipient=self.user, message="An answer message."
         )
 
     def test_object_instance(self):
@@ -31,13 +27,11 @@ class MessagerModelsTest(TestCase):
         assert self.first_message.message == "A not that long message."
 
     def test_conversation(self):
-        conversation = Message.objects.get_conversation(
-            self.user, self.other_user)
+        conversation = Message.objects.get_conversation(self.user, self.other_user)
         assert conversation.last().message == "An answer message."
 
     def test_recent_conversation(self):
-        active_user = Message.objects.get_most_recent_conversation(
-            self.user)
+        active_user = Message.objects.get_most_recent_conversation(self.user)
         assert active_user == self.other_user
 
     def test_single_marking_as_read(self):
@@ -47,7 +41,5 @@ class MessagerModelsTest(TestCase):
 
     def test_sending_new_message(self):
         initial_count = Message.objects.count()
-        Message.send_message(
-            self.other_user, self.user, "A follow up answer message."
-        )
+        Message.send_message(self.other_user, self.user, "A follow up answer message.")
         assert Message.objects.count() == initial_count + 1

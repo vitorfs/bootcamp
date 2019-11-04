@@ -8,9 +8,10 @@ class QAModelsTest(TestCase):
         self.user = self.make_user("test_user")
         self.other_user = self.make_user("other_test_user")
         self.question_one = Question.objects.create(
-            user=self.user, title="This is a sample question",
+            user=self.user,
+            title="This is a sample question",
             content="This is a sample question content",
-            tags="test1, test2"
+            tags="test1, test2",
         )
         self.question_two = Question.objects.create(
             user=self.user,
@@ -21,45 +22,49 @@ class QAModelsTest(TestCase):
             know than nobody wants to publish a test, just a test;
             everybody always wants the real deal.""",
             has_answer=True,
-            tags="test1, test2"
+            tags="test1, test2",
         )
         self.answer = Answer.objects.create(
             user=self.user,
             question=self.question_two,
             content="A reaaaaally loooong content",
-            is_answer=True
+            is_answer=True,
         )
 
     def test_can_vote_question(self):
         self.question_one.votes.update_or_create(
-            user=self.user, defaults={"value": True}, )
+            user=self.user, defaults={"value": True}
+        )
         self.question_one.votes.update_or_create(
-            user=self.other_user, defaults={"value": True})
+            user=self.other_user, defaults={"value": True}
+        )
         self.question_one.count_votes()
         assert self.question_one.total_votes == 2
 
     def test_can_vote_answer(self):
+        self.answer.votes.update_or_create(user=self.user, defaults={"value": True})
         self.answer.votes.update_or_create(
-            user=self.user, defaults={"value": True}, )
-        self.answer.votes.update_or_create(
-            user=self.other_user, defaults={"value": True}, )
+            user=self.other_user, defaults={"value": True}
+        )
         self.answer.count_votes()
         assert self.answer.total_votes == 2
 
     def test_get_question_voters(self):
         self.question_one.votes.update_or_create(
-            user=self.user, defaults={"value": True}, )
+            user=self.user, defaults={"value": True}
+        )
         self.question_one.votes.update_or_create(
-            user=self.other_user, defaults={"value": False})
+            user=self.other_user, defaults={"value": False}
+        )
         self.question_one.count_votes()
         assert self.user in self.question_one.get_upvoters()
         assert self.other_user in self.question_one.get_downvoters()
 
     def test_get_answern_voters(self):
+        self.answer.votes.update_or_create(user=self.user, defaults={"value": True})
         self.answer.votes.update_or_create(
-            user=self.user, defaults={"value": True}, )
-        self.answer.votes.update_or_create(
-            user=self.other_user, defaults={"value": False})
+            user=self.other_user, defaults={"value": False}
+        )
         self.answer.count_votes()
         assert self.user in self.answer.get_upvoters()
         assert self.other_user in self.answer.get_downvoters()
@@ -91,17 +96,17 @@ class QAModelsTest(TestCase):
         answer_one = Answer.objects.create(
             user=self.user,
             question=self.question_one,
-            content="A reaaaaally loooonger content"
+            content="A reaaaaally loooonger content",
         )
         answer_two = Answer.objects.create(
             user=self.user,
             question=self.question_one,
-            content="A reaaaaally even loooonger content"
+            content="A reaaaaally even loooonger content",
         )
         answer_three = Answer.objects.create(
             user=self.user,
             question=self.question_one,
-            content="Even a reaaaaally loooonger content"
+            content="Even a reaaaaally loooonger content",
         )
         self.assertFalse(answer_one.is_answer)
         self.assertFalse(answer_two.is_answer)
