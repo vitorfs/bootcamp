@@ -65,10 +65,13 @@ $(function () {
             type: 'post',
             cache: false,
             success: function (data) {
-              $('.vote', span).removeClass('voted');
-              if (vote === "U") {
-                $(span).addClass('voted');
-              }
+                if (vote === "U") {
+                    $('#questionUpVote').addClass('voted');
+                    $('#questionDownVote').removeClass('voted');
+                } else {
+                    $('#questionDownVote').addClass('voted');
+                    $('#questionUpVote').removeClass('voted');
+                }
               $("#questionVotes").text(data.votes);
             }
         });
@@ -93,10 +96,13 @@ $(function () {
             type: 'post',
             cache: false,
             success: function (data) {
-              $('.vote', span).removeClass('voted');
-              if (vote === "U") {
-                $(span).addClass('voted');
-              }
+                if (vote === "U") {
+                    $('#answerUpVote').addClass('voted');
+                    $('#answerDownVote').removeClass('voted');
+                } else {
+                    $('#answerDownVote').addClass('voted');
+                    $('#answerUpVote').removeClass('voted');
+                }
               $("#answerVotes").text(data.votes);
             }
         });
