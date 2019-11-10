@@ -11,8 +11,8 @@ class QAModelsTest(TestCase):
             user=self.user,
             title="This is a sample question",
             content="This is a sample question content",
-            tags="test1, test2",
         )
+        self.question_one.tags.add("test1", "test2")
         self.question_two = Question.objects.create(
             user=self.user,
             title="A Short Title",
@@ -22,8 +22,8 @@ class QAModelsTest(TestCase):
             know than nobody wants to publish a test, just a test;
             everybody always wants the real deal.""",
             has_answer=True,
-            tags="test1, test2",
         )
+        self.question_two.tags.add("test1", "test2")
         self.answer = Answer.objects.create(
             user=self.user,
             question=self.question_two,
@@ -87,6 +87,10 @@ class QAModelsTest(TestCase):
 
     def test_question_accepted_answer(self):
         assert self.question_two.get_accepted_answer() == self.answer
+
+    def test_get_popular_tags(self):
+        correct_dict = {"test1": 2, "test2": 2}
+        assert Question.objects.get_counted_tags() == correct_dict.items()
 
     # Answer model tests
     def test_answer_return_value(self):
