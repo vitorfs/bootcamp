@@ -65,30 +65,16 @@ $(function () {
       type: 'post',
       cache: false,
       success: function (data) {
-        $('.vote', span).removeClass('voted');
         if (vote === "U") {
-          $(span).addClass('voted');
+          $('#questionUpVote').addClass('voted');
+          $('#questionDownVote').removeClass('voted');
+        } else {
+          $('#questionDownVote').addClass('voted');
+          $('#questionUpVote').removeClass('voted');
         }
-        $.ajax({
-          url: '/qa/question/vote/',
-          data: {
-            'question': question,
-            'value': vote
-          },
-          type: 'post',
-          cache: false,
-          success: function (data) {
-            if (vote === "U") {
-              $('#questionUpVote').addClass('voted');
-              $('#questionDownVote').removeClass('voted');
-            } else {
-              $('#questionDownVote').addClass('voted');
-              $('#questionUpVote').removeClass('voted');
-            }
-            $("#questionVotes").text(data.votes);
-          }
-        });
-      });
+        $("#questionVotes").text(data.votes);
+      }
+    });
   });
 
   $(".answer-vote").click(function () {
@@ -110,30 +96,16 @@ $(function () {
       type: 'post',
       cache: false,
       success: function (data) {
-        $('.vote', span).removeClass('voted');
         if (vote === "U") {
-          $(span).addClass('voted');
+          $('#answerUpVote').addClass('voted');
+          $('#answerDownVote').removeClass('voted');
+        } else {
+          $('#answerDownVote').addClass('voted');
+          $('#answerUpVote').removeClass('voted');
         }
-        $.ajax({
-          url: '/qa/answer/vote/',
-          data: {
-            'answer': answer,
-            'value': vote
-          },
-          type: 'post',
-          cache: false,
-          success: function (data) {
-            if (vote === "U") {
-              $('#answerUpVote').addClass('voted');
-              $('#answerDownVote').removeClass('voted');
-            } else {
-              $('#answerDownVote').addClass('voted');
-              $('#answerUpVote').removeClass('voted');
-            }
-            $("#answerVotes").text(data.votes);
-          }
-        });
-      });
+        $("#answerVotes").text(data.votes);
+      }
+    });
   });
 
   $("#acceptAnswer").click(function () {

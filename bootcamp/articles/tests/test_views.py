@@ -111,3 +111,27 @@ class ArticlesViewsTest(TestCase):
             resp.context["articles"][0].slug
             == "first-user-a-not-that-really-nice-title"
         )
+
+    @override_settings(MEDIA_ROOT=tempfile.gettempdir())
+    def test_draft_article_change(self):
+        response = self.client.post(
+            reverse("articles:edit_article", kwargs={"pk": self.not_p_article.id}),
+            {
+                "title": "A really nice changed title",
+                "content": "Whatever works for you",
+                "tags": "list, lists",
+                "status": "D",
+                "image": self.test_image,
+            },
+        )
+        resp = self.client.get(reverse("articles:drafts"))
+        assert resp.status_code == 200
+        assert response.status_code == 302
+        assert (
+            resp.context["articles"][0].title
+            == "A really nice changed title"
+        )
+        assert (
+            resp.context["articles"][0].slug
+            == "first-user-a-really-nice-changed-title"
+        )
