@@ -22,7 +22,7 @@ $('.form-group').removeClass('row');
 
 /* Notifications JS basic client */
 $(function () {
-    let emptyMessage = 'You have no unread notification';
+    let emptyMessage = 'data-empty="true"';
 
     function checkNotifications() {
         $.ajax({
