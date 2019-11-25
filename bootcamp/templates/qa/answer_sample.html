@@ -3,9 +3,9 @@
 <div class="row answer" answer-id="{{ answer.uuid_id }}">
   {% csrf_token %}
   <div class="col-md-1 options">
-    <i id="answerUpVote" class="fa fa-chevron-up vote up-vote answer-vote {% if request.user in answer.get_upvoters %}voted{% endif %}" aria-hidden="true" title="{% trans 'Click to up vote; click again to toggle' %}"></i>
+    <i id="answerUpVote" class="fa fa-chevron-up {% if answer.user.username == username %} is-owner {% else %} vote {% endif %} up-vote answer-vote {% if request.user in answer.get_upvoters %}voted{% endif %}" aria-hidden="true" title="{% trans 'Click to up vote; click again to toggle' %}"></i>
     <span id="answerVotes" class="votes">{{ answer.total_votes }}</span>
-    <i id="answerDownVote" class="fa fa-chevron-down vote down-vote answer-vote {% if request.user in answer.get_downvoters %}voted{% endif %}" aria-hidden="true" title="{% trans 'Click to down vote; click again to toggle' %}"></i>
+    <i id="answerDownVote" class="fa fa-chevron-down {% if answer.user.username == username %} is-owner {% else %} vote {% endif %} down-vote answer-vote {% if request.user in answer.get_downvoters %}voted{% endif %}" aria-hidden="true" title="{% trans 'Click to down vote; click again to toggle' %}"></i>
     {% if answer.is_answer and user == question.user %}
       <i id="acceptAnswer" class="fa fa-check accept accepted" aria-hidden="true" title="{% trans 'Click to unaccept the answer' %}"></i>
     {% elif answer.is_answer %}

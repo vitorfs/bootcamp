@@ -11,6 +11,8 @@ from django.views.generic import CreateView, ListView, DetailView
 from bootcamp.helpers import ajax_required
 from bootcamp.qa.models import Question, Answer
 from bootcamp.qa.forms import QuestionForm
+from bootcamp.utils.app_utils import is_owner
+from bootcamp.utils.qa_utils import update_votes
 
 
 class QuestionsIndexListView(LoginRequiredMixin, ListView):
@@ -56,6 +58,16 @@ class QuestionDetailView(LoginRequiredMixin, DetailView):
     model = Question
     context_object_name = "question"
 
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        question = self.get_object()
+        if self.request.user.username == question.user.username:
+            is_question_owner = True
+        else:
+            is_question_owner = False
+        context['is_question_owner'] = is_question_owner
+        return context
+
 
 class CreateQuestionView(LoginRequiredMixin, CreateView):
     """
@@ -100,19 +112,23 @@ def question_vote(request):
     """Function view to receive AJAX call, returns the count of votes a given
     question has recieved."""
     question_id = request.POST["question"]
-    value = None
-    if request.POST["value"] == "U":
-        value = True
-
-    else:
-        value = False
-
     question = Question.objects.get(pk=question_id)
+
+    is_question_owner = is_owner(question, request.user.username)
+    if is_question_owner:
+        return JsonResponse({
+            "message": "You can't vote your own question.",
+            "is_owner": is_question_owner
+        })
+
+    value = True if request.POST["value"] == "U" else False
+
     try:
-        question.votes.update_or_create(
-            user=request.user, defaults={"value": value}, )
-        question.count_votes()
-        return JsonResponse({"votes": question.total_votes})
+        update_votes(question, request.user, value)
+        return JsonResponse({
+            "votes": question.total_votes,
+            "is_owner": is_question_owner
+        })
 
     except IntegrityError:  # pragma: no cover
         return JsonResponse({'status': 'false',
@@ -127,19 +143,23 @@ def answer_vote(request):
     """Function view to receive AJAX call, returns the count of votes a given
     answer has recieved."""
     answer_id = request.POST["answer"]
-    value = None
-    if request.POST["value"] == "U":
-        value = True
-
-    else:
-        value = False
-
     answer = Answer.objects.get(uuid_id=answer_id)
+
+    is_answer_owner = is_owner(answer, request.user.username)
+    if is_answer_owner:
+        return JsonResponse({
+            "message": "You can't vote your own answer.",
+            "is_owner": is_answer_owner
+        })
+
+    value = True if request.POST["value"] == "U" else False
+
     try:
-        answer.votes.update_or_create(
-            user=request.user, defaults={"value": value}, )
-        answer.count_votes()
-        return JsonResponse({"votes": answer.total_votes})
+        update_votes(answer, request.user, value)
+        return JsonResponse({
+            "votes": answer.total_votes,
+            "is_owner": is_answer_owner
+        })
 
     except IntegrityError:  # pragma: no cover
         return JsonResponse({'status': 'false',
