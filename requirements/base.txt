@@ -1,7 +1,7 @@
 # Python
 # ------------------------------------------------------------------------------
 argon2-cffi  # https://github.com/hynek/argon2_cffi
-awesome-slugify  # https://github.com/dimka665/awesome-slugify
+python-slugify  # https://github.com/un33k/python-slugify
 Pillow  # https://github.com/python-pillow/Pillow
 pytz  # https://github.com/stub42/pytz
 redis  # https://github.com/antirez/redis

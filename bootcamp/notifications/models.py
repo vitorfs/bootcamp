@@ -154,7 +154,7 @@ class Notification(models.Model):
         if not self.slug:
             self.slug = slugify(
                 f"{self.recipient} {self.uuid_id} {self.verb}",
-                to_lower=True,
+                lowercase=True,
                 max_length=200,
             )
 

@@ -94,7 +94,7 @@ class Question(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(f"{self.title}-{self.id}", to_lower=True, max_length=80)
+            self.slug = slugify(f"{self.title}-{self.id}", lowercase=True, max_length=80)
 
         super().save(*args, **kwargs)
 

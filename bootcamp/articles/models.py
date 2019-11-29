@@ -75,7 +75,7 @@ class Article(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(
-                f"{self.user.username}-{self.title}", to_lower=True, max_length=80
+                f"{self.user.username}-{self.title}", lowercase=True, max_length=80
             )
 
         super().save(*args, **kwargs)
@@ -84,7 +84,7 @@ class Article(models.Model):
         return markdownify(self.content)
 
 
-def notify_comment(**kwargs):
+def notify_comment(**kwargs):  # pragma: no cover
     """Handler to be fired up upon comments signal to notify the author of a
     given article."""
     actor = kwargs["request"].user

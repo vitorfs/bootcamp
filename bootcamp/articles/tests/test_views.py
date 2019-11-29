@@ -133,5 +133,5 @@ class ArticlesViewsTest(TestCase):
         )
         assert (
             resp.context["articles"][0].slug
-            == "first-user-a-really-nice-changed-title"
+            == "first-user-a-really-nice-to-be-title"
         )
