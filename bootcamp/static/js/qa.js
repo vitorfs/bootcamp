@@ -21,6 +21,21 @@ $(function () {
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
   }
 
+  function toogleVote(voteIcon, vote, data, isAnswer) {
+    var idPrefix = isAnswer ? 'answer' : 'question';
+    var isOwner = data.is_owner;
+    if (isOwner === false) {
+      if (vote === "U") {
+        voteIcon.addClass('voted');
+        voteIcon.siblings(`#${idPrefix}DownVote`).removeClass('voted');
+      } else {
+        voteIcon.addClass('voted');
+        voteIcon.siblings(`#${idPrefix}UpVote`).removeClass('voted');
+      }
+      voteIcon.siblings(`#${idPrefix}Votes`).text(data.votes);
+    }
+  }
+
   var csrftoken = getCookie('csrftoken');
   var page_title = $(document).attr("title");
   // This sets up every ajax call with proper headers.
@@ -48,13 +63,13 @@ $(function () {
 
   $(".question-vote").click(function () {
     // Vote on a question.
-    var span = $(this);
+    var voteIcon = $(this);
     var question = $(this).closest(".question").attr("question-id");
-    vote = null;
     if ($(this).hasClass("up-vote")) {
       vote = "U";
     } else {
-      vote = "D";
+      $('#questionDownVote').addClass('voted');
+      $('#questionUpVote').removeClass('voted');
     }
     $.ajax({
       url: '/qa/question/vote/',
@@ -65,27 +80,20 @@ $(function () {
       type: 'post',
       cache: false,
       success: function (data) {
-        if (vote === "U") {
-          $('#questionUpVote').addClass('voted');
-          $('#questionDownVote').removeClass('voted');
-        } else {
-          $('#questionDownVote').addClass('voted');
-          $('#questionUpVote').removeClass('voted');
-        }
-        $("#questionVotes").text(data.votes);
+        toogleVote(voteIcon, vote, data, false);
       }
     });
   });
 
   $(".answer-vote").click(function () {
     // Vote on an answer.
-    var span = $(this);
+    var voteIcon = $(this);
     var answer = $(this).closest(".answer").attr("answer-id");
-    vote = null;
     if ($(this).hasClass("up-vote")) {
       vote = "U";
     } else {
-      vote = "D";
+      $('#answerDownVote').addClass('voted');
+      $('#answerUpVote').removeClass('voted');
     }
     $.ajax({
       url: '/qa/answer/vote/',
@@ -96,14 +104,7 @@ $(function () {
       type: 'post',
       cache: false,
       success: function (data) {
-        if (vote === "U") {
-          $('#answerUpVote').addClass('voted');
-          $('#answerDownVote').removeClass('voted');
-        } else {
-          $('#answerDownVote').addClass('voted');
-          $('#answerUpVote').removeClass('voted');
-        }
-        $("#answerVotes").text(data.votes);
+        toogleVote(voteIcon, vote, data, true);
       }
     });
   });

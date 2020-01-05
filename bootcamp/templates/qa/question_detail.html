@@ -27,9 +27,9 @@
         <div class="question-info options">
           <h3 class="{% if question.has_answer %}bg-success text-white{% endif %}">{{ question.count_answers }}</h3>
           <small class="text-secondary">{% trans 'Answers' %}</small>
-          <i id="questionUpVote" class="fa fa-chevron-up vote up-vote question-vote{% if request.user in question.get_upvoters %} voted{% endif %}" aria-hidden="true" title="{% trans 'Click to up vote; click again to toggle' %}"></i>
+          <i id="questionUpVote" class="fa fa-chevron-up {% if is_question_owner %} is-owner {% else %} vote {% endif %} up-vote question-vote{% if request.user in question.get_upvoters %} voted{% endif %}" aria-hidden="true" title="{% trans 'Click to up vote; click again to toggle' %}"></i>
           <h3 id="questionVotes">{{ question.total_votes }}</h3>
-          <i id="questionDownVote" class="fa fa-chevron-down vote down-vote question-vote{% if request.user in question.get_downvoters %} voted{% endif %}" aria-hidden="true" title="{% trans 'Click to down vote; click again to toggle' %}"></i>
+          <i id="questionDownVote" class="fa fa-chevron-down {% if is_question_owner %} is-owner {% else %} vote {% endif %} down-vote question-vote{% if request.user in question.get_downvoters %} voted{% endif %}" aria-hidden="true" title="{% trans 'Click to down vote; click again to toggle' %}"></i>
           <small class="text-secondary">{% trans 'Votes' %}</small>
         </div>
       </div>
@@ -55,7 +55,7 @@
     <div class="row">
       <ul class="col-md-12">
         {% for answer in question.answer_set.all %}
-          {% include 'qa/answer_sample.html' with answer=answer %}
+          {% include 'qa/answer_sample.html' with answer=answer username=request.user.username %}
         {% empty %}
           <div class="text-center">
             <h4>{% trans 'There are no answers yet.' %}</h4>

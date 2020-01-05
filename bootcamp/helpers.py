@@ -51,3 +51,31 @@ class AuthorRequiredMixin(View):
             raise PermissionDenied
 
         return super().dispatch(request, *args, **kwargs)
+
+
+def is_owner(obj, username):
+    """
+    Checks if model instance belongs to a user
+    Args:
+        obj: A model instance
+        username(str): User's username
+    Returns:
+        boolean: True is model instance belongs to user else False
+    """
+    if obj.user.username == username:
+        return True
+    return False
+
+
+def update_votes(obj, user, value):
+    """
+    Updates votes for either a question or answer
+    Args:
+        obj: Question or Answer model instance
+        user: User model instance voting an anwser or question
+        value(str): 'U' for an up vote or 'D' for down vote
+    """
+    obj.votes.update_or_create(
+        user=user, defaults={"value": value},
+    )
+    obj.count_votes()
