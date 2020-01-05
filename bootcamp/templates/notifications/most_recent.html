@@ -15,6 +15,6 @@
     <a type="button" class="btn btn-light text-center float-left" href="{% url 'notifications:unread' %}">{% trans 'See all' %}</a>
     <a type="button" class="btn btn-light text-center float-right" href="{% url 'notifications:mark_all_read' %}">{% trans 'Mark all as read' %}</a>
   {% else %}
-    <li class="text-center">{% trans 'You have no unread notification' %}</li>
+    <li class="text-center" data-empty="true">{% trans 'You have no unread notification' %}</li>
   {% endif %}
 </ul>
