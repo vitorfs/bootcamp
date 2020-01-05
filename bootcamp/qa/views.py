@@ -11,8 +11,8 @@ from django.views.generic import CreateView, ListView, DetailView
 from bootcamp.helpers import ajax_required
 from bootcamp.qa.models import Question, Answer
 from bootcamp.qa.forms import QuestionForm
-from bootcamp.utils.app_utils import is_owner
-from bootcamp.utils.qa_utils import update_votes
+from bootcamp.helpers import is_owner
+from bootcamp.helpers import update_votes
 
 
 class QuestionsIndexListView(LoginRequiredMixin, ListView):
