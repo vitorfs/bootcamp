@@ -17,7 +17,7 @@ class MessageQuerySet(models.query.QuerySet):
         """Returns all the messages sent between two users."""
         qs_one = self.filter(sender=sender, recipient=recipient)
         qs_two = self.filter(sender=recipient, recipient=sender)
-        return qs_one.union(qs_two).order_by('timestamp')
+        return qs_one.union(qs_two).order_by("timestamp")
 
     def get_most_recent_conversation(self, recipient):
         """Returns the most recent conversation counterpart's username."""
@@ -41,14 +41,23 @@ class MessageQuerySet(models.query.QuerySet):
 
 class Message(models.Model):
     """A private message sent between users."""
-    uuid_id = models.UUIDField(
-        primary_key=True, default=uuid.uuid4, editable=False)
+
+    uuid_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     sender = models.ForeignKey(
-        settings.AUTH_USER_MODEL, related_name='sent_messages',
-        verbose_name=_("Sender"), null=True, on_delete=models.SET_NULL)
+        settings.AUTH_USER_MODEL,
+        related_name="sent_messages",
+        verbose_name=_("Sender"),
+        null=True,
+        on_delete=models.SET_NULL,
+    )
     recipient = models.ForeignKey(
-        settings.AUTH_USER_MODEL, related_name='received_messages', null=True,
-        blank=True, verbose_name=_("Recipient"), on_delete=models.SET_NULL)
+        settings.AUTH_USER_MODEL,
+        related_name="received_messages",
+        null=True,
+        blank=True,
+        verbose_name=_("Recipient"),
+        on_delete=models.SET_NULL,
+    )
     timestamp = models.DateTimeField(auto_now_add=True)
     message = models.TextField(max_length=1000, blank=True)
     unread = models.BooleanField(default=True, db_index=True)
@@ -57,7 +66,7 @@ class Message(models.Model):
     class Meta:
         verbose_name = _("Message")
         verbose_name_plural = _("Messages")
-        ordering = ("-timestamp", )
+        ordering = ("-timestamp",)
 
     def __str__(self):
         return self.message
@@ -79,17 +88,15 @@ class Message(models.Model):
                         actual message.
         """
         new_message = Message.objects.create(
-            sender=sender,
-            recipient=recipient,
-            message=message
+            sender=sender, recipient=recipient, message=message
         )
         channel_layer = get_channel_layer()
         payload = {
-                'type': 'receive',
-                'key': 'message',
-                'message_id': new_message.uuid_id,
-                'sender': sender,
-                'recipient': recipient
-            }
+            "type": "receive",
+            "key": "message",
+            "message_id": new_message.uuid_id,
+            "sender": sender,
+            "recipient": recipient,
+        }
         async_to_sync(channel_layer.group_send)(recipient.username, payload)
         return new_message

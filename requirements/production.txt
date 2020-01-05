@@ -2,11 +2,12 @@
 
 -r base.txt
 
-boto3>=1.6.2  # pyup: update minor  # https://github.com/boto/boto3
-gevent>=1.2.2  # https://github.com/gevent/gevent
-raven>=6.6.0  # https://github.com/getsentry/raven-python
+boto3  # pyup: update minor  # https://github.com/boto/boto3
+gevent  # https://github.com/gevent/gevent
+raven  # https://github.com/getsentry/raven-python
+psycopg2 --no-binary psycopg2  # https://github.com/psycopg/psycopg2
 
 # Django
 # ------------------------------------------------------------------------------
-django-anymail>=2.0  # https://github.com/anymail/django-anymail
-django-storages>=1.6.5  # https://github.com/jschneier/django-storages
+django-anymail  # https://github.com/anymail/django-anymail
+django-storages  # https://github.com/jschneier/django-storages

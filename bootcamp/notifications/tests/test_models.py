@@ -9,20 +9,14 @@ class NotificationsModelsTest(TestCase):
         self.user = self.make_user("test_user")
         self.other_user = self.make_user("other_test_user")
         self.first_notification = Notification.objects.create(
-                actor=self.user,
-                recipient=self.other_user,
-                verb="L"
-            )
+            actor=self.user, recipient=self.other_user, verb="L"
+        )
         self.second_notification = Notification.objects.create(
-                actor=self.user,
-                recipient=self.other_user,
-                verb="C"
-            )
+            actor=self.user, recipient=self.other_user, verb="C"
+        )
         self.third_notification = Notification.objects.create(
-                actor=self.other_user,
-                recipient=self.user,
-                verb="A"
-            )
+            actor=self.other_user, recipient=self.user, verb="A"
+        )
 
     def test_return_values(self):
         assert isinstance(self.first_notification, Notification)
@@ -58,10 +52,7 @@ class NotificationsModelsTest(TestCase):
 
     def test_single_notification(self):
         Notification.objects.mark_all_as_read()
-        obj = News.objects.create(
-            user=self.user,
-            content="This is a short content."
-        )
+        obj = News.objects.create(user=self.user, content="This is a short content.")
         notification_handler(self.user, self.other_user, "C", action_object=obj)
         assert Notification.objects.unread().count() == 1
 

@@ -48,4 +48,4 @@ services:
       - "0.0.0.0:443:443"
 
   redis:
-    image: redis:4.0
+    image: redis:5.0

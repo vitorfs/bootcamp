@@ -8,18 +8,16 @@ class NewsModelsTest(TestCase):
         self.user = self.make_user("test_user")
         self.other_user = self.make_user("other_test_user")
         self.first_news = News.objects.create(
-            user=self.user,
-            content="This is a short content."
+            user=self.user, content="This is a short content."
         )
         self.second_news = News.objects.create(
-            user=self.user,
-            content="This the second content."
+            user=self.user, content="This the second content."
         )
         self.third_news = News.objects.create(
             user=self.other_user,
             content="This is an answer to the first news.",
             reply=True,
-            parent=self.first_news
+            parent=self.first_news,
         )
 
     def test_reply_this(self):

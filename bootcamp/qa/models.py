@@ -18,18 +18,20 @@ from markdownx.utils import markdownify
 class Vote(models.Model):
     """Model class to host every vote, made with ContentType framework to
     allow a single model connected to Questions and Answers."""
-    uuid_id = models.UUIDField(
-        primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    uuid_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
     value = models.BooleanField(default=True)
-    content_type = models.ForeignKey(ContentType,
-        blank=True, null=True, related_name="votes_on", on_delete=models.CASCADE)
-    object_id = models.CharField(
-        max_length=50, blank=True, null=True)
-    vote = GenericForeignKey(
-        "content_type", "object_id")
+    content_type = models.ForeignKey(
+        ContentType,
+        blank=True,
+        null=True,
+        related_name="votes_on",
+        on_delete=models.CASCADE,
+    )
+    object_id = models.CharField(max_length=50, blank=True, null=True)
+    vote = GenericForeignKey("content_type", "object_id")
 
     class Meta:
         verbose_name = _("Vote")
@@ -54,7 +56,7 @@ class QuestionQuerySet(models.query.QuerySet):
     def get_counted_tags(self):
         """Returns a dict element with tags and its count to show on the UI."""
         tag_dict = {}
-        query = self.all().annotate(tagged=Count('tags')).filter(tags__gt=0)
+        query = self.all().annotate(tagged=Count("tags")).filter(tags__gt=0)
         for obj in query:
             for tag in obj.tags.names():
                 if tag not in tag_dict:
@@ -68,14 +70,11 @@ class QuestionQuerySet(models.query.QuerySet):
 
 class Question(models.Model):
     """Model class to contain every question in the forum."""
+
     OPEN = "O"
     CLOSED = "C"
     DRAFT = "D"
-    STATUS = (
-        (OPEN, _("Open")),
-        (CLOSED, _("Closed")),
-        (DRAFT, _("Draft")),
-    )
+    STATUS = ((OPEN, _("Open")), (CLOSED, _("Closed")), (DRAFT, _("Draft")))
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=200, unique=True, blank=False)
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -95,8 +94,7 @@ class Question(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(f"{self.title}-{self.id}",
-                                to_lower=True, max_length=80)
+            self.slug = slugify(f"{self.title}-{self.id}", lowercase=True, max_length=80)
 
         super().save(*args, **kwargs)
 
@@ -135,11 +133,11 @@ class Question(models.Model):
 class Answer(models.Model):
     """Model class to contain every answer in the forum and to link it
     to its respective question."""
+
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     content = MarkdownxField()
-    uuid_id = models.UUIDField(
-        primary_key=True, default=uuid.uuid4, editable=False)
+    uuid_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     total_votes = models.IntegerField(default=0)
     timestamp = models.DateTimeField(auto_now_add=True)
     is_answer = models.BooleanField(default=False)
@@ -160,7 +158,9 @@ class Answer(models.Model):
         """Method to update the sum of the total votes. Uses this complex query
         to avoid race conditions at database level."""
         dic = Counter(self.votes.values_list("value", flat=True))
-        Answer.objects.filter(uuid_id=self.uuid_id).update(total_votes=dic[True] - dic[False])
+        Answer.objects.filter(uuid_id=self.uuid_id).update(
+            total_votes=dic[True] - dic[False]
+        )
         self.refresh_from_db()
 
     def get_upvoters(self):

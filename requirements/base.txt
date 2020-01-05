@@ -1,30 +1,29 @@
 # Python
 # ------------------------------------------------------------------------------
-argon2-cffi>=18.1.0  # https://github.com/hynek/argon2_cffi
-awesome-slugify>=1.6.5  # https://github.com/dimka665/awesome-slugify
-Pillow>=5.2.0  # https://github.com/python-pillow/Pillow
-psycopg2>=2.7.5 --no-binary psycopg2  # https://github.com/psycopg/psycopg2
-pytz>=2018.5  # https://github.com/stub42/pytz
-redis>=2.10.5  # https://github.com/antirez/redis
-whitenoise>=3.3.1  # https://github.com/evansd/whitenoise
+argon2-cffi  # https://github.com/hynek/argon2_cffi
+python-slugify  # https://github.com/un33k/python-slugify
+Pillow  # https://github.com/python-pillow/Pillow
+pytz  # https://github.com/stub42/pytz
+redis  # https://github.com/antirez/redis
+whitenoise  # https://github.com/evansd/whitenoise
 
 # Django
 # ------------------------------------------------------------------------------
-django>=2.0.7  # pyup: < 2.1  # https://www.djangoproject.com/
-django-allauth>=0.35.0  # https://github.com/pennersr/django-allauth
-django-contrib-comments>=1.8.0  # https://github.com/django/django-contrib-comments
-django-crispy-forms>=1.7.2  # https://github.com/django-crispy-forms/django-crispy-forms
-django-environ>=0.4.4  # https://github.com/joke2k/django-environ
-django-markdownx>=2.0.23  # https://github.com/neutronX/django-markdownx
-django-redis>=4.9.0  # https://github.com/niwinz/django-redis
-django-taggit>=0.22.2  # https://github.com/alex/django-taggit
-sorl-thumbnail>=12.4.1  # https://github.com/jazzband/sorl-thumbnail
+django  # pyup: < 2.1  # https://www.djangoproject.com/
+django-allauth  # https://github.com/pennersr/django-allauth
+django-contrib-comments  # https://github.com/django/django-contrib-comments
+django-crispy-forms  # https://github.com/django-crispy-forms/django-crispy-forms
+django-environ  # https://github.com/joke2k/django-environ
+django-markdownx  # https://github.com/neutronX/django-markdownx
+django-redis  # https://github.com/niwinz/django-redis
+django-taggit  # https://github.com/alex/django-taggit
+sorl-thumbnail  # https://github.com/jazzband/sorl-thumbnail
 
 # Channels
 # ------------------------------------------------------------------------------
-channels>=2.1.1  # https://github.com/django/channels
-channels-redis>=2.2.1  # https://github.com/django/channels_redis
+channels  # https://github.com/django/channels
+channels-redis  # https://github.com/django/channels_redis
 
 # GraphQL API
 # ------------------------------------------------------------------------------
-graphene-django>=2.0  # https://github.com/graphql-python/graphene-django
+graphene-django  # https://github.com/graphql-python/graphene-django

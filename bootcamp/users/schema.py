@@ -6,6 +6,7 @@ from bootcamp.users.models import User
 
 class UserType(DjangoObjectType):
     """DjangoObjectType to acces the User model."""
+
     picture = graphene.String()
     name = graphene.String()
 
@@ -33,7 +34,7 @@ class UserQuery(object):
         return User.objects.all()
 
     def resolve_user(self, info, **kwargs):
-        id = kwargs.get('id')
+        id = kwargs.get("id")
         if id is not None:
             return User.objects.get(id=id)
 

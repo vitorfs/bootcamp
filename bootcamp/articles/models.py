@@ -27,8 +27,9 @@ class ArticleQuerySet(models.query.QuerySet):
 
     def get_counted_tags(self):
         tag_dict = {}
-        query = self.filter(status='P').annotate(
-            tagged=Count('tags')).filter(tags__gt=0)
+        query = (
+            self.filter(status="P").annotate(tagged=Count("tags")).filter(tags__gt=0)
+        )
         for obj in query:
             for tag in obj.tags.names():
                 if tag not in tag_dict:
@@ -43,16 +44,17 @@ class ArticleQuerySet(models.query.QuerySet):
 class Article(models.Model):
     DRAFT = "D"
     PUBLISHED = "P"
-    STATUS = (
-        (DRAFT, _("Draft")),
-        (PUBLISHED, _("Published")),
-    )
+    STATUS = ((DRAFT, _("Draft")), (PUBLISHED, _("Published")))
 
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, null=True, related_name="author",
-        on_delete=models.SET_NULL)
+        settings.AUTH_USER_MODEL,
+        null=True,
+        related_name="author",
+        on_delete=models.SET_NULL,
+    )
     image = models.ImageField(
-        _('Featured image'), upload_to='articles_pictures/%Y/%m/%d/')
+        _("Featured image"), upload_to="articles_pictures/%Y/%m/%d/"
+    )
     timestamp = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=255, null=False, unique=True)
     slug = models.SlugField(max_length=80, null=True, blank=True)
@@ -72,8 +74,9 @@ class Article(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(f"{self.user.username}-{self.title}",
-                                to_lower=True, max_length=80)
+            self.slug = slugify(
+                f"{self.user.username}-{self.title}", lowercase=True, max_length=80
+            )
 
         super().save(*args, **kwargs)
 
@@ -81,15 +84,13 @@ class Article(models.Model):
         return markdownify(self.content)
 
 
-def notify_comment(**kwargs):
+def notify_comment(**kwargs):  # pragma: no cover
     """Handler to be fired up upon comments signal to notify the author of a
     given article."""
-    actor = kwargs['request'].user
-    receiver = kwargs['comment'].content_object.user
-    obj = kwargs['comment'].content_object
-    notification_handler(
-        actor, receiver, Notification.COMMENTED, action_object=obj
-        )
+    actor = kwargs["request"].user
+    receiver = kwargs["comment"].content_object.user
+    obj = kwargs["comment"].content_object
+    notification_handler(actor, receiver, Notification.COMMENTED, action_object=obj)
 
 
 comment_was_posted.connect(receiver=notify_comment)

@@ -6,7 +6,7 @@ volumes:
 services:
 
   postgres:
-    image: postgres:10
+    image: postgres:11-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data
     env_file: .env
@@ -14,6 +14,6 @@ services:
       - '5432:5432'
 
   redis:
-    image: redis:4.0
+    image: redis:5.0
     ports:
       - '6379:6379'

@@ -15,17 +15,22 @@ from bootcamp.notifications.models import Notification, notification_handler
 class News(models.Model):
     """News model to contain small information snippets in the same manner as
     Twitter does."""
+
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, null=True, related_name="publisher",
-        on_delete=models.SET_NULL)
-    parent = models.ForeignKey("self", blank=True,
-        null=True, on_delete=models.CASCADE, related_name="thread")
+        settings.AUTH_USER_MODEL,
+        null=True,
+        related_name="publisher",
+        on_delete=models.SET_NULL,
+    )
+    parent = models.ForeignKey(
+        "self", blank=True, null=True, on_delete=models.CASCADE, related_name="thread"
+    )
     timestamp = models.DateTimeField(auto_now_add=True)
-    uuid_id = models.UUIDField(
-        primary_key=True, default=uuid.uuid4, editable=False)
+    uuid_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     content = models.TextField(max_length=280)
-    liked = models.ManyToManyField(settings.AUTH_USER_MODEL,
-        blank=True, related_name="liked_news")
+    liked = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, blank=True, related_name="liked_news"
+    )
     reply = models.BooleanField(verbose_name=_("Is a reply?"), default=False)
 
     class Meta:
@@ -41,12 +46,11 @@ class News(models.Model):
         if not self.reply:
             channel_layer = get_channel_layer()
             payload = {
-                    "type": "receive",
-                    "key": "additional_news",
-                    "actor_name": self.user.username
-
-                }
-            async_to_sync(channel_layer.group_send)('notifications', payload)
+                "type": "receive",
+                "key": "additional_news",
+                "actor_name": self.user.username,
+            }
+            async_to_sync(channel_layer.group_send)("notifications", payload)
 
     def get_absolute_url(self):
         return reverse("news:detail", kwargs={"uuid_id": self.uuid})
@@ -57,10 +61,14 @@ class News(models.Model):
 
         else:
             self.liked.add(user)
-            notification_handler(user, self.user,
-                                 Notification.LIKED, action_object=self,
-                                 id_value=str(self.uuid_id),
-                                 key='social_update')
+            notification_handler(
+                user,
+                self.user,
+                Notification.LIKED,
+                action_object=self,
+                id_value=str(self.uuid_id),
+                key="social_update",
+            )
 
     def get_parent(self):
         if self.parent:
@@ -80,14 +88,16 @@ class News(models.Model):
         """
         parent = self.get_parent()
         reply_news = News.objects.create(
-            user=user,
-            content=text,
-            reply=True,
-            parent=parent
+            user=user, content=text, reply=True, parent=parent
         )
         notification_handler(
-            user, parent.user, Notification.REPLY, action_object=reply_news,
-            id_value=str(parent.uuid_id), key='social_update')
+            user,
+            parent.user,
+            Notification.REPLY,
+            action_object=reply_news,
+            id_value=str(parent.uuid_id),
+            key="social_update",
+        )
 
     def get_thread(self):
         parent = self.get_parent()

@@ -1,27 +1,27 @@
 -r ./base.txt
 
-ipdb>=0.11  # https://github.com/gotcha/ipdb
-Sphinx>=1.7.1  # https://github.com/sphinx-doc/sphinx
-Werkzeug>=0.14.1  # https://github.com/pallets/werkzeug
+ipdb #  https://github.com/gotcha/ipdb
+Werkzeug  # https://github.com/pallets/werkzeug
+psycopg2-binary # https://github.com/psycopg/psycopg2
 
 # Testing
 # ------------------------------------------------------------------------------
-pytest>=3.4.2  # https://github.com/pytest-dev/pytest
-pytest-cov>=2.5.1  # https://github.com/pytest-dev/pytest-cov
-pytest-sugar>=0.9.1  # https://github.com/Frozenball/pytest-sugar
+pytest  # https://github.com/pytest-dev/pytest
+pytest-cov  # https://github.com/pytest-dev/pytest-cov
+pytest-sugar  # https://github.com/Frozenball/pytest-sugar
+pytest-django  # https://github.com/pytest-dev/pytest-django
 
 # Code quality
 # ------------------------------------------------------------------------------
-coverage>=4.5.1  # https://github.com/nedbat/coveragepy
-flake8>=3.5.0  # https://github.com/PyCQA/flake8
-pylint-common>=0.2.5  # https://github.com/landscapeio/pylint-common
-pylint-django>=0.9.0  # https://github.com/PyCQA/pylint-django
-pylint>=1.8  # https://github.com/PyCQA/pylint
+coverage  # https://github.com/nedbat/coveragepy
+bandit  # https://github.com/PyCQA/bandit
+pylint-common  # https://github.com/landscapeio/pylint-common
+pylint-django  # https://github.com/PyCQA/pylint-django
+pylint  # https://github.com/PyCQA/pylint
 
 # Django
 # ------------------------------------------------------------------------------
-django-coverage-plugin>=1.5.0  # https://github.com/nedbat/django_coverage_plugin
-django-debug-toolbar>=1.9.1  # https://github.com/jazzband/django-debug-toolbar
-django-extensions>=2.0.5  # https://github.com/django-extensions/django-extensions
-django-test-plus>=1.0.22  # https://github.com/revsys/django-test-plus
-pytest-django>=3.1.2  # https://github.com/pytest-dev/pytest-django
+django-coverage-plugin  # https://github.com/nedbat/django_coverage_plugin
+django-debug-toolbar  # https://github.com/jazzband/django-debug-toolbar
+django-extensions  # https://github.com/django-extensions/django-extensions
+django-test-plus  # https://github.com/revsys/django-test-plus

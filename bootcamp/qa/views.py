@@ -15,6 +15,7 @@ from bootcamp.qa.forms import QuestionForm
 
 class QuestionsIndexListView(LoginRequiredMixin, ListView):
     """CBV to render a list view with all the registered questions."""
+
     model = Question
     paginate_by = 20
     context_object_name = "questions"
@@ -29,6 +30,7 @@ class QuestionsIndexListView(LoginRequiredMixin, ListView):
 class QuestionAnsListView(QuestionsIndexListView):
     """CBV to render a list view with all question which have been already
     marked as answered."""
+
     def get_queryset(self, **kwargs):
         return Question.objects.get_answered()
 
@@ -41,6 +43,7 @@ class QuestionAnsListView(QuestionsIndexListView):
 class QuestionListView(QuestionsIndexListView):
     """CBV to render a list view with all question which haven't been marked
     as answered."""
+
     def get_queryset(self, **kwargs):
         return Question.objects.get_unanswered()
 
@@ -53,6 +56,7 @@ class QuestionListView(QuestionsIndexListView):
 class QuestionDetailView(LoginRequiredMixin, DetailView):
     """View to call a given Question object and to render all the details about
     that Question."""
+
     model = Question
     context_object_name = "question"
 
@@ -61,6 +65,7 @@ class CreateQuestionView(LoginRequiredMixin, CreateView):
     """
     View to handle the creation of a new question
     """
+
     form_class = QuestionForm
     template_name = "qa/question_form.html"
     message = _("Your question has been created.")
@@ -78,8 +83,9 @@ class CreateAnswerView(LoginRequiredMixin, CreateView):
     """
     View to create new answers for a given question
     """
+
     model = Answer
-    fields = ["content", ]
+    fields = ["content"]
     message = _("Thank you! Your answer has been posted.")
 
     def form_valid(self, form):
@@ -89,8 +95,7 @@ class CreateAnswerView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         messages.success(self.request, self.message)
-        return reverse(
-            "qa:question_detail", kwargs={"pk": self.kwargs["question_id"]})
+        return reverse("qa:question_detail", kwargs={"pk": self.kwargs["question_id"]})
 
 
 @login_required
@@ -109,15 +114,14 @@ def question_vote(request):
 
     question = Question.objects.get(pk=question_id)
     try:
-        question.votes.update_or_create(
-            user=request.user, defaults={"value": value}, )
+        question.votes.update_or_create(user=request.user, defaults={"value": value})
         question.count_votes()
         return JsonResponse({"votes": question.total_votes})
 
     except IntegrityError:  # pragma: no cover
-        return JsonResponse({'status': 'false',
-                             'message': _("Database integrity error.")},
-                            status=500)
+        return JsonResponse(
+            {"status": "false", "message": _("Database integrity error.")}, status=500
+        )
 
 
 @login_required
@@ -136,15 +140,14 @@ def answer_vote(request):
 
     answer = Answer.objects.get(uuid_id=answer_id)
     try:
-        answer.votes.update_or_create(
-            user=request.user, defaults={"value": value}, )
+        answer.votes.update_or_create(user=request.user, defaults={"value": value})
         answer.count_votes()
         return JsonResponse({"votes": answer.total_votes})
 
     except IntegrityError:  # pragma: no cover
-        return JsonResponse({'status': 'false',
-                             'message': _("Database integrity error.")},
-                            status=500)
+        return JsonResponse(
+            {"status": "false", "message": _("Database integrity error.")}, status=500
+        )
 
 
 @login_required
@@ -156,4 +159,4 @@ def accept_answer(request):
     answer_id = request.POST["answer"]
     answer = Answer.objects.get(uuid_id=answer_id)
     answer.accept_answer()
-    return JsonResponse({'status': 'true'}, status=200)
+    return JsonResponse({"status": "true"}, status=200)
