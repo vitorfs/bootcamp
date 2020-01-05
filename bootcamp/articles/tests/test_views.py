@@ -127,11 +127,7 @@ class ArticlesViewsTest(TestCase):
         resp = self.client.get(reverse("articles:drafts"))
         assert resp.status_code == 200
         assert response.status_code == 302
+        assert resp.context["articles"][0].title == "A really nice changed title"
         assert (
-            resp.context["articles"][0].title
-            == "A really nice changed title"
-        )
-        assert (
-            resp.context["articles"][0].slug
-            == "first-user-a-really-nice-to-be-title"
+            resp.context["articles"][0].slug == "first-user-a-really-nice-to-be-title"
         )
