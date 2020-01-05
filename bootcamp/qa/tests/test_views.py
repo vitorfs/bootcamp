@@ -117,3 +117,15 @@ class QAViewsTest(TestCase):
             HTTP_X_REQUESTED_WITH="XMLHttpRequest",
         )
         assert response_one.status_code == 200
+
+    def test_owner_in_context(self):
+        response_one = self.client.get(
+            reverse("qa:question_detail", kwargs={"pk": self.question_one.id})
+        )
+        response_two = self.other_client.get(
+            reverse("qa:question_detail", kwargs={"pk": self.question_two.id})
+        )
+        assert response_one.status_code == 200
+        assert response_two.status_code == 200
+        assert response_one.context.get("is_question_owner") is True
+        assert response_two.context.get("is_question_owner") is False

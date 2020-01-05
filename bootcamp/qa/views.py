@@ -118,7 +118,6 @@ def question_vote(request):
     question has recieved."""
     question_id = request.POST["question"]
     question = Question.objects.get(pk=question_id)
-
     is_question_owner = is_owner(question, request.user.username)
     if is_question_owner:
         return JsonResponse(
@@ -150,7 +149,6 @@ def answer_vote(request):
     answer has recieved."""
     answer_id = request.POST["answer"]
     answer = Answer.objects.get(uuid_id=answer_id)
-
     is_answer_owner = is_owner(answer, request.user.username)
     if is_answer_owner:
         return JsonResponse(
