@@ -2,8 +2,8 @@ language: python
 python:
   - "3.6"
 env:
-  - DJANGO_VERSION=2.0.7
-  - DJANGO_VERSION=1.11.14
+  - DJANGO_VERSION=2.2.9
+  - DJANGO_VERSION=3.0.3
 branches:
   only:
     - master
