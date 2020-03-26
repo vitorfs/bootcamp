@@ -6,6 +6,7 @@ from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
 from django.views.generic import ListView
 
+
 from bootcamp.messager.models import Message
 from bootcamp.helpers import ajax_required
 
@@ -80,5 +81,9 @@ def receive_message(request):
     """Simple AJAX functional view to return a rendered single message on the
     receiver side providing realtime connections."""
     message_id = request.GET.get("message_id")
-    message = Message.objects.get(pk=message_id)
+    try:
+        message = Message.objects.get(pk=message_id)
+    except Message.DoesNotExist as e:
+        raise e
+
     return render(request, "messager/single_message.html", {"message": message})

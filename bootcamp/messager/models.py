@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.db import transaction
 
 from asgiref.sync import async_to_sync
 
@@ -94,9 +95,11 @@ class Message(models.Model):
         payload = {
             "type": "receive",
             "key": "message",
-            "message_id": new_message.uuid_id,
-            "sender": sender,
-            "recipient": recipient,
+            "message_id": str(new_message.uuid_id),
+            "sender": str(sender),
+            "recipient": str(recipient),
         }
-        async_to_sync(channel_layer.group_send)(recipient.username, payload)
+        transaction.on_commit(
+            lambda: async_to_sync(channel_layer.group_send)(recipient.username,
+                                                            payload))
         return new_message
