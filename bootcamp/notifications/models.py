@@ -4,7 +4,6 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
-from django.core import serializers
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -46,23 +45,9 @@ class NotificationQuerySet(models.query.QuerySet):
 
         return qs.update(unread=True)
 
-    def serialize_latest_notifications(self, recipient=None):
-        """Returns a serialized version of the most recent unread elements in
-        the queryset"""
-        qs = self.unread()[:5]
-        if recipient:
-            qs = qs.filter(recipient=recipient)[:5]
-
-        notification_dic = serializers.serialize("json", qs)
-        return notification_dic
-
-    def get_most_recent(self, recipient=None):
+    def get_most_recent(self):
         """Returns the most recent unread elements in the queryset"""
-        qs = self.unread()[:5]
-        if recipient:
-            qs = qs.filter(recipient=recipient)[:5]
-
-        return qs
+        return self.unread()[:5]
 
 
 class Notification(models.Model):
