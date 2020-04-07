@@ -47,7 +47,12 @@
               {% get_comment_form for article as form %}
               <form action="{% comment_form_target %}" method="POST">
                 {% csrf_token %}
-                {{ form|crispy }}
+                {{ form.comment|as_crispy_field }}
+                {{ form.honeyspot }}
+                {{ form.content_type }}
+                {{ form.object_pk }}
+                {{ form.timestamp }}
+                {{ form.security_hash }}
                 <input type="hidden" name="next" value="{% url 'articles:article' article.slug %}" />
                 <input type="submit" value="{% trans 'Add comment' %}" id="id_submit" />
               </form>
