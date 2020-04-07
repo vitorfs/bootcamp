@@ -72,7 +72,7 @@
             {% endthumbnail %}
             <div class="media-body">
               <h5 class="mt-0">{{ comment.user.get_profile_name|title }}</h5>
-              {{ comment }}
+              {{ comment.comment|linebreaks }}
             </div>
           </div>
         {% endfor %}
