@@ -10,6 +10,7 @@ from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 
 from bootcamp.notifications.models import Notification, notification_handler
+from bootcamp.news.metadatareader import Metadata, Metadatareader
 
 
 class News(models.Model):
@@ -32,6 +33,11 @@ class News(models.Model):
         settings.AUTH_USER_MODEL, blank=True, related_name="liked_news"
     )
     reply = models.BooleanField(verbose_name=_("Is a reply?"), default=False)
+    meta_url = models.CharField(max_length=2048, null=True)
+    meta_type = models.CharField(max_length=255, null=True)
+    meta_title = models.CharField(max_length=255, null=True)
+    meta_description = models.TextField(max_length=255, null=True)
+    meta_image = models.CharField(max_length=255, null=True)
 
     class Meta:
         verbose_name = _("News")
@@ -42,6 +48,14 @@ class News(models.Model):
         return str(self.content)
 
     def save(self, *args, **kwargs):
+        #extract metada from content url
+        metadata = Metadatareader.get_metadata_from_url_in_text(self.content)
+        self.meta_url = metadata.url[0:2048]
+        self.meta_type = metadata.type[0:255]
+        self.meta_title = metadata.title[0:255]
+        self.meta_description = metadata.description[0:255]
+        self.meta_image = metadata.image[0:255]
+        
         super().save(*args, **kwargs)
         if not self.reply:
             channel_layer = get_channel_layer()
