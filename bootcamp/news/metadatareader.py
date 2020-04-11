@@ -1,6 +1,5 @@
 import re
-import subprocess
-from subprocess import TimeoutExpired
+import requests
 from bs4 import BeautifulSoup, Comment
 from urllib.parse import urljoin
 
@@ -50,14 +49,13 @@ class Metadatareader:
         # get final url after all redirections
         # then get html of the final url
         # fill the meta data with the info available
-        url = Metadatareader.get_final_url(url)
-        url_content = Metadatareader.get_url_content(url)
-        soup = BeautifulSoup(url_content, "html.parser")
+        # url = Metadatareader.get_final_url(url)
+        # url_content = Metadatareader.get_url_content(url)
+        response = requests.get(url)
+        soup = BeautifulSoup(response.content, "html.parser")
         metadata = Metadata()
-
         metadata.url = url
         metadata.type = "website"
-
         for meta in soup.findAll("meta"):
             # priorize using Open Graph Protocol
             # https://ogp.me/
@@ -103,53 +101,6 @@ class Metadatareader:
             metadata.description = metadata.description.strip()
 
         return metadata
-
-    @staticmethod
-    def get_final_url(url, timeout=5):
-        # get final url after all redirections
-        # get http response header
-        # look for the "Location: " header
-        proc = subprocess.Popen(
-            [
-                "curl",
-                "-Ls",  # follow redirect 301 and silently
-                "-I",  # don't download html body
-                url,
-            ],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-        )
-        try:
-            out, err = proc.communicate(timeout=timeout)
-        except TimeoutExpired:
-            proc.kill()
-            out, err = proc.communicate()
-        header = str(out).split("\\r\\n")
-        for line in header:
-            if line.startswith("Location: "):
-                return line.replace("Location: ", "")
-        return url
-
-    @staticmethod
-    def get_url_content(url, timeout=5):
-        # get url html
-        proc = subprocess.Popen(
-            [
-                "curl",
-                "-i",
-                "-k",  # ignore ssl certificate requisite
-                "-L",  # follow redirect 301
-                url,
-            ],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-        )
-        try:
-            out, err = proc.communicate(timeout=timeout)
-        except TimeoutExpired:
-            proc.kill()
-            out, err = proc.communicate()
-        return out
 
     @staticmethod
     def get_meta_property(meta, property_name, default_value=""):
