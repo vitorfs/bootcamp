@@ -1,7 +1,14 @@
+import re
+from urllib.parse import urljoin
+
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponseBadRequest
-from django.views.generic import View
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.http import HttpResponseBadRequest
+from django.utils.translation import ugettext_lazy as _
+from django.views.generic import View
+
+import bs4
+import requests
 
 
 def paginate_data(qs, page_size, page, paginated_type, **kwargs):
@@ -79,3 +86,65 @@ def update_votes(obj, user, value):
         user=user, defaults={"value": value},
     )
     obj.count_votes()
+
+
+def fetch_metadata(text):
+    urls = get_urls(text)
+    return get_metadata(urls[0])
+
+
+def get_urls(text):
+    """Method to look for all URLs in a given text, extract them and return them as a tuple of urls.
+        :requires:
+
+        :param text: A valid block of text of any lenght.
+
+        :returns:
+        A tuple of valid URLs extracted from the text.
+        """
+    regex = r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
+    return re.findall(regex, text)
+
+
+def get_metadata(url):
+    """This function looks for the page of a given URL, extracts the page content and parses the content
+    with bs4. searching for the page meta tags giving priority to the Open Graph Protocol
+    https://ogp.me/, then it returns the metadata in case there is any, or tries to build one.
+    :requires:
+
+    :param url: Any valid URL to search for.
+
+    :returns:
+    A dictionary with metadata from a given webpage.
+    """
+    response = requests.get(url)
+    soup = bs4.BeautifulSoup(response.content)
+    ogs = soup.html.head.find_all(property=re.compile(r"^og"))
+    data = {
+        og.get("property", _("Invalid metadata property."))[3:]: og.get(
+            "content", _("Metadata is not valid.")
+        )
+        for og in ogs
+    }
+    if not data.get("title"):
+        data["title"] = soup.html.title.text
+
+    if data.get("image") == _("Metadata is not valid."):
+        images = soup.find_all("img")
+        if len(images) > 0:
+            data["image"] = urljoin(url, images[0].get("src"))
+
+    if data.get("description") == _("Metadata is not valid."):
+        for text in soup.body.find_all(string=True):
+            if (
+                text.parent.name != "script"
+                and text.parent.name != "style"
+                and not isinstance(text, bs4.Comment)
+            ):
+                data["description"] += text
+
+    data["description"] = re.sub("\n|\r|\t", " ", data["description"])
+    data["description"] = re.sub(" +", " ", data["description"])
+    data["description"] = data["description"].strip()[:255]
+
+    return data
