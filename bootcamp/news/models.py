@@ -48,14 +48,14 @@ class News(models.Model):
         return str(self.content)
 
     def save(self, *args, **kwargs):
-        #extract metada from content url
+        # extract metada from content url
         metadata = Metadatareader.get_metadata_from_url_in_text(self.content)
         self.meta_url = metadata.url[0:2048]
         self.meta_type = metadata.type[0:255]
         self.meta_title = metadata.title[0:255]
         self.meta_description = metadata.description[0:255]
         self.meta_image = metadata.image[0:255]
-        
+
         super().save(*args, **kwargs)
         if not self.reply:
             channel_layer = get_channel_layer()
