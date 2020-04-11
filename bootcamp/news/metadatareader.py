@@ -39,18 +39,28 @@ class Metadatareader:
 
     @staticmethod
     def get_urls_from_text(text):
-        # look for all urls in text
-        # and convert it to an array of urls
+        """Method to look for all URLs in a given text, extract them and return them as a tuple of urls.
+        :requires:
+
+        :param text: A valid block of text of any lenght.
+
+        :returns:
+        A tuple of valid URLs extracted from the text.
+        """
         regex = r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
         return re.findall(regex, text)
 
     @staticmethod
     def get_url_metadata(url):
-        # get final url after all redirections
-        # then get html of the final url
-        # fill the meta data with the info available
-        # url = Metadatareader.get_final_url(url)
-        # url_content = Metadatareader.get_url_content(url)
+        """This method looks for the page of a given URL, extracts the page content and parses the content with
+        BeautifulSoup searching for the page meta, then it returns the metadata in case there is any.
+        :requires:
+
+        :param url: Any valid URL to search for.
+
+        :returns:
+        Metadata information extracted from a webpage.
+        """
         response = requests.get(url)
         soup = BeautifulSoup(response.content, "html.parser")
         metadata = Metadata()
