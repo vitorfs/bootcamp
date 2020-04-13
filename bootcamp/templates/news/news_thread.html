@@ -14,8 +14,8 @@
             </div>
             <div class="post">
                 {% if reply.user == request.user %}
-                    <a href="{% url 'news:delete_news' reply.pk %}">
-                        <i class="fa fa-times pull-right" aria-hidden="true"
+                    <a href="#">
+                        <i class="fa fa-times pull-right remove-news" aria-hidden="true"
                            title="{% trans 'Click to remove this news' %}"></i>
                     </a>
                 {% endif %}
