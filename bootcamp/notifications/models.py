@@ -6,6 +6,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.utils.html import escape
 
 from asgiref.sync import async_to_sync
 
@@ -85,7 +86,7 @@ class Notification(models.Model):
     NOTIFICATION_TYPES = (
         (LIKED, _("liked")),
         (COMMENTED, _("commented")),
-        (FAVORITED, _("cavorited")),
+        (FAVORITED, _("favorited")),
         (ANSWERED, _("answered")),
         (ACCEPTED_ANSWER, _("accepted")),
         (EDITED_ARTICLE, _("edited")),
@@ -97,6 +98,18 @@ class Notification(models.Model):
         (SIGNUP, _("created an account")),
         (REPLY, _("replied to")),
     )
+    _LIKED_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/news/{3}/">{4}</a>'  # noqa: E501
+    _COMMENTED_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/news/{3}/">{4}</a>'  # noqa: E501
+    _FAVORITED_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/qa/{3}/">{4}</a>'  # noqa: E501
+    _ANSWERED_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/qa/{3}/">{4}</a>'  # noqa: E501
+    _ACCEPTED_ANSWER_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/qa/{3}/">{4}</a>'  # noqa: E501
+    _UPVOTED_QUESTION_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/qa/{3}/">{4}</a>'  # noqa: E501
+    _UPVOTED_ANSWER_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/qa/{3}/">{4}</a>'  # noqa: E501
+    _EDITED_ARTICLE_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/articles/{3}/">{4}</a>'  # noqa: E501
+    _ALSO_COMMENTED_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/news/{3}/">{4}</a>'  # noqa: E501
+    _USER_LOGIN_TEMPLATE = '<a href="/{0}/">{1}</a> has just logged in.'  # noqa: E501
+    _USER_LOGOUT_TEMPLATE = '<a href="/{0}/">{1}</a> has just logged out.'  # noqa: E501
+
     actor = models.ForeignKey(
         settings.AUTH_USER_MODEL, related_name="notify_actor", on_delete=models.CASCADE
     )
@@ -131,9 +144,111 @@ class Notification(models.Model):
 
     def __str__(self):
         if self.action_object:
-            return f"{self.actor} {self.get_verb_display()} {self.action_object} {self.time_since()} ago"
+            if self.verb == self.LIKED:
+                return self._LIKED_TEMPLATE.format(
+                    escape(self.actor),
+                    escape(self.actor),
+                    escape(self.get_verb_display()),
+                    self.action_object_object_id,
+                    escape(self.get_summary(self.action_object.content))
+                )
 
-        return f"{self.actor} {self.get_verb_display()} {self.time_since()} ago"
+            elif self.verb == self.REPLY:
+                return self._COMMENTED_TEMPLATE.format(
+                    escape(self.actor),
+                    escape(self.actor),
+                    escape(self.get_verb_display()),
+                    self.action_object_object_id,
+                    escape(self.get_summary(self.action_object.content))
+                )
+
+            elif self.verb == self.COMMENTED:
+                return self._COMMENTED_TEMPLATE.format(
+                    escape(self.actor),
+                    escape(self.actor),
+                    escape(self.get_verb_display()),
+                    self.action_object_object_id,
+                    escape(self.get_summary(self.action_object.content))
+                )
+
+            elif self.verb == self.FAVORITED:
+                return self._FAVORITED_TEMPLATE.format(
+                    escape(self.actor),
+                    escape(self.actor),
+                    escape(self.get_verb_display()),
+                    self.action_object_object_id,
+                    escape(self.get_summary(self.action_object.content))
+                )
+
+            elif self.verb == self.ANSWERED:
+                return self._ANSWERED_TEMPLATE.format(
+                    escape(self.actor),
+                    escape(self.actor),
+                    escape(self.get_verb_display()),
+                    self.action_object_object_id,
+                    escape(self.get_summary(self.action_object.content))
+                )
+
+            elif self.verb == self.ACCEPTED_ANSWER:
+                return self._ACCEPTED_ANSWER_TEMPLATE.format(
+                    escape(self.actor),
+                    escape(self.actor),
+                    escape(self.get_verb_display()),
+                    self.action_object_object_id,
+                    escape(self.get_summary(self.action_object.content))
+                )
+
+            elif self.verb == self.EDITED_ARTICLE:
+                return self._EDITED_ARTICLE_TEMPLATE.format(
+                    escape(self.actor),
+                    escape(self.actor),
+                    escape(self.get_verb_display()),
+                    self.action_object_object_id,
+                    escape(self.get_summary(self.action_object.content))
+                )
+
+            elif self.verb == self.ALSO_COMMENTED:
+                return self._ALSO_COMMENTED_TEMPLATE.format(
+                    escape(self.actor),
+                    escape(self.actor),
+                    escape(self.get_verb_display()),
+                    self.action_object_object_id,
+                    escape(self.get_summary(self.action_object.content))
+                )
+
+            elif self.verb == self.LOGGED_IN:
+                return self._USER_LOGIN_TEMPLATE.format(
+                    escape(self.actor),
+                    escape(self.actor)
+                )
+
+            elif self.verb == self.LOGGED_OUT:
+                return self._USER_LOGOUT_TEMPLATE.format(
+                    escape(self.actor),
+                    escape(self.actor)
+                )
+
+            elif self.verb == self.VOTED:
+                return self._UPVOTED_QUESTION_TEMPLATE.format(
+                    escape(self.actor),
+                    escape(self.actor),
+                    escape(self.get_verb_display()),
+                    self.action_object_object_id,
+                    escape(self.get_summary(self.action_object))
+                )
+
+            else:
+                return 'Ooops! Something went wrong.'
+        else:
+            return f"{self.actor} {self.get_verb_display()} {self.time_since()} ago"
+
+    def get_summary(self, value):
+        summary_size = 50
+        if len(value) > summary_size:
+            return '{0}...'.format(value[:summary_size])
+
+        else:
+            return value
 
     def save(self, *args, **kwargs):
         if not self.slug:

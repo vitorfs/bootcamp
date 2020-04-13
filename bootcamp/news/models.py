@@ -94,7 +94,7 @@ class News(models.Model):
             user,
             parent.user,
             Notification.REPLY,
-            action_object=reply_news,
+            action_object=reply_news.parent,
             id_value=str(parent.uuid_id),
             key="social_update",
         )

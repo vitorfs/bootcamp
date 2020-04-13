@@ -17,12 +17,10 @@
       {% for user in users_list %}
         <a href="{% url 'messager:conversation_detail' user.username  %}"
            class="list-group-item list-group-item-action {% if active == user.username %}active{% endif %}">
-          {% thumbnail user.picture "x30" as im %}
-            <img src="{{ im.url }}" alt="{% trans 'Picture Profile' %}">
-          {% empty %}
-            <img src="{% static 'img/user.png' %}" height="30px" alt="{% trans 'No Profile Picture' %}" />
-          {% endthumbnail %}
-          {{ user.get_profile_name|title }}
+          <img src="{{ user.get_picture }}" class="user-image"
+                                         style="width: 30px; border-radius: 50%;"
+                                         alt="{% trans 'User Image' %}">
+          {{ user.get_profile_name }}
         </a>
       {% endfor %}
     </div>

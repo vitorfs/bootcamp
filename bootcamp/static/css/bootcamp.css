@@ -19,6 +19,8 @@ header .navbar-brand {
 .page-header {
   margin-top: 15px;
   margin-bottom: 15px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid #eee;
 }
 
 .page-header h1 {
@@ -32,16 +34,43 @@ header .navbar-brand {
   padding: 1em 0;
 }
 
-#notifications {
+.bell-notifications {
   font-size: 1.5em;
-  padding: 13px;
-  color: #dddddd;
+  color: white;
+  text-decoration: none;
+  position: relative;
+  display: inline-block;
+  padding: 4px;
+  margin-right: 10px;
 }
 
-#notifications.new-notifications {
-  color: #428bca;
+.bell-notifications .badge {
+  font-size: 50%;
+  position: absolute;
+  right: -5px;
+  border-radius: 50%;
+  background-color: red;
+  color: white;
 }
 
+.inbox-notifications {
+  font-size: 1.5em;
+  color: white;
+  text-decoration: none;
+  position: relative;
+  display: inline-block;
+  padding: 4px;
+  margin-right: 10px;
+}
+
+.inbox-notifications .badge {
+  font-size: 50%;
+  position: absolute;
+  right: -5px;
+  border-radius: 50%;
+  background-color: red;
+  color: white;
+}
 
 .alert-debug {
   color: black;
@@ -86,3 +115,4 @@ header .navbar-brand {
   margin-left: 45px;
   margin-bottom: 0;
 }
+

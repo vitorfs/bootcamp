@@ -1,16 +1,50 @@
-.stream {
-  margin: 2em 0 0 0;
+ul.stream {
+  margin: 0;
   padding: 0;
 }
 
-.stream li {
+ul.stream li {
   list-style: none;
-  border-style: solid none solid none;
-
+  border-bottom: 1px solid #eeeeee;
 }
 
-.stream li:last-child {
+ul.stream li:last-child {
   border-bottom: none;
+}
+
+ul.stream li a img.user {
+  width: 60px;
+  border-radius: 100px;
+  float: left;
+}
+
+ul.stream li div.post {
+  padding: 0 0.1em 0 1.2em;
+  overflow-x: auto;
+}
+
+ul.stream li div.post h3 {
+  font-size: 1em;
+  margin: 0;
+  margin-bottom: .2em;
+}
+
+ul.stream li div.post h3 small {
+  margin-left: .3em;
+  font-size: .8em;
+}
+
+ul.stream li div.post p {
+  margin: 0;
+}
+
+ul.stream li div.post div.interaction {
+  padding-top: 0;
+}
+
+ul.stream li div.post div.interaction a {
+  margin-right: .6em;
+  font-size: .8em;
 }
 
 .post {
@@ -22,11 +56,9 @@
 .timestamp {
   font-size: 0.8em;
   color: grey;
-  float: right;
 }
 
 .profile-picture {
-  margin-right: 0.5em;
   float: left;
 }
 
@@ -35,19 +67,28 @@
   border-radius: 50%;
 }
 
+.news-body {
+  padding: 0.8rem;
+  overflow-x: auto;
+}
+
+.news-comment {
+  padding: 0.7rem 1.5rem 0.7rem 1.5rem;
+  overflow-x: auto;
+}
+
 .interaction {
-  padding-left: 1.5em;
-  margin-bottom: 1em
+  font-size: 1.2em;
+  color: #333333
 }
 
 .interaction a {
   margin-right: 1.3em;
-  font-size: 1.1em;
   text-decoration: none;
 }
 
 .interaction a span {
-  margin-left: 0.5em;
+  margin-left: 0.3em;
 }
 
 .stream-update {
@@ -84,53 +125,6 @@
   font-size: 1.4em;
 }
 
-.comments {
-  margin-top: .6em;
-  display: none;
-}
-
-.comments ol {
-  margin: .8em 0 0;
-  padding: .2em 0;
-  background-color: #f4f4f4;
-  border-radius: 3px;
-  overflow-x: auto;
-}
-
-.comments ol li {
-  list-style: none;
-  padding: 0;
-}
-
-.comments ol li img.user-comment {
-  width: 35px;
-  border-radius: 4px;
-  float: left;
-  margin-left: 10px;
-}
-
-.comments ol li div {
-  margin-left: 45px;
-  padding: 0 .8em;
-  font-size: .9em;
-}
-
-.comments ol li {
-  padding: .6em .6em .6em 0;
-  border-bottom: none;
-}
-
-.comments ol li h4 {
-  margin: 0;
-  margin-left: 45px;
-  padding: 0 0 .2em .8em;
-  font-size: .9em;
-}
-
-.comments ol li h4 small {
-  margin-left: .3em;
-}
-
 .empty {
   margin: 0 .8em;
   font-size: .9em;
@@ -150,8 +144,6 @@
 
 .remove-news {
   color: #bbbbbb;
-  font-size: .8em;
-  padding-top: .2em;
   float: right;
   cursor: pointer;
 }

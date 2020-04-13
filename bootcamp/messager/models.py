@@ -100,6 +100,6 @@ class Message(models.Model):
             "recipient": str(recipient),
         }
         transaction.on_commit(
-            lambda: async_to_sync(channel_layer.group_send)(recipient.username,
-                                                            payload))
+            lambda: async_to_sync(channel_layer.group_send)(recipient.username, payload)
+        )
         return new_message

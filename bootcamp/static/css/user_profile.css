@@ -1,11 +1,13 @@
 body {
-    font: 16px Helvetica, Sans-Serif;
-    line-height: 24px;
     padding-top: 120px;
 }
 
 .clear {
     clear: both;
+}
+
+#contact-info {
+    margin-left: 30px;
 }
 
 #page-wrap {
@@ -57,7 +59,7 @@ a:hover {
 }
 
 ul {
-    margin: 0 0 32px 17px;
+    margin: 0 0 0 0;
 }
 
 #objective {

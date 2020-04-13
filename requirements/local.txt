@@ -18,6 +18,8 @@ bandit  # https://github.com/PyCQA/bandit
 pylint-common  # https://github.com/landscapeio/pylint-common
 pylint-django  # https://github.com/PyCQA/pylint-django
 pylint  # https://github.com/PyCQA/pylint
+black  # https://github.com/psf/black
+flake8  # https://github.com/pycqa/flake8
 
 # Django
 # ------------------------------------------------------------------------------

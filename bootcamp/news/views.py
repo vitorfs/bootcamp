@@ -1,12 +1,12 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse, HttpResponseForbidden
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.http import require_http_methods
 from django.views.generic import ListView, DeleteView
-
+from django.template.context_processors import csrf
 from bootcamp.helpers import ajax_required, AuthorRequiredMixin
 from bootcamp.news.models import News
 
@@ -55,6 +55,28 @@ def post_news(request):
 @login_required
 @ajax_required
 @require_http_methods(["POST"])
+def remove_news(request):
+    try:
+        news_id = request.POST["news"]
+        feed = News.objects.get(pk=news_id)
+        if feed.user == request.user:
+            parent = feed.parent
+            feed.delete()
+            if parent:
+                parent.count_thread()
+
+            return HttpResponse()
+
+        else:
+            return HttpResponseForbidden()
+
+    except Exception:
+        return HttpResponseBadRequest()
+
+
+@login_required
+@ajax_required
+@require_http_methods(["POST"])
 def like(request):
     """Function view to receive AJAX, returns the count of likes a given news
     has recieved."""
@@ -70,7 +92,7 @@ def like(request):
 @require_http_methods(["GET"])
 def get_thread(request):
     """Returns a list of news with the given news as parent."""
-    news_id = request.GET["news"]
+    news_id = request.GET.get("news")
     news = News.objects.get(pk=news_id)
     news_html = render_to_string("news/news_single.html", {"news": news})
     thread_html = render_to_string(

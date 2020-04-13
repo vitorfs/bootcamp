@@ -6,7 +6,6 @@
 
 {% block content %}
   <!-- Page Content -->
-  <div class="container">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{% url 'news:list' %}">{% trans 'Home' %}</a></li>
@@ -60,11 +59,9 @@
         {% get_comment_list for article as comment_list %}
         {% for comment in comment_list %}
           <div class="media mb-4">
-            {% thumbnail comment.user.picture "x50" as im %}
-              <img class="d-flex mr-3 rounded-circle" src="{{ im.url }}" alt="{% trans 'Picture Profile' %}" id="pic" />
-            {% empty %}
-              <img class="d-flex mr-3 rounded-circle" src="{% static 'img/user.png' %}" height="50px" alt="{% trans 'No Profile Picture' %}" />
-            {% endthumbnail %}
+          <img src="{{ comment.user.get_picture }}" class="user-image pull-left"
+                                        id="pic" style="width: 50px; border-radius: 50%;"
+                                         alt="{% trans 'User Image' %}">
             <div class="media-body">
               <h5 class="mt-0">{{ comment.user.get_profile_name|title }}</h5>
               {{ comment }}
@@ -97,6 +94,4 @@
       </div>
     </div>
     <!-- /.row -->
-  </div>
-  <!-- /.container -->
 {% endblock content %}

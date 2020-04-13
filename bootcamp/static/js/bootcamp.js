@@ -24,19 +24,28 @@ $('.form-group').removeClass('row');
 $(function () {
     let emptyMessage = 'data-empty="true"';
 
-    function checkNotifications() {
+
+    function updateUnreadNotifications() {
         $.ajax({
-            url: '/notifications/latest-notifications/',
+            url: '/notifications/unread-notifications/',
             cache: false,
             success: function (data) {
-                if (!data.includes(emptyMessage)) {
-                    $("#notifications").addClass("btn-danger");
+                var unreadNum = data.unread_notifications
+                if (unreadNum != null && unreadNum > 0) {
+                    if (unreadNum > 9) {
+                        unreadNum = '9+'
+                    }
+                    $("#countnotif").text(unreadNum);
+                    $(".fa-bell").attr("style", "color:white");
+                }else{
+                    $("#countnotif").text("");
+                    $(".fa-bell").attr("style", "color:grey");
                 }
             },
         });
     };
 
-    function update_social_activity (id_value) {
+    function update_social_activity(id_value) {
         let newsToUpdate = $("[news-id=" + id_value + "]");
         payload = {
             'id_value': id_value,
@@ -53,21 +62,42 @@ $(function () {
         });
     };
 
-    checkNotifications();
+    updateUnreadNotifications();
+
+    function markUnreadAjax() {
+        // Ajax request to mark as unread inside the popover
+        $("ul.notif").on("click", ".pop-notification", function () {
+            var li = $(this).closest("li");
+            var slug = $(li).attr("notification-slug");
+            $.ajax({
+                url: '/notifications/mark_as_read_ajax/',
+                data: {
+                    'slug': slug,
+                },
+                type: 'post',
+                cache: false,
+                success: function (data) {
+                    $(li).fadeOut(400, function () {
+                        $(li).remove();
+                        updateUnreadNotifications();
+                    });
+                }
+            });
+        });
+    }
 
     $('#notifications').popover({
         html: true,
         trigger: 'manual',
-        container: "body" ,
+        container: "body",
         placement: "bottom",
     });
+
 
     $("#notifications").click(function () {
         if ($(".popover").is(":visible")) {
             $("#notifications").popover('hide');
-            checkNotifications();
-        }
-        else {
+        } else {
             $("#notifications").popover('dispose');
             $.ajax({
                 url: '/notifications/latest-notifications/',
@@ -75,13 +105,15 @@ $(function () {
                 success: function (data) {
                     $("#notifications").popover({
                         html: true,
-                        trigger: 'focus',
-                        container: "body" ,
+                        trigger: 'manual',
+                        container: "body",
                         placement: "bottom",
                         content: data,
+                    }).on('shown.bs.popover', function () {
+                        markUnreadAjax();
                     });
                     $("#notifications").popover('show');
-                    $("#notifications").removeClass("btn-danger")
+                    $("#notifications").attr("style", "")
                 },
             });
         }
@@ -105,15 +137,14 @@ $(function () {
     };
 
     // Listen the WebSocket bridge created throug django-channels library.
-    webSocket.listen(function(event) {
+    webSocket.listen(function (event) {
         switch (event.key) {
             case "notification":
-                $("#notifications").addClass("btn-danger");
+                updateUnreadNotifications();
                 break;
 
             case "social_update":
-                $("#notifications").addClass("btn-danger");
-                update_social_activity(event.id_value);
+                updateUnreadNotifications();
                 break;
 
             case "additional_news":
@@ -125,6 +156,7 @@ $(function () {
             default:
                 console.log('error: ', event);
                 break;
-        };
+        }
+        ;
     });
 });
