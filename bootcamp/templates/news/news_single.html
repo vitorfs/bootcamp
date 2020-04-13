@@ -1,28 +1,46 @@
 {% load i18n %}
 {% load humanize static %}
 {% load thumbnail %}
+{% load urlize_target_blank %}
 
 <li class="infinite-item" news-id="{{ news.uuid_id }}">
     <div class="news-body">
         <div class="profile-picture">
             <img src="{{ news.user.get_picture }}" class="user-image pull-left"
-                                         style="width: 60px; border-radius: 50%;"
-                                         alt="{% trans 'User Image' %}">
+                 style="width: 60px; border-radius: 50%;"
+                 alt="{% trans 'User Image' %}">
         </div>
         <div class="post">
             {% if news.user == request.user %}
-                  <a href="#">
-                        <i class="fa fa-times pull-right remove-news" aria-hidden="true"
-                           title="{% trans 'Click to remove this news' %}"></i>
-                    </a>
+                <a href="#">
+                    <i class="fa fa-times pull-right remove-news" aria-hidden="true"
+                       title="{% trans 'Click to remove this news' %}"></i>
+                </a>
             {% endif %}
             <h3>
                 <a href="{% url 'users:detail' news.user.username %}">{{ news.user.username }}</a>
                 <small class="timestamp">{{ news.timestamp|naturaltime }}</small>
             </h3>
-            <p>{{ news }}</p>
-            {% if news.image %}
-                <img class="card-img-top" src="{{ news.image }}" alt="Card image cap">
+
+            <p>{{ news|urlize|urlize_target_blank }}</p>
+
+            {% if news.meta_url %}
+                <a href="{{ news.meta_url }}" target="_blank" class="card meta">
+                    {% if news.meta_image %}
+                        <div class="card-img-top" style="background-image: url({{ news.meta_image }})"></div>
+                    {% endif %}
+                    <div class="card-body">
+                        {% if news.meta_title %}
+                            <h5 class="card-title">{{ news.meta_title }}</h5>
+                        {% endif %}
+                        {% if news.meta_description %}
+                            <p class="card-text">{{ news.meta_description }}</p>
+                        {% endif %}
+                        {% if news.meta_url %}
+                            <p class="card-btn">{{ news.meta_url }}</p>
+                        {% endif %}
+                    </div>
+                </a>
             {% endif %}
             <div class="interaction" id="interaction">
                 <a href="#" class="like" title="{% for i in news.get_likers %}{{ i }}&#10;{% endfor %}">

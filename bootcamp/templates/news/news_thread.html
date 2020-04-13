@@ -8,9 +8,9 @@
     <li class="infinite-item" news-id="{{ reply.uuid_id }}">
         <div class="news-comment">
             <div class="profile-picture">
-             <img src="{{ reply.user.get_picture }}" class="user-image pull-left"
-                                         style="width: 60px; border-radius: 50%;"
-                                         alt="{% trans 'User Image' %}">
+                <img src="{{ reply.user.get_picture }}" class="user-image pull-left"
+                     style="width: 60px; border-radius: 50%;"
+                     alt="{% trans 'User Image' %}">
             </div>
             <div class="post">
                 {% if reply.user == request.user %}
@@ -23,9 +23,24 @@
                     <a href="{% url 'users:detail' reply.user.username %}">{{ reply.user.username }}</a>
                     <small class="timestamp">{{ reply.timestamp|naturaltime }}</small>
                 </h3>
-                <p>{{ reply }}</p>
-                {% if reply.image %}
-                    <img class="card-img-top" src="{{ reply.image }}" alt="Card image cap">
+                <p>{{ reply|urlize|urlize_target_blank }}</p>
+                {% if reply.meta_url %}
+                    <a href="{{ reply.meta_url }}" target="_blank" class="card meta">
+                        {% if reply.meta_image %}
+                            <div class="card-img-top" style="background-image: url({{ reply.meta_image }})"></div>
+                        {% endif %}
+                        <div class="card-body">
+                            {% if reply.meta_title %}
+                                <h5 class="card-title">{{ reply.meta_title }}</h5>
+                            {% endif %}
+                            {% if reply.meta_description %}
+                                <p class="card-text">{{ reply.meta_description }}</p>
+                            {% endif %}
+                            {% if reply.meta_url %}
+                                <p class="card-btn">{{ reply.meta_url }}</p>
+                            {% endif %}
+                        </div>
+                    </a>
                 {% endif %}
                 <div class="interaction" id="interaction">
                     <a href="#" class="like" title="{% for i in news.get_likers %}{{ i }}&#10;{% endfor %}">
