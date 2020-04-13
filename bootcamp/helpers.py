@@ -89,8 +89,18 @@ def update_votes(obj, user, value):
 
 
 def fetch_metadata(text):
+    """Method to consolidate workflow to recover the metadata of a page of the first URL found a in
+    a given text block.
+    :requieres:
+
+    :param text: Block of text of any lenght
+    """
     urls = get_urls(text)
-    return get_metadata(urls[0])
+    try:
+        return get_metadata(urls[0])
+
+    except IndexError:
+        return None
 
 
 def get_urls(text):
@@ -120,21 +130,20 @@ def get_metadata(url):
     response = requests.get(url)
     soup = bs4.BeautifulSoup(response.content)
     ogs = soup.html.head.find_all(property=re.compile(r"^og"))
-    data = {
-        og.get("property", _("Invalid metadata property."))[3:]: og.get(
-            "content", _("Metadata is not valid.")
-        )
-        for og in ogs
-    }
+    data = {og.get("property")[3:]: og.get("content") for og in ogs}
+    if not data.get("url"):
+        data["url"] = url
+
     if not data.get("title"):
         data["title"] = soup.html.title.text
 
-    if data.get("image") == _("Metadata is not valid."):
+    if not data.get("image"):
         images = soup.find_all("img")
         if len(images) > 0:
             data["image"] = urljoin(url, images[0].get("src"))
 
-    if data.get("description") == _("Metadata is not valid."):
+    if not data.get("description"):
+        data["description"] = ""
         for text in soup.body.find_all(string=True):
             if (
                 text.parent.name != "script"
