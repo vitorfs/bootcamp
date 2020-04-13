@@ -1,12 +1,12 @@
-.stream {
-  margin: 2em 0 0 0;
-  padding: 0;
-}
-
-.stream li {
+.infinite-container li {
   list-style: none;
   border-style: solid none solid none;
 
+}
+
+.stream {
+  margin: 2em 0 0 0;
+  padding: 0;
 }
 
 .stream li:last-child {
@@ -33,11 +33,6 @@
 .profile-picture img {
   width: 60px;
   border-radius: 50%;
-}
-
-.interaction {
-  padding-left: 1.5em;
-  margin-bottom: 1em
 }
 
 .interaction a {
@@ -158,4 +153,39 @@
 
 .remove-news:hover {
   color: #333333;
+}
+
+.meta.card {
+  background-color: #f8f8f8;
+  margin-bottom: 10px;
+  color: #6c757d;
+}
+
+.meta.card:hover {
+  background-color: #fff;
+}
+
+.meta .card-body {
+  padding: 0.8rem;
+}
+
+.meta .card-title, .meta .card-text, .meta .card-btn{
+  font-size: 0.8em;
+  line-height: 1.4em;
+  margin: 0;
+}
+
+.meta .card-img-top{
+  height: 100px;
+  background: center no-repeat #ccc;
+  background-size: cover;
+}
+
+.meta .card-text{
+  margin-bottom: 5px;
+}
+
+.meta:hover .btn{
+  background-color: #888;
+  color: #FFF;
 }
