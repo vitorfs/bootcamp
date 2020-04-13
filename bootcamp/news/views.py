@@ -96,7 +96,7 @@ def get_thread(request):
     news = News.objects.get(pk=news_id)
     news_html = render_to_string("news/news_single.html", {"news": news})
     thread_html = render_to_string(
-        "news/news_thread.html", {"thread": news.get_thread()}
+        "news/news_thread.html", {"thread": news.get_thread(), "request": request}
     )
     return JsonResponse({"uuid": news_id, "news": news_html, "thread": thread_html})
 
