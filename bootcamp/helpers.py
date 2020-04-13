@@ -4,7 +4,6 @@ from urllib.parse import urljoin
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponseBadRequest
-from django.utils.translation import ugettext_lazy as _
 from django.views.generic import View
 
 import bs4
