@@ -4,6 +4,7 @@ from urllib.parse import urljoin
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponseBadRequest
+from django.utils.translation import ugettext_lazy as _
 from django.views.generic import View
 
 import bs4
@@ -29,7 +30,7 @@ def paginate_data(qs, page_size, page, paginated_type, **kwargs):
         has_next=page_obj.has_next(),
         has_prev=page_obj.has_previous(),
         objects=page_obj.object_list,
-        **kwargs
+        **kwargs,
     )
 
 
@@ -128,7 +129,17 @@ def get_metadata(url):
     :returns:
     A dictionary with metadata from a given webpage.
     """
-    response = requests.get(url)
+    try:
+        response = requests.get(url, timeout=0.9)
+        response.raise_for_status()
+
+    except requests.exceptions.Timeout as e:
+        raise requests.exceptions.ConnectTimeout(
+            _(
+                f"\nWe found an error trying to connect to the site {url}, please find more info here:\n\n{e}"
+            )
+        )
+
     soup = bs4.BeautifulSoup(response.content)
     ogs = soup.html.head.find_all(property=re.compile(r"^og"))
     data = {og.get("property")[3:]: og.get("content") for og in ogs}
