@@ -1,9 +1,9 @@
 import re
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.http import HttpResponseBadRequest
+from django.http import HttpResponseBadRequest, JsonResponse
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import View
 
@@ -129,14 +129,23 @@ def get_metadata(url):
     :returns:
     A dictionary with metadata from a given webpage.
     """
+    parsed_url = urlparse(url)
+    if not parsed_url.scheme:
+        url = f"http://{parsed_url.path}"
+
     try:
         response = requests.get(url, timeout=0.9)
         response.raise_for_status()
 
+    except requests.exceptions.ConnectionError:
+        return JsonResponse(
+            {"message": _(f"We detected the url {url} but it appears to be invalid.")}
+        )
+
     except requests.exceptions.Timeout as e:
-        raise requests.exceptions.ConnectTimeout(
+        return JsonResponse(
             _(
-                f"\nWe found an error trying to connect to the site {url}, please find more info here:\n\n{e}"
+                f"We found an error trying to connect to the site {url}, please find more info here:{e}"
             )
         )
 
