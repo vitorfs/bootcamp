@@ -1,7 +1,7 @@
 from test_plus.test import TestCase
 
 from bootcamp.news.models import News
-from bootcamp.notifications.models import Notification, notification_handler
+from bootcamp.notifications.models import Notification, create_notification_handler, delete_notification_handler
 
 
 class NotificationsModelsTest(TestCase):
@@ -73,17 +73,23 @@ class NotificationsModelsTest(TestCase):
     def test_single_notification(self):
         Notification.objects.mark_all_as_read()
         obj = News.objects.create(user=self.user, content="This is a short content.")
-        notification_handler(self.user, self.other_user, "C", action_object=obj)
+        create_notification_handler(self.user, self.other_user, "C", action_object=obj)
+        assert Notification.objects.unread().count() == 1
+
+    def test_delete_single_notification(self):
+        Notification.objects.mark_all_as_read()
+        obj = News.objects.create(user=self.user, content="This is a short content.")
+        delete_notification_handler(self.user, self.other_user, "C", action_object=obj)
         assert Notification.objects.unread().count() == 1
 
     def test_global_notification(self):
         Notification.objects.mark_all_as_read()
-        notification_handler(self.user, "global", "C")
+        create_notification_handler(self.user, "global", "C")
         assert Notification.objects.unread().count() == 1
 
     def test_list_notification(self):
         Notification.objects.mark_all_as_read()
-        notification_handler(self.user, [self.user, self.other_user], "C")
+        create_notification_handler(self.user, [self.user, self.other_user], "C")
         assert Notification.objects.unread().count() == 2
 
     def test_icon_comment(self):

@@ -9,7 +9,7 @@
     <b>
       <a href="{% url 'users:detail' message.sender.username  %}">{{ message.sender.get_profile_name|title }}</a>
     </b>
-    <small> - {{ message.timestamp|date:'N d G:i' }}</small>
+    <small class="timestamp"> - {{ message.timestamp|date:'N d G:i' }}</small>
     <br>
     {{ message.message }}
   </div>

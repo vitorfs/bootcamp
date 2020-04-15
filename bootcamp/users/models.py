@@ -9,7 +9,7 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.signals import user_logged_in, user_logged_out
 
-from bootcamp.notifications.models import Notification, notification_handler
+from bootcamp.notifications.models import Notification, create_notification_handler
 
 
 class User(AbstractUser):
@@ -78,12 +78,12 @@ class CustomChangePasswordForm(ChangePasswordForm):
 
 def broadcast_login(sender, user, request, **kwargs):
     """Handler to be fired up upon user login signal to notify all users."""
-    notification_handler(user, "global", Notification.LOGGED_IN)
+    create_notification_handler(user, "global", Notification.LOGGED_IN)
 
 
 def broadcast_logout(sender, user, request, **kwargs):
     """Handler to be fired up upon user logout signal to notify all users."""
-    notification_handler(user, "global", Notification.LOGGED_OUT)
+    create_notification_handler(user, "global", Notification.LOGGED_OUT)
 
 # user_logged_in.connect(broadcast_login)
 # user_logged_out.connect(broadcast_logout)

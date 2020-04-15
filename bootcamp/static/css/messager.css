@@ -1,3 +1,12 @@
+.user-image {
+  margin-right: 5px;
+}
+
+.timestamp {
+  font-size: 0.8em;
+  color: grey;
+}
+
 .users-list {
   height: 83vh;
   overflow-y: auto;

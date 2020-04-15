@@ -311,7 +311,7 @@ class Notification(models.Model):
             self.save()
 
 
-def notification_handler(actor, recipient, verb, **kwargs):
+def create_notification_handler(actor, recipient, verb, **kwargs):
     """
     Handler function to create a Notification instance.
     :requires:
@@ -354,6 +354,56 @@ def notification_handler(actor, recipient, verb, **kwargs):
             verb=verb,
             action_object=kwargs.pop("action_object", None),
         )
+        notification_broadcast(
+            actor, key, id_value=id_value, recipient=recipient.username
+        )
+
+    else:
+        pass
+
+def delete_notification_handler(actor, recipient, verb, **kwargs):
+    """
+    Handler function to delete a Notification instance.
+    :requires:
+    :param actor: User instance of that user who makes the action.
+    :param recipient: User instance, a list of User instances or string
+                      'global' defining who should be notified.
+    :param verb: Notification attribute with the right choice from the list.
+
+    :optional:
+    :param action_object: Model instance on which the verb was executed.
+    :param key: String defining what kind of notification is going to be created.
+    :param id_value: UUID value assigned to a specific element in the DOM.
+    """
+    key = kwargs.pop("key", "notification")
+    id_value = kwargs.pop("id_value", None)
+    if recipient == "global":
+        users = get_user_model().objects.all().exclude(username=actor.username)
+        for user in users:
+            Notification.objects.create(
+                actor=actor,
+                recipient=user,
+                verb=verb,
+                action_object=kwargs.pop("action_object", None),
+            )
+        notification_broadcast(actor, key)
+
+    elif isinstance(recipient, list):
+        for user in recipient:
+            Notification.objects.create(
+                actor=actor,
+                recipient=get_user_model().objects.get(username=user),
+                verb=verb,
+                action_object=kwargs.pop("action_object", None),
+            )
+
+    elif isinstance(recipient, get_user_model()):
+        Notification.objects.filter(
+            actor=actor,
+            recipient=recipient,
+            verb=verb,
+            action_object_object_id=id_value,
+        ).delete()
         notification_broadcast(
             actor, key, id_value=id_value, recipient=recipient.username
         )

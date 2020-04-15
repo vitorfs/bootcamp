@@ -25,7 +25,7 @@
         </div>
         <p>
           <i class="fa fa-envelope" aria-hidden="true"></i>
-          <a class="email" href="mailto:{{ user.email }}">
+          <a class="email" href="{% url 'messager:messages_list' %}">
             {{ user.get_profile_name|title }}
           </a>
           <span>

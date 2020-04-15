@@ -9,7 +9,7 @@ from asgiref.sync import async_to_sync
 
 from channels.layers import get_channel_layer
 
-from bootcamp.notifications.models import Notification, notification_handler
+from bootcamp.notifications.models import Notification, create_notification_handler, delete_notification_handler
 from bootcamp.helpers import fetch_metadata
 
 
@@ -73,11 +73,19 @@ class News(models.Model):
     def switch_like(self, user):
         if user in self.liked.all():
             self.liked.remove(user)
-
+            if self.user != user:
+                delete_notification_handler(
+                    user,
+                    self.user,
+                    Notification.LIKED,
+                    action_object=self,
+                    id_value=str(self.uuid_id),
+                    key="social_update",
+                )
         else:
             self.liked.add(user)
             if self.user != user:
-                notification_handler(
+                create_notification_handler(
                     user,
                     self.user,
                     Notification.LIKED,
@@ -107,7 +115,7 @@ class News(models.Model):
             user=user, content=text, reply=True, parent=parent
         )
         if self.user != user:
-            notification_handler(
+            create_notification_handler(
                 user,
                 parent.user,
                 Notification.REPLY,
