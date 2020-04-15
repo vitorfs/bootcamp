@@ -76,14 +76,15 @@ class News(models.Model):
 
         else:
             self.liked.add(user)
-            notification_handler(
-                user,
-                self.user,
-                Notification.LIKED,
-                action_object=self,
-                id_value=str(self.uuid_id),
-                key="social_update",
-            )
+            if self.user != user:
+                notification_handler(
+                    user,
+                    self.user,
+                    Notification.LIKED,
+                    action_object=self,
+                    id_value=str(self.uuid_id),
+                    key="social_update",
+                )
 
     def get_parent(self):
         if self.parent:

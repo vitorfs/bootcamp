@@ -19,6 +19,7 @@
             {% include 'users/user_partial_menu.html' with active='profile' %}
         </div>
         <div class="col-md-8">
+            <h3 style="margin-bottom: 15px">{% trans 'Edit Profile' %}</h3>
             <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{% url 'users:update' %}">
                 {% csrf_token %}
                 {{ form|crispy }}

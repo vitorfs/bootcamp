@@ -7,8 +7,8 @@
 <div class="list-group">
     <a href="{% url 'users:update' %}"
        class="list-group-item{% if active == 'profile' %} active{% endif %}">{% trans 'Profile' %}</a>
-    <a href="{% url 'users:account_change_password' %}"
-       class="list-group-item{% if active == 'password' %} active{% endif %}">{% trans 'Password' %}</a>
     <a href="{% url 'users:picture' %}"
        class="list-group-item{% if active == 'picture' %} active{% endif %}">{% trans 'Picture' %}</a>
+    <a href="{% url 'users:account_change_password' %}"
+       class="list-group-item{% if active == 'password' %} active{% endif %}">{% trans 'Password' %}</a>
 </div>

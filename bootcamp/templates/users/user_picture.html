@@ -20,7 +20,9 @@
             {% include 'users/user_partial_menu.html' with active='picture' %}
         </div>
         <div class="col-md-8">
-            <img src="{{ user.get_picture }}" class="user-image" style="width: 150px; border-radius: 50%; margin-bottom: 1em;" alt="{% trans 'User Image' %}">
+            <h3 style="margin-bottom: 15px">{% trans 'Change Picture' %}</h3>
+            <img src="{{ user.get_picture }}" class="user-image"
+                 style="width: 150px; border-radius: 50%; margin-bottom: 1em;" alt="{% trans 'User Image' %}">
             <form enctype="multipart/form-data" method="post" action="{% url 'users:upload_picture' %}"
                   id="picture-upload-form">
                 {% csrf_token %}
@@ -76,7 +78,7 @@
     <script type="text/javascript">
         $(function () {
             $("#modal-upload-picture").modal();
-       window.history.pushState("", "", "/users/picture/");
-       });
-   </script>
+            window.history.pushState("", "", "/users/picture/");
+        });
+    </script>
 {% endblock modal %}
