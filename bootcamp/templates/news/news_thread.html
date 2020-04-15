@@ -43,13 +43,13 @@
                     </a>
                 {% endif %}
                 <div class="interaction" id="interaction">
-                    <a href="#" class="like" title="{% for i in news.get_likers %}{{ i }}&#10;{% endfor %}">
-                        {% if request.user in news.get_likers %}
+                    <a href="#" class="like" title="{% for i in reply.get_likers %}{{ i }}&#10;{% endfor %}">
+                        {% if request.user in reply.get_likers %}
                             <i class="heart fa fa-heart" aria-hidden="true"></i>
                         {% else %}
                             <i class="heart fa fa-heart-o" aria-hidden="true"></i>
                         {% endif %}
-                        <span class="like-count">{{ news.count_likers }}</span>
+                        <span class="like-count">{{ reply.count_likers }}</span>
                     </a>
                 </div>
             </div>
