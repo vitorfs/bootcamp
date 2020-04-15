@@ -106,14 +106,15 @@ class News(models.Model):
         reply_news = News.objects.create(
             user=user, content=text, reply=True, parent=parent
         )
-        notification_handler(
-            user,
-            parent.user,
-            Notification.REPLY,
-            action_object=reply_news.parent,
-            id_value=str(parent.uuid_id),
-            key="social_update",
-        )
+        if self.user != user:
+            notification_handler(
+                user,
+                parent.user,
+                Notification.REPLY,
+                action_object=reply_news.parent,
+                id_value=str(parent.uuid_id),
+                key="social_update",
+            )
 
     def get_thread(self):
         parent = self.get_parent()
