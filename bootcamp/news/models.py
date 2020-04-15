@@ -50,11 +50,12 @@ class News(models.Model):
     def save(self, *args, **kwargs):
         # extract metada from content url
         data = fetch_metadata(self.content)
-        self.meta_url = data.get("url")
-        self.meta_type = data.get("type", "website")
-        self.meta_title = data.get("title")
-        self.meta_description = data.get("description")
-        self.meta_image = data.get("image")
+        if data:
+            self.meta_url = data.get("url")
+            self.meta_type = data.get("type", "website")
+            self.meta_title = data.get("title")
+            self.meta_description = data.get("description")
+            self.meta_image = data.get("image")
 
         super().save(*args, **kwargs)
         if not self.reply:
