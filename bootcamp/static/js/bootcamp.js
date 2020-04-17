@@ -37,9 +37,29 @@ $(function () {
                     }
                     $("#countnotif").text(unreadNum);
                     $(".fa-bell").attr("style", "color:white");
-                }else{
+                } else {
                     $("#countnotif").text("");
                     $(".fa-bell").attr("style", "color:grey");
+                }
+            },
+        });
+    };
+
+    function updateUnreadMessages() {
+        $.ajax({
+            url: '/messages/unread-messages/',
+            cache: false,
+            success: function (data) {
+                var unreadNum = data.unread_messages
+                if (unreadNum != null && unreadNum > 0) {
+                    if (unreadNum > 9) {
+                        unreadNum = '9+'
+                    }
+                    $("#countmsg").text(unreadNum);
+                    $(".fa-envelope").attr("style", "color:white");
+                } else {
+                    $("#countmsg").text("");
+                    $(".fa-envelope").attr("style", "color:grey");
                 }
             },
         });
@@ -63,6 +83,7 @@ $(function () {
     };
 
     updateUnreadNotifications();
+    updateUnreadMessages();
 
     function markUnreadAjax() {
         // Ajax request to mark as unread inside the popover
@@ -145,6 +166,12 @@ $(function () {
 
             case "social_update":
                 updateUnreadNotifications();
+                break;
+
+            case "message":
+                if (currentUser == event.recipient) {
+                    updateUnreadMessages();
+                }
                 break;
 
             case "additional_news":

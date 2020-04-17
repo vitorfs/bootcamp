@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
 from django.views.generic import ListView
@@ -87,3 +87,15 @@ def receive_message(request):
         raise e
 
     return render(request, "messager/single_message.html", {"message": message})
+
+
+@login_required
+def get_unread_messages(request):
+    messages = request.user.received_messages.unread()
+    return JsonResponse({"unread_messages": str(len(messages))})
+
+
+@login_required
+def mark_as_read_messages(request):
+    messages = request.user.received_messages.mark_conversation_as_read()
+    return JsonResponse({"unread_messages": str(len(messages))})

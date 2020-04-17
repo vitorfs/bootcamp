@@ -29,12 +29,32 @@ $(function () {
     });
   };
 
+  function markReadMessages() {
+        $.ajax({
+            url: '/messages/mark-read-messages/',
+            cache: false,
+            success: function (data) {
+                var unreadNum = data.unread_messages
+                if (unreadNum != null && unreadNum > 0) {
+                    if (unreadNum > 9) {
+                        unreadNum = '9+'
+                    }
+                    $("#countmsg").text(unreadNum);
+                    $(".fa-envelope").attr("style", "color:white");
+                } else {
+                    $("#countmsg").text("");
+                    $(".fa-envelope").attr("style", "color:grey");
+                }
+            },
+        });
+    };
+
   function scrollConversationScreen() {
     /* Set focus on the input box from the form, and rolls to show the
     the most recent message.
     */
     $("input[name='message']").focus();
-    $('.conversation').scrollTop($('.conversation')[0].scrollHeight);
+    $('.messages-list').scrollTop($('.messages-list')[0].scrollHeight);
   }
 
   $("#send").submit(function () {
@@ -94,16 +114,15 @@ $(function () {
         if (event.sender === activeUser) {
           addNewMessage(event.message_id);
           // I hope there is a more elegant way to work this out.
-          setTimeout(function () { $("#unread-count").hide() }, 1);
+          setTimeout(function () { $("#countmsg").text(""); $(".fa-envelope").attr("style", "color:grey"); }, 1);
+          // markReadMessages();
         } else {
           $("#new-message-" + event.sender).show();
         }
         break;
-
       case "set_status":
         setUserOnlineOffline(event.sender, event.status);
         break;
-
       default:
         console.log('error: ', event);
         console.log(typeof (event))

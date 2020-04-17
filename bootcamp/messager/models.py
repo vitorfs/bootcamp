@@ -10,9 +10,19 @@ from asgiref.sync import async_to_sync
 
 from channels.layers import get_channel_layer
 
+from bootcamp.notifications.models import notification_broadcast
+
 
 class MessageQuerySet(models.query.QuerySet):
     """Personalized queryset created to improve model usability."""
+
+    def unread(self):
+        """Return only unread items in the current queryset"""
+        return self.filter(unread=True)
+
+    def read(self):
+        """Return only read items in the current queryset"""
+        return self.filter(unread=False)
 
     def get_conversation(self, sender, recipient):
         """Returns all the messages sent between two users."""
@@ -101,5 +111,8 @@ class Message(models.Model):
         }
         transaction.on_commit(
             lambda: async_to_sync(channel_layer.group_send)(recipient.username, payload)
+        )
+        notification_broadcast(
+            sender, "message", id_value=str(new_message.uuid_id), recipient=recipient.username
         )
         return new_message

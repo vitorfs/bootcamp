@@ -361,6 +361,7 @@ def create_notification_handler(actor, recipient, verb, **kwargs):
     else:
         pass
 
+
 def delete_notification_handler(actor, recipient, verb, **kwargs):
     """
     Handler function to delete a Notification instance.
@@ -380,22 +381,22 @@ def delete_notification_handler(actor, recipient, verb, **kwargs):
     if recipient == "global":
         users = get_user_model().objects.all().exclude(username=actor.username)
         for user in users:
-            Notification.objects.create(
+            Notification.objects.filter(
                 actor=actor,
                 recipient=user,
                 verb=verb,
-                action_object=kwargs.pop("action_object", None),
-            )
+                action_object_object_id=id_value,
+            ).delete()
         notification_broadcast(actor, key)
 
     elif isinstance(recipient, list):
         for user in recipient:
-            Notification.objects.create(
+            Notification.objects.filter(
                 actor=actor,
                 recipient=get_user_model().objects.get(username=user),
                 verb=verb,
-                action_object=kwargs.pop("action_object", None),
-            )
+                action_object_object_id=id_value,
+            ).delete()
 
     elif isinstance(recipient, get_user_model()):
         Notification.objects.filter(
