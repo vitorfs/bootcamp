@@ -47,7 +47,7 @@ $(function () {
 
     function updateUnreadMessages() {
         $.ajax({
-            url: '/messages/unread-messages/',
+            url: '/messages/get-unread-messages/',
             cache: false,
             success: function (data) {
                 var unreadNum = data.unread_messages

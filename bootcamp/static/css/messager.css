@@ -49,3 +49,7 @@
   width: 43%;
   background-color: white;
 }
+
+.chat-user .badge {
+  margin-top: 5px;
+}

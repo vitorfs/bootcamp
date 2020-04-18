@@ -22,12 +22,17 @@ class MessagesListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context["users_list"] = (
+        users_list = (
             get_user_model()
             .objects.filter(is_active=True)
             .exclude(username=self.request.user)
             .order_by("username")
         )
+        unread_conversations = []
+        for user in users_list:
+            unread_conversations.append(len(self.request.user.received_messages.unread(user)))
+        context["users_dict"] = dict(zip(users_list, unread_conversations))
+
         last_conversation = Message.objects.get_most_recent_conversation(
             self.request.user
         )
@@ -36,6 +41,7 @@ class MessagesListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         active_user = Message.objects.get_most_recent_conversation(self.request.user)
+        Message.objects.mark_conversation_as_read(active_user, self.request.user)
         return Message.objects.get_conversation(active_user, self.request.user)
 
 
@@ -49,7 +55,10 @@ class ConversationListView(MessagesListView):
         return context
 
     def get_queryset(self):
+        # todo: avoid this query overriding the 'unread-messages' call
+        #if(self.kwargs["username"]!="unread-messages"):
         active_user = get_user_model().objects.get(username=self.kwargs["username"])
+        Message.objects.mark_conversation_as_read(active_user, self.request.user)
         return Message.objects.get_conversation(active_user, self.request.user)
 
 
@@ -91,11 +100,17 @@ def receive_message(request):
 
 @login_required
 def get_unread_messages(request):
-    messages = request.user.received_messages.unread()
+    sender_str = request.GET.get('sender')
+    sender = None
+    if sender_str:
+        sender = get_user_model().objects.get(username=sender_str)
+    messages = request.user.received_messages.unread(sender)
     return JsonResponse({"unread_messages": str(len(messages))})
 
 
 @login_required
-def mark_as_read_messages(request):
-    messages = request.user.received_messages.mark_conversation_as_read()
-    return JsonResponse({"unread_messages": str(len(messages))})
+def mark_read_messages(request):
+    sender_str = request.GET.get("sender")
+    sender = get_user_model().objects.get(username=sender_str)
+    Message.objects.mark_conversation_as_read(sender, request.user)
+    return JsonResponse({"mark_messages_state": "success"})

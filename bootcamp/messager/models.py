@@ -16,9 +16,12 @@ from bootcamp.notifications.models import notification_broadcast
 class MessageQuerySet(models.query.QuerySet):
     """Personalized queryset created to improve model usability."""
 
-    def unread(self):
+    def unread(self, sender):
         """Return only unread items in the current queryset"""
-        return self.filter(unread=True)
+        filters = {'unread': True}
+        if sender:
+            filters['sender'] = sender
+        return self.filter(**filters)
 
     def read(self):
         """Return only read items in the current queryset"""

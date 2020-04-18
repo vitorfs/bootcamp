@@ -55,14 +55,14 @@
             </div>
             <div id="contact-info" class="vcard">
                 <h1 class="fn">
-                    {{ object.name|title }}
+                    {{ object.get_profile_name|title }}
                     {% if object.short_bio %}
                         <br/><small style="font-size: 50%">{{ object.short_bio }}</small>
                     {% endif %}
                 </h1>
                 <p>
                     <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                    {{ object.get_profile_name|title }}
+                    {{ object.username }}
                     <br/>
                     <i class="fa fa-envelope" aria-hidden="true"></i><a class="email"
                                                                         href="mailto:{{ object.email }}">   {{ object.email }}</a><br/>
