@@ -10,7 +10,7 @@
                      style="width: 45px; border-radius: 50%;"
                      alt="{% trans 'User Image' %}">
                 <p>{{ notification|safe }}</p>
-                <p><small>{{ notification.time_since|naturaltime }} ago</small></p>
+                <p><small>{{ notification.timestamp|naturaltime }}</small></p>
             </li>
         {% endfor %}
         <div class="btn-group btn-group-sm" role="group" style="margin-top: 0.4rem">
