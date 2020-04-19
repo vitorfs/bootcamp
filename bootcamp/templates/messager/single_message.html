@@ -2,15 +2,17 @@
 {% load thumbnail %}
 
 <li>
- <img src="{{ message.sender.get_picture }}" class="user-image picture"
-                                         style="width: 45px; border-radius: 50%;"
-                                         alt="{% trans 'User Image' %}">
-  <div>
-    <b>
-      <a href="{% url 'users:detail' message.sender.username  %}">{{ message.sender.get_profile_name|title }}</a>
-    </b>
-    <small class="timestamp"> - {{ message.timestamp|date:'N d G:i' }}</small>
-    <br>
-    {{ message.message }}
-  </div>
+    <img src="{{ message.sender.get_picture }}" class="user-image picture"
+         style="width: 45px; border-radius: 50%;"
+         alt="{% trans 'User Image' %}">
+    <div>
+        <b>
+            <a href="{% url 'users:detail' message.sender.username %}">{{ message.sender.get_profile_name|title }}</a>
+        </b>
+        <small class="timestamp"> - {{ message.timestamp|date:'N d G:i' }}</small>
+        <br>
+        <div class="message">
+            {{ message.message }}
+        </div>
+    </div>
 </li>
