@@ -1,5 +1,4 @@
 from django.contrib.auth.models import AbstractUser
-from django.contrib.auth.signals import user_logged_in, user_logged_out
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
@@ -56,7 +55,3 @@ def broadcast_login(sender, user, request, **kwargs):
 def broadcast_logout(sender, user, request, **kwargs):
     """Handler to be fired up upon user logout signal to notify all users."""
     notification_handler(user, "global", Notification.LOGGED_OUT)
-
-
-# user_logged_in.connect(broadcast_login)
-# user_logged_out.connect(broadcast_logout)

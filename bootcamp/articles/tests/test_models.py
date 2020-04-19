@@ -40,7 +40,10 @@ class ArticlesModelsTest(TestCase):
         assert self.not_p_article in Article.objects.get_drafts()
 
     def test_get_popular_tags(self):
-        correct_dict = {"test1": 1, "test2": 1}
+        correct_dict = {
+            "test1": {"count": 1, "slug": "test1"},
+            "test2": {"count": 1, "slug": "test2"},
+        }
         assert Article.objects.get_counted_tags() == correct_dict.items()
 
     def test_change_draft_title(self):

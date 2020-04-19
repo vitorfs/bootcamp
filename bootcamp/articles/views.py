@@ -22,7 +22,10 @@ class ArticlesListView(LoginRequiredMixin, ListView):
         return context
 
     def get_queryset(self, **kwargs):
-        return Article.objects.get_published()
+        result = Article.objects.get_published()
+        if self.kwargs.get("tag"):
+            result = result.filter(tags__slug__in=[self.kwargs.get("tag")])
+        return result
 
 
 class DraftsListView(ArticlesListView):

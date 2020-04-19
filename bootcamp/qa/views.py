@@ -22,10 +22,17 @@ class QuestionsIndexListView(LoginRequiredMixin, ListView):
     paginate_by = 20
     context_object_name = "questions"
 
+    def get_queryset(self, **kwargs):
+        result = Question.objects.all()
+        if self.kwargs.get("tag"):
+            result = result.filter(tags__slug__in=[self.kwargs.get("tag")])
+        return result
+
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context["popular_tags"] = Question.objects.get_counted_tags()
         context["active"] = "all"
+        context["qa_url"] = reverse("qa:index_all")
         return context
 
 
@@ -34,11 +41,15 @@ class QuestionAnsListView(QuestionsIndexListView):
     marked as answered."""
 
     def get_queryset(self, **kwargs):
-        return Question.objects.get_answered()
+        result = Question.objects.get_answered()
+        if self.kwargs.get("tag"):
+            result = result.filter(tags__slug__in=[self.kwargs.get("tag")])
+        return result
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context["active"] = "answered"
+        context["qa_url"] = reverse("qa:index_ans")
         return context
 
 
@@ -47,11 +58,15 @@ class QuestionListView(QuestionsIndexListView):
     as answered."""
 
     def get_queryset(self, **kwargs):
-        return Question.objects.get_unanswered()
+        result = Question.objects.get_unanswered()
+        if self.kwargs.get("tag"):
+            result = result.filter(tags__slug__in=[self.kwargs.get("tag")])
+        return result
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context["active"] = "unanswered"
+        context["qa_url"] = reverse("qa:index_noans")
         return context
 
 
