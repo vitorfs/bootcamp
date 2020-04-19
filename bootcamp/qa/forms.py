@@ -2,7 +2,7 @@ from django import forms
 
 from markdownx.fields import MarkdownxFormField
 
-from bootcamp.qa.models import Answer, Question
+from bootcamp.qa.models import Question
 
 
 class QuestionForm(forms.ModelForm):
