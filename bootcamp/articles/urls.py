@@ -15,4 +15,5 @@ urlpatterns = [
     url(r"^drafts/$", DraftsListView.as_view(), name="drafts"),
     url(r"^edit/(?P<pk>\d+)/$", EditArticleView.as_view(), name="edit_article"),
     url(r"^(?P<slug>[-\w]+)/$", DetailArticleView.as_view(), name="article"),
+    url(r"^tag/(?P<tag>[-\w]+)/$", ArticlesListView.as_view(), name="tagged"),
 ]
