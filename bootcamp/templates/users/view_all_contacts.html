@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{}
+
+
+{% block title %}<title>Contact List</title>{% endblock %}
+
+{% block content %}
+
+{#{% include "includes/page_heading.html" with text="Contact List" %}#}
+{% if users %}
+  {% include "users/includes/partial_user.html" with users=users %}
+{% else %}
+  <div class="card p-4 my-4 mx-0">
+    <h6 class="text-center">No Contacts Found</h6>
+    <div style="margin:0 auto;">
+    <p class="text-muted">You don't have any contact right now.</p>
+    </div>
+  </div>
+{% endif %}
+
+{% endblock content %}
+
+{% block modal %}
+  {% include "users/includes/partial_user_js.html" %}
+{% endblock modal %}

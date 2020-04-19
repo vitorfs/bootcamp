@@ -2,6 +2,7 @@ import hashlib
 import os.path
 import urllib
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
 from allauth.account.forms import ChangePasswordForm
 from django.db import models
 from django.urls import reverse
@@ -37,6 +38,16 @@ class User(AbstractUser):
     )
     bio = models.CharField(_("Short bio"), max_length=280, blank=True, null=True)
 
+    followers = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name='following', blank=True
+    )
+    contact_list = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name='contacters', blank=True
+    )
+    pending_list = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name='my_pending_requests', blank=True
+    )
+
     def __str__(self):
         return self.username
 
@@ -50,7 +61,7 @@ class User(AbstractUser):
         return self.username
 
     def get_picture(self):
-        no_picture = 'http://trybootcamp.vitorfs.com/static/img/user.png'
+        no_picture = settings.STATIC_URL + '/img/user.png'
         try:
             filename = settings.MEDIA_ROOT + '/profile_pics/' +\
                 self.username + '.jpg'

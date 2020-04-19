@@ -83,6 +83,9 @@ class Notification(models.Model):
     SHARED = "S"
     SIGNUP = "U"
     REPLY = "R"
+    FOLLOW = "X"
+    FRIEND_REQUEST = "Y"
+    FRIEND_ACCEPT = "Z"
     NOTIFICATION_TYPES = (
         (LIKED, _("liked")),
         (COMMENTED, _("commented")),
@@ -96,7 +99,9 @@ class Notification(models.Model):
         (VOTED, _("voted on")),
         (SHARED, _("shared")),
         (SIGNUP, _("created an account")),
-        (REPLY, _("replied to")),
+        (FOLLOW, _("followed you")),
+        (FRIEND_REQUEST, _("sent you a friend request")),
+        (FRIEND_ACCEPT, _("accepted your friend request")),
     )
     _LIKED_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/news/{3}/">{4}</a>'  # noqa: E501
     _COMMENTED_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/news/{3}/">{4}</a>'  # noqa: E501
@@ -107,6 +112,9 @@ class Notification(models.Model):
     _UPVOTED_ANSWER_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/qa/{3}/">{4}</a>'  # noqa: E501
     _EDITED_ARTICLE_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/articles/{3}/">{4}</a>'  # noqa: E501
     _ALSO_COMMENTED_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/news/{3}/">{4}</a>'  # noqa: E501
+    _FOLLOWED_TEMPLATE = '<a href="/{0}/">{1}</a> {2}.'  # noqa: E501
+    _FRIEND_REQUEST_TEMPLATE = '<a href="/{0}/">{1}</a> {2}.'  # noqa: E501
+    _FRIEND_ACCEPT_TEMPLATE = '<a href="/{0}/">{1}</a> {2}.'  # noqa: E501
     _USER_LOGIN_TEMPLATE = '<a href="/{0}/">{1}</a> has just logged in.'  # noqa: E501
     _USER_LOGOUT_TEMPLATE = '<a href="/{0}/">{1}</a> has just logged out.'  # noqa: E501
 
@@ -216,6 +224,27 @@ class Notification(models.Model):
                     escape(self.get_summary(self.action_object.content))
                 )
 
+            elif self.verb == self.FOLLOW:
+                return self._ALSO_COMMENTED_TEMPLATE.format(
+                    escape(self.actor),
+                    escape(self.actor),
+                    escape(self.get_verb_display()),
+                )
+
+            elif self.verb == self.FRIEND_REQUEST:
+                return self._ALSO_COMMENTED_TEMPLATE.format(
+                    escape(self.actor),
+                    escape(self.actor),
+                    escape(self.get_verb_display()),
+                )
+
+            elif self.verb == self.FRIEND_ACCEPT:
+                return self._ALSO_COMMENTED_TEMPLATE.format(
+                    escape(self.actor),
+                    escape(self.actor),
+                    escape(self.get_verb_display()),
+                )
+
             elif self.verb == self.LOGGED_IN:
                 return self._USER_LOGIN_TEMPLATE.format(
                     escape(self.actor),
@@ -268,37 +297,6 @@ class Notification(models.Model):
         from django.utils.timesince import timesince
 
         return timesince(self.timestamp, now)
-
-    def get_icon(self):
-        """Model method to validate notification type and return the closest
-        icon to the verb.
-        """
-        if self.verb == "C" or self.verb == "A" or self.verb == "K":
-            return "fa-comment"
-
-        elif self.verb == "I" or self.verb == "U" or self.verb == "O":
-            return "fa-users"
-
-        elif self.verb == "L":
-            return "fa-heart"
-
-        elif self.verb == "F":
-            return "fa-star"
-
-        elif self.verb == "W":
-            return "fa-check-circle"
-
-        elif self.verb == "E":
-            return "fa-pencil"
-
-        elif self.verb == "V":
-            return "fa-plus"
-
-        elif self.verb == "S":
-            return "fa-share-alt"
-
-        elif self.verb == "R":
-            return "fa-reply"
 
     def mark_as_read(self):
         if self.unread:

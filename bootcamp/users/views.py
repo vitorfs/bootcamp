@@ -2,11 +2,15 @@ import os
 from PIL import Image
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views.generic import DetailView, ListView, RedirectView, UpdateView
 from django.conf import settings as django_settings
 from .models import User
+from ..helpers import ajax_required
+from bootcamp.notifications.models import Notification, create_notification_handler
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
@@ -118,3 +122,167 @@ def save_uploaded_picture(request):
         pass
 
     return redirect('/users/picture/')
+
+
+class FollowersPageView(LoginRequiredMixin, ListView):
+    """
+    Basic ListView implementation to call the followers list per user.
+    """
+    model = User
+    paginate_by = 20
+    template_name = 'users/followers.html'
+    context_object_name = 'users'
+
+    def get_queryset(self, **kwargs):
+        return self.request.user.followers.all()
+
+
+class FollowingPageView(LoginRequiredMixin, ListView):
+    """
+    Basic ListView implementation to call the following list per user.
+    """
+    model = User
+    paginate_by = 20
+    template_name = 'users/following.html'
+    context_object_name = 'users'
+
+    def get_queryset(self, **kwargs):
+        return self.request.user.following.all()
+
+
+@login_required
+@ajax_required
+def follow_user(request, user_id):
+    """
+    Ajax call to follow a user.
+    """
+    user = get_object_or_404(User,
+                             id=user_id)
+    if request.user in user.followers.all():
+        user.followers.remove(request.user)
+        text = 'Follow'
+    else:
+        user.followers.add(request.user)
+        create_notification_handler(request.user, user, Notification.FOLLOW, key="social_update")
+        text = 'Unfollow'
+    return HttpResponse(text)
+
+
+@login_required
+@ajax_required
+def send_message_request(request, user_id):
+    """
+    Ajax call to send a message request.
+    """
+    receiver = get_object_or_404(User, id=user_id)
+    contacter = request.user
+
+    if contacter in receiver.pending_list.all():
+        receiver.pending_list.remove(contacter)
+        text = 'Send Request'
+    else:
+        receiver.pending_list.add(contacter)
+        create_notification_handler(contacter, receiver, Notification.FRIEND_REQUEST, key="social_update")
+        text = 'Request Sent'
+    return HttpResponse(text)
+
+
+@login_required
+@ajax_required
+def accept_message_request(request, user_id):
+    """
+    Ajax call to accept a message request.
+    """
+    sender = get_object_or_404(User, id=user_id)
+    acceptor = request.user
+
+    if sender in acceptor.pending_list.all():
+        acceptor.pending_list.remove(sender)
+        acceptor.contact_list.add(sender)
+        sender.contact_list.add(acceptor)
+        create_notification_handler(acceptor, sender, Notification.FRIEND_ACCEPT, key="social_update")
+
+        text = 'Added to contact list'
+    else:
+        text = 'Unexpected error!'
+    return HttpResponse(text)
+
+
+@login_required
+def block_spammer(request, user_id):
+    """
+    Remove user from requester's contact list.
+    """
+    spammer = get_object_or_404(User, id=user_id)
+    blocker = request.user
+
+    if spammer in blocker.contact_list.all():
+        blocker.contact_list.remove(spammer)
+        spammer.contact_list.remove(blocker)
+        return redirect('users:detail', username=spammer)
+    else:
+        return redirect('/')
+
+
+@login_required
+def all_message_requests(request):
+    """
+    Displays a message requests list of users.
+    """
+    message_requests = request.user.pending_list.all()
+
+    paginator = Paginator(message_requests, 20)
+    page = request.GET.get('page')
+    if paginator.num_pages > 1:
+        p = True
+    else:
+        p = False
+    try:
+        users = paginator.page(page)
+
+    except PageNotAnInteger:
+        users = paginator.page(1)
+
+    except EmptyPage:
+        users = paginator.page(paginator.num_pages)
+
+    p_obj = users
+
+    return render(request, 'users/view_all_message_requests.html', {
+        'users': users,
+        'page': page,
+        'p': p,
+        'p_obj': p_obj
+    })
+
+
+@login_required
+def all_friends(request):
+    """
+    Displays a friends list of users.
+    """
+    user_contact_list = request.user.contact_list.all()
+
+    paginator = Paginator(user_contact_list, 20)
+    page = request.GET.get('page')
+    if paginator.num_pages > 1:
+        p = True
+    else:
+        p = False
+    try:
+        users = paginator.page(page)
+
+    except PageNotAnInteger:
+        users = paginator.page(1)
+
+    except EmptyPage:
+        users = paginator.page(paginator.num_pages)
+
+    p_obj = users
+
+    return render(request, 'users/view_all_contacts.html', {
+        'users': users,
+        'page': page,
+        'p': p,
+        'p_obj': p_obj
+    })

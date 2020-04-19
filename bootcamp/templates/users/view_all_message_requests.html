@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load humanize %}
+
+{% block title %}<title>Message Requests</title>{% endblock %}
+
+{% block content %}
+
+{#{% include "includes/page_heading.html" with text="Message Requests" %}#}
+{% for user in users %}
+<div class="card" style="border:none; border-bottom:1px solid #dcd7d7; margin-bottom:5px;">
+  <div class="card-body" style="padding:10px;">
+
+    <div class="text-center" style="float:left; width:10%;">
+      {% if user.get_picture %}
+      <img src="{{ user.get_picture }}" class="rounded" width="50px" height="50px">
+      {% endif %}
+    </div>
+
+    <div style="float:right; width:90%;">
+      <h5 style="font-size:16px;">
+        <a href="{% url 'users:detail' user.username %}"
+           class="card-link"
+           title="{{ user.username }}">{{ user.username }}</a>
+        <a href="{% url 'users:accept_message_request' user.id %}"
+           class="btn btn-outline-primary btn-sm"
+           id="accept_message_request"
+           style="float:right;"
+           title="Confirm to start a conversation with this user">Confirm</a>
+      </h5>
+{#      <p>{{board.description|markdown|truncatewords_html:50}}</p>#}
+{#      <p class="text-muted">Member since <span title="{{user.member_since|date:"D d M Y"}} | {{user.member_since|time:"H:i:s"}}">{{user.member_since|naturaltime}}</span></p>#}
+    </div>
+  </div>
+</div>
+{% empty %}
+<div class="card p-4 my-4 mx-0">
+  <h6 class="text-center">No Requests Found</h6>
+  <div style="margin:0 auto;">
+  <p class="text-muted">You don't have any message requests received.</p>
+  </div>
+</div>
+{% endfor %}
+
+{% endblock content %}
+
+{% block modal %}
+
+<script type="text/javascript">
+// Confirm Request
+$(document).ready(function(){
+  $("a#accept_message_request").on("click", function () {
+    {% if not request.user.is_authenticated %}
+    window.location.href = "{% url 'login' %}";
+    {% else %}
+    var $confirm_btn = $(this);
+    var $confirm_url = $(this).attr("href");
+    $.ajax({
+      url: $confirm_url,
+      type: 'GET',
+      success: function (data) {
+        $confirm_btn.text(data);
+
+        if ($confirm_btn.hasClass('btn-outline-primary')) {
+          $confirm_btn.removeClass('btn-outline-primary').addClass('btn-primary disabled');
+        }
+        else {
+          console.log('Unexpected error!');
+        }
+      }
+    });
+    {% endif %}
+    return false;
+  });
+});
+</script>
+{% endblock modal %}

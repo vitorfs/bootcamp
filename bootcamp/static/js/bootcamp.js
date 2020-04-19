@@ -36,7 +36,7 @@ $(function () {
                         unreadNum = '9+'
                     }
                     $("#countnotif").text(unreadNum);
-                    $(".fa-bell").attr("style", "color:white");
+                    $(".fa-bell").attr("style", "color:#007bff");
                 } else {
                     $("#countnotif").text("");
                     $(".fa-bell").attr("style", "color:grey");
@@ -56,7 +56,7 @@ $(function () {
                         unreadNum = '9+'
                     }
                     $("#countmsg").text(unreadNum);
-                    $(".fa-envelope").attr("style", "color:white");
+                    $(".fa-envelope").attr("style", "color:#007bff");
                 } else {
                     $("#countmsg").text("");
                     $(".fa-envelope").attr("style", "color:grey");

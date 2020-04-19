@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load humanize %}
+
+{% block title %}<title>Following</title>{% endblock %}
+
+{% block content %}
+{#{% include "includes/page_heading.html" with text="Following" %}#}
+{% for user in users %}
+<div class="card mb-2" style="border:none; border-bottom:1px solid #dcd7d7;">
+  <div class="card-body p-4">
+
+    <div class="text-center" style="float:left; width:10%;">
+      {% if user.get_picture %}
+      <img src="{{ user.get_picture }}" class="rounded" width="50px" height="50px">
+      {% endif %}
+    </div>
+
+    <div style="float:right; width:90%;">
+      <h5 style="font-size:16px;">
+        <a href="{% url 'users:detail' user.username %}"
+           class="card-link"
+           title="{{ user.username }}">{{ username }}</a>
+         </h5>
+{#      <p class="text-muted">Member since <span title="{{ profile.member_since|date:"D d M Y" }} | {{ profile.member_since|time:"H:i:s" }}">{{ profile.member_since|naturaltime }}</span></p>#}
+    </div>
+  </div>
+</div>
+{% empty %}
+<div class="card p-4 my-4 mx-0">
+  <h6 class="text-center">No Following Found</h6>
+  <div style="margin:0 auto;">
+  <p class="text-muted">You don't have any following right now.</p>
+  </div>
+</div>
+{% endfor %}
+
+{% endblock %}

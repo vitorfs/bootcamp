@@ -49,11 +49,107 @@
 
         <div class="row">
             <div class="col-md-2 user-profile">
-            <img src="{{ object.get_picture }}" class="user-image"
-                                         style="width: 150px; border-radius: 50%;"
-                                         alt="{% trans 'User Image' %}">
+                <img src="{{ object.get_picture }}" class="user-image"
+                     style="width: 150px; border-radius: 50%;"
+                     alt="{% trans 'User Image' %}">
             </div>
             <div id="contact-info" class="vcard">
+
+                <div class="card" style="width:75%; float:right; border:none;">
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            {% ifequal request.user object %}
+                            {% else %}
+                                {% if not request.user in object.contact_list.all %}
+                                    {% if request.user in object.pending_list.all %}
+                                        <a href="{% url 'users:send_message_request' object.id %}"
+                                           class="btn btn-primary btn-sm"
+                                           id="send_message_request"
+                                           style="margin-right: 10px;"
+                                           title="Request sent to this users">Request Sent</a>
+                                    {% else %}
+                                        <a href="{% url 'users:send_message_request' object.id %}"
+                                           class="btn btn-outline-primary btn-sm"
+                                           id="send_message_request"
+                                           style="margin-right: 10px;"
+                                           title="Send request to this user to start conversation">Send Request</a>
+                                    {% endif %}
+                                {% else %}
+                                    <!-- Block User Trigger -->
+                                    <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal"
+                                            data-target="#blockUserModel">Block
+                                    </button>
+
+                                    <!-- Block User Modal -->
+                                    <div class="modal fade" id="blockUserModel" tabindex="-1" role="dialog"
+                                         aria-labelledby="Block User" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Are you sure?</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <h5>Once you block the user, you cannot message him again until he
+                                                        accepts your
+                                                        request.</h5>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary btn-sm"
+                                                            data-dismiss="modal">
+                                                        Cancel
+                                                    </button>
+                                                    <a href="{% url 'users:block_spammer' object.id %}"
+                                                       class="btn btn-primary btn-sm"
+                                                       id="block_spammer" style="margin-right: 10px;"
+                                                       title="Block this user">Block</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a href="{% url 'messager:conversation_detail' object.username %}"
+                                       class="btn btn-outline-primary btn-sm"
+                                       id="send_msg" title="Send message to this user" style="margin-right: 10px;">Message</a>
+                                {% endif %}
+                            {% endifequal %}
+
+                            {% ifequal request.user object %}
+                            {% else %}
+                                {% if request.user in object.followers.all %}
+                                    <a href="{% url 'users:follow_user' object.id %}" class="btn btn-primary btn-sm"
+                                       id="follow_user">Unfollow</a>
+                                {% else %}
+                                    <a href="{% url 'users:follow_user' object.id %}"
+                                       class="btn btn-outline-primary btn-sm"
+                                       id="follow_user">Follow</a>
+                                {% endif %}
+                            {% endifequal %}
+
+                        </h4>
+                        {#                        <p class="card-text"><strong>{{ user.inspected_boards.count }}</strong> boards created.</p>#}
+                        {#                        <p class="card-text"><strong>{{ user.posted_subjects.count }}</strong> subjects posted.</p>#}
+                        {#                        <p class="card-text"><strong>{{ user.subscribed_boards.count }}</strong> boards subscribed.</p>#}
+                        {#                        <p class="card-text">Member since <span#}
+                        {#                                title="{{ user.member_since|date:"D d M Y" }} | {{ user.member_since|time:"H:i:s" }}">{{ user.member_since|date:"M d Y" }}</span>#}
+                        {#                        </p>#}
+                        <br>
+                        <p id="profile_user_links" style="text-align:center;">
+                            {% ifequal request.user object %}
+                                <a href="{% url 'users:view_all_followers' %}" class="card-link">Followers</a>
+                                <span> &middot; </span>
+                                <a href="{% url 'users:view_following' %}" class="card-link">Following</a><br><br>
+                                <a href="{% url 'users:all_message_requests' %}" class="card-link">Message requests</a>
+                                <span> &middot; </span>
+                                <a href="{% url 'users:all_friends' %}" class="card-link">Contact list</a>
+                                </p>
+                            {% endifequal %}
+                    </div>
+                </div>
+
+
                 <h1 class="fn">
                     {{ object.get_profile_name|title }}
                     {% if object.short_bio %}
@@ -102,5 +198,67 @@
         </div>
     </div>
 
-
 {% endblock content %}
+
+{% block modal %}
+
+    <script type="text/javascript">
+        // Send Request
+        $(document).ready(function () {
+            $("a#send_message_request").on("click", function () {
+                {% if not request.user.is_authenticated %}
+                    window.location.href = "{% url 'login' %}";
+                {% else %}
+                    var $add_btn = $(this);
+                    var $add_url = $(this).attr("href");
+                    $.ajax({
+                        url: $add_url,
+                        type: 'GET',
+                        success: function (data) {
+                            $add_btn.text(data);
+
+                            if ($add_btn.hasClass('btn-outline-primary')) {
+                                $add_btn.removeClass('btn-outline-primary').addClass('btn-primary');
+                            } else if ($add_btn.hasClass('btn-primary')) {
+                                $add_btn.removeClass('btn-primary').addClass('btn-outline-primary');
+                            } else {
+                                console.log('Unexpected error!');
+                            }
+                        }
+                    });
+                {% endif %}
+                return false;
+            });
+        });
+    </script>
+
+    <script>
+        // Follow user
+        $(document).ready(function () {
+            $("a#follow_user").on("click", function () {
+                {% if not request.user.is_authenticated %}
+                    window.location.href = "{% url 'login' %}";
+                {% else %}
+                    var $follow_btn = $(this);
+                    var $follow_url = $(this).attr("href");
+                    $.ajax({
+                        url: $follow_url,
+                        type: 'GET',
+                        success: function (data) {
+                            $follow_btn.text(data);
+
+                            if ($follow_btn.hasClass('btn-outline-primary')) {
+                                $follow_btn.removeClass('btn-outline-primary').addClass('btn-primary');
+                            } else if ($follow_btn.hasClass('btn-primary')) {
+                                $follow_btn.removeClass('btn-primary').addClass('btn-outline-primary');
+                            } else {
+                                console.log('Unexpected error!');
+                            }
+                        }
+                    });
+                {% endif %}
+                return false;
+            });
+        });
+    </script>
+{% endblock modal %}

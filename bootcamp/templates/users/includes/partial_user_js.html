@@ -1,0 +1,63 @@
+<script type="text/javascript">
+// Send Request
+$(document).ready(function(){
+  $("a#send_message_request").on("click", function () {
+    {% if not request.user.is_authenticated %}
+    window.location.href = "{% url 'login' %}";
+    {% else %}
+    var $add_btn = $(this);
+    var $add_url = $(this).attr("href");
+    $.ajax({
+      url: $add_url,
+      type: 'GET',
+      success: function (data) {
+        $add_btn.text(data);
+
+        if ($add_btn.hasClass('btn-outline-primary')) {
+          $add_btn.removeClass('btn-outline-primary').addClass('btn-primary');
+        }
+        else if ($add_btn.hasClass('btn-primary')) {
+          $add_btn.removeClass('btn-primary').addClass('btn-outline-primary');
+        }
+        else {
+          console.log('Unexpected error!');
+        }
+      }
+    });
+    {% endif %}
+    return false;
+  });
+});
+</script>
+
+<script>
+// Follow user
+$(document).ready(function(){
+    $("a#follow_user").on("click", function () {
+    {% if not request.user.is_authenticated %}
+    window.location.href = "{% url 'login' %}";
+    {% else %}
+    var $follow_btn = $(this);
+    var $follow_url = $(this).attr("href");
+    $.ajax({
+      url: $follow_url,
+      type: 'GET',
+      success: function (data) {
+        $follow_btn.text(data);
+
+        if ($follow_btn.hasClass('btn-outline-primary')) {
+          $follow_btn.removeClass('btn-outline-primary').addClass('btn-primary');
+        }
+        else if ($follow_btn.hasClass('btn-primary')) {
+          $follow_btn.removeClass('btn-primary').addClass('btn-outline-primary');
+        }
+        else {
+          console.log('Unexpected error!');
+        }
+      }
+    });
+    {% endif %}
+    return false;
+  });
+});
+</script>
