@@ -30,13 +30,16 @@
 {% block body %}
     <div class="m-b-1">
         {% if request.user.is_authenticated %}
-            <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark navbar-extra">
+            <nav class="navbar sticky-top navbar-expand-lg navbar-expand-md navbar-light extra_navbar_styling">
+                <div class="container">
+                    <a class="navbar-brand mb-1" href="#">
+                        <img src="{% static 'img/favicon.png' %}" alt="Bootcamp" height="30px">
+                    </a>
                     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Bootcamp</a>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item"><a class="nav-link" href="{% url 'news:list' %}">{% trans 'News' %}
@@ -54,10 +57,6 @@
                                     <div class="input-group">
                                         <input name="query" type="search" id="searchInput" class="form-control"
                                                placeholder="{% trans 'Search' %}" aria-label="Search">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text"><i class="fa fa-search"
-                                                                              aria-hidden="true"></i></span>
-                                        </div>
                                     </div>
                                 </form>
                             {% endif %}

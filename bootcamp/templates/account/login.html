@@ -48,7 +48,7 @@
               <button type="submit" class="login100-form-btn">{% trans 'Login' %}</button>
             </div>
             <div class="form-group container-login100-form-btn">
-              <a href="{% url 'account_signup' %}" class="btn btn-link">{% trans 'Or sign up for Bootcamp' %}</a>
+                <p class="btn">{% trans "Don't have an account?" %}<a href="{% url 'account_signup' %}" class="btn btn-link">{% trans 'Sign up' %}</a></p>
               <a href="{% url 'account_reset_password' %}" class="btn btn-link pull-right">{% trans 'Forgot your password?' %}</a>
             </div>
           </form>
