@@ -89,7 +89,10 @@ class QAModelsTest(TestCase):
         assert self.question_two.get_accepted_answer() == self.answer
 
     def test_get_popular_tags(self):
-        correct_dict = {"test1": 2, "test2": 2}
+        correct_dict = {
+            "test1": {"count": 2, "slug": "test1"},
+            "test2": {"count": 2, "slug": "test2"},
+        }
         assert Question.objects.get_counted_tags() == correct_dict.items()
 
     # Answer model tests
