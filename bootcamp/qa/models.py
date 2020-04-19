@@ -60,10 +60,7 @@ class QuestionQuerySet(models.query.QuerySet):
         for obj in query:
             for tag in obj.tags.all():
                 if tag.name not in tag_dict:
-                    tag_dict[tag.name] = {
-                        "count": 1,
-                        "slug": tag.slug
-                    }
+                    tag_dict[tag.name] = {"count": 1, "slug": tag.slug}
 
                 else:  # pragma: no cover
                     tag_dict[tag.name]["count"] += 1

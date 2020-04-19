@@ -27,14 +27,13 @@ class ArticleQuerySet(models.query.QuerySet):
 
     def get_counted_tags(self):
         tag_dict = {}
-        query = self.filter(status="P").annotate(tagged=Count("tags")).filter(tags__gt=0)
+        query = (
+            self.filter(status="P").annotate(tagged=Count("tags")).filter(tags__gt=0)
+        )
         for obj in query:
             for tag in obj.tags.all():
                 if tag.name not in tag_dict:
-                    tag_dict[tag.name] = {
-                        "count": 1,
-                        "slug": tag.slug
-                    }
+                    tag_dict[tag.name] = {"count": 1, "slug": tag.slug}
 
                 else:  # pragma: no cover
                     tag_dict[tag.name]["count"] += 1
