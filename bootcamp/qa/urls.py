@@ -21,4 +21,19 @@ urlpatterns = [
     url(r"^question/vote/$", views.question_vote, name="question_vote"),
     url(r"^answer/vote/$", views.answer_vote, name="answer_vote"),
     url(r"^accept-answer/$", views.accept_answer, name="accept_answer"),
+    url(
+        r"^tag/(?P<tag>[-\w]+)/$",
+        views.QuestionListView.as_view(),
+        name="index_noans_tagged",
+    ),
+    url(
+        r"^answered/tag/(?P<tag>[-\w]+)/$",
+        views.QuestionAnsListView.as_view(),
+        name="index_ans_tagged",
+    ),
+    url(
+        r"^indexed/tag/(?P<tag>[-\w]+)/$",
+        views.QuestionsIndexListView.as_view(),
+        name="index_all_tagged",
+    ),
 ]

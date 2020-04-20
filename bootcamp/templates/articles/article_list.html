@@ -12,10 +12,15 @@
 
     <!-- Page Content -->
     <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'news:list' %}">{% trans 'Home' %}</a></li>
-            <li class="breadcrumb-item active"><a href="{% url 'articles:list' %}">{% trans 'Articles' %}</a></li>
-        </ol>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'news:list' %}">{% trans 'Home' %}</a></li>
+        {% if view.kwargs.tag %}
+          <li class="breadcrumb-item"><a href="{% url 'articles:list' %}">{% trans 'Articles' %}</a></li>
+          <li class="breadcrumb-item active"><a href="{% url 'articles:list' %}tag/{{ view.kwargs.tag }}">{{ view.kwargs.tag }}</a></li>
+        {% else %}
+          <li class="breadcrumb-item active"><a href="{% url 'articles:list' %}">{% trans 'Articles' %}</a></li>
+        {% endif %}
+      </ol>
     </nav>
     <div class="row">
         <!-- Blog Entries Column -->
@@ -100,6 +105,26 @@
                     {% endfor %}
                 </div>
             </div>
+
+          </div>
+        {% endif %}
+        <!-- Cloud Tag Widget -->
+        <div class="card my-4">
+          <h5 class="card-header">{% trans 'Cloud tag' %}</h5>
+          <div class="card-body">
+            {% for tag, tag_props in popular_tags %}
+              {% if tag_props.slug == view.kwargs.tag %}
+                <a href="{% url 'articles:list' %}">
+                  <span class="badge badge-success">{{ tag_props.count }} {{ tag }} <i class="fa fa-times" aria-hidden="true"></i></span>
+                </a>
+              {% else %}
+                <a href="{% url 'articles:list' %}tag/{{ tag_props.slug }}">
+                  <span class="badge badge-info">{{ tag_props.count }} {{ tag }}</span>
+                </a>
+              {% endif %}
+            {% endfor %}
+          </div>
+
         </div>
     </div>
     <!-- /.row -->

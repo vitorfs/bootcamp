@@ -19,8 +19,8 @@
         <a href="{% url 'users:detail' question.user.username  %}">{{ question.user.get_profile_name|title }}</a>
         {% if question.tags.names %}
           <p style="position: absolute; bottom: 0;">
-            {% for tag in question.tags.names %}
-              <span class="badge badge-primary">{{ tag }}</span>
+            {% for tag in question.tags.all %}
+              <a href="{% if qa_url %}{{ qa_url }}{% else %}{% url 'qa:index_noans' %}{% endif %}tag/{{ tag.slug }}"><span class="badge badge-primary">{{ tag.name }}</span></a>
             {% endfor %}
           </p>
         {% endif %}
