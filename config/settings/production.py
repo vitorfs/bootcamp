@@ -151,7 +151,7 @@ MIDDLEWARE = [
 
 # Sentry
 # ------------------------------------------------------------------------------
-SENTRY_DSN = env("SENTRY_DSN")
+SENTRY_DSN = env("SENTRY_DSN", default="")
 SENTRY_CLIENT = env(
     "SENTRY_CLIENT", default="raven.contrib.django.raven_compat.DjangoClient"
 )
