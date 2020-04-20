@@ -6,7 +6,7 @@ from .base import env
 # GENERAL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
-SECRET_KEY = env("SECRET_KEY")
+SECRET_KEY = env("SECRET_KEY", default="0wG2N60LqkDwM0Vi42p63bTekW3ac7Jt9w140")
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = env.list(
     "ALLOWED_HOSTS", default=["vitor@freitas.com trybootcamp.vitorfs.com"]
