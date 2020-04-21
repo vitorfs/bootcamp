@@ -9,7 +9,11 @@ from asgiref.sync import async_to_sync
 
 from channels.layers import get_channel_layer
 
-from bootcamp.notifications.models import Notification, create_notification_handler, delete_notification_handler
+from bootcamp.notifications.models import (
+    Notification,
+    create_notification_handler,
+    delete_notification_handler,
+)
 from bootcamp.helpers import fetch_metadata
 
 

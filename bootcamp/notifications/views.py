@@ -5,7 +5,12 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.http import require_http_methods
 from django.views.generic import ListView
-from django.http import JsonResponse, HttpResponseForbidden, HttpResponse, HttpResponseBadRequest
+from django.http import (
+    JsonResponse,
+    HttpResponseForbidden,
+    HttpResponse,
+    HttpResponseBadRequest,
+)
 
 from bootcamp.helpers import ajax_required
 from bootcamp.notifications.models import Notification

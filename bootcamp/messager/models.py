@@ -18,9 +18,9 @@ class MessageQuerySet(models.query.QuerySet):
 
     def unread(self, sender):
         """Return only unread items in the current queryset"""
-        filters = {'unread': True}
+        filters = {"unread": True}
         if sender:
-            filters['sender'] = sender
+            filters["sender"] = sender
         return self.filter(**filters)
 
     def read(self):
@@ -116,6 +116,9 @@ class Message(models.Model):
             lambda: async_to_sync(channel_layer.group_send)(recipient.username, payload)
         )
         notification_broadcast(
-            sender, "message", id_value=str(new_message.uuid_id), recipient=recipient.username
+            sender,
+            "message",
+            id_value=str(new_message.uuid_id),
+            recipient=recipient.username,
         )
         return new_message

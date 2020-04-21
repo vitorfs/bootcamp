@@ -30,7 +30,9 @@ class MessagesListView(LoginRequiredMixin, ListView):
         )
         unread_conversations = []
         for user in users_list:
-            unread_conversations.append(len(self.request.user.received_messages.unread(user)))
+            unread_conversations.append(
+                len(self.request.user.received_messages.unread(user))
+            )
         context["users_dict"] = dict(zip(users_list, unread_conversations))
 
         last_conversation = Message.objects.get_most_recent_conversation(
@@ -56,7 +58,7 @@ class ConversationListView(MessagesListView):
 
     def get_queryset(self):
         # todo: avoid this query overriding the 'unread-messages' call
-        #if(self.kwargs["username"]!="unread-messages"):
+        # if(self.kwargs["username"]!="unread-messages"):
         active_user = get_user_model().objects.get(username=self.kwargs["username"])
         Message.objects.mark_conversation_as_read(active_user, self.request.user)
         return Message.objects.get_conversation(active_user, self.request.user)
@@ -100,7 +102,7 @@ def receive_message(request):
 
 @login_required
 def get_unread_messages(request):
-    sender_str = request.GET.get('sender')
+    sender_str = request.GET.get("sender")
     sender = None
     if sender_str:
         sender = get_user_model().objects.get(username=sender_str)

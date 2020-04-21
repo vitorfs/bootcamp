@@ -59,26 +59,27 @@ class UserListView(LoginRequiredMixin, ListView):
 def picture(request):
     uploaded_picture = False
     try:
-        if request.GET.get('upload_picture') == 'uploaded':
+        if request.GET.get("upload_picture") == "uploaded":
             uploaded_picture = True
 
     except Exception:  # pragma: no cover
         pass
 
-    return render(request, 'users/user_picture.html',
-                  {'uploaded_picture': uploaded_picture})
+    return render(
+        request, "users/user_picture.html", {"uploaded_picture": uploaded_picture}
+    )
 
 
 @login_required
 def upload_picture(request):
     try:
-        profile_pictures = django_settings.MEDIA_ROOT + '/profile_pics/'
+        profile_pictures = django_settings.MEDIA_ROOT + "/profile_pics/"
         if not os.path.exists(profile_pictures):
             os.makedirs(profile_pictures)
 
-        f = request.FILES['picture']
-        filename = profile_pictures + request.user.username + '_tmp.jpg'
-        with open(filename, 'wb+') as destination:
+        f = request.FILES["picture"]
+        filename = profile_pictures + request.user.username + "_tmp.jpg"
+        with open(filename, "wb+") as destination:
             for chunk in f.chunks():
                 destination.write(chunk)
 
@@ -91,23 +92,31 @@ def upload_picture(request):
             im.thumbnail(new_size, Image.ANTIALIAS)
             im.save(filename)
 
-        return redirect('/users/picture/?upload_picture=uploaded')
+        return redirect("/users/picture/?upload_picture=uploaded")
 
     except Exception:
-        return redirect('/users/picture/')
+        return redirect("/users/picture/")
 
 
 @login_required
 def save_uploaded_picture(request):
     try:
-        x = int(request.POST.get('x'))
-        y = int(request.POST.get('y'))
-        w = int(request.POST.get('w'))
-        h = int(request.POST.get('h'))
-        tmp_filename = django_settings.MEDIA_ROOT + '/profile_pics/' + \
-                       request.user.username + '_tmp.jpg'
-        filename = django_settings.MEDIA_ROOT + '/profile_pics/' + \
-                   request.user.username + '.jpg'
+        x = int(request.POST.get("x"))
+        y = int(request.POST.get("y"))
+        w = int(request.POST.get("w"))
+        h = int(request.POST.get("h"))
+        tmp_filename = (
+            django_settings.MEDIA_ROOT
+            + "/profile_pics/"
+            + request.user.username
+            + "_tmp.jpg"
+        )
+        filename = (
+            django_settings.MEDIA_ROOT
+            + "/profile_pics/"
+            + request.user.username
+            + ".jpg"
+        )
         im = Image.open(tmp_filename)
         cropped_im = im.crop((x, y, w + x, h + y))
         cropped_im.thumbnail((200, 200), Image.ANTIALIAS)
@@ -117,4 +126,4 @@ def save_uploaded_picture(request):
     except Exception:
         pass
 
-    return redirect('/users/picture/')
+    return redirect("/users/picture/")

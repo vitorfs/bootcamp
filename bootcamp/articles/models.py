@@ -90,7 +90,9 @@ def notify_comment(**kwargs):  # pragma: no cover
     actor = kwargs["request"].user
     receiver = kwargs["comment"].content_object.user
     obj = kwargs["comment"].content_object
-    create_notification_handler(actor, receiver, Notification.COMMENTED, action_object=obj)
+    create_notification_handler(
+        actor, receiver, Notification.COMMENTED, action_object=obj
+    )
 
 
 comment_was_posted.connect(receiver=notify_comment)

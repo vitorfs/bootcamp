@@ -49,4 +49,6 @@ class TestUserURLs(TestCase):
 
     def test_change_password_resolve(self):
         """/users/~password/ should resolve to users:account_change_password."""
-        self.assertEqual(resolve("/users/~password/").view_name, "users:account_change_password")
+        self.assertEqual(
+            resolve("/users/~password/").view_name, "users:account_change_password"
+        )

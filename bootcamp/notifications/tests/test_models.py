@@ -1,7 +1,11 @@
 from test_plus.test import TestCase
 
 from bootcamp.news.models import News
-from bootcamp.notifications.models import Notification, create_notification_handler, delete_notification_handler
+from bootcamp.notifications.models import (
+    Notification,
+    create_notification_handler,
+    delete_notification_handler,
+)
 
 
 class NotificationsModelsTest(TestCase):
