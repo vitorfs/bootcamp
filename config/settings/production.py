@@ -157,7 +157,7 @@ SENTRY_CLIENT = env(
 )
 LOGGING = {
     "version": 1,
-    "disable_existing_loggers": True,
+    "disable_existing_loggers": False,
     "root": {"level": "WARNING", "handlers": ["sentry"]},
     "formatters": {
         "verbose": {
@@ -182,16 +182,16 @@ LOGGING = {
             "handlers": ["console"],
             "propagate": True,
         },
-        "raven": {"level": "DEBUG", "handlers": ["console"], "propagate": True},
+        "raven": {"level": "DEBUG", "handlers": ["console"], "propagate": False},
         "sentry.errors": {
             "level": "DEBUG",
             "handlers": ["console"],
-            "propagate": True,
+            "propagate": False,
         },
         "django.security.DisallowedHost": {
             "level": "ERROR",
             "handlers": ["console", "sentry"],
-            "propagate": True,
+            "propagate": False,
         },
     },
 }
