@@ -6,7 +6,7 @@ from .base import env
 # GENERAL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
-SECRET_KEY = env("SECRET_KEY", default="0wG2N60LqkDwM0Vi42p63bTekW3ac7Jt9w140")
+SECRET_KEY = env("SECRET_KEY", default="fOqtAorZrVqWYbuMPOcZnTzw2D5bKeHGpXUwCaNBnvFUmO1njCQZGz05x1BhDG0E")
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = env.list(
     "ALLOWED_HOSTS", default=["vitor@freitas.com trybootcamp.vitorfs.com"]
@@ -151,7 +151,7 @@ MIDDLEWARE = [
 
 # Sentry
 # ------------------------------------------------------------------------------
-SENTRY_DSN = env("SENTRY_DSN", default="")
+SENTRY_DSN = env("SENTRY_DSN")
 SENTRY_CLIENT = env(
     "SENTRY_CLIENT", default="raven.contrib.django.raven_compat.DjangoClient"
 )
