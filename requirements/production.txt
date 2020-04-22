@@ -11,3 +11,4 @@ psycopg2 --no-binary psycopg2  # https://github.com/psycopg/psycopg2
 # ------------------------------------------------------------------------------
 django-anymail  # https://github.com/anymail/django-anymail
 django-storages  # https://github.com/jschneier/django-storages
+sentry-sdk
