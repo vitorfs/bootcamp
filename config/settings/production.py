@@ -1,3 +1,4 @@
+import django_heroku
 import logging
 
 from .base import *  # noqa
@@ -204,3 +205,5 @@ RAVEN_CONFIG = {
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+# Activate Django-Heroku.
+django_heroku.settings(locals())
