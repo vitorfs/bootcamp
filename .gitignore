@@ -65,3 +65,4 @@ dump.rdb
 
 venv_bootcamp/
 staticfiles
+.env
