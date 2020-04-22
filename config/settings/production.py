@@ -180,18 +180,18 @@ LOGGING = {
         "django.db.backends": {
             "level": "ERROR",
             "handlers": ["console"],
-            "propagate": False,
+            "propagate": True,
         },
-        "raven": {"level": "DEBUG", "handlers": ["console"], "propagate": False},
+        "raven": {"level": "DEBUG", "handlers": ["console"], "propagate": True},
         "sentry.errors": {
             "level": "DEBUG",
             "handlers": ["console"],
-            "propagate": False,
+            "propagate": True,
         },
         "django.security.DisallowedHost": {
             "level": "ERROR",
             "handlers": ["console", "sentry"],
-            "propagate": False,
+            "propagate": True,
         },
     },
 }
