@@ -61,8 +61,7 @@ docs/_build/
 *.sqlite3
 media/
 node_modules/
-
-.env
+dump.rdb
 
 venv_bootcamp/
 staticfiles
