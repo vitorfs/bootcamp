@@ -178,7 +178,7 @@ SENTRY_CLIENT = env(
 )
 LOGGING = {
     "version": 1,
-    "disable_existing_loggers": False,
+    "disable_existing_loggers": True,
     "root": {"level": "WARNING", "handlers": ["sentry"]},
     "formatters": {
         "verbose": {
@@ -203,23 +203,23 @@ LOGGING = {
             "handlers": ["console"],
             "propagate": True,
         },
-        "raven": {"level": "DEBUG", "handlers": ["console"], "propagate": False},
+        "raven": {"level": "DEBUG", "handlers": ["console"], "propagate": True},
         "sentry.errors": {
             "level": "DEBUG",
             "handlers": ["console"],
-            "propagate": False,
+            "propagate": True,
         },
         "django.security.DisallowedHost": {
             "level": "ERROR",
             "handlers": ["console", "sentry"],
-            "propagate": False,
+            "propagate": True,
         },
     },
 }
 
-SENTRY_CELERY_LOGLEVEL = env.int("SENTRY_LOG_LEVEL", logging.INFO)
+SENTRY_CELERY_LOGLEVEL = env.int("SENTRY_LOG_LEVEL", logging.DEBUG)
 RAVEN_CONFIG = {
-    "CELERY_LOGLEVEL": env.int("SENTRY_LOG_LEVEL", logging.INFO),
+    "CELERY_LOGLEVEL": env.int("SENTRY_LOG_LEVEL", logging.DEBUG),
     "DSN": SENTRY_DSN,
 }
 
