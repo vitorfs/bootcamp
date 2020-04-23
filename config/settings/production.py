@@ -2,27 +2,6 @@ import logging
 
 from .base import *  # noqa
 from .base import env
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
-
-sentry_sdk.init(
-    dsn="https://e00188f615e64b1d80278904ff83df51@o381527.ingest.sentry.io/5208966",
-    integrations=[DjangoIntegration()],
-
-    # If you wish to associate users to errors (assuming you are using
-    # django.contrib.auth) you may enable sending PII data.
-    send_default_pii=True
-)
-
-from django.urls import path
-
-def trigger_error(request):
-    division_by_zero = 1 / 0
-
-urlpatterns = [
-    path('sentry-debug/', trigger_error),
-    # ...
-]
 
 # GENERAL
 # ------------------------------------------------------------------------------
@@ -156,9 +135,9 @@ ANYMAIL = {
     "MAILGUN_SENDER_DOMAIN": env("MAILGUN_SENDER_DOMAIN", default=""),
 }
 
-# Gunicorn
+# Daphne
 # ------------------------------------------------------------------------------
-INSTALLED_APPS += ['gunicorn']  # noqa F405
+INSTALLED_APPS += ['daphne']  # noqa F405
 
 # WhiteNoise
 # ------------------------------------------------------------------------------
