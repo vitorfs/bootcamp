@@ -112,7 +112,7 @@ TEMPLATES[0]["OPTIONS"]["loaders"] = [  # noqa F405
 # https://docs.djangoproject.com/en/dev/ref/settings/#default-from-email
 DEFAULT_FROM_EMAIL = env(
     "DEFAULT_FROM_EMAIL",
-    default="Bootcamp <noreply@vitor@freitas.com trybootcamp.vitorfs.com>",
+    default="webmaster@localhost",
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#server-email
 SERVER_EMAIL = env("SERVER_EMAIL", default=DEFAULT_FROM_EMAIL)
@@ -161,7 +161,7 @@ SENTRY_CLIENT = env(
 )
 LOGGING = {
     "version": 1,
-    "disable_existing_loggers": True,
+    "disable_existing_loggers": False,
     "root": {"level": "WARNING", "handlers": ["sentry"]},
     "formatters": {
         "verbose": {
@@ -186,23 +186,23 @@ LOGGING = {
             "handlers": ["console"],
             "propagate": True,
         },
-        "raven": {"level": "DEBUG", "handlers": ["console"], "propagate": True},
+        "raven": {"level": "DEBUG", "handlers": ["console"], "propagate": False},
         "sentry.errors": {
             "level": "DEBUG",
             "handlers": ["console"],
-            "propagate": True,
+            "propagate": False,
         },
         "django.security.DisallowedHost": {
             "level": "ERROR",
             "handlers": ["console", "sentry"],
-            "propagate": True,
+            "propagate": False,
         },
     },
 }
 
-SENTRY_CELERY_LOGLEVEL = env.int("SENTRY_LOG_LEVEL", logging.DEBUG)
+SENTRY_CELERY_LOGLEVEL = env.int("SENTRY_LOG_LEVEL", logging.INFO)
 RAVEN_CONFIG = {
-    "CELERY_LOGLEVEL": env.int("SENTRY_LOG_LEVEL", logging.DEBUG),
+    "CELERY_LOGLEVEL": env.int("SENTRY_LOG_LEVEL", logging.INFO),
     "DSN": SENTRY_DSN,
 }
 
