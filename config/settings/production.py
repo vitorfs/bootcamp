@@ -5,6 +5,8 @@ from .base import env
 
 # GENERAL
 # ------------------------------------------------------------------------------
+DEBUG = env.bool("DEBUG", default=True)
+
 # https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 SECRET_KEY = env("SECRET_KEY")
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
