@@ -14,7 +14,6 @@ services:
       - redis
     volumes:
       - .:/app
-    env_file: .env
     ports:
       - "8000:8000"
     command: /start.sh
@@ -26,7 +25,6 @@ services:
     volumes:
       - postgres_data_local:/var/lib/postgresql/data
       - postgres_backup_local:/backups
-    env_file: .env
 
   redis:
     image: redis:5.0
