@@ -10,7 +10,7 @@ ROOT_DIR = (
 APPS_DIR = ROOT_DIR.path("bootcamp")
 
 env = environ.Env()
-env.read_env(str(ROOT_DIR.path(".env")))
+# env.read_env(str(ROOT_DIR.path(".env")))
 
 READ_DOT_ENV_FILE = env.bool('DJANGO_READ_DOT_ENV_FILE', default=False)
 if READ_DOT_ENV_FILE:
