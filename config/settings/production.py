@@ -157,7 +157,7 @@ SENTRY_CLIENT = env(
 )
 LOGGING = {
     "version": 1,
-    "disable_existing_loggers": False,
+    "disable_existing_loggers": True,
     "root": {"level": "WARNING", "handlers": ["sentry"]},
     "formatters": {
         "verbose": {
@@ -193,12 +193,6 @@ LOGGING = {
             "handlers": ["console", "sentry"],
             "propagate": False,
         },
-    },
-    'daphne': {
-        'handlers': [
-            'console',
-        ],
-        'level': 'DEBUG'
     },
 }
 

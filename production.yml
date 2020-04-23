@@ -10,6 +10,7 @@ services:
     build:
       context: .
       dockerfile: ./compose/production/django/Dockerfile
+    env_file: .env
     depends_on:
       - postgres
       - redis
@@ -20,6 +21,7 @@ services:
       context: .
       dockerfile: ./compose/production/django/Dockerfile
     command: python manage.py runworker
+    env_file: .env
     depends_on:
       - postgres
       - redis
@@ -40,6 +42,7 @@ services:
       - django
     volumes:
       - caddy:/root/.caddy
+    env_file: .env
     ports:
       - "0.0.0.0:80:80"
       - "0.0.0.0:443:443"
