@@ -3,7 +3,7 @@
 {% load thumbnail %}
 {% load urlize_target_blank %}
 
-<li class="infinite-item" news-id="{{ news.uuid_id }}">
+<li class="infinite-item" news-id="{{ news.uuid_id }}" csrf="{{ csrf_token }}">
     <div class="news-body">
         <div class="profile-picture">
             <img src="{{ news.user.get_picture }}" class="user-image pull-left"

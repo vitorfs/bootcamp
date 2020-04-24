@@ -144,9 +144,9 @@ INSTALLED_APPS += ['daphne']  # noqa F405
 
 # Cors headers
 # ------------------------------------------------------------------------------
-INSTALLED_APPS += ['corsheaders']  # noqa F405
-MIDDLEWARE = ["corsheaders.middleware.CorsMiddleware"] + MIDDLEWARE  # noqa F405
-CORS_ORIGIN_ALLOW_ALL = True
+# INSTALLED_APPS += ['corsheaders']  # noqa F405
+# MIDDLEWARE = ["corsheaders.middleware.CorsMiddleware"] + MIDDLEWARE  # noqa F405
+# CORS_ORIGIN_ALLOW_ALL = True
 
 # WhiteNoise
 # ------------------------------------------------------------------------------

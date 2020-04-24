@@ -4,7 +4,6 @@ from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse, Http
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
-from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from django.views.generic import ListView, DeleteView
 from django.template.context_processors import csrf
@@ -75,7 +74,6 @@ def remove_news(request):
         return HttpResponseBadRequest()
 
 
-@csrf_exempt
 @login_required
 @ajax_required
 @require_http_methods(["POST"])

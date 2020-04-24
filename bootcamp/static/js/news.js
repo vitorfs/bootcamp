@@ -129,7 +129,7 @@ $(function () {
         var news = $(li).attr("news-id");
         payload = {
             'news': news,
-            'csrf_token': csrftoken
+            'csrfmiddlewaretoken': csrftoken
         }
         $.ajax({
             url: '/news/like/',
