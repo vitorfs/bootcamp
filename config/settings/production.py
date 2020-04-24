@@ -2,6 +2,7 @@ import logging
 
 from .base import *  # noqa
 from .base import env
+# import dj_database_url
 
 # GENERAL
 # ------------------------------------------------------------------------------
@@ -138,7 +139,7 @@ ANYMAIL = {
 
 # Daphne
 # ------------------------------------------------------------------------------
-INSTALLED_APPS += ['daphne']  # noqa F405
+INSTALLED_APPS += ['gunicorn']  # noqa F405
 
 # WhiteNoise
 # ------------------------------------------------------------------------------
