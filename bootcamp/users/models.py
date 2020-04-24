@@ -61,7 +61,7 @@ class User(AbstractUser):
         return self.username
 
     def get_picture(self):
-        no_picture = settings.STATIC_URL + '/img/user.png'
+        no_picture = settings.STATIC_URL + 'img/user.png'
         try:
             filename = settings.MEDIA_ROOT + '/profile_pics/' +\
                 self.username + '.jpg'
