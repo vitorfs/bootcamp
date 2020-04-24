@@ -1,5 +1,5 @@
 www.{$DOMAIN_NAME} {
-    redir https://vitor@freitas.com trybootcamp.vitorfs.com
+    redir https://admin@antisocial-app.herokuapp.com antisocial-app.herokuapp.com
 }
 
 {$DOMAIN_NAME} {

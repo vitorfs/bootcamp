@@ -13,7 +13,7 @@ def update_site_forward(apps, schema_editor):
     Site.objects.update_or_create(
         id=settings.SITE_ID,
         defaults={
-            "domain": "vitor@freitas.com trybootcamp.vitorfs.com",
+            "domain": "admin@antisocial-app.herokuapp.com antisocial-app.herokuapp.com",
             "name": "Bootcamp",
         },
     )

@@ -123,6 +123,9 @@ $(function () {
             $.ajax({
                 url: '/notifications/latest-notifications/',
                 cache: false,
+                beforeSend: function () {
+                    $(".popover-content").html("<div style='text-align:center'><img src='/static/img/loading.gif'></div>");
+                },
                 success: function (data) {
                     $("#notifications").popover({
                         html: true,

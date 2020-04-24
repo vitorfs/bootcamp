@@ -10,7 +10,7 @@ from .base import env
 SECRET_KEY = env("SECRET_KEY", default="fOqtAorZrVqWYbuMPOcZnTzw2D5bKeHGpXUwCaNBnvFUmO1njCQZGz05x1BhDG0E")
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = env.list(
-    "ALLOWED_HOSTS", default=["vitor@freitas.com trybootcamp.vitorfs.com"]
+    "ALLOWED_HOSTS", default=["admin@antisocial-app.herokuapp.com antisocial-app.herokuapp.com"]
 )
 
 # DATABASES
