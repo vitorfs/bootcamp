@@ -93,8 +93,8 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # MEDIA
 # ------------------------------------------------------------------------------
-DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-MEDIA_URL = f"https://s3.amazonaws.com/{AWS_STORAGE_BUCKET_NAME}/"
+# DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+# MEDIA_URL = f"https://s3.amazonaws.com/{AWS_STORAGE_BUCKET_NAME}/"
 
 # TEMPLATES
 # ------------------------------------------------------------------------------
@@ -139,7 +139,7 @@ ANYMAIL = {
 
 # Daphne
 # ------------------------------------------------------------------------------
-INSTALLED_APPS += ['gunicorn']  # noqa F405
+INSTALLED_APPS += ['daphne']  # noqa F405
 
 # WhiteNoise
 # ------------------------------------------------------------------------------

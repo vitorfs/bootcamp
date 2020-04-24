@@ -11,6 +11,7 @@ from .models import User
 from ..helpers import ajax_required
 from bootcamp.notifications.models import Notification, create_notification_handler
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+import logging
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):

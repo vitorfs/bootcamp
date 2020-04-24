@@ -11,5 +11,5 @@ psycopg2  # https://github.com/psycopg/psycopg2
 # ------------------------------------------------------------------------------
 django-anymail  # https://github.com/anymail/django-anymail
 django-storages  # https://github.com/jschneier/django-storages
-gunicorn
+daphne
 # dj_database_url
