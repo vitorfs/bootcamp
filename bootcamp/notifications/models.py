@@ -98,6 +98,7 @@ class Notification(models.Model):
         (LOGGED_OUT, _("logged out")),
         (VOTED, _("voted on")),
         (SHARED, _("shared")),
+        (REPLY, _("replied to")),
         (SIGNUP, _("created an account")),
         (FOLLOW, _("followed you")),
         (FRIEND_REQUEST, _("sent you a friend request")),

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block head_title %}{% trans "Friends" %}{% endblock %}
+
+{% block head %}
+    <link href="{% static 'css/user_profile.css' %}?v=1" rel="stylesheet">
+{% endblock head %}
+
+{% block content %}
+    {#{% if request.user.username == object.username %}#}
+    {#{% endif %}#}
+    <div class="page-header">
+        <h1>{% trans 'Friends' %}</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-3 user-profile" style="text-align:center">
+            <img src="{{ object.get_picture }}" class="user-image"
+                 style="width: 150px; border-radius: 50%;"
+                 alt="{% trans 'User Image' %}">
+            {% include 'users/user_profile_partial_menu.html' with active='user_friends' %}
+
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    {% if users %}
+                        {% include "users/includes/partial_user.html" with users=users %}
+                    {% else %}
+                        <div class="card p-4 my-4 mx-0">
+                            <h6 class="text-center">No Contacts Found</h6>
+                            <div style="margin:0 auto;">
+                                <p class="text-muted">You don't have any contact right now.</p>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+{% block modal %}
+    {% include "users/includes/partial_user_js.html" %}
+{% endblock modal %}

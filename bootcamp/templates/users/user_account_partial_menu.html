@@ -1,9 +1,5 @@
 {% load i18n %}
 
-{#<img src="{{ user.get_picture }}" class="user-image"#}
-{#     style="width: 150px; border-radius: 50%; margin-bottom: 2rem; margin-left: 2rem;"#}
-{#     alt="{% trans 'User Image' %}">#}
-
 <div class="list-group">
     <a href="{% url 'users:update' %}"
        class="list-group-item{% if active == 'profile' %} active{% endif %}">{% trans 'Profile' %}</a>

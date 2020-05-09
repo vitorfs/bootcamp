@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% load humanize %}
+
+{% block head_title %}{% trans "Friend Requests" %}{% endblock %}
+
+{% block head %}
+    <link href="{% static 'css/user_profile.css' %}?v=1" rel="stylesheet">
+{% endblock head %}
+
+{% block content %}
+    <!--    {% if request.user.username == object.username %}-->
+        <!--    {% endif %}-->
+    <div class="page-header">
+        <h1>{% trans 'Friend Requests' %}</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-3 user-profile" style="text-align:center">
+            <img src="{{ object.get_picture }}" class="user-image"
+                 style="width: 150px; border-radius: 50%;"
+                 alt="{% trans 'User Image' %}">
+            {% include 'users/user_profile_partial_menu.html' with active='user_friend_requests' %}
+
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    {#{% include "includes/page_heading.html" with text="Message Requests" %}#}
+                    {% for user in users %}
+                        <div class="card">
+                            <div class="card-body">
+
+                                <div class="text-center" style="float:left; width:10%;">
+                                    {% if user.get_picture %}
+                                        <img src="{{ user.get_picture }}" class="rounded" width="50px" height="50px">
+                                    {% endif %}
+                                </div>
+
+                                <div style="float:right; width:90%;">
+                                    <h5 style="font-size:16px;">
+                                        <a href="{% url 'users:detail' user.username %}"
+                                           class="card-link"
+                                           title="{{ user.username }}">{{ user.username }}</a>
+                                        <a href="{% url 'users:accept_message_request' user.id %}"
+                                           class="btn btn-outline-primary btn-sm"
+                                           id="accept_message_request"
+                                           style="float:right;"
+                                           title="Confirm to start a conversation with this user">Confirm</a>
+                                    </h5>
+                                    {# <p>{{board.description|markdown|truncatewords_html:50}}</p>#}
+                                    {# <p class="text-muted">Member since <span#}
+{#                                        title="{{ user.member_since|date:" D d M Y" }} |#}
+{#                        {{ user.member_since|time:"H:i:s" }}">{{ user.member_since|naturaltime }}</span></p>#}
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="card p-4 my-4 mx-0">
+                            <h6 class="text-center">No Requests Found</h6>
+                            <div style="margin:0 auto;">
+                                <p class="text-muted">You don't have any message requests received.</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+{% block modal %}
+    {% include "users/includes/partial_user_js.html" %}
+{% endblock modal %}
+
+

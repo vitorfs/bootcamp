@@ -28,9 +28,34 @@ $(document).ready(function(){
     return false;
   });
 });
-</script>
 
-<script>
+// Confirm Request
+$(document).ready(function(){
+  $("a#accept_message_request").on("click", function () {
+    {% if not request.user.is_authenticated %}
+    window.location.href = "{% url 'login' %}";
+    {% else %}
+    var $confirm_btn = $(this);
+    var $confirm_url = $(this).attr("href");
+    $.ajax({
+      url: $confirm_url,
+      type: 'GET',
+      success: function (data) {
+        $confirm_btn.text(data);
+
+        if ($confirm_btn.hasClass('btn-outline-primary')) {
+          $confirm_btn.removeClass('btn-outline-primary').addClass('btn-primary disabled');
+        }
+        else {
+          console.log('Unexpected error!');
+        }
+      }
+    });
+    {% endif %}
+    return false;
+  });
+});
+
 // Follow user
 $(document).ready(function(){
     $("a#follow_user").on("click", function () {
@@ -61,3 +86,5 @@ $(document).ready(function(){
   });
 });
 </script>
+
+

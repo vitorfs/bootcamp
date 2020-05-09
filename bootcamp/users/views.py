@@ -131,7 +131,7 @@ class FollowersPageView(LoginRequiredMixin, ListView):
     """
     model = User
     paginate_by = 20
-    template_name = 'users/followers.html'
+    template_name = 'users/user_followers.html'
     context_object_name = 'users'
 
     def get_queryset(self, **kwargs):
@@ -144,7 +144,7 @@ class FollowingPageView(LoginRequiredMixin, ListView):
     """
     model = User
     paginate_by = 20
-    template_name = 'users/following.html'
+    template_name = 'users/user_following.html'
     context_object_name = 'users'
 
     def get_queryset(self, **kwargs):
@@ -249,7 +249,7 @@ def all_message_requests(request):
 
     p_obj = users
 
-    return render(request, 'users/view_all_message_requests.html', {
+    return render(request, 'users/user_friend_requests.html', {
         'users': users,
         'page': page,
         'p': p,
@@ -281,7 +281,7 @@ def all_friends(request):
 
     p_obj = users
 
-    return render(request, 'users/view_all_contacts.html', {
+    return render(request, 'users/user_friends.html', {
         'users': users,
         'page': page,
         'p': p,

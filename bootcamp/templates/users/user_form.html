@@ -6,30 +6,30 @@
 {% block head_title %}{% trans "Update Profile" %}{% endblock %}
 
 {% block head %}
-    <link href="{% static 'css/user_form.css' %}?v=1" rel="stylesheet">
+<link href="{% static 'css/user_form.css' %}?v=1" rel="stylesheet">
 {% endblock head %}
 
 {% block content %}
 
-    <div class="page-header">
-        <h1>{% trans 'Account Settings' %}</h1>
+<div class="page-header">
+    <h1>{% trans 'Account Settings' %}</h1>
+</div>
+<div class="row profile">
+    <div class="col-md-3">
+        {% include 'users/user_account_partial_menu.html' with active='profile' %}
     </div>
-    <div class="row profile">
-        <div class="col-md-3">
-            {% include 'users/user_partial_menu.html' with active='profile' %}
-        </div>
-        <div class="col-md-8">
-            <h3 style="margin-bottom: 15px">{% trans 'Edit Profile' %}</h3>
-            <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{% url 'users:update' %}">
-                {% csrf_token %}
-                {{ form|crispy }}
-                <div class="control-group">
-                    <div class="controls">
-                        <button type="submit" class="btn btn-primary">{% trans 'Update Profile' %}</button>
-                    </div>
+    <div class="col-md-8">
+        <h3 style="margin-bottom: 15px">{% trans 'Edit Profile' %}</h3>
+        <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{% url 'users:update' %}">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-primary">{% trans 'Update Profile' %}</button>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
+</div>
 
 {% endblock %}

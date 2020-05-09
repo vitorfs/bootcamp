@@ -13,4 +13,3 @@ django-anymail  # https://github.com/anymail/django-anymail
 django-storages  # https://github.com/jschneier/django-storages
 daphne
 # django-cors-headers
-# dj_database_url
