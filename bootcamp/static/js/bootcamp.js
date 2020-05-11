@@ -16,7 +16,7 @@ Issues with the above approach:
 1. Fragile: Assumes Bootstrap 4's API doesn't change (it does)
 2. Unforgiving: Doesn't allow for any variation in template design
 3. Really Unforgiving: No way to override this behavior
-4. Undocumented: No mention in the documentation, or it's too hard for me to findd
+4. Undocumented: No mention in the documentation, or it's too hard for me to find
 */
 $('.form-group').removeClass('row');
 
