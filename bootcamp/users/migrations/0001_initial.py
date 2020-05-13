@@ -123,51 +123,6 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 (
-                    "facebook_account",
-                    models.URLField(
-                        blank=True,
-                        max_length=255,
-                        null=True,
-                        verbose_name="Facebook profile",
-                    ),
-                ),
-                (
-                    "twitter_account",
-                    models.URLField(
-                        blank=True,
-                        max_length=255,
-                        null=True,
-                        verbose_name="Twitter account",
-                    ),
-                ),
-                (
-                    "github_account",
-                    models.URLField(
-                        blank=True,
-                        max_length=255,
-                        null=True,
-                        verbose_name="GitHub profile",
-                    ),
-                ),
-                (
-                    "linkedin_account",
-                    models.URLField(
-                        blank=True,
-                        max_length=255,
-                        null=True,
-                        verbose_name="LinkedIn profile",
-                    ),
-                ),
-                (
-                    "short_bio",
-                    models.CharField(
-                        blank=True,
-                        max_length=60,
-                        null=True,
-                        verbose_name="Describe yourself",
-                    ),
-                ),
-                (
                     "bio",
                     models.CharField(
                         blank=True, max_length=280, null=True, verbose_name="Short bio"

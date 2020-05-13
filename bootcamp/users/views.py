@@ -41,13 +41,8 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
         "email",
         "job_title",
         "location",
-        "personal_url",
-        "facebook_account",
-        "twitter_account",
-        "github_account",
-        "linkedin_account",
-        "short_bio",
         "bio",
+        "personal_url",
     ]
     model = User
 
@@ -137,6 +132,8 @@ class FollowersPageView(LoginRequiredMixin, ListView):
     Basic ListView implementation to call the followers list per user.
     """
     model = User
+    slug_field = "username"
+    slug_url_kwarg = "username"
     paginate_by = 20
     template_name = 'users/user_followers.html'
     context_object_name = 'users'
@@ -145,16 +142,19 @@ class FollowersPageView(LoginRequiredMixin, ListView):
         return self.request.user.followers.all()
 
 
-class FollowingPageView(LoginRequiredMixin, ListView):
+class FollowingPageView(LoginRequiredMixin, DetailView):
     """
     Basic ListView implementation to call the following list per user.
     """
     model = User
+    slug_field = "username"
+    slug_url_kwarg = "username"
     paginate_by = 20
     template_name = 'users/user_following.html'
     context_object_name = 'users'
 
     def get_queryset(self, **kwargs):
+
         return self.request.user.following.all()
 
 
@@ -233,11 +233,12 @@ def block_spammer(request, user_id):
 
 
 @login_required
-def all_message_requests(request):
+def all_message_requests(request, username):
     """
     Displays a message requests list of users.
     """
-    message_requests = request.user.pending_list.all()
+    user = User.objects.get(username=username)
+    message_requests = user.pending_list.all()
 
     paginator = Paginator(message_requests, 20)
     page = request.GET.get('page')
@@ -257,6 +258,7 @@ def all_message_requests(request):
     p_obj = users
 
     return render(request, 'users/user_friend_requests.html', {
+        'user': user,
         'users': users,
         'page': page,
         'p': p,
@@ -265,11 +267,12 @@ def all_message_requests(request):
 
 
 @login_required
-def all_friends(request):
+def all_friends(request, username):
     """
     Displays a friends list of users.
     """
-    user_contact_list = request.user.contact_list.all()
+    user = User.objects.get(username=username)
+    user_contact_list = user.contact_list.all()
 
     paginator = Paginator(user_contact_list, 20)
     page = request.GET.get('page')
@@ -289,6 +292,7 @@ def all_friends(request):
     p_obj = users
 
     return render(request, 'users/user_friends.html', {
+        'user': user,
         'users': users,
         'page': page,
         'p': p,

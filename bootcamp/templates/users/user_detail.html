@@ -20,7 +20,7 @@
             <img src="{{ object.get_picture }}" class="user-image"
                  style="width: 150px; border-radius: 50%;"
                  alt="{% trans 'User Image' %}">
-            {% include 'users/user_profile_menu.html' with active='user_detail' %}
+{#            {% include 'users/user_profile_menu.html' with active='user_detail' %}#}
 
         </div>
         <div class="col-md-8">
@@ -100,9 +100,6 @@
                     </h4>
                     <h1 class="fn">
                         {{ object.get_profile_name }}
-                        {% if object.short_bio %}
-                            <br/><small style="font-size: 50%">{{ object.short_bio }}</small>
-                        {% endif %}
                     </h1>
                     <p>
                         <i class="fa fa-user-circle-o" aria-hidden="true"></i>
@@ -123,36 +120,48 @@
                         <a href="{{ object.personal_url }}" style="font-size: 2em" title="{% trans 'RSS Channel' %}"><i
                                 class="fa fa-rss"></i> </a>
                     {% endif %}
-                    {% if object.twitter_account %}
-                        <a href="{{ object.twitter_account }}" style="font-size: 2em"
-                           title="{% trans 'Twitter Profile' %}"><i
-                                class="fa fa-twitter"></i> </a>
-                    {% endif %}
-                    {% if object.github_account %}
-                        <a href="{{ object.github_account }}" style="font-size: 2em"
-                           title="{% trans 'Github Profile' %}"><i
-                                class="fa fa-github"></i> </a>
-                    {% endif %}
-                    {% if object.linkedin_account %}
-                        <a href="{{ object.linkedin_account }}" style="font-size: 2em"
-                           title="{% trans 'LinkedIn Profile' %}"><i
-                                class="fa fa-linkedin"></i> </a>
-                    {% endif %}
-                    {% if object.facebook_account %}
-                        <a href="{{ object.facebook_account }}" style="font-size: 2em"
-                           title="{% trans 'Facebook Profile' %}"><i
-                                class="fa fa-facebook"></i> </a>
-                    {% endif %}
                 </div>
             </div>
-                <div class="infinite-container" style="margin-top: 20px">
-                    <h5>Activity</h5>
-                    <ul class="stream">
-                        {% for news in news_list %}
-                            {% include 'news/news_single.html' with news=news %}
-                        {% endfor %}
-                    </ul>
+            <div class="container mt-3">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#user_activity">Activity</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#user_friends">Friends</a>
+                    </li>
+                     <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#user_friend_requests">Friend Requests</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#user_followers">Followers</a>
+                    </li>
+                     <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#user_following">Following</a>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div id="user_activity" class="container tab-pane active"><br>
+                       {% include 'users/user_activity.html' %}
+                    </div>
+                     <div id="user_friend_requests" class="container tab-pane fade"><br>
+                        {% include 'users/user_friend_requests.html' with users=object.pending_list.all %}
+                    </div>
+                    <div id="user_friends" class="container tab-pane fade"><br>
+                       {% include 'users/user_friends.html' with users=object.contact_list.all %}
+                    </div>
+                    <div id="user_followers" class="container tab-pane fade"><br>
+                        {% include 'users/user_followers.html' with users=object.followers.all %}
+                    </div>
+                     <div id="user_following" class="container tab-pane fade"><br>
+                        {% include 'users/user_following.html' %}
+                    </div>
                 </div>
+
+            </div>
         </div>
     </div>
 

@@ -21,21 +21,6 @@ class User(AbstractUser):
     personal_url = models.URLField(
         _("Personal URL"), max_length=555, blank=True, null=True
     )
-    facebook_account = models.URLField(
-        _("Facebook profile"), max_length=255, blank=True, null=True
-    )
-    twitter_account = models.URLField(
-        _("Twitter account"), max_length=255, blank=True, null=True
-    )
-    github_account = models.URLField(
-        _("GitHub profile"), max_length=255, blank=True, null=True
-    )
-    linkedin_account = models.URLField(
-        _("LinkedIn profile"), max_length=255, blank=True, null=True
-    )
-    short_bio = models.CharField(
-        _("Describe yourself"), max_length=60, blank=True, null=True
-    )
     bio = models.CharField(_("Short bio"), max_length=280, blank=True, null=True)
 
     followers = models.ManyToManyField(

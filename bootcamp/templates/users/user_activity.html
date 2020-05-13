@@ -1,0 +1,8 @@
+<div class="infinite-container" style="margin-top: 20px">
+    <h5>Activity</h5>
+    <ul class="stream">
+        {% for news in news_list %}
+            {% include 'news/news_single.html' with news=news %}
+        {% endfor %}
+    </ul>
+</div>

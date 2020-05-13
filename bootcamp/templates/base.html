@@ -42,13 +42,13 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav mr-auto">
-                            <li class="nav-item"><a class="nav-link" href="{% url 'news:list' %}">{% trans 'News' %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'news:list' %}">{% trans 'Home' %}
                                 <span class="sr-only">(current)</span></a></li>
                             <li class="nav-item"><a class="nav-link" href="{% url 'articles:list' %}">Blog</a></li>
                             <li class="nav-item"><a class="nav-link"
                                                     href="{% url 'qa:index_noans' %}">{% trans 'Q&A' %}</a></li>
                             <li class="nav-item"><a class="nav-link"
-                                                    href="{% url 'users:list' %}">{% trans 'Contacts' %}</a></li>
+                                                    href="{% url 'users:list' %}">{% trans 'Network' %}</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             {% if not hide_search %}

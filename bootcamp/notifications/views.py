@@ -20,7 +20,7 @@ class NotificationUnreadListView(LoginRequiredMixin, ListView):
     template_name = "notifications/notification_list.html"
 
     def get_queryset(self, **kwargs):
-        return self.request.user.notifications.unread()
+        return self.request.user.notifications.all()
 
 
 @login_required
