@@ -11,7 +11,6 @@ from .models import User
 from ..helpers import ajax_required
 from bootcamp.notifications.models import Notification, create_notification_handler
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-import logging
 
 from ..news.models import News
 
@@ -104,10 +103,10 @@ def upload_picture(request):
             im.thumbnail(new_size, Image.ANTIALIAS)
             im.save(filename)
 
-        return redirect('/users/picture/?upload_picture=uploaded')
+        return redirect('/picture/?upload_picture=uploaded')
 
     except Exception:
-        return redirect('/users/picture/')
+        return redirect('/picture/')
 
 
 @login_required
@@ -130,7 +129,7 @@ def save_uploaded_picture(request):
     except Exception:
         pass
 
-    return redirect('/users/picture/')
+    return redirect('/picture/')
 
 
 class FollowersPageView(LoginRequiredMixin, ListView):

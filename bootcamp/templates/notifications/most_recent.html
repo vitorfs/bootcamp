@@ -16,12 +16,13 @@
             </li>
         {% endfor %}
         <div class="btn-group btn-group-sm" role="group" style="margin-top: 0.4rem">
-            <a type="button" class="btn btn-light text-center"
-               href="{% url 'notifications:unread' %}">{% trans 'See all' %}</a>
-            {#            <a type="button" class="btn btn-light text-center float-right"#}
-            {#               href="{% url 'notifications:mark_all_read' %}">{% trans 'Mark all as read' %}</a>#}
+            <a href="{% url 'notifications:unread' %}">{% trans 'See all' %}</a>
         </div>
     {% else %}
         <li class="text-center" data-empty="true">{% trans 'You have no unread notification' %}</li>
     {% endif %}
 </ul>
+
+{% block modal %}
+    {% include "users/includes/partial_user_js.html" %}
+{% endblock modal %}
