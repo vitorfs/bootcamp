@@ -81,6 +81,7 @@ def mark_as_read_ajax(request):
 @login_required
 def get_latest_notifications(request):
     notifications = request.user.notifications.get_most_recent()
+    request.user.notifications.mark_all_as_read()
     return render(
         request, "notifications/most_recent.html", {"notifications": notifications}
     )

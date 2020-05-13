@@ -61,7 +61,7 @@
                                 </form>
                             {% endif %}
                             <li class="nav-item">
-                                <a class="bell-notifications" href="#" id="notifications" data-toggle="popover"
+                                <a class="bell-notifications" href="#" id="notifications" data-container="body" data-toggle="popover" data-placement="bottom"
                                    data-title="{% trans 'Notifications' %}">
                                     <i class="fa fa-bell" aria-hidden="true" style="color: grey"></i>
                                     <span id="countnotif" class="badge"></span>
@@ -70,7 +70,7 @@
                             <li class="nav-item">
                                 <a class="inbox-notifications" href="{% url 'messager:messages_list' %}" id="inbox"
                                    data-toggle="popover" data-title="{% trans 'Inbox' %}">
-                                    <i class="fa fa-envelope" aria-hidden="true" style="color: grey"></i>
+                                    <i class="fa fa-comment" aria-hidden="true" style="color: grey"></i>
                                     <span id="countmsg" class="badge"></span>
                                 </a>
                             </li>

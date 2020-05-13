@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse, HttpResponseForbidden
+from django.shortcuts import get_object_or_404, render
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
@@ -27,6 +28,11 @@ class NewsDeleteView(LoginRequiredMixin, AuthorRequiredMixin, DeleteView):
 
     model = News
     success_url = reverse_lazy("news:list")
+
+
+def news(request, pk):
+    news = get_object_or_404(News, pk=pk)
+    return render(request, 'news/news_activity.html', {'news': news})
 
 
 @login_required

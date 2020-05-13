@@ -48,7 +48,7 @@ class NotificationQuerySet(models.query.QuerySet):
 
     def get_most_recent(self):
         """Returns the most recent unread elements in the queryset"""
-        return self.unread()[:5]
+        return self.all()[:5]
 
 
 class Notification(models.Model):

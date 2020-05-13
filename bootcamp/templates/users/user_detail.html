@@ -5,6 +5,8 @@
 
 {% block head %}
     <link href="{% static 'css/user_profile.css' %}?v=1" rel="stylesheet">
+    <link href="{% static 'css/news.css' %}?v=1" rel="stylesheet">
+
 {% endblock head %}
 
 {% block content %}
@@ -18,7 +20,7 @@
             <img src="{{ object.get_picture }}" class="user-image"
                  style="width: 150px; border-radius: 50%;"
                  alt="{% trans 'User Image' %}">
-            {% include 'users/user_profile_partial_menu.html' with active='user_detail' %}
+            {% include 'users/user_profile_menu.html' with active='user_detail' %}
 
         </div>
         <div class="col-md-8">
@@ -143,6 +145,14 @@
                     {% endif %}
                 </div>
             </div>
+                <div class="infinite-container" style="margin-top: 20px">
+                    <h5>Activity</h5>
+                    <ul class="stream">
+                        {% for news in news_list %}
+                            {% include 'news/news_single.html' with news=news %}
+                        {% endfor %}
+                    </ul>
+                </div>
         </div>
     </div>
 

@@ -13,12 +13,20 @@ from bootcamp.notifications.models import Notification, create_notification_hand
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 import logging
 
+from ..news.models import News
+
 
 class UserDetailView(LoginRequiredMixin, DetailView):
     model = User
+    paginate_by = 20
     # These next two lines tell the view to index lookups by username
     slug_field = "username"
     slug_url_kwarg = "username"
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['news_list'] = News.objects.filter(user=self.request.user)
+        return context
 
 
 class UserRedirectView(LoginRequiredMixin, RedirectView):

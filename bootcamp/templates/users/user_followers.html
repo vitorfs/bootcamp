@@ -18,7 +18,7 @@
             <img src="{{ object.get_picture }}" class="user-image"
                  style="width: 150px; border-radius: 50%;"
                  alt="{% trans 'User Image' %}">
-            {% include 'users/user_profile_partial_menu.html' with active='user_followers' %}
+            {% include 'users/user_profile_menu.html' with active='user_followers' %}
 
         </div>
         <div class="col-md-8">
