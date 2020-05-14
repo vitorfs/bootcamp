@@ -1,9 +1,7 @@
 Django Social Network
 =====================
 
-A social network like Twitter, Instagram and Facebook
-
-An social network derived from the open source Bootcamp project, with new features and design.
+A Social Network derived from the open source Bootcamp project, with new features and design.
 
 The project has four basic apps:
 
