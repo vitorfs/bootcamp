@@ -3,25 +3,7 @@ Django Social Network
 
 A social network like Twitter, Instagram and Facebook
 
-.. image:: https://travis-ci.org/gusbakker/bootcamp.svg?branch=myversion
-    :target: https://travis-ci.org/gusbakker/bootcamp
-    :alt: TravisCI Status
-
-.. image:: https://coveralls.io/repos/github/gusbakker/bootcamp/badge.svg?branch=myversion
-    :target: https://coveralls.io/github/gusbakker/bootcamp?branch=master
-    :alt: Coverage
-
-.. image:: https://requires.io/github/gusbakker/bootcamp/requirements.svg?branch=myversion
-    :target: https://requires.io/github/gusbakker/bootcamp/requirements/?branch=master
-    :alt: Requirements
-
-.. image:: https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg
-    :target: https://github.com/pydanny/cookiecutter-django/
-    :alt: Built with Cookiecutter Django
-
-:License: MIT
-
-Bootcamp is an open source **enterprise social network** of open purpose, on which you can build for your own ends.
+An social network derived from the open source Bootcamp project, with new features and design.
 
 The project has four basic apps:
 
