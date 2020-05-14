@@ -1,20 +1,10 @@
 
+.user-card{
+    margin-left: 70px;
+}
+
 .clear {
     clear: both;
-}
-
-#contact-info {
-    margin-left: 0px;
-}
-
-#page-wrap {
-    width: 800px;
-    margin: 40px auto 60px;
-}
-
-#pic {
-    float: right;
-    margin: -30px 0 0 0;
 }
 
 p {

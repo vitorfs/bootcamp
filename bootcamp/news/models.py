@@ -26,6 +26,9 @@ class News(models.Model):
     parent = models.ForeignKey(
         "self", blank=True, null=True, on_delete=models.CASCADE, related_name="thread"
     )
+    image = models.ImageField(
+        _("News image"), upload_to="news_pictures/%Y/%m/%d/"
+    )
     timestamp = models.DateTimeField(auto_now_add=True)
     uuid_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     content = models.TextField(max_length=280)

@@ -1,18 +1,18 @@
-Bootcamp
-========
+Django Social Network
+=====================
 
-An enterprise oriented social network
+A social network like Twitter, Instagram and Facebook
 
-.. image:: https://travis-ci.org/vitorfs/bootcamp.svg?branch=master
-    :target: https://travis-ci.org/vitorfs/bootcamp
+.. image:: https://travis-ci.org/gusbakker/bootcamp.svg?branch=myversion
+    :target: https://travis-ci.org/gusbakker/bootcamp
     :alt: TravisCI Status
 
-.. image:: https://coveralls.io/repos/github/vitorfs/bootcamp/badge.svg?branch=master
-    :target: https://coveralls.io/github/vitorfs/bootcamp?branch=master
+.. image:: https://coveralls.io/repos/github/gusbakker/bootcamp/badge.svg?branch=myversion
+    :target: https://coveralls.io/github/gusbakker/bootcamp?branch=master
     :alt: Coverage
 
-.. image:: https://requires.io/github/vitorfs/bootcamp/requirements.svg?branch=master
-    :target: https://requires.io/github/vitorfs/bootcamp/requirements/?branch=master
+.. image:: https://requires.io/github/gusbakker/bootcamp/requirements.svg?branch=myversion
+    :target: https://requires.io/github/gusbakker/bootcamp/requirements/?branch=master
     :alt: Requirements
 
 .. image:: https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg
@@ -25,7 +25,7 @@ Bootcamp is an open source **enterprise social network** of open purpose, on whi
 
 The project has four basic apps:
 
-* News (A Twitter-like microblog)
+* Feed (A Twitter-like microblog)
 * Articles (A collaborative blog)
 * Question & Answers (A Stack Overflow-like platform)
 * Messenger (A basic chat-a-like tool for asynchronous communication.)
@@ -34,7 +34,7 @@ Technology Stack
 ----------------
 
 * Python_ 3.6.x / 3.7.x
-* `Django Web Framework`_ 2.2.x
+* `Django 3`_
 * PostgreSQL_
 * `Redis 5.0`_
 * Daphne_
@@ -42,7 +42,7 @@ Technology Stack
 * Docker_
 * docker-compose_
 * WhiteNoise_
-* `Twitter Bootstrap 4`_
+* `Bootstrap 4`_
 * `jQuery 3`_
 * Django-channels_ (for WebSockets)
 * Sentry_
@@ -50,7 +50,7 @@ Technology Stack
 * Cookiecutter_
 
 .. _Python: https://www.python.org/
-.. _`Django Web Framework`: https://www.djangoproject.com/
+.. _`Django 3`: https://www.djangoproject.com/
 .. _PostgreSQL: https://www.postgresql.org/
 .. _`Redis 5.0`: https://redis.io/documentation
 .. _Daphne: https://github.com/django/daphne/
@@ -58,15 +58,22 @@ Technology Stack
 .. _Docker: https://docs.docker.com/
 .. _docker-compose: https://docs.docker.com/compose/
 .. _WhiteNoise: http://whitenoise.evans.io/en/stable/
-.. _`Twitter Bootstrap 4`: https://getbootstrap.com/docs/4.0/getting-started/introduction/
+.. _`Bootstrap 4`: https://getbootstrap.com/docs/4.0/getting-started/introduction/
 .. _`jQuery 3`: https://api.jquery.com/
 .. _Django-channels: https://channels.readthedocs.io/en/latest/
 .. _Sentry: https://docs.sentry.io/
 .. _Mailgun: https://www.mailgun.com/
 .. _Cookiecutter: http://cookiecutter-django.readthedocs.io/en/latest/index.html
 
-Basic Commands
---------------
+Create tables in DB
+^^^^^^^^^^^^^^^^^^^
+
+    $ python manage.py migrate
+
+Run application
+^^^^^^^^^^^^^^^
+
+    $ python manage.py runserver
 
 Test coverage
 ^^^^^^^^^^^^^

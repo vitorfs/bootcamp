@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Bootcamp{% endblock title %}</title>
     <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
-    <meta name="description" content="An enterprise Social Network">
-    <meta name="author" content="Sebastian Reyes">
+    <meta name="description" content="A Social Network">
+    <meta name="author" content="Gustavo Bakker">
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -61,7 +61,8 @@
                                 </form>
                             {% endif %}
                             <li class="nav-item">
-                                <a class="bell-notifications" href="#" id="notifications" data-container="body" data-toggle="popover" data-placement="bottom"
+                                <a class="bell-notifications" href="#" id="notifications" data-container="body"
+                                   data-toggle="popover" data-placement="bottom"
                                    data-title="{% trans 'Notifications' %}">
                                     <i class="fa fa-bell" aria-hidden="true" style="color: grey"></i>
                                     <span id="countnotif" class="badge"></span>

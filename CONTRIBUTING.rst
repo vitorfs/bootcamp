@@ -39,7 +39,7 @@ If you find a bug, try your best to provide the necessary information to replica
 * Any details about your local setup that might be helpful in troubleshooting.
 * Detailed steps to reproduce the bug.
 
-.. _`this project`: https://github.com/vitorfs/bootcamp/issues
+.. _`this project`: https://github.com/gusbakker/bootcamp/issues
 
 ===================
 Fix Bugs
@@ -71,7 +71,7 @@ If you are proposing a feature:
 * Keep the scope as narrow as possible, to make it easier to implement.
 * Remember that this is a volunteer-driven project, and that contributions are welcome :)
 
-.. _`this project`: https://github.com/vitorfs/bootcamp/issues
+.. _`this project`: https://github.com/gusbakker/bootcamp/issues
 
 ===================
 Issues and support

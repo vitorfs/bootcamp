@@ -7,6 +7,7 @@ from allauth.account.forms import ChangePasswordForm
 from django.db import models
 from django.urls import reverse
 from django.conf import settings
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.signals import user_logged_in, user_logged_out
 
@@ -32,6 +33,8 @@ class User(AbstractUser):
     pending_list = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name='my_pending_requests', blank=True
     )
+    member_since = models.DateTimeField(default=timezone.now)
+
 
     def __str__(self):
         return self.username

@@ -22,16 +22,11 @@ class MessagesListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        users_list = (
-            get_user_model()
-            .objects.filter(is_active=True)
-            .exclude(username=self.request.user)
-            .order_by("username")
-        )
+        contact_list = self.request.user.contact_list.all().order_by("username")
         unread_conversations = []
-        for user in users_list:
+        for user in contact_list:
             unread_conversations.append(len(self.request.user.received_messages.unread(user)))
-        context["users_dict"] = dict(zip(users_list, unread_conversations))
+        context["users_dict"] = dict(zip(contact_list, unread_conversations))
 
         last_conversation = Message.objects.get_most_recent_conversation(
             self.request.user
