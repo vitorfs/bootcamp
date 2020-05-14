@@ -20,11 +20,11 @@
             <img src="{{ object.get_picture }}" class="user-image"
                  style="width: 150px; border-radius: 50%;"
                  alt="{% trans 'User Image' %}">
-{#            {% include 'users/user_profile_menu.html' with active='user_detail' %}#}
+            {#            {% include 'users/user_profile_menu.html' with active='user_detail' %}#}
 
         </div>
         <div class="col-md-8">
-            <div id="contact-info" class="card">
+            <div id="contact-info" class="card" style="margin-bottom: 15px">
                 <div class="card-body">
                     <h4 class="card-title">
                         {% ifequal request.user object %}
@@ -122,45 +122,42 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="container mt-3">
-                <!-- Nav tabs -->
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#user_activity">Activity</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#user_friends">Friends</a>
-                    </li>
-                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#user_friend_requests">Friend Requests</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#user_followers">Followers</a>
-                    </li>
-                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#user_following">Following</a>
-                    </li>
-                </ul>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#user_activity">Activity</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#user_friends">Friends</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#user_friend_requests">Friend Requests</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#user_followers">Followers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#user_following">Following</a>
+                </li>
+            </ul>
 
-                <!-- Tab panes -->
-                <div class="tab-content">
-                    <div id="user_activity" class="container tab-pane active"><br>
-                       {% include 'users/user_activity.html' %}
-                    </div>
-                     <div id="user_friend_requests" class="container tab-pane fade"><br>
-                        {% include 'users/user_friend_requests.html' with users=object.pending_list.all %}
-                    </div>
-                    <div id="user_friends" class="container tab-pane fade"><br>
-                       {% include 'users/user_friends.html' with users=object.contact_list.all %}
-                    </div>
-                    <div id="user_followers" class="container tab-pane fade"><br>
-                        {% include 'users/user_followers.html' with users=object.followers.all %}
-                    </div>
-                     <div id="user_following" class="container tab-pane fade"><br>
-                        {% include 'users/user_following.html' %}
-                    </div>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div id="user_activity" class="container tab-pane active"><br>
+                    {% include 'users/user_activity.html' with user_activity=user_activity %}
                 </div>
-
+                <div id="user_friend_requests" class="container tab-pane fade"><br>
+                    {% include 'users/user_friend_requests.html' with users=object.pending_list.all %}
+                </div>
+                <div id="user_friends" class="container tab-pane fade"><br>
+                    {% include 'users/user_friends.html' with users=object.contact_list.all %}
+                </div>
+                <div id="user_followers" class="container tab-pane fade"><br>
+                    {% include 'users/user_followers.html' with users=object.followers.all %}
+                </div>
+                <div id="user_following" class="container tab-pane fade"><br>
+                    {% include 'users/user_following.html' %}
+                </div>
             </div>
         </div>
     </div>

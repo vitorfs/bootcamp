@@ -24,7 +24,7 @@ class UserDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['news_list'] = News.objects.filter(user=self.request.user)
+        context['user_activity'] = News.objects.filter(user=context['user'])
         return context
 
 
