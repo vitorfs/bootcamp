@@ -9,6 +9,7 @@ from asgiref.sync import async_to_sync
 
 from channels.layers import get_channel_layer
 
+from bootcamp.groups.models import Group
 from bootcamp.notifications.models import Notification, create_notification_handler, delete_notification_handler
 from bootcamp.helpers import fetch_metadata
 
@@ -29,6 +30,7 @@ class News(models.Model):
     image = models.ImageField(
         _("News image"), upload_to="news_pictures/%Y/%m/%d/"
     )
+    group = models.ForeignKey(Group, related_name='submitted_news', on_delete=models.CASCADE, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     uuid_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     content = models.TextField(max_length=280)

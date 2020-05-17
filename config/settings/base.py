@@ -29,7 +29,7 @@ TIME_ZONE = "UTC"
 # https://docs.djangoproject.com/en/dev/ref/settings/#language-code
 LANGUAGE_CODE = "en-us"
 # https://docs.djangoproject.com/en/dev/ref/settings/#site-id
-SITE_ID = 1
+# SITE_ID = 1
 # https://docs.djangoproject.com/en/dev/ref/settings/#use-i18n
 USE_I18N = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#use-l10n
@@ -61,6 +61,7 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.humanize",
     "django.contrib.admin",
+    'django.contrib.flatpages',
     "django.forms",
 ]
 THIRD_PARTY_APPS = [
@@ -69,9 +70,9 @@ THIRD_PARTY_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-    # 'allauth.socialaccount.providers.amazon',
-    # 'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.facebook',
     # 'allauth.socialaccount.providers.google',
+    # 'allauth.socialaccount.providers.github',
     # 'allauth.socialaccount.providers.linkedin',
     # 'allauth.socialaccount.providers.slack',
     "channels",
@@ -89,6 +90,7 @@ LOCAL_APPS = [
     "bootcamp.notifications.apps.NotificationsConfig",
     "bootcamp.qa.apps.QaConfig",
     "bootcamp.search.apps.SearchConfig",
+    "bootcamp.groups.apps.GroupsConfig",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -102,8 +104,8 @@ MIGRATION_MODULES = {"sites": "bootcamp.contrib.sites.migrations"}
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#authentication-backends
 AUTHENTICATION_BACKENDS = [
-    "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
+    "django.contrib.auth.backends.ModelBackend",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
 AUTH_USER_MODEL = "users.User"
@@ -240,6 +242,40 @@ ACCOUNT_ADAPTER = "bootcamp.users.adapters.AccountAdapter"
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 SOCIALACCOUNT_ADAPTER = "bootcamp.users.adapters.SocialAccountAdapter"
 
+SOCIALACCOUNT_PROVIDERS = \
+    {'facebook':
+       {'METHOD': 'oauth2',
+        'SCOPE': ['email','public_profile', 'user_friends'],
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'FIELDS': [
+            'id',
+            'email',
+            'name',
+            'first_name',
+            'last_name',
+            'verified',
+            'locale',
+            'timezone',
+            'link',
+            'gender',
+            'updated_time'],
+        'EXCHANGE_TOKEN': True,
+        'LOCALE_FUNC': lambda request: 'kr_KR',
+        'VERIFIED_EMAIL': False,
+        'VERSION': 'v2.4'}}
+
+#facebook
+SOCIAL_AUTH_FACEBOOK_KEY = '235733170178008'
+SOCIAL_AUTH_FACEBOOK_SECRET ='6f599b043c05d34e5af3e7fa4d4ad3bb'
+
+# LOGIN_REDIRECT_URL = "/"
+#if you succeed in login, you'll be redirected to the main page.
+
+#site id
+SITE_ID = 3 # for the dev mode, you need to use localhost's id facebook does not support the name 127.0.0.1:8000
+#little options for your page's signup.
+ACCOUNT_EMAIL_REQUIRED=True
+ACCOUNT_USERNAME_REQURIED=True
 
 # Your stuff...
 # ------------------------------------------------------------------------------

@@ -30,7 +30,7 @@
 {% block body %}
     <div class="m-b-1">
         {% if request.user.is_authenticated %}
-            <nav class="navbar sticky-top navbar-expand-lg navbar-expand-md navbar-light extra_navbar_styling">
+            <nav class="navbar fixed-top navbar-expand-lg navbar-expand-md navbar-light extra_navbar_styling">
                 <div class="container">
                     <a class="navbar-brand mb-1" href="#">
                         <img src="{% static 'img/favicon.png' %}" alt="Bootcamp" height="30px">

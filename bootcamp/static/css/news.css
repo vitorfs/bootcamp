@@ -63,6 +63,10 @@ ul.stream li div.post div.interaction a {
   overflow-x: auto;
 }
 
+.ads-column {
+    margin-top: 77px;
+}
+
 .timestamp {
   font-size: 0.8em;
   color: grey;

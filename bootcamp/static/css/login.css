@@ -209,7 +209,19 @@ iframe {
   display: block;
 }
 
+.or-seperator {
+    margin: 20px 0 10px;
+    text-align: center;
+    border-top: 1px solid #ccc;
+}
 
+.or-seperator i {
+    padding: 0 10px;
+    background: #ffffff;
+    position: relative;
+    top: -11px;
+    z-index: 1;
+}
 
 /*------------------------------------------------------------------
 [ Input ]*/

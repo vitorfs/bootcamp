@@ -11,7 +11,7 @@
 {% block content %}
     <!-- Container -->
     <div class="row">
-        <div class="col-md-6 offset-md-3">
+        <div class="col-md-7 offset-md-1">
             <div class="page-header">
                 <button type="button" class="btn btn-primary pull-right btn-compose" data-toggle="modal"
                         data-target="#newsFormModal">
@@ -22,34 +22,45 @@
             <div class="card">
                 <h5 class="card-header">{% trans 'Latest posts' %}</h5>
 
-                    <!-- Modals -->
-                    {% include 'news/news_form_modal.html' %}
-                    {% include 'news/news_thread_modal.html' %}
-                    <!-- End Modals -->
+                <!-- Modals -->
+                {% include 'news/news_form_modal.html' %}
+                {% include 'news/news_thread_modal.html' %}
+                <!-- End Modals -->
 
-                    <!-- News List -->
-                    <div class="stream-update">
-                        <a href="{% url 'news:list' %}"><span
-                                class="new-posts"></span> {% trans 'There are new posts' %}
-                        </a>
-                    </div>
-                    <div class="infinite-container ">
-                        <ul class="stream">
-                            {% for news in news_list %}
-                                {% include 'news/news_single.html' with news=news %}
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    <div class="load">
-                        {% if page_obj.has_next %}
-                            <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"><img
-                                    src="{% static 'img/loading.gif' %}"></a>
-                        {% endif %}
-                    </div>
-                    <!-- End News List -->
+                <!-- News List -->
+                <div class="stream-update">
+                    <a href="{% url 'news:list' %}"><span
+                            class="new-posts"></span> {% trans 'There are new posts' %}
+                    </a>
+                </div>
+                <div class="infinite-container ">
+                    <ul class="stream">
+                        {% for news in news_list %}
+                            {% include 'news/news_single.html' with news=news %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="load">
+                    {% if page_obj.has_next %}
+                        <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"><img
+                                src="{% static 'img/loading.gif' %}"></a>
+                    {% endif %}
+                </div>
+                <!-- End News List -->
             </div>
         </div>
-    </div>
+        <div class="col-md-3 ads-column">
+            <!-- Ads and Recommendations Widget -->
+            <div class="card mb-4">
+                <h5 class="card-header">{% trans 'Suggestions For You' %}</h5>
+                <div class="card-body mb-4">
+                    <p>bla bla bla</p>
+                </div>
+{#                <div class="card-footer">#}
+{#                    {% include "footer.html" %}#}
+{#                </div>#}
+            </div>
+        </div>
     </div>
     <!-- End container -->
 

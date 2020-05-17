@@ -1,144 +1,149 @@
 @import url(https://fonts.googleapis.com/css?family=Audiowide);
 
+body {
+    padding-top: 70px;
+}
+
 header .navbar-brand {
-  font-size: 1.4em;
-  font-weight: 200;
-  font-family: "Audiowide", cursive;
+    font-size: 1.4em;
+    font-weight: 200;
+    font-family: "Audiowide", cursive;
 }
 
 .extra_navbar_styling {
-  margin-bottom: 10px;
-  background: #fff;
-  border-top: 2px solid #1f89de;
-  box-shadow: 0 1px 0 rgba(12, 13, 14, 0.1), 0 1px 3px rgba(12, 13, 14, 0.1),
+    margin-bottom: 10px;
+    background: #fff;
+    border-top: 2px solid #1f89de;
+    box-shadow: 0 1px 0 rgba(12, 13, 14, 0.1), 0 1px 3px rgba(12, 13, 14, 0.1),
     0 4px 20px rgba(12, 13, 14, 0.035), 0 1px 1px rgba(12, 13, 14, 0.025);
 }
 
 .markdownx .markdownx-editor {
-  border-style: none solid solid solid;
-  width: 100%;
-  margin-bottom: 25px;
+    border-style: none solid solid solid;
+    width: 100%;
+    margin-bottom: 25px;
 }
 
 .page-header {
-  margin-top: 15px;
-  margin-bottom: 15px;
-  padding-bottom: 9px;
-  border-bottom: 1px solid #eeeeee;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding-bottom: 9px;
+    border-bottom: 1px solid #eeeeee;
 }
 
 .page-header h1 {
-  margin: 0;
-  font-weight: 100;
-  font-size: 2em;
+    margin: 0;
+    font-weight: 100;
+    font-size: 2em;
 }
 
 .no-data {
-  text-align: center;
-  padding: 1em 0;
+    text-align: center;
+    padding: 1em 0;
 }
 
 .bell-notifications {
-  font-size: 1.5em;
-  color: white;
-  text-decoration: none;
-  position: relative;
-  display: inline-block;
-  padding: 4px;
-  margin-right: 10px;
+    font-size: 1.5em;
+    color: white;
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+    padding: 4px;
+    margin-right: 10px;
 }
 
 .bell-notifications .badge {
-  font-size: 50%;
-  position: absolute;
-  right: -5px;
-  border-radius: 50%;
-  background-color: red;
-  color: white;
+    font-size: 50%;
+    position: absolute;
+    right: -5px;
+    border-radius: 50%;
+    background-color: red;
+    color: white;
 }
 
 .inbox-notifications {
-  font-size: 1.5em;
-  color: white;
-  text-decoration: none;
-  position: relative;
-  display: inline-block;
-  padding: 4px;
-  margin-right: 10px;
+    font-size: 1.5em;
+    color: white;
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+    padding: 4px;
+    margin-right: 10px;
 }
 
 .inbox-notifications .badge {
-  font-size: 50%;
-  position: absolute;
-  right: -5px;
-  border-radius: 50%;
-  background-color: red;
-  color: white;
+    font-size: 50%;
+    position: absolute;
+    right: -5px;
+    border-radius: 50%;
+    background-color: red;
+    color: white;
 }
 
 .alert-debug {
-  color: black;
-  background-color: white;
-  border-color: #d6e9c6;
+    color: black;
+    background-color: white;
+    border-color: #d6e9c6;
 }
 
 .alert-error {
-  color: #b94a48;
-  background-color: #f2dede;
-  border-color: #eed3d7;
+    color: #b94a48;
+    background-color: #f2dede;
+    border-color: #eed3d7;
 }
 
 .popover {
-  max-width: 350px;
-  width: 350px;
+    max-width: 350px;
+    width: 350px;
 }
 
 .popover ul {
-  padding: 0;
-  margin: 0;
+    padding: 0;
+    margin: 0;
 }
 
 .popover ul li {
-  list-style: none;
-  border-bottom: 1px solid #eeeeee;
-  padding: .4em 0;
+    list-style: none;
+    border-bottom: 1px solid #eeeeee;
+    padding: .4em 0;
 }
 
 .popover ul li:last-child {
-  border-bottom: none;
+    border-bottom: none;
 }
 
 .popover ul li .user-picture {
-  width: 45px;
-  float: left;
+    width: 45px;
+    float: left;
 }
 
 .popover ul li p {
-  font-size: .9em;
-  padding: 0 0 0 .6em;
-  margin-left: 45px;
-  margin-bottom: 0;
+    font-size: .9em;
+    padding: 0 0 0 .6em;
+    margin-left: 45px;
+    margin-bottom: 0;
 }
 
 input[name="query"]#searchInput {
-  background-color: rgb(246, 247, 248);
-  padding-left: 30px;
-  background-size: 18px;
-  width: 360px;
-  text-indent: 10px;
-  margin: 0px 15px;
-  outline: none;
-  border-radius: 4px;
-  border-width: 1px;
-  border-style: solid;
-  border-color: rgb(237, 239, 241);
-  box-shadow: none;
-  font-size: 14px;
-  line-height: 21px;
+    background-color: rgb(246, 247, 248);
+    padding-left: 30px;
+    background-size: 18px;
+    width: 360px;
+    text-indent: 10px;
+    margin: 0px 15px;
+    outline: none;
+    border-radius: 4px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(237, 239, 241);
+    box-shadow: none;
+    font-size: 14px;
+    line-height: 21px;
 }
+
 input[name="query"]#searchInput:hover,
 input[name="query"]#searchInput:focus {
-  background-color: #fff;
-  border-color: #2196f3;
+    background-color: #fff;
+    border-color: #2196f3;
 }
 

@@ -1,0 +1,47 @@
+[
+{
+    "model": "flatpages.flatpage",
+    "pk": 1,
+    "fields": {
+        "url": "/site/about/",
+        "title": "About Us",
+        "content": "<div class=\"card\" style=\"border:none; margin-bottom:20px;\">\r\n  <div class=\"container\">\r\n    <h5 class=\"card-title text-muted\">\r\n      Content Title\r\n    </h5>\r\n    <p>\r\n      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\r\n    </p>\r\n  </div>\r\n</div>\r\n<div class=\"card\" style=\"border:none; margin-bottom:20px;\">\r\n  <div class=\"container\">\r\n    <h5 class=\"card-title text-muted\">\r\n      Content Title\r\n    </h5>\r\n    <p>\r\n      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\r\n    </p>\r\n  </div>\r\n</div>\r\n<div class=\"card\" style=\"border:none; margin-bottom:20px;\">\r\n  <div class=\"container\">\r\n    <h5 class=\"card-title text-muted\">\r\n      Content Title\r\n    </h5>\r\n    <p>\r\n      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\r\n    </p>\r\n  </div>\r\n</div>",
+        "enable_comments": false,
+        "template_name": "",
+        "registration_required": false,
+        "sites": [
+            1
+        ]
+    }
+},
+{
+    "model": "flatpages.flatpage",
+    "pk": 2,
+    "fields": {
+        "url": "/legal/privacy/",
+        "title": "Privacy Policy",
+        "content": "<div class=\"card\" style=\"border:none; margin-bottom:20px;\">\r\n  <div class=\"container\">\r\n    <h5 class=\"card-title text-muted\">\r\n      Content Title\r\n    </h5>\r\n    <p>\r\n      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\r\n    </p>\r\n  </div>\r\n</div>\r\n<div class=\"card\" style=\"border:none; margin-bottom:20px;\">\r\n  <div class=\"container\">\r\n    <h5 class=\"card-title text-muted\">\r\n      Content Title\r\n    </h5>\r\n    <p>\r\n      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\r\n    </p>\r\n  </div>\r\n</div>\r\n<div class=\"card\" style=\"border:none; margin-bottom:20px;\">\r\n  <div class=\"container\">\r\n    <h5 class=\"card-title text-muted\">\r\n      Content Title\r\n    </h5>\r\n    <p>\r\n      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\r\n    </p>\r\n  </div>\r\n</div>",
+        "enable_comments": false,
+        "template_name": "",
+        "registration_required": false,
+        "sites": [
+            1
+        ]
+    }
+},
+{
+    "model": "flatpages.flatpage",
+    "pk": 3,
+    "fields": {
+        "url": "/legal/terms/",
+        "title": "Terms of Use",
+        "content": "<div class=\"card\" style=\"border:none; margin-bottom:20px;\">\r\n  <div class=\"container\">\r\n    <h5 class=\"card-title text-muted\">\r\n      Content Title\r\n    </h5>\r\n    <p>\r\n      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\r\n    </p>\r\n  </div>\r\n</div>\r\n<div class=\"card\" style=\"border:none; margin-bottom:20px;\">\r\n  <div class=\"container\">\r\n    <h5 class=\"card-title text-muted\">\r\n      Content Title\r\n    </h5>\r\n    <p>\r\n      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\r\n    </p>\r\n  </div>\r\n</div>\r\n<div class=\"card\" style=\"border:none; margin-bottom:20px;\">\r\n  <div class=\"container\">\r\n    <h5 class=\"card-title text-muted\">\r\n      Content Title\r\n    </h5>\r\n    <p>\r\n      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\r\n    </p>\r\n  </div>\r\n</div>",
+        "enable_comments": false,
+        "template_name": "",
+        "registration_required": false,
+        "sites": [
+            1
+        ]
+    }
+}
+]
