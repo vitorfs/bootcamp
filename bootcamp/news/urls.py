@@ -16,4 +16,5 @@ urlpatterns = [
     url(
         r"^update-interactions/$", views.update_interactions, name="update_interactions"
     ),
+    url(r'^(?P<pk>[\w.@+-]+)/$', views.news, name='news'),
 ]

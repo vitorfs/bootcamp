@@ -1,0 +1,7 @@
+<div class="infinite-container" style="margin-top: 20px">
+    <ul class="stream">
+        {% for news in user_activity %}
+            {% include 'news/news_single.html' with news=news %}
+        {% endfor %}
+    </ul>
+</div>

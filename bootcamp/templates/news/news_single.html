@@ -3,12 +3,14 @@
 {% load thumbnail %}
 {% load urlize_target_blank %}
 
-<li class="infinite-item" news-id="{{ news.uuid_id }}">
+<li class="infinite-item" news-id="{{ news.uuid_id }}" csrf="{{ csrf_token }}">
     <div class="news-body">
         <div class="profile-picture">
-            <img src="{{ news.user.get_picture }}" class="user-image pull-left"
-                 style="width: 60px; border-radius: 50%;"
-                 alt="{% trans 'User Image' %}">
+            <a href="{% url 'users:detail' news.user.username %}">
+                <img src="{{ news.user.get_picture }}" class="user-image pull-left"
+                     style="width: 60px; border-radius: 50%;"
+                     alt="{% trans 'User Image' %}">
+            </a>
         </div>
         <div class="post">
             {% if news.user == request.user %}
@@ -53,6 +55,8 @@
                 </a>
                 <a href="#" class="comment"><i class="fa fa-comment-o" aria-hidden="true"></i>
                     <span class="comment-count">{{ news.count_thread }}</span>
+                </a>
+                <a href="#" class="share"><i class="fa fa-share" aria-hidden="true"></i>
                 </a>
             </div>
         </div>

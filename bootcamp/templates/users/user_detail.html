@@ -6,6 +6,8 @@
 
 {% block head %}
     <link href="{% static 'css/user_profile.css' %}?v=1" rel="stylesheet">
+    <link href="{% static 'css/news.css' %}?v=1" rel="stylesheet">
+
 {% endblock head %}
 
 {% block content %}
@@ -49,13 +51,13 @@
 
         <div class="row">
             <div class="col-md-2 user-profile">
-            <img src="{{ object.get_picture }}" class="user-image"
-                                         style="width: 150px; border-radius: 50%;"
-                                         alt="{% trans 'User Image' %}">
+                <img src="{{ object.get_picture }}" class="user-image"
+                     style="width: 150px; border-radius: 50%;"
+                     alt="{% trans 'User Image' %}">
             </div>
-            <div id="contact-info" class="vcard">
-                <h1 class="fn">
-                    {{ object.get_profile_name|title }}
+            <div id="contact-info" class="col-md-7 vcard">
+                <h1 class="page-header">
+                    {{ object.get_profile_name }}
                     {% if object.short_bio %}
                         <br/><small style="font-size: 50%">{{ object.short_bio }}</small>
                     {% endif %}
@@ -97,6 +99,20 @@
                        title="{% trans 'Facebook Profile' %}"><i
                             class="fa fa-facebook"></i> </a>
                 {% endif %}
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#user_activity">Activity</a>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div id="user_activity" class="container tab-pane active"><br>
+                        {% include 'users/user_activity.html' with user_activity=user_activity %}
+                    </div>
+                </div>
             </div>
 
         </div>
