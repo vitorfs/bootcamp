@@ -2,12 +2,14 @@ import hashlib
 import os.path
 import urllib
 from django.contrib.auth.models import AbstractUser
-from allauth.account.forms import ChangePasswordForm
 from django.db import models
 from django.urls import reverse
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.signals import user_logged_in, user_logged_out
+
+# from django.contrib.auth.signals import user_logged_in, user_logged_out
+
+from allauth.account.forms import ChangePasswordForm
 
 from bootcamp.notifications.models import Notification, create_notification_handler
 

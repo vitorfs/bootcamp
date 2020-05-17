@@ -98,33 +98,22 @@
             {% endif %}
             <!-- Cloud Tag Widget -->
             <div class="card mb-4">
-                <h5 class="card-header">{% trans 'Cloud tag' %}</h5>
-                <div class="card-body">
-                    {% for tag, count in popular_tags %}
-                        <a href="#"><span class="badge badge-info">{{ count }} {{ tag }}</span></a>
-                    {% endfor %}
-                </div>
+              <h5 class="card-header">{% trans 'Cloud tag' %}</h5>
+              <div class="card-body">
+                {% for tag, tag_props in popular_tags %}
+                  {% if tag_props.slug == view.kwargs.tag %}
+                    <a href="{% url 'articles:list' %}">
+                      <span class="badge badge-success">{{ tag_props.count }} {{ tag }} <i class="fa fa-times" aria-hidden="true"></i></span>
+                    </a>
+                  {% else %}
+                    <a href="{% url 'articles:list' %}tag/{{ tag_props.slug }}">
+                      <span class="badge badge-info">{{ tag_props.count }} {{ tag }}</span>
+                    </a>
+                  {% endif %}
+                {% endfor %}
+              </div>
             </div>
-
           </div>
-        <!-- Cloud Tag Widget -->
-        <div class="card my-4">
-          <h5 class="card-header">{% trans 'Cloud tag' %}</h5>
-          <div class="card-body">
-            {% for tag, tag_props in popular_tags %}
-              {% if tag_props.slug == view.kwargs.tag %}
-                <a href="{% url 'articles:list' %}">
-                  <span class="badge badge-success">{{ tag_props.count }} {{ tag }} <i class="fa fa-times" aria-hidden="true"></i></span>
-                </a>
-              {% else %}
-                <a href="{% url 'articles:list' %}tag/{{ tag_props.slug }}">
-                  <span class="badge badge-info">{{ tag_props.count }} {{ tag }}</span>
-                </a>
-              {% endif %}
-            {% endfor %}
-          </div>
-
-        </div>
     </div>
     <!-- /.row -->
 
