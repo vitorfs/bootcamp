@@ -37,10 +37,12 @@ class NewsViewsTest(TestCase):
     def test_delete_news(self):
         initial_count = News.objects.count()
         response = self.client.post(
-            reverse("news:delete_news", kwargs={"pk": self.second_news.pk})
+            reverse("news:remove_news"),
+            {"news": self.first_news.pk},
+            HTTP_X_REQUESTED_WITH="XMLHttpRequest",
         )
-        assert response.status_code == 302
-        assert News.objects.count() == initial_count - 1
+        assert response.status_code == 200
+        assert News.objects.count() == initial_count - 2
 
     def test_post_news(self):
         initial_count = News.objects.count()

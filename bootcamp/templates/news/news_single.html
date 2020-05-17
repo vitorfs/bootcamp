@@ -3,60 +3,61 @@
 {% load thumbnail %}
 {% load urlize_target_blank %}
 
-<li class="infinite-item card" news-id="{{ news.uuid_id }}">
-  <div class="card-body">
-    <div class="profile-picture">
-      {% thumbnail news.user.picture "x60" as im %}
-        <img src="{{ im.url }}" class="pull-left" style="border-radius: 50%;" alt="{% trans 'User Image' %}" class="user-image">
-      {% empty %}
-        <img src="{% static 'img/user.png' %}" class="pull-left" height="60px" alt="{% trans 'No Profile Picture' %}" />
-      {% endthumbnail %}
-    </div>
-    <div class="post">
-      {% if news.user == request.user %}
-        <a href="{% url 'news:delete_news' news.pk %}">
-          <i class="fa fa-times pull-right" aria-hidden="true" title="{% trans 'Click to remove this news' %}"></i>
-        </a>
-      {% endif %}
-      <p>
-        <strong>
-          <a href="{% url 'users:detail' news.user.username  %}">{{ news.user.get_profile_name|title }}</a>
-        </strong>
-      </p>
-      <p>{{ news|urlize|urlize_target_blank }}</p>
-      
-      {% if news.meta_url %}
-        <a href="{{ news.meta_url }}" target="_blank" class="card meta">
-          {% if news.meta_image %}
-            <div class="card-img-top" style="background-image: url({{ news.meta_image }})"></div>
-          {% endif %}
-          <div class="card-body">
-            {% if news.meta_title %}
-              <h5 class="card-title">{{ news.meta_title }}</h5>
+<li class="infinite-item" news-id="{{ news.uuid_id }}">
+    <div class="news-body">
+        <div class="profile-picture">
+            <img src="{{ news.user.get_picture }}" class="user-image pull-left"
+                 style="width: 60px; border-radius: 50%;"
+                 alt="{% trans 'User Image' %}">
+        </div>
+        <div class="post">
+            {% if news.user == request.user %}
+                <a href="#">
+                    <i class="fa fa-times pull-right remove-news" aria-hidden="true"
+                       title="{% trans 'Click to remove this news' %}"></i>
+                </a>
             {% endif %}
-            {% if news.meta_description %}
-              <p class="card-text">{{ news.meta_description }}</p>
-            {% endif %}
+            <h3>
+                <a href="{% url 'users:detail' news.user.username %}">{{ news.user.username }}</a>
+                <small class="timestamp">{{ news.timestamp|naturaltime }}</small>
+            </h3>
+
+            <p>{{ news|urlize|urlize_target_blank }}</p>
+
             {% if news.meta_url %}
-              <p class="card-btn">{{ news.meta_url }}</p>
+                <a href="{{ news.meta_url }}" target="_blank" class="card meta">
+                    {% if news.meta_image %}
+                        <div class="card-img-top" style="background-image: url({{ news.meta_image }})"></div>
+                    {% endif %}
+                    <div class="card-body">
+                        {% if news.meta_title %}
+                            <h5 class="card-title">{{ news.meta_title }}</h5>
+                        {% endif %}
+                        {% if news.meta_description %}
+                            <p class="card-text">{{ news.meta_description }}</p>
+                        {% endif %}
+                        {% if news.meta_url %}
+                            <p class="card-btn">{{ news.meta_url }}</p>
+                        {% endif %}
+                    </div>
+                </a>
             {% endif %}
-          </div>
-        </a>
-      {% endif %}
-      <div class="interaction" id="interaction">
-        <a href="#" class="like" title="{% for i in news.get_likers %}{{ i }}&#10;{% endfor %}">
-          {% if request.user in news.get_likers %}
-            <i class="heart fa fa-heart" aria-hidden="true"></i>
-          {% else %}
-            <i class="heart fa fa-heart-o" aria-hidden="true"></i>
-          {% endif %}
-          <span class="like-count">{{ news.count_likers }}</span>
-        </a>
-        <a href="#" class="comment"><i class="fa fa-comment-o" aria-hidden="true"></i>
-          <span class="comment-count">{{ news.count_thread }}</span>
-        </a>
-        <span class="timestamp">{{ news.timestamp|naturaltime }}</span>
-      </div>
+            <div class="interaction" id="interaction">
+                <a href="#" class="like" title="{% for i in news.get_likers %}{{ i }}&#10;{% endfor %}">
+                    {% if request.user in news.get_likers %}
+                        <i class="heart fa fa-heart" aria-hidden="true"></i>
+                    {% else %}
+                        <i class="heart fa fa-heart-o" aria-hidden="true"></i>
+                    {% endif %}
+                    <span class="like-count">{{ news.count_likers }}</span>
+                </a>
+                <a href="#" class="comment"><i class="fa fa-comment-o" aria-hidden="true"></i>
+                    <span class="comment-count">{{ news.count_thread }}</span>
+                </a>
+            </div>
+        </div>
     </div>
-  </div>
 </li>
+{#<!-- Modals -->#}
+{#{% include 'news/news_confirm_delete.html' %}#}
+{#<!-- End Modals -->#}

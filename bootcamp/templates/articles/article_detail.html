@@ -6,7 +6,6 @@
 
 {% block content %}
   <!-- Page Content -->
-  <div class="container">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{% url 'news:list' %}">{% trans 'Home' %}</a></li>
@@ -23,10 +22,8 @@
         <p class="lead">{% trans 'by' %}
           <a href="{% url 'users:detail' article.user.username %}">{{ article.user.get_profile_name|title }}</a>
         </p>
-        <hr>
         <!-- Date/Time -->
         <p>{% trans 'Posted' %} {{ article.timestamp|naturaltime }}  </p>
-        <hr>
         <!-- Featured Image -->
         {% thumbnail article.image "900x300" as im %}
           <img src="{{ im.url }}" alt="{% trans 'Featured Image' %}" class="card-img-top">
@@ -34,11 +31,8 @@
           <img class="img-fluid rounded" src="http://placehold.it/900x300" alt="Card Image">
         {% endthumbnail %}
         <!-- <img src="{{ MEDIA_URL }}{{ article.image }}" lt="{% trans 'Featured Image' %}" class="card-img-top"> -->
-        <hr>
         <!-- Post Content -->
         <p class="card-text">{{ article.get_markdown|safe }}</p>
-        <hr>
-
         <!-- Comments Form -->
         <div class="card my-4">
           <h5 class="card-header">{% trans 'Leave a Comment' %}:</h5>
@@ -54,7 +48,7 @@
                 {{ form.timestamp }}
                 {{ form.security_hash }}
                 <input type="hidden" name="next" value="{% url 'articles:article' article.slug %}" />
-                <input type="submit" value="{% trans 'Add comment' %}" id="id_submit" />
+                <input type="submit" class="btn btn-primary" value="{% trans 'Add comment' %}" id="id_submit" />
               </form>
             {% endif %}
           </div>
@@ -65,11 +59,9 @@
         {% get_comment_list for article as comment_list %}
         {% for comment in comment_list %}
           <div class="media mb-4">
-            {% thumbnail comment.user.picture "x50" as im %}
-              <img class="d-flex mr-3 rounded-circle" src="{{ im.url }}" alt="{% trans 'Picture Profile' %}" id="pic" />
-            {% empty %}
-              <img class="d-flex mr-3 rounded-circle" src="{% static 'img/user.png' %}" height="50px" alt="{% trans 'No Profile Picture' %}" />
-            {% endthumbnail %}
+          <img src="{{ comment.user.get_picture }}" class="user-image pull-left"
+                                        id="pic" style="width: 50px; border-radius: 50%;"
+                                         alt="{% trans 'User Image' %}">
             <div class="media-body">
               <h5 class="mt-0">{{ comment.user.get_profile_name|title }}</h5>
               {{ comment.comment|linebreaks }}
@@ -102,6 +94,4 @@
       </div>
     </div>
     <!-- /.row -->
-  </div>
-  <!-- /.container -->
 {% endblock content %}

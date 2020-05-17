@@ -102,15 +102,6 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 (
-                    "picture",
-                    models.ImageField(
-                        blank=True,
-                        null=True,
-                        upload_to="profile_pics/",
-                        verbose_name="Profile picture",
-                    ),
-                ),
-                (
                     "location",
                     models.CharField(
                         blank=True, max_length=50, null=True, verbose_name="Location"

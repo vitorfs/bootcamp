@@ -1,3 +1,12 @@
+.user-image {
+  margin-right: 5px;
+}
+
+.timestamp {
+  font-size: 0.8em;
+  color: grey;
+}
+
 .users-list {
   height: 83vh;
   overflow-y: auto;
@@ -17,7 +26,7 @@
 
 .messages-list li {
   list-style: none;
-  padding: .6em 0;
+  padding: .2em 0;
 }
 
 .messages-list li h5 {
@@ -26,7 +35,7 @@
 }
 
 .messages-list li div {
-  margin-left: 60px;
+  margin-left: 25px;
 }
 
 .messages-list .picture {
@@ -34,9 +43,20 @@
   float: left;
 }
 
+.message {
+  position: relative;
+  background: #f8f9fa;
+  border-radius: 0.4em;
+  padding: 10px;
+}
+
 .chat-box {
   position: fixed;
   bottom: 0;
   width: 43%;
   background-color: white;
+}
+
+.chat-user .badge {
+  margin-top: 5px;
 }

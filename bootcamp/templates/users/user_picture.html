@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% load crispy_forms_tags %}
+{% load thumbnail %}
+
+{% block head_title %}{% trans "Update Profile" %}{% endblock %}
+
+{% block head %}
+    <link href="{% static 'css/jquery.Jcrop.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/user_form.css' %}?v=1" rel="stylesheet">
+{% endblock head %}
+
+{% block content %}
+
+    <div class="page-header">
+        <h1>{% trans 'Account Settings' %}</h1>
+    </div>
+    <div class="row profile">
+        <div class="col-md-3">
+            {% include 'users/user_partial_menu.html' with active='picture' %}
+        </div>
+        <div class="col-md-8">
+            <h3 style="margin-bottom: 15px">{% trans 'Change Picture' %}</h3>
+            <img src="{{ user.get_picture }}" class="user-image"
+                 style="width: 150px; border-radius: 50%; margin-bottom: 1em;" alt="{% trans 'User Image' %}">
+            <form enctype="multipart/form-data" method="post" action="{% url 'users:upload_picture' %}"
+                  id="picture-upload-form">
+                {% csrf_token %}
+                <input type="file" name="picture" style="display: none">
+                <button type="button" class="btn btn-primary"
+                        id="btn-upload-picture">{% trans 'Upload Photo' %}</button>
+            </form>
+
+            {% if uploaded_picture %}
+                <form method="post" action="{% url 'users:save_uploaded_picture' %}">
+                    {% csrf_token %}
+                    <div class="modal fade" id="modal-upload-picture">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                        &times;
+                                    </button>
+                                    <h4 class="modal-title">{% trans 'Crop Picture' %}</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="selected-picture">
+                                        <p>{% trans 'Crop the profile picture and then click on the' %}
+                                            <strong>{% trans 'Save Picture' %}</strong> {% trans 'button' %}</p>
+                                        <img src="{% get_media_prefix %}profile_pics/{{ user.username }}_tmp.jpg?_={% now 'U' %}"
+                                             id="crop-picture">
+                                        <input type="hidden" id="x" name="x"/>
+                                        <input type="hidden" id="y" name="y"/>
+                                        <input type="hidden" id="w" name="w"/>
+                                        <input type="hidden" id="h" name="h"/>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default"
+                                            data-dismiss="modal">{% trans 'Close' %}</button>
+                                    <button type="submit" class="btn btn-primary">{% trans 'Save changes' %}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            {% endif %}
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block modal %}
+    <script src="{% static 'js/jquery.Jcrop.min.js' %}"></script>
+    <script src="{% static 'js/picture.js' %}"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#modal-upload-picture").modal();
+            window.history.pushState("", "", "/users/picture/");
+        });
+    </script>
+{% endblock modal %}

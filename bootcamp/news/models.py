@@ -9,7 +9,11 @@ from asgiref.sync import async_to_sync
 
 from channels.layers import get_channel_layer
 
-from bootcamp.notifications.models import Notification, notification_handler
+from bootcamp.notifications.models import (
+    Notification,
+    create_notification_handler,
+    delete_notification_handler,
+)
 from bootcamp.helpers import fetch_metadata
 
 
@@ -73,17 +77,26 @@ class News(models.Model):
     def switch_like(self, user):
         if user in self.liked.all():
             self.liked.remove(user)
-
+            if self.user != user:
+                delete_notification_handler(
+                    user,
+                    self.user,
+                    Notification.LIKED,
+                    action_object=self,
+                    id_value=str(self.uuid_id),
+                    key="social_update",
+                )
         else:
             self.liked.add(user)
-            notification_handler(
-                user,
-                self.user,
-                Notification.LIKED,
-                action_object=self,
-                id_value=str(self.uuid_id),
-                key="social_update",
-            )
+            if self.user != user:
+                create_notification_handler(
+                    user,
+                    self.user,
+                    Notification.LIKED,
+                    action_object=self,
+                    id_value=str(self.uuid_id),
+                    key="social_update",
+                )
 
     def get_parent(self):
         if self.parent:
@@ -105,14 +118,15 @@ class News(models.Model):
         reply_news = News.objects.create(
             user=user, content=text, reply=True, parent=parent
         )
-        notification_handler(
-            user,
-            parent.user,
-            Notification.REPLY,
-            action_object=reply_news,
-            id_value=str(parent.uuid_id),
-            key="social_update",
-        )
+        if self.user != user:
+            create_notification_handler(
+                user,
+                parent.user,
+                Notification.REPLY,
+                action_object=reply_news.parent,
+                id_value=str(parent.uuid_id),
+                key="social_update",
+            )
 
     def get_thread(self):
         parent = self.get_parent()

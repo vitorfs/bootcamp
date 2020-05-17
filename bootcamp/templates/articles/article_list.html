@@ -10,8 +10,7 @@
 
 {% block content %}
 
-  <!-- Page Content -->
-  <div class="container">
+    <!-- Page Content -->
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{% url 'news:list' %}">{% trans 'Home' %}</a></li>
@@ -24,90 +23,98 @@
       </ol>
     </nav>
     <div class="row">
-      <!-- Blog Entries Column -->
-      <div class="col-md-8">
-        {% for article in articles %}
-          <!-- Blog Post -->
-          <div class="card mb-4">
-            {% thumbnail article.image "750x300" as im %}
-              <img src="{{ im.url }}" alt="{% trans 'Featured Image' %}" class="card-img-top">
+        <!-- Blog Entries Column -->
+        <div class="col-md-8">
+            {% for article in articles %}
+                <!-- Blog Post -->
+                <div class="card mb-4">
+                    {% thumbnail article.image "750x300" as im %}
+                        <img src="{{ im.url }}" alt="{% trans 'Featured Image' %}" class="card-img-top">
+                    {% empty %}
+                        <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
+                    {% endthumbnail %}
+                    <div class="card-body">
+                        <h2 class="card-title">{{ article.title|title }}</h2>
+                        <p class="card-text">{{ article.get_markdown|safe|truncatechars:150 }}</p>
+                        <a href="{% url 'articles:article' article.slug %}"
+                           class="btn btn-primary">{% trans 'Read More' %} &rarr;</a>
+                    </div>
+                    <div class="card-footer text-muted">
+                        {% trans 'Posted' %} {{ article.timestamp|naturaltime }}
+                        <i class="lead fa fa-user"></i>
+                        <a href="{% url 'users:detail' article.user.username %}">{{ article.user.get_profile_name|title }}</a>
+                        {% for tag in article.tags.names %}
+                            <a href="#">{{ tag }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
             {% empty %}
-              <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
-            {% endthumbnail %}
-            <div class="card-body">
-              <h2 class="card-title">{{ article.title|title }}</h2>
-              <p class="card-text">{{ article.get_markdown|safe|truncatechars:150 }}</p>
-              <a href="{% url 'articles:article' article.slug %}" class="btn btn-primary">{% trans 'Read More' %} &rarr;</a>
-            </div>
-            <div class="card-footer text-muted">
-              {% trans 'Posted' %} {{ article.timestamp|naturaltime }}
-              <i class="lead fa fa-user"></i>
-              <a href="{% url 'users:detail' article.user.username %}">{{ article.user.get_profile_name|title }}</a>
-              {% for tag in article.tags.names %}
-                <a href="#">{{ tag }}</a>
-              {% endfor %}
-            </div>
-          </div>
-        {% empty %}
-          <h4 class="no-data">{% trans 'There is no published article yet' %}. <a href="{% url 'articles:write_new' %}">{% trans 'Be the first one to publish one' %}!</a></h4>
-        {% endfor %}
-
-        {% if is_paginated %}
-          <ul class="pagination justify-content-center mb-4">
-            {% if page_obj.has_previous %}
-              <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&larr; {% trans 'Newer' %}</a></li>
-            {% else %}
-              <li class="page-item disabled"><a class="page-link" href="#"><span>&larr;</span></a></li>
-            {% endif %}
-            {% for i in paginator.page_range %}
-              {% if page_obj.number == i %}
-                <li class="page-item disabled"><a class="page-link" href="#">{{ i }} <span class="sr-only">(current)</span></a></li>
-              {% else %}
-                <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
-              {% endif %}
+                <h4 class="no-data">{% trans 'There is no published article yet' %}. <a
+                        href="{% url 'articles:write_new' %}">{% trans 'Be the first one to publish one' %}!</a></h4>
             {% endfor %}
-            {% if page_obj.has_next %}
-              <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">{% trans 'Older' %} &rarr;</a></li>
-            {% else %}
-              <li class="page-item disabled"><a class="page-link" href="#"><span>&rarr;</span></a></li>
+
+            {% if is_paginated %}
+                <ul class="pagination justify-content-center mb-4">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&larr; {% trans 'Newer' %}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled"><a class="page-link" href="#"><span>&larr;</span></a></li>
+                    {% endif %}
+                    {% for i in paginator.page_range %}
+                        {% if page_obj.number == i %}
+                            <li class="page-item disabled"><a class="page-link" href="#">{{ i }} <span class="sr-only">(current)</span></a>
+                            </li>
+                        {% else %}
+                            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                        <li class="page-item"><a class="page-link"
+                                                 href="?page={{ page_obj.next_page_number }}">{% trans 'Older' %}
+                            &rarr;</a></li>
+                    {% else %}
+                        <li class="page-item disabled"><a class="page-link" href="#"><span>&rarr;</span></a></li>
+                    {% endif %}
+                </ul>
             {% endif %}
-          </ul>
-        {% endif %}
 
-      </div>
-
-      <!-- Sidebar Widgets Column -->
-      <div class="col-md-4">
-        <!-- Write Article Widget -->
-        {% if request.user.is_authenticated %}
-          <div class="card my-4">
-            <div class="card-body text-center">
-              <a class="btn btn-success" href="{% url 'articles:write_new' %}" title="{% trans 'Write a new article' %}"><i class="fa fa-pencil" aria-hidden="true"></i> {% trans 'New Article' %}</a>
-              <a class="btn btn-primary" href="{% url 'articles:drafts' %}" title="{% trans 'Drafts' %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {% trans 'Drafts' %}</a>
-            </div>
-          </div>
-        {% endif %}
-        <!-- Cloud Tag Widget -->
-        <div class="card my-4">
-          <h5 class="card-header">{% trans 'Cloud tag' %}</h5>
-          <div class="card-body">
-            {% for tag, tag_props in popular_tags %}
-              {% if tag_props.slug == view.kwargs.tag %}
-                <a href="{% url 'articles:list' %}">
-                  <span class="badge badge-success">{{ tag_props.count }} {{ tag }} <i class="fa fa-times" aria-hidden="true"></i></span>
-                </a>
-              {% else %}
-                <a href="{% url 'articles:list' %}tag/{{ tag_props.slug }}">
-                  <span class="badge badge-info">{{ tag_props.count }} {{ tag }}</span>
-                </a>
-              {% endif %}
-            {% endfor %}
-          </div>
         </div>
-      </div>
+
+        <!-- Sidebar Widgets Column -->
+        <div class="col-md-4">
+            <!-- Write Article Widget -->
+            {% if request.user.is_authenticated %}
+                <div class="card mb-4">
+                    <div class="card-body text-center">
+                        <a class="btn btn-success" href="{% url 'articles:write_new' %}"
+                           title="{% trans 'Write a new article' %}"><i class="fa fa-pencil"
+                                                                        aria-hidden="true"></i> {% trans 'New Article' %}
+                        </a>
+                        <a class="btn btn-primary" href="{% url 'articles:drafts' %}" title="{% trans 'Drafts' %}"><i
+                                class="fa fa-pencil-square-o" aria-hidden="true"></i> {% trans 'Drafts' %}</a>
+                    </div>
+                </div>
+            {% endif %}
+            <!-- Cloud Tag Widget -->
+            <div class="card mb-4">
+              <h5 class="card-header">{% trans 'Cloud tag' %}</h5>
+              <div class="card-body">
+                {% for tag, tag_props in popular_tags %}
+                  {% if tag_props.slug == view.kwargs.tag %}
+                    <a href="{% url 'articles:list' %}">
+                      <span class="badge badge-success">{{ tag_props.count }} {{ tag }} <i class="fa fa-times" aria-hidden="true"></i></span>
+                    </a>
+                  {% else %}
+                    <a href="{% url 'articles:list' %}tag/{{ tag_props.slug }}">
+                      <span class="badge badge-info">{{ tag_props.count }} {{ tag }}</span>
+                    </a>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+          </div>
     </div>
     <!-- /.row -->
-  </div>
-  <!-- /.container -->
 
 {% endblock content %}
