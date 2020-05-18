@@ -4,7 +4,7 @@ from . import views
 
 app_name = "groups"
 urlpatterns = [
-    url(r'^$', views.GroupsPageView.as_view(), name='view_all_groups'),
+    url(r"^all$", view=views.GroupsPageView.as_view(), name='list'),
     url(r'^(?P<group>[-\w]+)/$',
         views.GroupPageView.as_view(),
         name='group'),

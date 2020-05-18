@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static i18n %}
+{% load thumbnail %}
+{% block title %}{% trans 'Groups' %}{% endblock %}
+
+{% block content %}
+
+{% if groups %}
+  {% include "includes/partial_group.html" with groups=groups %}
+{% else %}
+  <div class="card p-4 my-4 mx-0">
+    <h6 class="text-center">No Groups Found</h6>
+    <div style="margin:0 auto;">
+    <p class="text-muted">There are no groups created yet.</p>
+    </div>
+  </div>
+{% endif %}
+
+{% endblock content %}

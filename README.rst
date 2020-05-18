@@ -38,7 +38,7 @@ Technology Stack
 .. _Docker: https://docs.docker.com/
 .. _docker-compose: https://docs.docker.com/compose/
 .. _WhiteNoise: http://whitenoise.evans.io/en/stable/
-.. _`Bootstrap 4`: https://getbootstrap.com/docs/4.0/getting-started/introduction/
+.. _`Bootstrap 4`: https://getbootstrap.com/docs/4.5/getting-started/introduction/
 .. _`jQuery 3`: https://api.jquery.com/
 .. _Django-channels: https://channels.readthedocs.io/en/latest/
 .. _Sentry: https://docs.sentry.io/
