@@ -70,3 +70,6 @@ INSTALLED_APPS += ["django_extensions"]  # noqa F405
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+# site id
+SITE_ID = 3  # for the dev mode, you need to use localhost's id facebook does not support the name 127.0.0.1:8000

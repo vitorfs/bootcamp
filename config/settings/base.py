@@ -5,7 +5,7 @@ Base settings to build other settings files upon.
 import environ
 
 ROOT_DIR = (
-    environ.Path(__file__) - 3
+        environ.Path(__file__) - 3
 )  # (bootcamp/config/settings/base.py - 3 = bootcamp/)
 APPS_DIR = ROOT_DIR.path("bootcamp")
 
@@ -244,38 +244,36 @@ SOCIALACCOUNT_ADAPTER = "bootcamp.users.adapters.SocialAccountAdapter"
 
 SOCIALACCOUNT_PROVIDERS = \
     {'facebook':
-       {'METHOD': 'oauth2',
-        'SCOPE': ['email','public_profile', 'user_friends'],
-        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
-        'FIELDS': [
-            'id',
-            'email',
-            'name',
-            'first_name',
-            'last_name',
-            'verified',
-            'locale',
-            'timezone',
-            'link',
-            'gender',
-            'updated_time'],
-        'EXCHANGE_TOKEN': True,
-        'LOCALE_FUNC': lambda request: 'kr_KR',
-        'VERIFIED_EMAIL': False,
-        'VERSION': 'v2.4'}}
+         {'METHOD': 'oauth2',
+          'SCOPE': ['email', 'public_profile', 'user_friends'],
+          'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+          'FIELDS': [
+              'id',
+              'email',
+              'name',
+              'first_name',
+              'last_name',
+              'verified',
+              'locale',
+              'timezone',
+              'link',
+              'gender',
+              'updated_time'],
+          'EXCHANGE_TOKEN': True,
+          'LOCALE_FUNC': lambda request: 'kr_KR',
+          'VERIFIED_EMAIL': False,
+          'VERSION': 'v2.4'}}
 
-#facebook
+# facebook
 SOCIAL_AUTH_FACEBOOK_KEY = '235733170178008'
-SOCIAL_AUTH_FACEBOOK_SECRET ='6f599b043c05d34e5af3e7fa4d4ad3bb'
+SOCIAL_AUTH_FACEBOOK_SECRET = '6f599b043c05d34e5af3e7fa4d4ad3bb'
 
 # LOGIN_REDIRECT_URL = "/"
-#if you succeed in login, you'll be redirected to the main page.
+# if you succeed in login, you'll be redirected to the main page.
 
-#site id
-SITE_ID = 3 # for the dev mode, you need to use localhost's id facebook does not support the name 127.0.0.1:8000
-#little options for your page's signup.
-ACCOUNT_EMAIL_REQUIRED=True
-ACCOUNT_USERNAME_REQURIED=True
+# little options for your page's signup.
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQURIED = True
 
 # Your stuff...
 # ------------------------------------------------------------------------------

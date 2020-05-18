@@ -64,4 +64,4 @@ if settings.DEBUG:
 
 
 # flatpages urls
-urlpatterns.append(url(r'^', include('django.contrib.flatpages.urls')))
+# urlpatterns.append(url(r'^', include('django.contrib.flatpages.urls')))
