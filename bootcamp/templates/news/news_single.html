@@ -51,6 +51,11 @@
                     </div>
                 </a>
             {% endif %}
+            {% thumbnail news.image "750x300" as im %}
+                <img src="{{ im.url }}" alt="{% trans 'Featured Image' %}" class="card-img-top">
+            {% empty %}
+{#                <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">#}
+            {% endthumbnail %}
             <div class="interaction" id="interaction">
                 <a href="#" class="like" title="{% for i in news.get_likers %}{{ i }}&#10;{% endfor %}">
                     {% if request.user in news.get_likers %}

@@ -29,7 +29,7 @@ TIME_ZONE = "UTC"
 # https://docs.djangoproject.com/en/dev/ref/settings/#language-code
 LANGUAGE_CODE = "en-us"
 # https://docs.djangoproject.com/en/dev/ref/settings/#site-id
-# SITE_ID = 1
+SITE_ID = 1
 # https://docs.djangoproject.com/en/dev/ref/settings/#use-i18n
 USE_I18N = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#use-l10n
@@ -241,39 +241,6 @@ ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_ADAPTER = "bootcamp.users.adapters.AccountAdapter"
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 SOCIALACCOUNT_ADAPTER = "bootcamp.users.adapters.SocialAccountAdapter"
-
-SOCIALACCOUNT_PROVIDERS = \
-    {'facebook':
-         {'METHOD': 'oauth2',
-          'SCOPE': ['email', 'public_profile', 'user_friends'],
-          'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
-          'FIELDS': [
-              'id',
-              'email',
-              'name',
-              'first_name',
-              'last_name',
-              'verified',
-              'locale',
-              'timezone',
-              'link',
-              'gender',
-              'updated_time'],
-          'EXCHANGE_TOKEN': True,
-          'LOCALE_FUNC': lambda request: 'kr_KR',
-          'VERIFIED_EMAIL': False,
-          'VERSION': 'v2.4'}}
-
-# facebook
-SOCIAL_AUTH_FACEBOOK_KEY = '235733170178008'
-SOCIAL_AUTH_FACEBOOK_SECRET = '6f599b043c05d34e5af3e7fa4d4ad3bb'
-
-# LOGIN_REDIRECT_URL = "/"
-# if you succeed in login, you'll be redirected to the main page.
-
-# little options for your page's signup.
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQURIED = True
 
 # Your stuff...
 # ------------------------------------------------------------------------------
