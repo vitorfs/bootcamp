@@ -42,7 +42,8 @@ class GroupPageView(ListView):
     def get_queryset(self, **kwargs):
         self.group = get_object_or_404(Group,
                                        slug=self.kwargs['group'])
-        return self.group.submitted_news.filter(active=True)
+        return self.group.submitted_news.all()
+        # return self.group.submitted_news.filter(active=True)
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)

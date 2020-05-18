@@ -6,7 +6,7 @@
 {% block content %}
 
 {% if groups %}
-  {% include "includes/partial_group.html" with groups=groups %}
+  {% include "groups/includes/partial_group.html" with groups=groups %}
 {% else %}
   <div class="card p-4 my-4 mx-0">
     <h6 class="text-center">No Groups Found</h6>

@@ -1,0 +1,68 @@
+<br>
+<div class="card border-light">
+  <div class="card-header" style="color:#607d8b; border-bottom: 2px solid #1f89de; display: inline-block; font-size: 16px; font-weight: 900; letter-spacing: -.4px; margin: 3px 0; padding-bottom: 0; text-transform: uppercase; text-align:center;">
+    Get updates now
+    <br>
+    {% if group in request.user.subscribed_groups.all %}
+      <a href="{% url 'subscribe' group.slug %}" class="btn btn-secondary btn-sm" id="subscribe_group" style="margin-bottom:10px;">Unsubscribe</a>
+    {% else %}
+        <a href="{% url 'subscribe' group.slug %}" class="btn btn-primary btn-sm" id="subscribe_group" style="margin-bottom:10px;">Subscribe</a>
+    {% endif %}
+  </div>
+  <ul class="list-group list-group-flush" style="font-size:14px;">
+    <li class="list-group-item text-center text-muted">Group Info</li>
+    <li class="list-group-item"><b>Title: </b>{{group.title}}</li>
+    <li class="list-group-item"><b>Description: </b>{{group.description}}</li>
+    <li class="list-group-item"><b>Total Posts: </b>{{group.submitted_subjects.count}}</li>
+    <li class="list-group-item"><b>Admins: </b>
+    {% for admin in group.get_admins %}
+        <a href="{% url 'user_profile' admin.username %}">{{admin.profile.screen_name}}</a></p>
+    {% endfor %}
+    </li>
+    <li class="list-group-item"><b>Subscribers: </b><span id="group_subscribers">{{group.subscribers.count}}</span></li>
+
+    {# ONLY ADMINS CAN VIEW THESE OPTIONS #}
+    {% if admins %}
+      {% if request.user in admins %}
+        <li class="list-group-item text-center text-muted">Group Controls</li>
+        <li class="list-group-item"><b>Reports: </b><a href="{% url 'show_reports' group.slug %}" title="View reports about subjects and comments">View all reports</a></li>
+        <li class="list-group-item"><b>Edit group: </b><a href="{% url 'edit_group_cover' group.slug %}" title="Change the cover of this group">Change Cover</a></li>
+        <li class="list-group-item"><b>Banned Users: </b><a href="{% url 'banned_users' group.slug %}">View all banned users</a></li>
+      {% endif %}
+    {% endif %}
+  </ul>
+</div>
+
+
+<script type="text/javascript">
+// Subscribe groups
+$(document).ready(function(){
+  $("a#subscribe_group").on("click", function () {
+    {% if not request.user.is_authenticated %}
+    window.location.href = "{% url 'login' %}";
+    {% else %}
+    var $msg=$(this);
+    var $subscribe_url=$(this).attr("href");
+    var $group_subscribers=$('span#group_subscribers')
+    $.ajax({
+      url: $subscribe_url,
+      type: 'GET',
+      success: function (data) {
+        if ($msg.text() == 'Subscribe') {
+          $msg.removeClass('btn-primary');
+          $msg.addClass('btn-secondary');
+          $msg.text('Unsubscribe');
+          $group_subscribers.text(data);
+        } else if ($msg.text() == 'Unsubscribe') {
+          $msg.removeClass('btn-secondary');
+          $msg.addClass('btn-primary');
+          $msg.text('Subscribe');
+          $group_subscribers.text(data);
+        } else { console.log('Unexpected error!'); }
+      }
+    });
+    {% endif %}
+    return false;
+  });
+});
+</script>

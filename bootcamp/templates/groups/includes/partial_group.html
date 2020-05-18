@@ -1,0 +1,67 @@
+{% load humanize %}
+{#{% load groups_tags %}#}
+
+{% for group in groups %}
+<div class="card" style="border:none; border-bottom:1px solid #dcd7d7; margin-bottom:5px;">
+  <div class="card-body" style="padding:10px;">
+
+    <div style="float:left; width:80%;">
+      <h5 style="font-size:16px;">
+        <a href="{{ group.get_absolute_url }}" class="card-link">{{ group.title }}</a>
+      </h5>
+      <p>{{ group.description|truncatewords_html:50 }}</p>
+      <p class="text-muted">
+        <span title="{{ group.subscribers.count }}">{{ group.subscribers.count }} subscribers</span>, created
+        <span title="{{ group.created|date:"D d M Y" }} | {{ group.created|time:"H:i:s" }}">{{ group.created|naturaltime }}</span> &bull;
+        <a href="#" class="text-muted" title="report this group">report</a>
+      </p>
+    </div>
+
+    <div class="text-center" style="float:right; width:20%;">
+      {% if group in request.user.subscribed_groups.all %}
+        <a href="{% url 'groups:subscribe' group.slug %}" class="btn btn-secondary btn-sm" id="subscribe_group">Unsubscribe</a>
+      {% else %}
+        <a href="{% url 'groups:subscribe' group.slug %}" class="btn btn-primary btn-sm" id="subscribe_group">Subscribe</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+
+<script type="text/javascript">
+// Subscribe groups
+$(document).ready(function(){
+  $("a#subscribe_group").on("click", function () {
+    {% if not request.user.is_authenticated %}
+    window.location.href = "{% url 'login' %}";
+    {% else %}
+    var $msg = $(this);
+    var $subscribe_url = $(this).attr("href");
+    var $group_subscribers = $('span#group_subscribers')
+    $.ajax({
+      url: $subscribe_url,
+      type: 'GET',
+      success: function (data) {
+        if ($msg.text() == 'Subscribe') {
+          $msg.removeClass('btn-primary');
+          $msg.addClass('btn-secondary');
+          $msg.text('Unsubscribe');
+          $group_subscribers.text(data + ' readers');
+        }
+        else if ($msg.text() == 'Unsubscribe') {
+          $msg.removeClass('btn-secondary');
+          $msg.addClass('btn-primary');
+          $msg.text('Subscribe');
+          $group_subscribers.text(data + ' readers');
+        }
+        else {
+          console.log('Unexpected error!');
+        }
+      }
+    });
+    {% endif %}
+    return false;
+  });
+});
+</script>

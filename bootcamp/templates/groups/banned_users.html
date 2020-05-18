@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-{% load groups_tags %}
+{#{% load groups_tags %}#}
 {% load humanize %}
 
 {% block title %}<title>Banned Users</title>{% endblock %}
 
 {% block content %}
 
-{% include "includes/page_heading.html" with text="Banned Users" %}
+{#{% include "groups/includes/page_heading.html" with text="Banned Users" %}#}
 {% if users %}
 <p class="text-muted text-center">Unban user if they were banned by mistake from group.</p>
 {% endif %}

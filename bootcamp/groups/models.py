@@ -42,7 +42,7 @@ class Group(models.Model):
 
     def get_absolute_url(self):
         """Return absolute url for a group."""
-        return reverse('group',
+        return reverse('groups:group',
                        args=[self.slug])
 
     def get_admins(self):

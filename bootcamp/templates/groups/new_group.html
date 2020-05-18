@@ -4,7 +4,7 @@
 {% block title %}<title>Create Group</title>{% endblock %}
 
 {% block form_content %}
-{% include "includes/page_heading.html" with text="Create Group" %}
+{#{% include "groups/includes/page_heading.html" with text="Create Group" %}#}
 
 <form action="{% url 'new_group' %}" method="post" enctype="multipart/form-data">
   {% csrf_token %}

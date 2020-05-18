@@ -4,9 +4,9 @@
 
 {% block content %}
 
-{% include "includes/page_heading.html" with text="Your Groups" %}
+{#{% include "groups/includes/page_heading.html" with text="Your Groups" %}#}
 {% if user_groups %}
-  {% include "includes/partial_group.html" with groups=user_groups %}
+  {% include "groups/includes/partial_group.html" with groups=user_groups %}
 {% else %}
   <div class="card p-4 my-4 mx-0">
     <h6 class="text-center">No Groups Found</h6>
