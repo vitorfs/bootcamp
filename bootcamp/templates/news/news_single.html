@@ -13,12 +13,21 @@
             </a>
         </div>
         <div class="post">
-            {% if news.user == request.user %}
-                <a href="#">
-                    <i class="fa fa-times pull-right remove-news" aria-hidden="true"
-                       title="{% trans 'Click to remove this news' %}"></i>
-                </a>
-            {% endif %}
+            <i class="fa fa-gear pull-right" style="color: #6c757d" href="#" id="dotsDropdown" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            </i>
+            <div class="dropdown-menu" aria-labelledby="dotsDropdown">
+                {% if news.user == request.user %}
+                    <a class="dropdown-item remove-news" style="color: red" href="#">
+                        {% trans 'Delete' %}
+                    </a>
+                {% endif %}
+                {% if news.user != request.user %}
+                    <a class="dropdown-item remove-news" href="#">
+                        {% trans 'Report This' %}
+                    </a>
+                {% endif %}
+            </div>
             <h3>
                 <a href="{% url 'users:detail' news.user.username %}">{{ news.user.username }}</a>
                 <small class="timestamp">{{ news.timestamp|naturaltime }}</small>
