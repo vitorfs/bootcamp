@@ -113,7 +113,7 @@ class News(models.Model):
         :requires:
 
         :param user: The logged in user who is doing the reply.
-        :param content: String with the reply.
+        :param text: String with the reply.
         """
         parent = self.get_parent()
         reply_news = News.objects.create(

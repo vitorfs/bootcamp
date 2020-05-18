@@ -225,22 +225,25 @@ class Notification(models.Model):
                     escape(self.get_summary(self.action_object.content))
                 )
 
-            elif self.verb == self.FOLLOW:
-                return self._ALSO_COMMENTED_TEMPLATE.format(
+            else:
+                return 'Ooops! Something went wrong.'
+        else:
+            if self.verb == self.FOLLOW:
+                return self._FOLLOWED_TEMPLATE.format(
                     escape(self.actor),
                     escape(self.actor),
                     escape(self.get_verb_display()),
                 )
 
             elif self.verb == self.FRIEND_REQUEST:
-                return self._ALSO_COMMENTED_TEMPLATE.format(
+                return self._FRIEND_REQUEST_TEMPLATE.format(
                     escape(self.actor),
                     escape(self.actor),
                     escape(self.get_verb_display()),
                 )
 
             elif self.verb == self.FRIEND_ACCEPT:
-                return self._ALSO_COMMENTED_TEMPLATE.format(
+                return self._FRIEND_ACCEPT_TEMPLATE.format(
                     escape(self.actor),
                     escape(self.actor),
                     escape(self.get_verb_display()),
@@ -266,10 +269,6 @@ class Notification(models.Model):
                     self.action_object_object_id,
                     escape(self.get_summary(self.action_object))
                 )
-
-            else:
-                return 'Ooops! Something went wrong.'
-        else:
             return f"{self.actor} {self.get_verb_display()} {self.time_since()} ago"
 
     def get_summary(self, value):

@@ -52,7 +52,7 @@ def mark_as_read(request, slug=None):
     messages.add_message(
         request,
         messages.SUCCESS,
-        _(f"The notification {notification.slug} has been marked as read."),
+        _(f"The notification {notification.slug} was marked as read."),
     )
     _next = request.GET.get("next")
 

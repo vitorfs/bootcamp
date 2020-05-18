@@ -64,7 +64,7 @@ ul.stream li div.post div.interaction a {
 }
 
 .ads-column {
-    margin-top: 77px;
+    margin-top: 78px;
 }
 
 .timestamp {
@@ -165,6 +165,12 @@ ul.stream li div.post div.interaction a {
 .remove-news:hover {
   color: #333333;
 
+}
+
+.dotsmenu{
+  content: '\2807';
+  font-size: 3em;
+  color: #2e2e2e
 }
 
 .meta.card {
