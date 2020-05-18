@@ -269,7 +269,7 @@ class Notification(models.Model):
                     self.action_object_object_id,
                     escape(self.get_summary(self.action_object))
                 )
-            return f"{self.actor} {self.get_verb_display()} {self.time_since()} ago"
+            return f"{self.actor} {self.get_verb_display()}... [deleted]"
 
     def get_summary(self, value):
         summary_size = 50
@@ -387,8 +387,8 @@ def delete_notification_handler(actor, recipient, verb, **kwargs):
             ).delete()
         notification_broadcast(actor, key)
 
-    elif isinstance(recipient, list):
-        for user in recipient:
+    elif isinstance(actor, list):
+        for user in actor:
             Notification.objects.filter(
                 actor=actor,
                 recipient=get_user_model().objects.get(username=user),
@@ -403,10 +403,6 @@ def delete_notification_handler(actor, recipient, verb, **kwargs):
             verb=verb,
             action_object_object_id=id_value,
         ).delete()
-        notification_broadcast(
-            actor, key, id_value=id_value, recipient=recipient.username
-        )
-
     else:
         pass
 

@@ -141,3 +141,14 @@ class News(models.Model):
 
     def get_likers(self):
         return self.liked.all()
+
+    def delete_notifications(self):
+        likers = list(self.liked.all())
+        delete_notification_handler(
+            likers,
+            self.user,
+            Notification.LIKED,
+            action_object=self,
+            id_value=str(self.uuid_id),
+            key="social_update",
+        )

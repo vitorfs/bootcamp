@@ -22,6 +22,11 @@
                         {% trans 'Delete' %}
                     </a>
                 {% endif %}
+                {% if news.user != request.user %}
+                    <a class="dropdown-item" style="color: red" href="#">
+                        {% trans 'Report This' %}
+                    </a>
+                {% endif %}
             </div>
             <h3>
                 <a href="{% url 'users:detail' news.user.username %}">{{ news.user.username }}</a>

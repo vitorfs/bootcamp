@@ -10,6 +10,7 @@ from django.views.generic import ListView, DeleteView
 from django.template.context_processors import csrf
 from bootcamp.helpers import ajax_required, AuthorRequiredMixin
 from bootcamp.news.models import News
+from bootcamp.notifications.models import Notification
 
 
 class NewsListView(LoginRequiredMixin, ListView):
@@ -64,13 +65,10 @@ def post_news(request):
 def remove_news(request):
     try:
         news_id = request.POST["news"]
-        feed = News.objects.get(pk=news_id)
-        if feed.user == request.user:
-            parent = feed.parent
-            feed.delete()
-            if parent:
-                parent.count_thread()
-
+        news = News.objects.get(pk=news_id)
+        if news.user == request.user:
+            # news.delete_notifications() TODO
+            news.delete()
             return HttpResponse()
 
         else:
