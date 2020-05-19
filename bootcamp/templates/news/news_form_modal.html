@@ -10,13 +10,13 @@
         </button>
       </div>
       <div class="modal-body">
-        <form enctype="multipart/form-data" id="postNewsForm" role="form" method="post" action="#" onsubmit="return false">
+        <form id="postNewsForm" role="form" method="post" action="#" onsubmit="return false">
           {% csrf_token %}
           <div class="form-group">
             <textarea id="newsInput" name="post" rows="3" class="form-control" maxlength="280"></textarea>
             <span id="newsCounter" class="pull-right">280</span>
           </div>
-               <input type="file" name="image">
+{#               <input type="file" name="image">#}
             {#                <button type="button" class="btn btn-primary"#}
             {#                        id="btn-upload-picture">{% trans 'Upload Image' %}</button>#}
         </form>
