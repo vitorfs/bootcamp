@@ -72,7 +72,7 @@ $(function () {
         $("#postNewsForm input[name='last_news']").val(last_news);
         $.ajax({
             url: '/news/post-news/',
-            data: $("#postNewsForm").serialize(),
+            data: $("#newsImage").serialize(),
             type: 'POST',
             cache: false,
             success: function (data) {

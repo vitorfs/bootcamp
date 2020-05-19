@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('news', '0002_auto_20200405_1227'),
     ]
@@ -13,7 +12,10 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='news',
             name='image',
-            field=models.ImageField(default='', upload_to='news_pictures/%Y/%m/%d/', verbose_name='News image'),
+            field=models.ImageField(
+                upload_to='news_pictures/', verbose_name=u"Add image (optional)",
+                blank=True, null=True
+            ),
             preserve_default=False,
         ),
     ]

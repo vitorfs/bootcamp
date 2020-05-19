@@ -12,10 +12,10 @@ def check_image_extension(filename):
     return False
 
 
-def image_compression(f):
+def image_compression(file):
     """Compresses the image."""
     try:
-        f = settings.MEDIA_ROOT + f
+        f = settings.MEDIA_ROOT + file
         im = Image.open(f)
         im.save(f, optimize=True, quality=30)
     except:  # noqa: E722

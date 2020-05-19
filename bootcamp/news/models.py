@@ -1,3 +1,4 @@
+import os
 import uuid
 
 from django.conf import settings
@@ -28,7 +29,8 @@ class News(models.Model):
         "self", blank=True, null=True, on_delete=models.CASCADE, related_name="thread"
     )
     image = models.ImageField(
-        _("News image"), upload_to="news_pictures/%Y/%m/%d/"
+        upload_to='news_pictures/', verbose_name=u"Add image (optional)",
+        blank=True, null=True
     )
     group = models.ForeignKey(Group, related_name='submitted_news', on_delete=models.CASCADE, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)

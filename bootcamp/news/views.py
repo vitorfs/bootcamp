@@ -1,3 +1,8 @@
+import os
+import random
+
+from PIL.Image import Image
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse, HttpResponseForbidden
@@ -11,6 +16,7 @@ from django.template.context_processors import csrf
 from bootcamp.helpers import ajax_required, AuthorRequiredMixin
 from bootcamp.news.models import News
 from bootcamp.notifications.models import Notification
+from bootcamp.utils import image_compression
 
 
 class NewsListView(LoginRequiredMixin, ListView):
@@ -37,17 +43,29 @@ def news(request, pk):
 
 
 @login_required
-@ajax_required
-@require_http_methods(["POST"])
+# @ajax_required
 def post_news(request):
     """A function view to implement the post functionality with AJAX allowing
     to create News instances as parent ones."""
     user = request.user
     post = request.POST["post"]
-    image = request.POST.get('newsImage', False)
     post = post.strip()
+
+    # news_pic = settings.MEDIA_ROOT + '/news_pictures/'
+    # if not os.path.exists(news_pic):
+    #     os.makedirs(news_pic)
+    #
+    # f = request.POST['image']
+    # filename = news_pic + random.getrandbits(128) + '.jpg'
+    # with open(filename, 'wb+') as destination:
+    #     for chunk in f.chunks():
+    #         destination.write(chunk)
+    #
+    # im = Image.open(filename)
+    # im.save(filename, optimize=True, quality=50)
+
     if 0 < len(post) <= 280:
-        posted = News.objects.create(user=user, content=post, image=image)
+        posted = News.objects.create(user=user, content=post)
         html = render_to_string(
             "news/news_single.html", {"news": posted, "request": request}
         )

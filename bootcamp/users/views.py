@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views.generic import DetailView, ListView, RedirectView, UpdateView
-from django.conf import settings as django_settings
+from django.conf import settings
 from .models import User
 from ..helpers import ajax_required
 from bootcamp.notifications.models import Notification, create_notification_handler
@@ -79,7 +79,7 @@ def picture(request):
 @login_required
 def upload_picture(request):
     try:
-        profile_pictures = django_settings.MEDIA_ROOT + '/profile_pics/'
+        profile_pictures = settings.MEDIA_ROOT + '/profile_pics/'
         if not os.path.exists(profile_pictures):
             os.makedirs(profile_pictures)
 
@@ -111,9 +111,9 @@ def save_uploaded_picture(request):
         y = int(request.POST.get('y'))
         w = int(request.POST.get('w'))
         h = int(request.POST.get('h'))
-        tmp_filename = django_settings.MEDIA_ROOT + '/profile_pics/' + \
+        tmp_filename = settings.MEDIA_ROOT + '/profile_pics/' + \
                        request.user.username + '_tmp.jpg'
-        filename = django_settings.MEDIA_ROOT + '/profile_pics/' + \
+        filename = settings.MEDIA_ROOT + '/profile_pics/' + \
                    request.user.username + '.jpg'
         im = Image.open(tmp_filename)
         cropped_im = im.crop((x, y, w + x, h + y))
