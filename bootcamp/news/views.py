@@ -1,7 +1,5 @@
 import os
-import random
 
-from PIL import Image
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -12,9 +10,10 @@ from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.http import require_http_methods
 from django.views.generic import ListView, DeleteView
-from django.template.context_processors import csrf
 from bootcamp.helpers import ajax_required, AuthorRequiredMixin
 from bootcamp.news.models import News
+from sightengine.client import SightengineClient
+from django.template.context_processors import csrf
 from bootcamp.notifications.models import Notification
 from bootcamp.utils import image_compression
 
@@ -59,8 +58,16 @@ def post_news(request):
     image = None
     if request.FILES:
         image = request.FILES['image']
+        client = SightengineClient('137076993', 'XHSoBHy4jQM2yn8YEn8Y')
+        output = client.check('nudity', 'wad', 'offensive', 'faces', 'scam').set_bytes(image.file.read())
 
-    if 0 < len(post) <= 280:
+        if output['status'] != 'success':
+            return HttpResponseBadRequest(
+                content=_(
+                    f"The image contains sex, violence or chocking content. Please reconsider your life before posting on this beautiful website.")
+            )
+
+    if len(post) <= 280:
         posted = News.objects.create(user=user, content=post, image=image)
         html = render_to_string(
             "news/news_single.html", {"news": posted, "request": request}

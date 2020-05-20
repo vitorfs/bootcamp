@@ -10,6 +10,10 @@ header .navbar-brand {
     font-family: "Audiowide", cursive;
 }
 
+.navbar a{
+    font-family: Verdana !important;
+}
+
 .navbar-custom-style {
     margin-bottom: 10px;
     background: #2e3f54;
@@ -125,6 +129,14 @@ header .navbar-brand {
     padding: 0 0 0 .6em;
     margin-left: 45px;
     margin-bottom: 0;
+}
+
+.user-image {
+  margin-right: 15px;
+}
+
+.user-info {
+  font-size: 0.9em;
 }
 
 input[name="query"]#searchInput {

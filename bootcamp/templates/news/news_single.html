@@ -5,12 +5,7 @@
 
 <li class="infinite-item" news-id="{{ news.uuid_id }}" csrf="{{ csrf_token }}">
     <div class="card news-body">
-        {% thumbnail news.image "750x300" as im %}
-            <img src="{{ news.image.url }}" alt="{% trans 'Featured Image' %}" class="card-img-top">
-        {% empty %}
-            {#                <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">#}
-        {% endthumbnail %}
-        <div class="card-body">
+        <div class="card-header">
             <div class="profile-picture">
                 <a href="{% url 'users:detail' news.user.username %}">
                     <img src="{{ news.user.get_picture }}" class="user-image pull-left"
@@ -18,26 +13,33 @@
                          alt="{% trans 'User Image' %}">
                 </a>
             </div>
-            <div class="post">
-                <i class="fa fa-gear pull-right" href="#" id="dotsDropdown" role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                </i>
-                <div class="dropdown-menu" aria-labelledby="dotsDropdown">
-                    {% if news.user == request.user %}
-                        <a class="dropdown-item remove-news" style="color: red" href="#">
-                            {% trans 'Delete' %}
-                        </a>
-                    {% endif %}
-                    {% if news.user != request.user %}
-                        <a class="dropdown-item" style="color: red" href="#">
-                            {% trans 'Report This' %}
-                        </a>
-                    {% endif %}
-                </div>
-                <h3>
-                    <a href="{% url 'users:detail' news.user.username %}">{{ news.user.username }}</a>
-                    <small class="timestamp">{{ news.timestamp|naturaltime }}</small>
-                </h3>
+            <a href="{% url 'users:detail' news.user.username %}">{{ news.user.username }}</a>
+            <small class="timestamp">{{ news.timestamp|naturaltime }}</small>
+            <i class="fa fa-gear pull-right" href="#" id="dotsDropdown" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            </i>
+            <div class="dropdown-menu" aria-labelledby="dotsDropdown">
+                {% if news.user == request.user %}
+                    <a class="dropdown-item remove-news" style="color: red" href="#">
+                        {% trans 'Delete' %}
+                    </a>
+                {% endif %}
+                {% if news.user != request.user %}
+                    <a class="dropdown-item" style="color: red" href="#">
+                        {% trans 'Report This' %}
+                    </a>
+                {% endif %}
+            </div>
+            <p class="user-info">{{ news.user.location }}</p>
+        </div>
+
+        {% thumbnail news.image "750x500" as im %}
+            <img src="{{ im.url }}" alt="{% trans 'Featured Image' %}" class="card-img-top">
+        {% empty %}
+            {#                <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">#}
+        {% endthumbnail %}
+        <div class="card-body">
+            <div class="">
                 <p>{{ news|urlize|urlize_target_blank }}</p>
                 {% if news.meta_url %}
                     <a href="{{ news.meta_url }}" target="_blank" class="card meta">
@@ -48,30 +50,30 @@
                             {% if news.meta_title %}
                                 <h5 class="card-title">{{ news.meta_title }}</h5>
                             {% endif %}
-{#                            {% if news.meta_description %}#}
-{#                                <p class="card-text">{{ news.meta_description }}</p>#}
-{#                            {% endif %}#}
+                            {#                            {% if news.meta_description %}#}
+                            {#                                <p class="card-text">{{ news.meta_description }}</p>#}
+                            {#                            {% endif %}#}
                             {% if news.meta_url %}
                                 <p class="card-btn">{{ news.meta_url }}</p>
                             {% endif %}
                         </div>
                     </a>
                 {% endif %}
-                <div class="interaction" id="interaction">
-                    <a href="#" class="like" title="{% for i in news.get_likers %}{{ i }}&#10;{% endfor %}">
-                        {% if request.user in news.get_likers %}
-                            <i class="heart fa fa-heart" aria-hidden="true"></i>
-                        {% else %}
-                            <i class="heart fa fa-heart-o" aria-hidden="true"></i>
-                        {% endif %}
-                        <span class="like-count">{{ news.count_likers }}</span>
-                    </a>
-                    <a href="#" class="comment"><i class="fa fa-comment-o" aria-hidden="true"></i>
-                        <span class="comment-count">{{ news.count_thread }}</span>
-                    </a>
-                    <a href="#" class="share"><i class="fa fa-share" aria-hidden="true"></i>
-                    </a>
-                </div>
+            </div>
+            <div class="interaction" id="interaction">
+                <a href="#" class="like" title="{% for i in news.get_likers %}{{ i }}&#10;{% endfor %}">
+                    {% if request.user in news.get_likers %}
+                        <i class="heart fa fa-heart" aria-hidden="true"></i>
+                    {% else %}
+                        <i class="heart fa fa-heart-o" aria-hidden="true"></i>
+                    {% endif %}
+                    <span class="like-count">{{ news.count_likers }}</span>
+                </a>
+                <a href="#" class="comment"><i class="fa fa-comment-o" aria-hidden="true"></i>
+                    <span class="comment-count">{{ news.count_thread }}</span>
+                </a>
+                <a href="#" class="share"><i class="fa fa-share" aria-hidden="true"></i>
+                </a>
             </div>
         </div>
     </div>

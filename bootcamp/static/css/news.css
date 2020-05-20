@@ -74,23 +74,12 @@ ul.stream li div.post div.interaction a {
   color: grey;
 }
 
-.profile-picture {
-  float: left;
-}
-
-.profile-picture img {
-  width: 60px;
-  border-radius: 50%;
-}
-
 .news-comment {
   padding: 0.7rem 1.5rem 0.7rem 1.5rem;
   overflow-x: auto;
 }
 
 .interaction {
-  font-size: 1.2em;
-  color: #1c2d3f;
 }
 
 .interaction a {
