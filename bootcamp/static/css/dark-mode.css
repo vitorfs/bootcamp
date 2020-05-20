@@ -17,7 +17,6 @@
 
 [data-theme="dark"] .modal-content {
     background-color: #1c1e26 !important;
-    color: #6c717f;
 }
 
 [data-theme="dark"] .card {
@@ -29,6 +28,10 @@
 }
 
 [data-theme="dark"] .interaction a {
+    color: #eee;
+}
+
+[data-theme="dark"] .btn {
     color: #eee;
 }
 
