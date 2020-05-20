@@ -23,7 +23,6 @@ class User(AbstractUser):
         _("Personal URL"), max_length=555, blank=True, null=True
     )
     bio = models.CharField(_("Short bio"), max_length=280, blank=True, null=True)
-
     followers = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name='following', blank=True
     )

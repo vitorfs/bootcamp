@@ -29,7 +29,7 @@ class News(models.Model):
         "self", blank=True, null=True, on_delete=models.CASCADE, related_name="thread"
     )
     image = models.ImageField(
-        upload_to='news_pictures/', verbose_name=u"Add image (optional)",
+        upload_to='news_pictures/%Y/%m/', verbose_name="Add image (optional)",
         blank=True, null=True
     )
     group = models.ForeignKey(Group, related_name='submitted_news', on_delete=models.CASCADE, null=True)

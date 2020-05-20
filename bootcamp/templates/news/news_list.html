@@ -5,6 +5,7 @@
 
 {% block head %}
     <link href="{% static 'css/news.css' %}?v=1" rel="stylesheet">
+    <link href="{% static 'css/image-tools.css' %}" rel="stylesheet">
 {% endblock head %}
 
 
@@ -56,9 +57,9 @@
                 <div class="card-body mb-4">
                     <p>bla bla bla</p>
                 </div>
-{#                <div class="card-footer">#}
-{#                    {% include "footer.html" %}#}
-{#                </div>#}
+                {#                <div class="card-footer">#}
+                {#                    {% include "footer.html" %}#}
+                {#                </div>#}
             </div>
         </div>
     </div>
@@ -67,6 +68,7 @@
 {% endblock content %}
 
 {% block modal %}
+    <script src="{% static 'js/image-tools.js' %}" type="text/javascript"></script>
     <script src="{% static 'js/jquery.waypoints.min.js' %}" type="text/javascript"></script>
     <script src="{% static 'js/infinite.min.js' %}" type="text/javascript"></script>
     <script src="{% static 'js/news.js' %}" type="text/javascript"></script>

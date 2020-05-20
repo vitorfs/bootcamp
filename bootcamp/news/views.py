@@ -1,7 +1,7 @@
 import os
 import random
 
-from PIL.Image import Image
+from PIL import Image
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -43,7 +43,8 @@ def news(request, pk):
 
 
 @login_required
-# @ajax_required
+@ajax_required
+@require_http_methods(["POST"])
 def post_news(request):
     """A function view to implement the post functionality with AJAX allowing
     to create News instances as parent ones."""
@@ -51,21 +52,14 @@ def post_news(request):
     post = request.POST["post"]
     post = post.strip()
 
-    # news_pic = settings.MEDIA_ROOT + '/news_pictures/'
-    # if not os.path.exists(news_pic):
-    #     os.makedirs(news_pic)
-    #
-    # f = request.POST['image']
-    # filename = news_pic + random.getrandbits(128) + '.jpg'
-    # with open(filename, 'wb+') as destination:
-    #     for chunk in f.chunks():
-    #         destination.write(chunk)
-    #
-    # im = Image.open(filename)
-    # im.save(filename, optimize=True, quality=50)
+    news_pic = settings.MEDIA_ROOT + '/news_pictures/'
+    if not os.path.exists(news_pic):
+        os.makedirs(news_pic)
+
+    image = request.FILES['image']
 
     if 0 < len(post) <= 280:
-        posted = News.objects.create(user=user, content=post)
+        posted = News.objects.create(user=user, content=post, image=image)
         html = render_to_string(
             "news/news_single.html", {"news": posted, "request": request}
         )
