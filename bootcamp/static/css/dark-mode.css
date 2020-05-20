@@ -1,16 +1,68 @@
 [data-theme="dark"] {
-  background-color: #111 !important;
-  color: #eee;
+    background-color: #17191d !important;
+    color: #eee !important;
 }
 
 [data-theme="dark"] .bg-light {
-  background-color: #333 !important;
+    background-color: #333 !important;
 }
 
 [data-theme="dark"] .bg-white {
-  background-color: #000 !important;
+    background-color: #17191d !important;
 }
 
 [data-theme="dark"] .bg-black {
-  background-color: #eee !important;
+    background-color: #eee !important;
 }
+
+[data-theme="dark"] .modal-content {
+    background-color: #1c1e26 !important;
+    color: #6c717f;
+}
+
+[data-theme="dark"] .card {
+    background-color: #222632 !important;
+}
+
+[data-theme="dark"] .card a {
+    color: #eee;
+}
+
+[data-theme="dark"] .interaction a {
+    color: #eee;
+}
+
+[data-theme="dark"] .messages-list a {
+    color: #eee;
+}
+
+[data-theme="dark"] .message {
+    background: #222632;
+}
+
+[data-theme="dark"] .navbar {
+    background-color: #2d323d !important;
+}
+
+[data-theme="dark"] .navbar-light .navbar-nav .nav-link {
+    color: #eee;
+}
+
+[data-theme="dark"] .nav-tabs li a {
+    color: #eee;
+}
+
+[data-theme="dark"] .navbar-custom-style {
+    margin-bottom: 10px;
+    background: #fff;
+    border-top: 2px solid #1f89de;
+    box-shadow: 0 1px 0 rgba(4, 12, 21, 0.84), 0 1px 3px rgba(36, 45, 56, 0.72), 0 4px 20px rgba(48, 61, 73, 0.65), 0 1px 1px rgba(73, 89, 99, 0.74);
+}
+
+[data-theme="dark"] .popover {
+    color: #17191f;
+}
+
+
+
+

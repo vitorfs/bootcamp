@@ -177,16 +177,17 @@ iframe {
   justify-content: center;
   align-items: center;
   padding: 15px;
-
-  background-color: #ebebeb;
+  background-color: #111723;
+background-image: url("../img/header.jpg");
 }
 
 
 .wrap-login100 {
-  width: 560px;
+  width: 380px;
   background: #fff;
   border-radius: 10px;
   position: relative;
+  padding: 40px;
 }
 
 
@@ -204,7 +205,7 @@ iframe {
   line-height: 1.2;
   text-transform: uppercase;
   text-align: left;
-
+  margin-bottom: 20px;
   width: 100%;
   display: block;
 }

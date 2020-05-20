@@ -10,7 +10,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
@@ -23,21 +24,20 @@
 
 <div class="limiter">
     <div class="container-login100">
-        <div class="wrap-login100 p-l-85 p-r-85 p-t-55 p-b-55">
-            <span class="login100-form-title p-b-32">{% trans 'Login' %}</span>
-            <span class="txt3">
-          </span>
+        <div class="wrap-login100">
+            <span class="login100-form-title">{% trans 'Login' %}</span>
+            <span class="txt3"></span>
             <form class="login" method="POST" action="{% url 'account_login' %}">
-             <a href="{% provider_login_url "facebook" method="js_sdk" %}"
+                <a href="{% provider_login_url "facebook" method="js_sdk" %}"
                    class="btn btn-block btn-social btn-facebook">
                     <span class="fa fa-facebook"></span>
                     Sign in with Facebook
                 </a>
-{#                <a href="#" method=""#}
-{#                   class="btn btn-block btn-social btn-google">#}
-{#                    <span class="fa fa-google"></span>#}
-{#                    Sign in with Google#}
-{#                </a>#}
+                {#                <a href="#" method=""#}
+                {#                   class="btn btn-block btn-social btn-google">#}
+                {#                    <span class="fa fa-google"></span>#}
+                {#                    Sign in with Google#}
+                {#                </a>#}
                 <div class="or-seperator"><i>or</i></div>
                 {% csrf_token %}
                 {{ form|crispy }}
@@ -49,10 +49,12 @@
                 </div>
                 <div class="form-group container-login100-form-btn">
                     <a href="{% url 'account_reset_password' %}"
-                       class="btn btn-link pull-right">{% trans 'Forgot your password?' %}</a>
-                    <p class="btn">{% trans "Don't have an account?" %}<a href="{% url 'account_signup' %}"
-                                                                          class="btn btn-link">{% trans 'Sign up' %}</a>
-                    </p>
+                       class="btn-link">{% trans 'Forgot your password?' %}</a>
+                </div>
+                <div class="form-group container-login100-form-btn">
+                    <span>{% trans "Don't have an account?" %}<a href="{% url 'account_signup' %}"
+                                                                 class="btn btn-link">{% trans 'Sign up' %}</a>
+                    </span>
                 </div>
             </form>
         </div>

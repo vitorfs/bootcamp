@@ -35,10 +35,8 @@ $(function () {
                         unreadNum = '9+'
                     }
                     $("#countnotif").text(unreadNum);
-                    $(".fa-bell").attr("style", "color:#007bff");
                 } else {
                     $("#countnotif").text("");
-                    $(".fa-bell").attr("style", "color:grey");
                 }
             },
         });
@@ -55,10 +53,8 @@ $(function () {
                         unreadNum = '9+'
                     }
                     $("#countmsg").text(unreadNum);
-                    $(".fa-comment").attr("style", "color:#007bff");
                 } else {
                     $("#countmsg").text("");
-                    $(".fa-comment").attr("style", "color:grey");
                 }
             },
         });
@@ -120,7 +116,6 @@ $(function () {
                 },
                 success: function (data) {
                     $("#countnotif").text("");
-                    $(".fa-bell").attr("style", "color:grey");
                     $(".popover-body").html(data);
                 }
             });
@@ -130,48 +125,13 @@ $(function () {
 
     // Fix to dismiss popover when clicking outside of it
     $("html").on("mouseup", function (e) {
-    var l = $(e.target);
-    if (l[0].className.indexOf("popover") == -1) {
-        $(".popover").each(function () {
-            $(this).popover("hide");
-        });
-    }
-});
-
-  // $('#notifications').popover({
-  //       html: true,
-  //       trigger: 'manual',
-  //       container: "body",
-  //       placement: "bottom",
-  //   });
-  //   $("#notifications").click(function () {
-  //       if ($(".popover").is(":visible")) {
-  //           $("#notifications").popover('hide');
-  //       } else {
-  //           $("#notifications").popover('dispose');
-  //           $.ajax({
-  //               url: '/notifications/latest-notifications/',
-  //               cache: false,
-  //               beforeSend: function () {
-  //                   $(".popover").html("<div style='text-align:center'><img src='/static/img/loading.gif'></div>");
-  //               },
-  //               success: function (data) {
-  //                   $("#notifications").popover({
-  //                       html: true,
-  //                       trigger: 'manual',
-  //                       container: "body",
-  //                       placement: "bottom",
-  //                       content: data,
-  //                   }).on('shown.bs.popover', function () {
-  //                       markUnreadAjax();
-  //                   });
-  //                   $("#notifications").popover('show');
-  //                   $("#notifications").attr("style", "")
-  //               },
-  //           });
-  //       }
-  //       return false;
-  //   });
+        var l = $(e.target);
+        if (l[0].className.indexOf("popover") == -1) {
+            $(".popover").each(function () {
+                $(this).popover("hide");
+            });
+        }
+    });
 
     // Code block to manage WebSocket connections
     // Try to correctly decide between ws:// and wss://

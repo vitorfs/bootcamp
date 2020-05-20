@@ -56,7 +56,9 @@ def post_news(request):
     if not os.path.exists(news_pic):
         os.makedirs(news_pic)
 
-    image = request.FILES['image']
+    image = None
+    if request.FILES:
+        image = request.FILES['image']
 
     if 0 < len(post) <= 280:
         posted = News.objects.create(user=user, content=post, image=image)

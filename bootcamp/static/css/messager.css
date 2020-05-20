@@ -52,9 +52,8 @@
 
 .chat-box {
   position: fixed;
-  bottom: 0;
+  bottom: 20px;
   width: 43%;
-  background-color: white;
 }
 
 .chat-user .badge {

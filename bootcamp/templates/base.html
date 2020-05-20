@@ -13,6 +13,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <![endif]-->
     {% block css %}
+        <!-- Dark Mode CSS -->
+        <link href="{% static 'css/dark-mode.css' %}" rel="stylesheet">
         <!-- Latest compiled and minified Bootstrap 4 beta CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
               integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
@@ -21,8 +23,6 @@
         <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
         <!-- This file stores project-specific CSS -->
         <link href="{% static 'css/bootcamp.css' %}?v=1" rel="stylesheet">
-        <!-- Dark Mode CSS -->
-        <link href="{% static 'css/dark-mode.css' %}" rel="stylesheet">
 
     {% endblock css %}
     {% block head %}{% endblock head %}
@@ -33,7 +33,7 @@
 {% block body %}
     <div class="m-b-1">
         {% if request.user.is_authenticated %}
-            <nav class="navbar fixed-top navbar-expand-lg navbar-expand-md navbar-light extra_navbar_styling">
+            <nav class="navbar fixed-top navbar-expand-lg navbar-expand-md navbar-light navbar-custom-style">
                 <div class="container">
                     <a class="navbar-brand mb-1" href="#">
                         <img src="{% static 'img/favicon.png' %}" alt="Bootcamp" height="30px">
@@ -69,14 +69,14 @@
                                 <a class="bell-notifications" href="#" id="notifications" data-container="body"
                                    data-toggle="popover" data-placement="bottom"
                                    data-title="{% trans 'Notifications' %}">
-                                    <i class="fa fa-bell" aria-hidden="true" style="color: grey"></i>
+                                    <i class="fa fa-bell" aria-hidden="true"></i>
                                     <span id="countnotif" class="badge"></span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="inbox-notifications" href="{% url 'messager:messages_list' %}" id="inbox"
                                    data-toggle="popover" data-title="{% trans 'Inbox' %}">
-                                    <i class="fa fa-comment" aria-hidden="true" style="color: grey"></i>
+                                    <i class="fa fa-comment" aria-hidden="true"></i>
                                     <span id="countmsg" class="badge"></span>
                                 </a>
                             </li>
@@ -96,7 +96,7 @@
                                        href="{% url 'users:update' %}">{% trans 'Account Settings' %}</a>
                                     <div class="dropdown-item custom-control custom-switch">
                                         <label class="custom-control-label"
-                                               for="darkSwitch">{% trans 'Dark Mode (beta)' %}</label>
+                                               for="darkSwitch">{% trans 'Dark Mode' %}</label>
                                         <input type="checkbox" class="custom-control-input" id="darkSwitch"/>
                                     </div>
                                     <div class="dropdown-divider"></div>

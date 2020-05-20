@@ -18,11 +18,8 @@
                         data-target="#newsFormModal">
                     <i class="fa fa-share-alt" aria-hidden="true"></i> {% trans 'Share something' %}
                 </button>
-                <h1>{% trans 'News' %}</h1>
+                <h1>{% trans 'Home' %}</h1>
             </div>
-            <div class="card">
-                <h5 class="card-header">{% trans 'Latest posts' %}</h5>
-
                 <!-- Modals -->
                 {% include 'news/news_form_modal.html' %}
                 {% include 'news/news_thread_modal.html' %}
@@ -48,14 +45,12 @@
                     {% endif %}
                 </div>
                 <!-- End News List -->
-            </div>
         </div>
         <div class="col-md-3 ads-column">
             <!-- Ads and Recommendations Widget -->
             <div class="card mb-4">
-                <h5 class="card-header">{% trans 'Suggestions For You' %}</h5>
                 <div class="card-body mb-4">
-                    <p>bla bla bla</p>
+                    <p>{% trans 'Suggestions For You' %}</p>
                 </div>
                 {#                <div class="card-footer">#}
                 {#                    {% include "footer.html" %}#}
