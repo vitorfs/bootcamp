@@ -52,7 +52,7 @@ class Migration(migrations.Migration):
                     "user",
                     models.ForeignKey(
                         null=True,
-                        on_delete=django.db.models.deletion.SET_NULL,
+                        on_delete=django.db.models.deletion.CASCADE,
                         related_name="publisher",
                         to=settings.AUTH_USER_MODEL,
                     ),

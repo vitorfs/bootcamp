@@ -23,7 +23,7 @@ class News(models.Model):
         settings.AUTH_USER_MODEL,
         null=True,
         related_name="publisher",
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
     )
     parent = models.ForeignKey(
         "self", blank=True, null=True, on_delete=models.CASCADE, related_name="thread"

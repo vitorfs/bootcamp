@@ -62,7 +62,7 @@ class Message(models.Model):
         related_name="sent_messages",
         verbose_name=_("Sender"),
         null=True,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
     )
     recipient = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -70,7 +70,7 @@ class Message(models.Model):
         null=True,
         blank=True,
         verbose_name=_("Recipient"),
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
     )
     timestamp = models.DateTimeField(auto_now_add=True)
     message = models.TextField(max_length=1000, blank=True)
