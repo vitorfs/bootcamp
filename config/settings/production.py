@@ -109,12 +109,12 @@ TEMPLATES[0]["OPTIONS"]["loaders"] = [  # noqa F405
 # https://docs.djangoproject.com/en/dev/ref/settings/#default-from-email
 DEFAULT_FROM_EMAIL = env(
     "DEFAULT_FROM_EMAIL",
-    default="no-reply@antisocial-app.herokuapp.com",
+    default="no-reply@antisocialnetwork.live",
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#server-email
 SERVER_EMAIL = env("SERVER_EMAIL", default=DEFAULT_FROM_EMAIL)
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-subject-prefix
-EMAIL_SUBJECT_PREFIX = env("EMAIL_SUBJECT_PREFIX", default="[Bootcamp]")
+EMAIL_SUBJECT_PREFIX = env("EMAIL_SUBJECT_PREFIX", default="[Antisocial Network]")
 
 # ADMIN
 # ------------------------------------------------------------------------------
@@ -214,7 +214,7 @@ RAVEN_CONFIG = {
 # ------------------------------------------------------------------------------
 
 # site id
-SITE_ID = 1  # for the dev mode, you need to use localhost's id facebook does not support the name 127.0.0.1:8000
+SITE_ID = 2  # for the dev mode, you need to use localhost's id facebook does not support the name 127.0.0.1:8000
 
 # facebook
 SOCIAL_AUTH_FACEBOOK_KEY = '235733170178008'
