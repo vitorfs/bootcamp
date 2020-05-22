@@ -1,7 +1,10 @@
 import os
+from io import BytesIO
+
 from PIL import Image
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
@@ -79,24 +82,30 @@ def picture(request):
 @login_required
 def upload_picture(request):
     try:
-        profile_pictures = settings.MEDIA_ROOT + '/profile_pics/'
+        profile_pictures = settings.MEDIA_URL + 'profile_pics/'
         if not os.path.exists(profile_pictures):
             os.makedirs(profile_pictures)
 
-        f = request.FILES['picture']
-        filename = profile_pictures + request.user.username + '_tmp.jpg'
-        with open(filename, 'wb+') as destination:
-            for chunk in f.chunks():
-                destination.write(chunk)
+        image = request.FILES['picture']
+        obj = User.objects.get(username=request.user.username)
+        obj.image = image
+        obj.save()
 
-        im = Image.open(filename)
-        width, height = im.size
-        if width > 350:
-            new_width = 350
-            new_height = (height * 350) / width
-            new_size = new_width, new_height
-            im.thumbnail(new_size, Image.ANTIALIAS)
-            im.save(filename)
+        # filename = profile_pictures + request.user.username + '_tmp.jpg'
+        # with open(filename, 'wb+') as destination:
+        #     for chunk in f.chunks():
+        #         destination.write(chunk)
+
+
+        # im = Image.open(image)
+        # width, height = im.size
+        # if width > 350:
+        #     new_width = 350
+        #     new_height = (height * 350) / width
+        #     new_size = new_width, new_height
+        #     im.thumbnail(new_size, Image.ANTIALIAS)
+        #     obj.image = im
+        #     obj.save()
 
         return redirect('/picture/?upload_picture=uploaded')
 
@@ -111,14 +120,20 @@ def save_uploaded_picture(request):
         y = int(request.POST.get('y'))
         w = int(request.POST.get('w'))
         h = int(request.POST.get('h'))
-        tmp_filename = settings.MEDIA_ROOT + '/profile_pics/' + \
-                       request.user.username + '_tmp.jpg'
-        filename = settings.MEDIA_ROOT + '/profile_pics/' + \
-                   request.user.username + '.jpg'
+        tmp_filename = settings.MEDIA_URL + 'profile_pics/' + \
+                       request.user.username + '.jpg'
+        filename = request.user.username + '.jpg'
         im = Image.open(tmp_filename)
         cropped_im = im.crop((x, y, w + x, h + y))
         cropped_im.thumbnail((200, 200), Image.ANTIALIAS)
-        cropped_im.save(filename)
+        image_file = InMemoryUploadedFile(
+            cropped_im,  # file
+            None,  # field_name
+            filename,  # file name
+            'image/jpeg',  # content_type
+            cropped_im.tell,  # size
+            None)  # content_type_extra
+        User.objects.update(name=request.user.username, image=image_file)
         os.remove(tmp_filename)
 
     except Exception:

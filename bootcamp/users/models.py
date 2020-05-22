@@ -1,6 +1,3 @@
-import hashlib
-import os.path
-import urllib
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import User
 from allauth.account.forms import ChangePasswordForm
@@ -17,6 +14,7 @@ from bootcamp.notifications.models import Notification, create_notification_hand
 class User(AbstractUser):
     # First Name and Last Name do not cover name patterns around the globe.
     name = models.CharField(_("User's name"), blank=True, max_length=255)
+    image = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
     location = models.CharField(_("Location"), max_length=50, null=True, blank=True)
     job_title = models.CharField(_("Job title"), max_length=50, null=True, blank=True)
     personal_url = models.URLField(
@@ -34,7 +32,6 @@ class User(AbstractUser):
     )
     member_since = models.DateTimeField(default=timezone.now)
 
-
     def __str__(self):
         return self.username
 
@@ -48,23 +45,11 @@ class User(AbstractUser):
         return self.username
 
     def get_picture(self):
-        no_picture = settings.STATIC_URL + 'img/user.png'
-        try:
-            filename = settings.MEDIA_ROOT + '/profile_pics/' +\
-                self.username + '.jpg'
-            picture_url = settings.MEDIA_URL + 'profile_pics/' +\
-                self.username + '.jpg'
-            if os.path.isfile(filename):  # pragma: no cover
-                return picture_url
-            else:  # pragma: no cover
-                gravatar_url = 'http://www.gravatar.com/avatar/{0}?{1}'.format(
-                    hashlib.md5(self.email.lower()).hexdigest(),
-                    urllib.urlencode({'d': no_picture, 's': '256'})
-                    )
-                return gravatar_url
-
-        except Exception:
-            return no_picture
+        default_picture = settings.STATIC_URL + 'img/user.png'
+        if self.image:
+            return self.image.url
+        else:
+            return default_picture
 
 
 class CustomChangePasswordForm(ChangePasswordForm):

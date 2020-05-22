@@ -1,6 +1,3 @@
-import os
-
-from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse, HttpResponseForbidden
@@ -13,16 +10,13 @@ from django.views.generic import ListView, DeleteView
 from bootcamp.helpers import ajax_required, AuthorRequiredMixin
 from bootcamp.news.models import News
 from sightengine.client import SightengineClient
-from django.template.context_processors import csrf
-from bootcamp.notifications.models import Notification
-from bootcamp.utils import image_compression
 
 
 class NewsListView(LoginRequiredMixin, ListView):
     """A really simple ListView, with some JS magic on the UI."""
 
     model = News
-    paginate_by = 15
+    paginate_by = 10
 
     def get_queryset(self, **kwargs):
         return News.objects.filter(reply=False)
@@ -51,16 +45,17 @@ def post_news(request):
     post = request.POST["post"]
     post = post.strip()
 
-    image = None
-    if request.FILES:
-        image = request.FILES['image']
+    image = request.FILES['image']
+    if image:
         client = SightengineClient('137076993', 'XHSoBHy4jQM2yn8YEn8Y')
-        output = client.check('nudity', 'wad', 'offensive', 'faces', 'scam').set_bytes(image.file.read())
+        output = client.check('nudity', 'faces').set_bytes(image.file.read())
 
-        if output['status'] != 'success':
+        if output['nudity']['raw'] > 0.5:
             return HttpResponseBadRequest(
                 content=_(
-                    f"The image contains sex, violence or chocking content. Please reconsider your life before posting on this beautiful website.")
+                    f"The image contains nudity. Please reconsider "
+                    f"your existence in this platform "
+                    f"or you will be banned.")
             )
 
     if len(post) <= 280:
