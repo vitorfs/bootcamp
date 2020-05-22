@@ -51,10 +51,6 @@ def post_news(request):
     post = request.POST["post"]
     post = post.strip()
 
-    news_pic = settings.MEDIA_ROOT + '/news_pictures/'
-    if not os.path.exists(news_pic):
-        os.makedirs(news_pic)
-
     image = None
     if request.FILES:
         image = request.FILES['image']

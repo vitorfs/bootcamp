@@ -2,7 +2,7 @@
 {% load humanize static %}
 {% load thumbnail %}
 {% load urlize_target_blank %}
-
+<html xmlns:og="http://ogp.me/ns#">
 <li class="infinite-item" news-id="{{ news.uuid_id }}" csrf="{{ csrf_token }}">
     <div class="card news-body">
         <div class="card-header">
@@ -36,7 +36,6 @@
         {% thumbnail news.image "750x500" as im %}
             <img src="{{ im.url }}" alt="{% trans 'Featured Image' %}" class="card-img-top">
         {% empty %}
-            {#                <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">#}
         {% endthumbnail %}
         <div class="card-body">
             <div class="">
@@ -50,12 +49,7 @@
                             {% if news.meta_title %}
                                 <h5 class="card-title">{{ news.meta_title }}</h5>
                             {% endif %}
-                            {#                            {% if news.meta_description %}#}
-                            {#                                <p class="card-text">{{ news.meta_description }}</p>#}
-                            {#                            {% endif %}#}
-                            {% if news.meta_url %}
-                                <p class="card-btn">{{ news.meta_url }}</p>
-                            {% endif %}
+
                         </div>
                     </a>
                 {% endif %}

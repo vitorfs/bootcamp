@@ -214,13 +214,9 @@ RAVEN_CONFIG = {
 # ------------------------------------------------------------------------------
 
 # site id
-SITE_ID = 2  # for the dev mode, you need to use localhost's id facebook does not support the name 127.0.0.1:8000
+SITE_ID = 1
 
-# facebook
-SOCIAL_AUTH_FACEBOOK_KEY = '235733170178008'
-SOCIAL_AUTH_FACEBOOK_SECRET = '6f599b043c05d34e5af3e7fa4d4ad3bb'
-
-LOGIN_REDIRECT_URL = "/news"
+LOGIN_REDIRECT_URL = "/"
 # if you succeed in login, you'll be redirected to the main page.
 
 # little options for your page's signup.
