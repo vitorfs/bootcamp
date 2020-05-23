@@ -82,21 +82,21 @@ def picture(request):
 @login_required
 def upload_picture(request):
     try:
-        profile_pictures = settings.MEDIA_URL + 'profile_pics/'
+        profile_pictures = 'tmp/'
         if not os.path.exists(profile_pictures):
             os.makedirs(profile_pictures)
 
         image = request.FILES['picture']
         obj = User.objects.get(username=request.user.username)
+        image.name = request.user.username + '.jpg'
         obj.image = image
         obj.save()
 
-        # filename = profile_pictures + request.user.username + '_tmp.jpg'
+        # filename = profile_pictures + request.user.username + '.jpg'
         # with open(filename, 'wb+') as destination:
-        #     for chunk in f.chunks():
+        #     for chunk in image.chunks():
         #         destination.write(chunk)
-
-
+        #
         # im = Image.open(image)
         # width, height = im.size
         # if width > 350:
@@ -104,8 +104,8 @@ def upload_picture(request):
         #     new_height = (height * 350) / width
         #     new_size = new_width, new_height
         #     im.thumbnail(new_size, Image.ANTIALIAS)
-        #     obj.image = im
-        #     obj.save()
+        #     im.image = im
+        #     im.save()
 
         return redirect('/picture/?upload_picture=uploaded')
 
@@ -120,7 +120,7 @@ def save_uploaded_picture(request):
         y = int(request.POST.get('y'))
         w = int(request.POST.get('w'))
         h = int(request.POST.get('h'))
-        tmp_filename = settings.MEDIA_URL + 'profile_pics/' + \
+        tmp_filename = 'tmp/' + \
                        request.user.username + '.jpg'
         filename = request.user.username + '.jpg'
         im = Image.open(tmp_filename)
@@ -169,7 +169,6 @@ class FollowingPageView(LoginRequiredMixin, DetailView):
     context_object_name = 'users'
 
     def get_queryset(self, **kwargs):
-
         return self.request.user.following.all()
 
 

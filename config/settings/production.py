@@ -214,7 +214,7 @@ RAVEN_CONFIG = {
 # ------------------------------------------------------------------------------
 
 # site id
-SITE_ID = 1
+SITE_ID = 2
 
 LOGIN_REDIRECT_URL = "/news"
 # if you succeed in login, you'll be redirected to the main page.

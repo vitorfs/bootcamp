@@ -109,8 +109,8 @@
                         <i class="fa fa-user-circle-o" aria-hidden="true"></i>
                         {{ object.username }}
                         <br/>
-                        <i class="fa fa-envelope" aria-hidden="true"></i><a class="email"
-                                                                            href="mailto:{{ object.email }}"> {{ object.email }}</a><br/>
+                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                        <a class="email" href="mailto:{{ object.email }}"> {{ object.email }}</a><br/>
                         {% if object.job_title %}
                             <i class="fa fa-briefcase" aria-hidden="true"></i> {{ object.job_title }} <br/>
                         {% endif %}
@@ -134,9 +134,11 @@
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#user_friends">Friends</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#user_friend_requests">Friend Requests</a>
-                </li>
+                {% ifequal request.user object %}
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#user_friend_requests">Friend Requests</a>
+                    </li>
+                {% endifequal %}
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#user_followers">Followers</a>
                 </li>
@@ -150,9 +152,11 @@
                 <div id="user_activity" class="tab-pane active"><br>
                     {% include 'users/user_activity.html' with user_activity=user_activity %}
                 </div>
-                <div id="user_friend_requests" class="tab-pane fade"><br>
-                    {% include 'users/user_friend_requests.html' with users=object.pending_list.all %}
-                </div>
+                {% ifequal request.user object %}
+                    <div id="user_friend_requests" class="tab-pane fade"><br>
+                        {% include 'users/user_friend_requests.html' with users=object.pending_list.all %}
+                    </div>
+                {% endifequal %}
                 <div id="user_friends" class="tab-pane fade"><br>
                     {% include 'users/user_friends.html' with users=object.contact_list.all %}
                 </div>
