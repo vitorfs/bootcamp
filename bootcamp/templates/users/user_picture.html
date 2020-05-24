@@ -48,7 +48,7 @@
                                         <p>{% trans 'Crop the profile picture and then click on the' %}
                                             <strong>{% trans 'Save Picture' %}</strong> {% trans 'button' %}</p>
                                         <img src="{% get_media_prefix %}profile_pics/{{ user.username }}.jpg?_={% now 'U' %}"
-                                             id="crop-picture">
+                                             id="crop-picture" style="max-width: 500px;">
                                         <input type="hidden" id="x" name="x"/>
                                         <input type="hidden" id="y" name="y"/>
                                         <input type="hidden" id="w" name="w"/>

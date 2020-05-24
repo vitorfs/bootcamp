@@ -1,15 +1,19 @@
 import os
-from io import BytesIO
+import sys
+from io import BytesIO, StringIO
 
 from PIL import Image
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.files import File
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views.generic import DetailView, ListView, RedirectView, UpdateView
 from django.conf import settings
+from sorl.thumbnail import get_thumbnail
+
 from .models import User
 from ..helpers import ajax_required
 from bootcamp.notifications.models import Notification, create_notification_handler
@@ -82,30 +86,29 @@ def picture(request):
 @login_required
 def upload_picture(request):
     try:
-        profile_pictures = 'tmp/'
-        if not os.path.exists(profile_pictures):
-            os.makedirs(profile_pictures)
-
-        image = request.FILES['picture']
+        f = request.FILES['picture']
         obj = User.objects.get(username=request.user.username)
-        image.name = request.user.username + '.jpg'
-        obj.image = image
+        f.name = request.user.username + '.jpg'
+        obj.image = f
         obj.save()
 
-        # filename = profile_pictures + request.user.username + '.jpg'
-        # with open(filename, 'wb+') as destination:
-        #     for chunk in image.chunks():
-        #         destination.write(chunk)
-        #
-        # im = Image.open(image)
+        # im = Image.open(obj.image)
+        # output = BytesIO()
+        # im = im.resize((300, 300))
+        # im.save(output, format='JPEG', quality=100)
+        # output.seek(0)
+        # obj.image = InMemoryUploadedFile(output, 'ImageField', "%s.jpg" % obj.image.name.split('.')[0], 'image/jpeg',
+        #                                  sys.getsizeof(output), None)
+        # obj.save()
+
+        # im = Image.open(f)
         # width, height = im.size
         # if width > 350:
         #     new_width = 350
         #     new_height = (height * 350) / width
         #     new_size = new_width, new_height
         #     im.thumbnail(new_size, Image.ANTIALIAS)
-        #     im.image = im
-        #     im.save()
+        #     im.save(filename)
 
         return redirect('/picture/?upload_picture=uploaded')
 
@@ -120,21 +123,29 @@ def save_uploaded_picture(request):
         y = int(request.POST.get('y'))
         w = int(request.POST.get('w'))
         h = int(request.POST.get('h'))
-        tmp_filename = 'tmp/' + \
-                       request.user.username + '.jpg'
-        filename = request.user.username + '.jpg'
-        im = Image.open(tmp_filename)
+        obj = User.objects.get(username=request.user.username)
+        # im = Image.open(obj.image)
+        # cropped_im = im.crop((x, y, w + x, h + y))
+        # cropped_im.thumbnail((200, 200), Image.ANTIALIAS)
+        # obj.image = InMemoryUploadedFile(
+        #     cropped_im,  # file
+        #     None,  # field_name
+        #     obj.image.name,  # file name
+        #     'image/jpeg',  # content_type
+        #     cropped_im.tell,  # size
+        #     None)  # content_type_extra
+        # obj.save()
+
+        im = Image.open(obj.image)
+        output = BytesIO()
         cropped_im = im.crop((x, y, w + x, h + y))
         cropped_im.thumbnail((200, 200), Image.ANTIALIAS)
-        image_file = InMemoryUploadedFile(
-            cropped_im,  # file
-            None,  # field_name
-            filename,  # file name
-            'image/jpeg',  # content_type
-            cropped_im.tell,  # size
-            None)  # content_type_extra
-        User.objects.update(name=request.user.username, image=image_file)
-        os.remove(tmp_filename)
+        im.save(output, format='JPEG', quality=100)
+        output.seek(0)
+        obj.image.name = request.user.username + '_cropped.jpg'
+        obj.image = InMemoryUploadedFile(output, 'ImageField', "%s.jpg" % obj.image.name.split('.')[0], 'image/jpeg',
+                                         sys.getsizeof(output), None)
+        obj.save()
 
     except Exception:
         pass

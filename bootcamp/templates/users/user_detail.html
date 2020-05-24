@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static i18n %}
+{% load static humanize i18n %}
 
 {% block head_title %}{% trans "Profile" %}{% endblock %}
 
@@ -109,14 +109,15 @@
                         <i class="fa fa-user-circle-o" aria-hidden="true"></i>
                         {{ object.username }}
                         <br/>
-                        <i class="fa fa-envelope" aria-hidden="true"></i>
-                        <a class="email" href="mailto:{{ object.email }}"> {{ object.email }}</a><br/>
                         {% if object.job_title %}
                             <i class="fa fa-briefcase" aria-hidden="true"></i> {{ object.job_title }} <br/>
                         {% endif %}
                         {% if object.location %}
                             <i class="fa fa-map-marker" aria-hidden="true"></i> {{ object.location }} <br/>
                         {% endif %}
+                        <i class="fa fa-clock-o"></i>{% trans ' Last Login: ' %} <small
+                            class="timestamp">{{ object.last_login|naturaltime }}</small>
+                        <br/>
                     </p>
                     <div id="objective"><p>{{ object.bio }}</p></div>
                     <div class="clear"></div>
