@@ -12,7 +12,6 @@ from ..news.models import News
 
 class UserDetailView(LoginRequiredMixin, DetailView):
     model = User
-    paginate_by = 20
     # These next two lines tell the view to index lookups by username
     slug_field = "username"
     slug_url_kwarg = "username"
