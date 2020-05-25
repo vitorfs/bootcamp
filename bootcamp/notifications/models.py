@@ -105,14 +105,15 @@ class Notification(models.Model):
         (FRIEND_ACCEPT, _("accepted your friend request")),
     )
     _LIKED_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/news/{3}/">{4}</a>'  # noqa: E501
-    _COMMENTED_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/news/{3}/">{4}</a>'  # noqa: E501
-    _FAVORITED_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/qa/{3}/">{4}</a>'  # noqa: E501
-    _ANSWERED_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/qa/{3}/">{4}</a>'  # noqa: E501
-    _ACCEPTED_ANSWER_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/qa/{3}/">{4}</a>'  # noqa: E501
-    _UPVOTED_QUESTION_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/qa/{3}/">{4}</a>'  # noqa: E501
-    _UPVOTED_ANSWER_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/qa/{3}/">{4}</a>'  # noqa: E501
-    _EDITED_ARTICLE_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/articles/{3}/">{4}</a>'  # noqa: E501
-    _ALSO_COMMENTED_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/news/{3}/">{4}</a>'  # noqa: E501
+    _REPLIED_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/news/{3}/">{4}</a>'  # noqa: E501
+    _FAVORITED_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/qa/">{4}</a>'  # noqa: E501
+    _ANSWERED_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/qa/">{4}</a>'  # noqa: E501
+    _ACCEPTED_ANSWER_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/qa/">{4}</a>'  # noqa: E501
+    _UPVOTED_QUESTION_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/qa/">{4}</a>'  # noqa: E501
+    _UPVOTED_ANSWER_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/qa/">{4}</a>'  # noqa: E501
+    _EDITED_ARTICLE_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/articles/">{4}</a>'  # noqa: E501
+    _ALSO_COMMENTED_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/articles/">{4}</a>'  # noqa: E501
+    _COMMENTED_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/articles/">{4}</a>'  # noqa: E501
     _FOLLOWED_TEMPLATE = '<a href="/{0}/">{1}</a> {2}.'  # noqa: E501
     _FRIEND_REQUEST_TEMPLATE = '<a href="/{0}/">{1}</a> {2}.'  # noqa: E501
     _FRIEND_ACCEPT_TEMPLATE = '<a href="/{0}/">{1}</a> {2}.'  # noqa: E501
@@ -163,7 +164,7 @@ class Notification(models.Model):
                 )
 
             elif self.verb == self.REPLY:
-                return self._COMMENTED_TEMPLATE.format(
+                return self._REPLIED_TEMPLATE.format(
                     escape(self.actor),
                     escape(self.actor),
                     escape(self.get_verb_display()),
