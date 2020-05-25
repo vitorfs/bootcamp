@@ -118,6 +118,8 @@
                         <i class="fa fa-clock-o"></i>{% trans ' Last Login: ' %} <small
                             class="timestamp">{{ object.last_login|naturaltime }}</small>
                         <br/>
+                     <i class="fa fa-calendar"></i>{% trans ' Member Since: ' %} <small
+                            class="timestamp">{{ object.member_since|naturaltime }}</small>
                     </p>
                     <div id="objective"><p>{{ object.bio }}</p></div>
                     <div class="clear"></div>

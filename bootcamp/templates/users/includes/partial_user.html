@@ -85,8 +85,7 @@
                            style="float:right; margin-right:10px;">Follow</a>
                     {% endif %}
                 {% endifequal %}
-                <p class="text-muted">Member since <span
-                        title="{{ user.member_since|date:"D d M Y" }} | {{ user.member_since|time:"H:i:s" }}">{{ user.member_since|naturaltime }}</span>
+                <p class="text-muted">Member since <span>{{ user.member_since|naturaltime }}</span>
                 </p>
             </div>
         </div>

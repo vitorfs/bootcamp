@@ -62,10 +62,10 @@ def post_news(request):
                     f"or you will be banned.")
             )
 
-    post_url = re.search("(?P<url>https?://[^\s]+)", post).group("url")
-    if r_image.match(post_url):
+    post_url = re.search("(?P<url>https?://[^\s]+)", post)
+    if post_url and r_image.match(post_url.group("url")):
         client = SightengineClient('137076993', 'XHSoBHy4jQM2yn8YEn8Y')
-        output = client.check('nudity', 'faces').set_url(post_url)
+        output = client.check('nudity', 'faces').set_url(post_url.group("url"))
 
         if output['nudity']['raw'] > 0.5:
             return HttpResponseBadRequest(
