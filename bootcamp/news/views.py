@@ -1,3 +1,5 @@
+import re
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse, HttpResponseForbidden
@@ -44,12 +46,26 @@ def post_news(request):
     user = request.user
     post = request.POST["post"]
     post = post.strip()
+    r_image = re.compile(r".*\.(jpg|png|gif).*$")
 
     image = None
     if request.FILES:
         image = request.FILES['image']
         client = SightengineClient('137076993', 'XHSoBHy4jQM2yn8YEn8Y')
         output = client.check('nudity', 'faces').set_bytes(image.file.read())
+
+        if output['nudity']['raw'] > 0.5:
+            return HttpResponseBadRequest(
+                content=_(
+                    f"The image contains nudity. Please reconsider "
+                    f"your existence in this platform "
+                    f"or you will be banned.")
+            )
+
+    post_url = re.search("(?P<url>https?://[^\s]+)", post).group("url")
+    if r_image.match(post_url):
+        client = SightengineClient('137076993', 'XHSoBHy4jQM2yn8YEn8Y')
+        output = client.check('nudity', 'faces').set_url(post_url)
 
         if output['nudity']['raw'] > 0.5:
             return HttpResponseBadRequest(

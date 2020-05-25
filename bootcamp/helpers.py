@@ -1,5 +1,6 @@
 import re
-from urllib.parse import urljoin
+import urllib
+from urllib.parse import urljoin, urlparse
 
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -95,8 +96,12 @@ def fetch_metadata(text):
     :param text: Block of text of any lenght
     """
     urls = get_urls(text)
+    r_image = re.compile(r".*\.(jpg|png|gif)$")
     try:
-        return get_metadata(urls[0])
+        if r_image.match(urls[0]):
+            return get_metaimage(urls[0])
+        else:
+            return get_metadata(urls[0])
 
     except IndexError:
         return None
@@ -115,6 +120,13 @@ def get_urls(text):
     return re.findall(regex, text)
 
 
+def get_metaimage(url):
+    data = {}
+    data['url'] = url
+    data['image'] = url
+    return data
+
+
 def get_metadata(url):
     """This function looks for the page of a given URL, extracts the page content and parses the content
     with bs4. searching for the page meta tags giving priority to the Open Graph Protocol
@@ -128,31 +140,33 @@ def get_metadata(url):
     """
     response = requests.get(url)
     soup = bs4.BeautifulSoup(response.content)
-    ogs = soup.html.head.find_all(property=re.compile(r"^og"))
-    data = {og.get("property")[3:]: og.get("content") for og in ogs}
-    if not data.get("url"):
-        data["url"] = url
+    data = {}
+    if soup.html:
+        ogs = soup.html.head.find_all(property=re.compile(r"^og"))
+        data = {og.get("property")[3:]: og.get("content") for og in ogs}
+        if not data.get("url"):
+            data["url"] = url
 
-    if not data.get("title"):
-        data["title"] = soup.html.title.text
+        if not data.get("title"):
+            data["title"] = soup.html.title.text
 
-    if not data.get("image"):
-        images = soup.find_all("img")
-        if len(images) > 0:
-            data["image"] = urljoin(url, images[0].get("src"))
+        if not data.get("image"):
+            images = soup.find_all("img")
+            if len(images) > 0:
+                data["image"] = urljoin(url, images[0].get("src"))
 
-    if not data.get("description"):
-        data["description"] = ""
-        for text in soup.body.find_all(string=True):
-            if (
-                text.parent.name != "script"
-                and text.parent.name != "style"
-                and not isinstance(text, bs4.Comment)
-            ):
-                data["description"] += text
+        if not data.get("description"):
+            data["description"] = ""
+            for text in soup.body.find_all(string=True):
+                if (
+                        text.parent.name != "script"
+                        and text.parent.name != "style"
+                        and not isinstance(text, bs4.Comment)
+                ):
+                    data["description"] += text
 
-    data["description"] = re.sub("\n|\r|\t", " ", data["description"])
-    data["description"] = re.sub(" +", " ", data["description"])
-    data["description"] = data["description"].strip()[:255]
+        data["description"] = re.sub("\n|\r|\t", " ", data["description"])
+        data["description"] = re.sub(" +", " ", data["description"])
+        data["description"] = data["description"].strip()[:255]
 
     return data
