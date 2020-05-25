@@ -45,8 +45,9 @@ def post_news(request):
     post = request.POST["post"]
     post = post.strip()
 
-    image = request.FILES['image']
-    if image:
+    image = None
+    if request.FILES:
+        image = request.FILES['image']
         client = SightengineClient('137076993', 'XHSoBHy4jQM2yn8YEn8Y')
         output = client.check('nudity', 'faces').set_bytes(image.file.read())
 
