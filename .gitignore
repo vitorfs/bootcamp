@@ -63,7 +63,8 @@ media/
 node_modules/
 dump.rdb
 
+# Python virtual environments
 .env
-
+.python-version
 venv_bootcamp/
 staticfiles
