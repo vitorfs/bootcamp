@@ -24,7 +24,7 @@ My version of the Bootcamp social network, in which I added new functionalities 
 
 Bootcamp is an open source **social network** of open purpose, on which you can build for your own ends.
 
-The project has four basic apps:
+The project has the following apps:
 
 * Feed (A Twitter-like microblog)
 * Articles (A collaborative blog)
