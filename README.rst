@@ -29,7 +29,9 @@ The project has four basic apps:
 * Articles (A collaborative blog)
 * Question & Answers (A Stack Overflow-like platform)
 * Messenger (A basic chat-a-like tool for asynchronous communication.)
-* Network of people registered, in which you can add, follow or remove friends.
+* Network of registered people, in which you can add, follow or remove friends.
+
+It also includes the Sight Engine API to filter innapropriate content of URL or uploaded images in the feed.
 
 Technology Stack
 ----------------
