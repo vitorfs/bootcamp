@@ -1,7 +1,7 @@
 Bootcamp
 ========
 
-An enterprise oriented social network
+My version of the Bootcamp social network, in which I added new functionalities and updated for Django 3.
 
 .. image:: https://travis-ci.org/vitorfs/bootcamp.svg?branch=master
     :target: https://travis-ci.org/vitorfs/bootcamp
@@ -21,14 +21,15 @@ An enterprise oriented social network
 
 :License: MIT
 
-Bootcamp is an open source **enterprise social network** of open purpose, on which you can build for your own ends.
+Bootcamp is an open source **social network** of open purpose, on which you can build for your own ends.
 
 The project has four basic apps:
 
-* News (A Twitter-like microblog)
+* Feed (A Twitter-like microblog)
 * Articles (A collaborative blog)
 * Question & Answers (A Stack Overflow-like platform)
 * Messenger (A basic chat-a-like tool for asynchronous communication.)
+* Network of people registered, in which you can add, follow or remove friends.
 
 Technology Stack
 ----------------
