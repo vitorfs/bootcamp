@@ -31,13 +31,14 @@ The project has four basic apps:
 * Messenger (A basic chat-a-like tool for asynchronous communication.)
 * Network of registered people, in which you can add, follow or remove friends.
 
-It also includes the Sight Engine API to filter innapropriate content of URL or uploaded images in the feed.
+It also includes the Sightengine API to filter innapropriate content of URL or uploaded images in the feed.
+
 
 Technology Stack
 ----------------
 
 * Python_ 3.6.x / 3.7.x
-* `Django Web Framework`_ 2.2.x
+* `Django Web Framework`_ 3.x
 * PostgreSQL_
 * `Redis 5.0`_
 * Daphne_
@@ -51,6 +52,7 @@ Technology Stack
 * Sentry_
 * Mailgun_
 * Cookiecutter_
+* Sightengine_
 
 .. _Python: https://www.python.org/
 .. _`Django Web Framework`: https://www.djangoproject.com/
@@ -67,6 +69,7 @@ Technology Stack
 .. _Sentry: https://docs.sentry.io/
 .. _Mailgun: https://www.mailgun.com/
 .. _Cookiecutter: http://cookiecutter-django.readthedocs.io/en/latest/index.html
+.. _Sightengine: https://sightengine.com
 
 Basic Commands
 --------------
