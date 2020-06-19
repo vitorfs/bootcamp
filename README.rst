@@ -42,7 +42,7 @@ Some of the new features:
 - Dark mode
 - Content filtering
 - Chat with your friends
-
+- See friends login and posts activity
 
 Technology Stack
 ----------------
