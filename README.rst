@@ -1,7 +1,7 @@
 Bootcamp
 ========
 
-My version of the Bootcamp social network, in which I added new functionalities and updated for Django 3.
+My version of the Bootcamp social network, in which I added new functionalities and updated it to use Django 3.
 
 .. image:: https://travis-ci.org/vitorfs/bootcamp.svg?branch=master
     :target: https://travis-ci.org/vitorfs/bootcamp
