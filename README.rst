@@ -1,4 +1,4 @@
-Bootcamp - Django 3 Social Network
+Django 3 Social Network
 ========
 
 You can check it here: https://www.antisocialnetwork.live
@@ -34,6 +34,14 @@ The project has the following apps:
 * Network of registered people, in which you can add, follow or remove friends.
 
 It also includes the Sightengine API to filter innapropriate content of URL or uploaded images in the feed.
+
+Some of the new features:
+
+- New design
+- Login with Facebook
+- Dark mode
+- Content filtering
+- Chat with your friends
 
 
 Technology Stack
