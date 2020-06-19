@@ -1,7 +1,7 @@
 Bootcamp - Django 3 Social Network
 ========
 
-.. image:: https://flic.kr/p/2jdjv9g
+.. image:: https://www.flickr.com/photos/188988470@N06/50022522371/in/dateposted-public/
 
 
 My version of the Bootcamp social network, in which I added new functionalities and updated it to use Django 3.
