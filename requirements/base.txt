@@ -18,6 +18,7 @@ django-markdownx  # https://github.com/neutronX/django-markdownx
 django-redis  # https://github.com/niwinz/django-redis
 django-taggit  # https://github.com/alex/django-taggit
 sorl-thumbnail  # https://github.com/jazzband/sorl-thumbnail
+taggit-selectize # https://github.com/chhantyal/taggit-selectize
 
 # Channels
 # ------------------------------------------------------------------------------
