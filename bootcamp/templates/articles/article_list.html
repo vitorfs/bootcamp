@@ -16,6 +16,9 @@
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{% url 'news:list' %}">{% trans 'Home' %}</a></li>
         <li class="breadcrumb-item active"><a href="{% url 'articles:list' %}">{% trans 'Articles' %}</a></li>
+        {% if filtered_by_tag %}
+          <li class="breadcrumb-item active">{{ filtered_by_tag }}</li>
+        {% endif %}
       </ol>
     </nav>
     <div class="row">
@@ -38,8 +41,8 @@
               {% trans 'Posted' %} {{ article.timestamp|naturaltime }}
               <i class="lead fa fa-user"></i>
               <a href="{% url 'users:detail' article.user.username %}">{{ article.user.get_profile_name|title }}</a>
-              {% for tag in article.tags.names %}
-                <a href="#">{{ tag }}</a>
+              {% for tag in article.tags.all %}
+                <a href="{% url 'articles:by_tag_list' slug=tag.slug %}">{{ tag.name }}</a>
               {% endfor %}
             </div>
           </div>
@@ -86,8 +89,8 @@
         <div class="card my-4">
           <h5 class="card-header">{% trans 'Cloud tag' %}</h5>
           <div class="card-body">
-            {% for tag, count in popular_tags %}
-              <a href="#"><span class="badge badge-info">{{ count }} {{ tag }}</span></a>
+            {% for tag in popular_tags %}
+              <a href="{% url 'articles:by_tag_list' slug=tag.slug %}"><span class="badge badge-info">{{ tag.count }} {{ tag.name }}</span></a>
             {% endfor %}
           </div>
         </div>

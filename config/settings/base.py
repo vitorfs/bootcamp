@@ -79,6 +79,7 @@ THIRD_PARTY_APPS = [
     "graphene_django",
     "markdownx",
     "taggit",
+    "taggit_selectize",
 ]
 LOCAL_APPS = [
     "bootcamp.users.apps.UsersConfig",
@@ -259,3 +260,7 @@ CHANNEL_LAYERS = {
 
 # GraphQL settings
 GRAPHENE = {"SCHEMA": "config.schema.schema"}
+
+# taggit-selectize settings
+TAGGIT_TAGS_FROM_STRING = 'taggit_selectize.utils.parse_tags'
+TAGGIT_STRING_FROM_TAGS = 'taggit_selectize.utils.join_tags'

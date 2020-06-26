@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.db import models
-from django.db.models import Count
+from django.db.models import Count, F
 from django.utils.translation import ugettext_lazy as _
 
 from slugify import slugify
@@ -8,8 +8,8 @@ from slugify import slugify
 from django_comments.signals import comment_was_posted
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
-from taggit.managers import TaggableManager
-
+from taggit_selectize.managers import TaggableManager
+from taggit.models import TaggedItemBase
 
 from bootcamp.notifications.models import Notification, notification_handler
 
@@ -25,20 +25,14 @@ class ArticleQuerySet(models.query.QuerySet):
         """Returns only the items marked as DRAFT in the current queryset."""
         return self.filter(status="D")
 
-    def get_counted_tags(self):
-        tag_dict = {}
-        query = (
-            self.filter(status="P").annotate(tagged=Count("tags")).filter(tags__gt=0)
-        )
-        for obj in query:
-            for tag in obj.tags.names():
-                if tag not in tag_dict:
-                    tag_dict[tag] = 1
+    @staticmethod
+    def get_counted_tags():
+        return TaggedArticle.objects.filter(content_object__status='P').order_by('tag__id').\
+            annotate(name=F('tag__name'), slug=F('tag__slug'),).values('slug', 'name').annotate(count=Count('tag'))
 
-                else:  # pragma: no cover
-                    tag_dict[tag] += 1
 
-        return tag_dict.items()
+class TaggedArticle(TaggedItemBase):
+    content_object = models.ForeignKey('Article', on_delete=models.CASCADE)
 
 
 class Article(models.Model):
@@ -61,7 +55,7 @@ class Article(models.Model):
     status = models.CharField(max_length=1, choices=STATUS, default=DRAFT)
     content = MarkdownxField()
     edited = models.BooleanField(default=False)
-    tags = TaggableManager()
+    tags = TaggableManager(through=TaggedArticle)
     objects = ArticleQuerySet.as_manager()
 
     class Meta:

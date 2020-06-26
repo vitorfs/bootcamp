@@ -5,8 +5,10 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from bootcamp.helpers import AuthorRequiredMixin
-from bootcamp.articles.models import Article
+from bootcamp.articles.models import Article, TaggedArticle
 from bootcamp.articles.forms import ArticleForm
+
+from taggit.views import TagListMixin
 
 
 class ArticlesListView(LoginRequiredMixin, ListView):
@@ -23,6 +25,20 @@ class ArticlesListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self, **kwargs):
         return Article.objects.get_published()
+
+
+class ArticlesByTagListView(TagListMixin, ArticlesListView):
+    template_name = 'articles/article_list.html'
+
+    def get_queryset(self, **kwargs):
+        qs = Article.objects.filter(
+            pk__in=TaggedArticle.objects.filter(tag=self.tag).values_list("content_object_id", flat=True))
+        return qs.get_published()
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["filtered_by_tag"] = self.tag
+        return context
 
 
 class DraftsListView(ArticlesListView):
