@@ -256,7 +256,7 @@ class Notification(models.Model):
             else:
                 return "Ooops! Something went wrong."
         else:
-            return f"{self.actor} {self.get_verb_display()} {self.time_since()} ago"
+            return f"{self.actor} {self.get_verb_display()}.. [deleted post]"
 
     def get_summary(self, value):
         summary_size = 50

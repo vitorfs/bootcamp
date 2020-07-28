@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static i18n humanize %}
+{% load thumbnail %}
+
+{% block head %}
+    <link href="{% static 'css/news.css' %}?v=1" rel="stylesheet">
+{% endblock head %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>News</h1>
+    </div>
+    <ul class="stream">
+        {% include 'news/news_single.html' with news=news %}
+    </ul>
+{% endblock content %}
+
+{% block modal %}
+    <script src="{% static 'js/jquery.waypoints.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/infinite.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/news.js' %}" type="text/javascript"></script>
+{% endblock modal %}

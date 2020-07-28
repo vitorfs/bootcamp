@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.views.generic import DetailView, ListView, RedirectView, UpdateView
 from django.conf import settings as django_settings
 from .models import User
+from ..news.models import News
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
@@ -14,6 +15,11 @@ class UserDetailView(LoginRequiredMixin, DetailView):
     # These next two lines tell the view to index lookups by username
     slug_field = "username"
     slug_url_kwarg = "username"
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['user_activity'] = News.objects.filter(user=context['user'])
+        return context
 
 
 class UserRedirectView(LoginRequiredMixin, RedirectView):
@@ -92,10 +98,10 @@ def upload_picture(request):
             im.thumbnail(new_size, Image.ANTIALIAS)
             im.save(filename)
 
-        return redirect("/users/picture/?upload_picture=uploaded")
+        return redirect("/picture/?upload_picture=uploaded")
 
     except Exception:
-        return redirect("/users/picture/")
+        return redirect("/picture/")
 
 
 @login_required
@@ -126,4 +132,4 @@ def save_uploaded_picture(request):
     except Exception:
         pass
 
-    return redirect("/users/picture/")
+    return redirect("/picture/")
