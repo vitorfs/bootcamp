@@ -34,6 +34,7 @@ The project has the following apps:
 * Network of registered people, in which you can add, follow or remove friends.
 
 It also includes the Sightengine API to filter innapropriate content of URL or uploaded images in the feed.
+-> https://sightengine.com
 
 Some of the new features:
 
