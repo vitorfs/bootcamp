@@ -99,12 +99,7 @@ def get_suggestions(request):
             data_json["label"] = data.username
             data_json["value"] = data.username
 
-        if isinstance(data, Article):
-            data_json["id"] = data.id
-            data_json["label"] = data.title
-            data_json["value"] = data.title
-
-        if isinstance(data, Question):
+        if isinstance(data, Article) or isinstance(data, Question):
             data_json["id"] = data.id
             data_json["label"] = data.title
             data_json["value"] = data.title
