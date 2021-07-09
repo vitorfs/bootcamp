@@ -134,7 +134,11 @@ def get_metadata(url):
         url = f"http://{parsed_url.path}"
 
     try:
-        response = requests.get(url, timeout=0.9)
+        headers = {
+            "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36",
+            "content-type":"text"
+        }
+        response = requests.get(url, timeout=0.9, headers=headers)
         response.raise_for_status()
 
     except requests.exceptions.ConnectionError:
@@ -150,12 +154,15 @@ def get_metadata(url):
         )
 
     soup = bs4.BeautifulSoup(response.content)
-    ogs = soup.html.head.find_all(property=re.compile(r"^og"))
-    data = {og.get("property")[3:]: og.get("content") for og in ogs}
+    data = {}
+    if soup.html.head:
+        ogs = soup.html.head.find_all(property=re.compile(r"^og"))
+        data = {og.get("property")[3:]: og.get("content") for og in ogs}
+
     if not data.get("url"):
         data["url"] = url
 
-    if not data.get("title"):
+    if not data.get("title") and soup.html.title:
         data["title"] = soup.html.title.text
 
     if not data.get("image"):
