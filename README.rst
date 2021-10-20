@@ -1,7 +1,7 @@
 Django 3 Social Network
 ========
 
-You can check it here: https://www.antisocialnetwork.live
+Web app: https://www.antisocialnetwork.live
 
 My version of the Bootcamp social network, in which I added new functionalities and updated it to use Django 3.
 
