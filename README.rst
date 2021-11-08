@@ -1,7 +1,9 @@
-Bootcamp
+Python/Django Social Network
 ========
 
-An enterprise oriented social network
+Web app: https://www.antisocialnetwork.live
+
+My version of the Bootcamp social network, in which I added new functionalities and updated it to use Django 3.
 
 .. image:: https://travis-ci.org/vitorfs/bootcamp.svg?branch=master
     :target: https://travis-ci.org/vitorfs/bootcamp
@@ -21,20 +23,33 @@ An enterprise oriented social network
 
 :License: MIT
 
-Bootcamp is an open source **enterprise social network** of open purpose, on which you can build for your own ends.
+Bootcamp is an open source **social network** of open purpose, on which you can build for your own ends.
 
-The project has four basic apps:
+The project has the following apps:
 
-* News (A Twitter-like microblog)
+* Feed (A Twitter-like microblog)
 * Articles (A collaborative blog)
 * Question & Answers (A Stack Overflow-like platform)
 * Messenger (A basic chat-a-like tool for asynchronous communication.)
+* Network of registered people, in which you can add, follow or remove friends.
+
+It also includes the Sightengine API to filter innapropriate content of URL or uploaded images in the feed.
+-> https://sightengine.com
+
+Some of the new features:
+
+- New design
+- Login with Facebook
+- Dark mode
+- Content filtering
+- Chat with your friends
+- See friends login and posts activity
 
 Technology Stack
 ----------------
 
 * Python_ 3.6.x / 3.7.x
-* `Django Web Framework`_ 2.2.x
+* `Django Web Framework`_ 3.x
 * PostgreSQL_
 * `Redis 5.0`_
 * Daphne_
@@ -48,6 +63,7 @@ Technology Stack
 * Sentry_
 * Mailgun_
 * Cookiecutter_
+* Sightengine_
 
 .. _Python: https://www.python.org/
 .. _`Django Web Framework`: https://www.djangoproject.com/
@@ -64,6 +80,7 @@ Technology Stack
 .. _Sentry: https://docs.sentry.io/
 .. _Mailgun: https://www.mailgun.com/
 .. _Cookiecutter: http://cookiecutter-django.readthedocs.io/en/latest/index.html
+.. _Sightengine: https://sightengine.com
 
 Basic Commands
 --------------
