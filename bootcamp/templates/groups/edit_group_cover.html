@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}<title>Change Your Group Cover</title>{% endblock %}
+
+
+{% block form_content %}
+
+{#{% include "groups/includes/page_heading.html" with text="Change Your Group Cover" %}#}
+{% if group_form.errors %}
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{group_form.errors}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+{% endif %}
+
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="id_cover">Cover photo</label>
+    <input type="file" class="form-control-file" id="id_cover" name="cover" accept="image/*">
+  </div>
+   <button type="submit" class="btn btn-primary btn-block" id="submit_cover">Submit</button>
+</form>
+
+
+<script type="text/javascript">
+// Check file size
+$(document).ready(function(){
+  $("input#id_cover").on("change", function () {
+    var file_size = this.files[0].size;
+    if (file_size > 2097152) {
+      alert("Image size should be less than 2 megabytes.")
+      $("button#submit_cover").prop('disabled', true);
+    } else {
+        $("button#submit_cover").prop('disabled', false);
+    }
+  });
+});
+</script>
+
+{% endblock %}

@@ -63,7 +63,6 @@ media/
 node_modules/
 dump.rdb
 
-.env
-
 venv_bootcamp/
 staticfiles
+.env

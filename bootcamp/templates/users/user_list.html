@@ -1,48 +1,33 @@
 {% extends "base.html" %}
 {% load static i18n %}
 {% load thumbnail %}
-{% block title %}{% trans 'Contacts' %}{% endblock %}
+{% block title %}{% trans 'Network' %}{% endblock %}
 
 {% block head %}
-  <link href="{% static 'css/user_list.css' %}" rel="stylesheet">
+    <link href="{% static 'css/user_profile.css' %}?v=1" rel="stylesheet">
 {% endblock head %}
 
 {% block content %}
 
-  <div class="page-header">
-    <h1>{% trans 'Contacts' %}</h1>
-  </div>
+    <div class="page-header">
+        <h1>{% trans 'Network' %}</h1>
+    </div>
 
-  <ul class="user-profiles-list">
-    {% for user in user_list %}
-      <li>
-        <div class="user-avatar">
-          <a href="{% url 'users:detail' user.username  %}" class="user-avatar">
-           <img src="{{ user.get_picture }}" class="user-image"
-                                        id="pic" style="width: 80px; border-radius: 50%;"
-                                         alt="{% trans 'User Image' %}">
-          </a>
-        </div>
-        <p>
-          <i class="fa fa-envelope" aria-hidden="true"></i>
-          <a class="email" href="{% url 'messager:messages_list' %}">
-            {{ user.get_profile_name|title }}
-          </a>
-          <span>
-            {% if user.job_title %}
-              <i class="fa fa-briefcase" aria-hidden="true"></i>
-              <i>  {{ user.job_title}}</i>
-            {% endif %}
-          </span>
-          <span>
-            {% if user.location %}
-              <i class="fa fa-map-marker" aria-hidden="true"></i>
-              <i>  {{ user.location }}</i>
-            {% endif %}
-          </span>
-        </p>
-      </li>
-    {% endfor %}
-  </ul>
+    <ul class="user-profiles-list">
+        {% if user_list %}
+            {% include "users/includes/partial_user.html" with users=user_list %}
+        {% else %}
+            <div class="card p-4 my-4 mx-0">
+                <h6 class="text-center">No Network Found</h6>
+                <div style="margin:0 auto;">
+                    <p class="text-muted">You don't have any contact right now.</p>
+                </div>
+            </div>
+        {% endif %}
+    </ul>
 
 {% endblock content %}
+
+{% block modal %}
+    {% include "users/includes/partial_user_js.html" %}
+{% endblock modal %}

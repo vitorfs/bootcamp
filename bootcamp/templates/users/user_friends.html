@@ -1,0 +1,20 @@
+{% load static i18n %}
+
+{% block head %}
+    <link href="{% static 'css/user_profile.css' %}?v=1" rel="stylesheet">
+{% endblock head %}
+
+{% block content %}
+    {% if users %}
+        {% include "users/includes/partial_user.html" with users=users %}
+    {% else %}
+        <div class="card p-4 my-4 mx-0">
+            <h6 class="text-center">No Contacts Found</h6>
+            <div style="margin:0 auto;">
+                <p class="text-muted">You don't have any contact right now.</p>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock content %}
+

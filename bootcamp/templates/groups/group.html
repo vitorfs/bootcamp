@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}<title>{{ group.title }}</title>{% endblock %}
+
+{% block content %}
+
+{#{% include "groups/includes/page_heading.html" with text=group.title|upper %}#}
+{% if subjects %}
+  {% include "groups/includes/partial_subject.html" with subjects=subjects %}
+{% else %}
+  <div class="card p-4 my-4 mx-0">
+    <h6 class="text-center">No Subjects Found</h6>
+    <div style="margin:0 auto;">
+    <p class="text-muted">Be the first one to post a subject in this group.</p>
+    </div>
+  </div>
+{% endif %}
+
+{% endblock %}

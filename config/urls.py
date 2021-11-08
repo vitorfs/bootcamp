@@ -33,6 +33,8 @@ urlpatterns = [
     url(r"^qa/", include("bootcamp.qa.urls", namespace="qa")),
     url(r"^search/", include("bootcamp.search.urls", namespace="search")),
     url("", include("bootcamp.users.urls", namespace="users")),
+    url(r"^groups/", include("bootcamp.groups.urls", namespace="groups")),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
@@ -59,3 +61,7 @@ if settings.DEBUG:
         import debug_toolbar
 
         urlpatterns = [url(r"^__debug__/", include(debug_toolbar.urls))] + urlpatterns
+
+
+# flatpages urls
+# urlpatterns.append(url(r'^', include('django.contrib.flatpages.urls')))

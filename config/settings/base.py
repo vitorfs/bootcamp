@@ -5,7 +5,7 @@ Base settings to build other settings files upon.
 import environ
 
 ROOT_DIR = (
-    environ.Path(__file__) - 3
+        environ.Path(__file__) - 3
 )  # (bootcamp/config/settings/base.py - 3 = bootcamp/)
 APPS_DIR = ROOT_DIR.path("bootcamp")
 
@@ -61,6 +61,7 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.humanize",
     "django.contrib.admin",
+    'django.contrib.flatpages',
     "django.forms",
 ]
 THIRD_PARTY_APPS = [
@@ -69,9 +70,9 @@ THIRD_PARTY_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-    # 'allauth.socialaccount.providers.amazon',
-    # 'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.facebook',
     # 'allauth.socialaccount.providers.google',
+    # 'allauth.socialaccount.providers.github',
     # 'allauth.socialaccount.providers.linkedin',
     # 'allauth.socialaccount.providers.slack',
     "channels",
@@ -89,6 +90,7 @@ LOCAL_APPS = [
     "bootcamp.notifications.apps.NotificationsConfig",
     "bootcamp.qa.apps.QaConfig",
     "bootcamp.search.apps.SearchConfig",
+    "bootcamp.groups.apps.GroupsConfig",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -102,8 +104,8 @@ MIGRATION_MODULES = {"sites": "bootcamp.contrib.sites.migrations"}
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#authentication-backends
 AUTHENTICATION_BACKENDS = [
-    "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
+    "django.contrib.auth.backends.ModelBackend",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
 AUTH_USER_MODEL = "users.User"
@@ -220,7 +222,7 @@ EMAIL_BACKEND = env(
 ADMIN_URL = r"^admin/"
 # https://docs.djangoproject.com/en/dev/ref/settings/#admins
 # ADMINS = [
-#     ("""Vitor Freitas""", 'vitor-freitas@example.com'),
+#     ("""Gustavo Bakker""", 'gustavobakker@hotmail.com'),
 # ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#managers
 # MANAGERS = ADMINS
@@ -239,7 +241,6 @@ ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_ADAPTER = "bootcamp.users.adapters.AccountAdapter"
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 SOCIALACCOUNT_ADAPTER = "bootcamp.users.adapters.SocialAccountAdapter"
-
 
 # Your stuff...
 # ------------------------------------------------------------------------------

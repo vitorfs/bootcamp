@@ -1,11 +1,7 @@
 from test_plus.test import TestCase
 
 from bootcamp.news.models import News
-from bootcamp.notifications.models import (
-    Notification,
-    create_notification_handler,
-    delete_notification_handler,
-)
+from bootcamp.notifications.models import Notification, create_notification_handler, delete_notification_handler
 
 
 class NotificationsModelsTest(TestCase):
@@ -42,12 +38,12 @@ class NotificationsModelsTest(TestCase):
         assert isinstance(self.second_notification, Notification)
         assert isinstance(self.third_notification, Notification)
         assert isinstance(self.fourth_notification, Notification)
-        assert str(self.first_notification) == "test_user liked 0 minutes ago"
-        assert str(self.second_notification) == "test_user commented 0 minutes ago"
-        assert str(self.third_notification) == "other_test_user answered 0 minutes ago"
+        assert str(self.first_notification) == "test_user liked... [deleted]"
+        assert str(self.second_notification) == "test_user commented... [deleted]"
+        assert str(self.third_notification) == "other_test_user answered... [deleted]"
         # assert (
         #     str(self.fourth_notification)
-        #     == "other_test_user answered This is a short content 0 minutes ago"
+        #     == "other_test_user answered This is a short content. 0 minutes ago"
         # )
 
     def test_return_unread(self):
@@ -95,73 +91,3 @@ class NotificationsModelsTest(TestCase):
         Notification.objects.mark_all_as_read()
         create_notification_handler(self.user, [self.user, self.other_user], "C")
         assert Notification.objects.unread().count() == 2
-
-    def test_icon_comment(self):
-        notification_one = Notification.objects.create(
-            actor=self.user, recipient=self.other_user, verb="C"
-        )
-        notification_two = Notification.objects.create(
-            actor=self.user, recipient=self.other_user, verb="A"
-        )
-        notification_three = Notification.objects.create(
-            actor=self.user, recipient=self.other_user, verb="K"
-        )
-        assert notification_one.get_icon() == "fa-comment"
-        assert notification_two.get_icon() == "fa-comment"
-        assert notification_three.get_icon() == "fa-comment"
-
-    def test_icon_users(self):
-        notification_one = Notification.objects.create(
-            actor=self.user, recipient=self.other_user, verb="I"
-        )
-        notification_two = Notification.objects.create(
-            actor=self.user, recipient=self.other_user, verb="U"
-        )
-        notification_three = Notification.objects.create(
-            actor=self.user, recipient=self.other_user, verb="O"
-        )
-        assert notification_one.get_icon() == "fa-users"
-        assert notification_two.get_icon() == "fa-users"
-        assert notification_three.get_icon() == "fa-users"
-
-    def test_icon_hearth(self):
-        notification = Notification.objects.create(
-            actor=self.user, recipient=self.other_user, verb="L"
-        )
-        assert notification.get_icon() == "fa-heart"
-
-    def test_icon_star(self):
-        notification = Notification.objects.create(
-            actor=self.user, recipient=self.other_user, verb="F"
-        )
-        assert notification.get_icon() == "fa-star"
-
-    def test_icon_check_circle(self):
-        notification = Notification.objects.create(
-            actor=self.user, recipient=self.other_user, verb="W"
-        )
-        assert notification.get_icon() == "fa-check-circle"
-
-    def test_icon_pencil(self):
-        notification = Notification.objects.create(
-            actor=self.user, recipient=self.other_user, verb="E"
-        )
-        assert notification.get_icon() == "fa-pencil"
-
-    def test_icon_plus(self):
-        notification = Notification.objects.create(
-            actor=self.user, recipient=self.other_user, verb="V"
-        )
-        assert notification.get_icon() == "fa-plus"
-
-    def test_icon_share(self):
-        notification = Notification.objects.create(
-            actor=self.user, recipient=self.other_user, verb="S"
-        )
-        assert notification.get_icon() == "fa-share-alt"
-
-    def test_icon_reply(self):
-        notification = Notification.objects.create(
-            actor=self.user, recipient=self.other_user, verb="R"
-        )
-        assert notification.get_icon() == "fa-reply"

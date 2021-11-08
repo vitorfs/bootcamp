@@ -1,0 +1,41 @@
+<style>
+    #groups_container {
+      text-align: center;
+      line-height: 50px;
+      background-color:white; box-shadow:0 0 2px 1px #e6e1e2; padding:30px; margin-top:15px;
+    }
+    #groups_container a{
+    border-radius: 100px;
+    padding: 4px 15px;
+    margin: 5px;
+    border: 1px solid #d6d6d6;
+    text-decoration: none;
+    }
+    #groups_container a:hover{
+    border: 1px solid #3f51b5;
+    }
+</style>
+<div class="container" id="groups_container">
+  <h3 class="text-muted">Subscribed Groups</h3>
+  {% for group in groups_list %}
+    <a href="{{ group.get_absolute_url }}">{{ group.title }}</a>
+  {% empty %}
+    <h5>You have not <b>subscribed</b> any groups yet.</h5>
+  {% endfor %}
+  <p>
+  <a href="{% url 'view_all_groups' %}" class="btn btn-sm btn-primary">Discover groups</a>
+  <a href="{% url 'user_created_groups' user.username %}" class="btn btn-sm btn-primary">My groups</a>
+  </p>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#groups_container").hide();
+
+  $("#groups_container_trigger").click(function(){
+    $("#groups_container").slideToggle("slow", function() {
+      // Animation complete.
+    });
+  });
+});
+</script>

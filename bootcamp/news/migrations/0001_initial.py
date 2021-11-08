@@ -7,7 +7,6 @@ import uuid
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [migrations.swappable_dependency(settings.AUTH_USER_MODEL)]
@@ -53,7 +52,7 @@ class Migration(migrations.Migration):
                     "user",
                     models.ForeignKey(
                         null=True,
-                        on_delete=django.db.models.deletion.SET_NULL,
+                        on_delete=django.db.models.deletion.CASCADE,
                         related_name="publisher",
                         to=settings.AUTH_USER_MODEL,
                     ),

@@ -8,8 +8,6 @@
   border-width: 0 0 1px 0;
   border-style: solid;
   border-color: #eeeeee;
-  background-color: #fff;
-  color: #333333;
   text-decoration: none;
 }
 .notification:last-child {
@@ -17,7 +15,7 @@
 }
 .notification:hover,
 .notification.active:hover {
-  background-color: #f9f9f9;
+  background-color: #676b76;
   border-color: #eeeeee;
 }
 .notification.active {

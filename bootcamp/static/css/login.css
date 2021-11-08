@@ -177,16 +177,17 @@ iframe {
   justify-content: center;
   align-items: center;
   padding: 15px;
-
-  background-color: #ebebeb;
+  background-color: #111723;
+background-image: url("../img/header.jpg");
 }
 
 
 .wrap-login100 {
-  width: 560px;
+  width: 380px;
   background: #fff;
   border-radius: 10px;
   position: relative;
+  padding: 40px;
 }
 
 
@@ -204,12 +205,24 @@ iframe {
   line-height: 1.2;
   text-transform: uppercase;
   text-align: left;
-
+  margin-bottom: 20px;
   width: 100%;
   display: block;
 }
 
+.or-seperator {
+    margin: 20px 0 10px;
+    text-align: center;
+    border-top: 1px solid #ccc;
+}
 
+.or-seperator i {
+    padding: 0 10px;
+    background: #ffffff;
+    position: relative;
+    top: -11px;
+    z-index: 1;
+}
 
 /*------------------------------------------------------------------
 [ Input ]*/

@@ -9,22 +9,20 @@
 {% endblock head %}
 
 {% block content %}
-    <h1>
-        {% trans 'Unread notifications' %}
+    <div class="page-header">
         <a class="btn btn-dark pull-right"
            href="{% url 'notifications:mark_all_read' %}">{% trans 'Mark all as read' %}</a>
-    </h1>
+        <h1>{% trans 'Notifications' %}</h1>
+    </div>
     <ul class="notifications">
         {% for notification in notification_list %}
             <li class="notification">
                 <div class="media">
                     <div class="media-left">
                         <div class="media-object">
-                            <a href="{% url 'users:detail' notification.actor.username %}">
-                                <img src="{{ notification.actor.get_picture }}" id="pic" class="user-image"
-                                     style="width: 30px; border-radius: 50%;"
-                                     alt="{% trans 'User Image' %}">
-                            </a>
+                            <img src="{{ notification.actor.get_picture }}" id="pic" class="user-image"
+                                 style="width: 30px; border-radius: 50%;"
+                                 alt="{% trans 'User Image' %}">
                         </div>
                     </div>
                     <div class="media-body">

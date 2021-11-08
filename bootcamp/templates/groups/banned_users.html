@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{#{% load groups_tags %}#}
+{% load humanize %}
+
+{% block title %}<title>Banned Users</title>{% endblock %}
+
+{% block content %}
+
+{#{% include "groups/includes/page_heading.html" with text="Banned Users" %}#}
+{% if users %}
+<p class="text-muted text-center">Unban user if they were banned by mistake from group.</p>
+{% endif %}
+
+{% for user in users %}
+<div class="card mb-2" style="border:none; border-bottom:1px solid #dcd7d7;">
+  <div class="card-body p-4">
+
+    <div class="text-center" style="float:left; width:10%;">
+      {% if user.profile.get_picture %}
+      <img src="{{user.profile.get_picture}}" class="rounded" width="50px" height="50px">
+      {% endif %}
+    </div>
+
+    <div style="float:right; width:90%;">
+      <h6>
+        <a href="{% url 'user_profile' user.username %}"
+           class="card-link">{{ user.profile.screen_name }}</a> &nbsp; &nbsp; &nbsp;
+        <a href="{% url 'ban_user' group.slug user.id %}"
+           class="btn btn-outline-secondary btn-sm">Unban User</a>
+      </h6>
+    </div>
+  </div>
+</div>
+{% empty %}
+<p class="text-muted text-center">No User Banned Yet!</p>
+{% endfor %}
+
+{% endblock content %}

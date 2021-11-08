@@ -24,7 +24,6 @@ $('.form-group').removeClass('row');
 $(function () {
     let emptyMessage = 'data-empty="true"';
 
-
     function updateUnreadNotifications() {
         $.ajax({
             url: '/notifications/unread-notifications/',
@@ -36,10 +35,8 @@ $(function () {
                         unreadNum = '9+'
                     }
                     $("#countnotif").text(unreadNum);
-                    $(".fa-bell").attr("style", "color:white");
                 } else {
                     $("#countnotif").text("");
-                    $(".fa-bell").attr("style", "color:grey");
                 }
             },
         });
@@ -56,14 +53,13 @@ $(function () {
                         unreadNum = '9+'
                     }
                     $("#countmsg").text(unreadNum);
-                    $(".fa-envelope").attr("style", "color:white");
                 } else {
                     $("#countmsg").text("");
-                    $(".fa-envelope").attr("style", "color:grey");
                 }
             },
         });
     };
+
 
     function update_social_activity(id_value) {
         let newsToUpdate = $("[news-id=" + id_value + "]");
@@ -91,7 +87,7 @@ $(function () {
             var li = $(this).closest("li");
             var slug = $(li).attr("notification-slug");
             $.ajax({
-                url: '/notifications/mark_as_read_ajax/',
+                url: '/notifications/mark-as-read-ajax/',
                 data: {
                     'slug': slug,
                 },
@@ -107,38 +103,34 @@ $(function () {
         });
     }
 
-    $('#notifications').popover({
-        html: true,
-        trigger: 'manual',
-        container: "body",
-        placement: "bottom",
-    });
-
-
+    $('#notifications').popover({html: true, content: 'Loading...', trigger: 'manual'});
     $("#notifications").click(function () {
         if ($(".popover").is(":visible")) {
             $("#notifications").popover('hide');
         } else {
-            $("#notifications").popover('dispose');
+            $("#notifications").popover('show')
             $.ajax({
                 url: '/notifications/latest-notifications/',
-                cache: false,
-                success: function (data) {
-                    $("#notifications").popover({
-                        html: true,
-                        trigger: 'manual',
-                        container: "body",
-                        placement: "bottom",
-                        content: data,
-                    }).on('shown.bs.popover', function () {
-                        markUnreadAjax();
-                    });
-                    $("#notifications").popover('show');
-                    $("#notifications").attr("style", "")
+                beforeSend: function () {
+                    $(".popover-body").html("<div style='text-align:center'><img src='/static/img/loading.gif'></div>");
                 },
+                success: function (data) {
+                    $("#countnotif").text("");
+                    $(".popover-body").html(data);
+                }
             });
         }
         return false;
+    });
+
+    // Fix to dismiss popover when clicking outside of it
+    $("html").on("mouseup", function (e) {
+        var l = $(e.target);
+        if (l[0].className.indexOf("popover") == -1) {
+            $(".popover").each(function () {
+                $(this).popover("hide");
+            });
+        }
     });
 
     // Code block to manage WebSocket connections

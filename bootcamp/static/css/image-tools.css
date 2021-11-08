@@ -1,0 +1,25 @@
+/*Image upload section*/
+
+#upload {
+    opacity: 0;
+}
+
+#upload-label {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+}
+
+.image-area {
+    position: relative;
+}
+
+.image-area img {
+    z-index: 2;
+    position: relative;
+}
+
+.removeImage {
+    color: #c80000;
+}
