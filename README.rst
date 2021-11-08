@@ -1,4 +1,4 @@
-Django 3 Social Network
+Python/Django Social Network
 ========
 
 Web app: https://www.antisocialnetwork.live
