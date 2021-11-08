@@ -20,29 +20,16 @@
             {% include 'users/user_account_menu.html' with active='picture' %}
         </div>
         <div class="col-md-8">
-            <h3 style="margin-bottom: 15px">{% trans 'Change Picture' %}</h3>
-            <img src="{{ user.get_picture }}" class="user-image"
-                 style="width: 150px; border-radius: 50%; margin-bottom: 1em;" alt="{% trans 'User Image' %}">
+            <img src="{{ user.get_picture }}" class="user-image" style="width: 150px; border-radius: 50%; margin-bottom: 1em;" alt="{% trans 'User Image' %}">
             <form enctype="multipart/form-data" method="post" action="{% url 'users:upload_picture' %}"
                   id="picture-upload-form">
                 {% csrf_token %}
                 <input type="file" name="picture" style="display: none">
                 <button type="button" class="btn btn-primary"
                         id="btn-upload-picture">{% trans 'Upload Photo' %}</button>
-
-                <div class="input-group mb-3 px-2 py-2 rounded-pill shadow-sm">
-                    <input id="imageInput" type="file" name="image" hidden="true" class="form-control border-0">
-                    <label id="upload-label" for="imageInput" hidden="true"
-                           class="font-weight-light text-muted"></label>
-                    <div class="input-group-append">
-                        <label for="imageInput" class="btn btn-light m-0 rounded-pill px-4"> <i
-                                class="fa fa-cloud-upload mr-2 text-muted"></i><small
-                                class="text-uppercase font-weight-bold text-muted">Upload Image</small></label>
-                    </div>
-                </div>
-
             </form>
 
+            {% if uploaded_picture %}
                 <form method="post" action="{% url 'users:save_uploaded_picture' %}">
                     {% csrf_token %}
                     <div class="modal fade" id="modal-upload-picture">
@@ -58,7 +45,8 @@
                                     <div class="selected-picture">
                                         <p>{% trans 'Crop the profile picture and then click on the' %}
                                             <strong>{% trans 'Save Picture' %}</strong> {% trans 'button' %}</p>
-                                        <img src="" id="crop-picture">
+                                        <img src="{% get_media_prefix %}profile_pics/{{ user.username }}_tmp.jpg?_={% now 'U' %}"
+                                             id="crop-picture">
                                         <input type="hidden" id="x" name="x"/>
                                         <input type="hidden" id="y" name="y"/>
                                         <input type="hidden" id="w" name="w"/>
@@ -75,6 +63,7 @@
                         </div>
                     </div>
                 </form>
+            {% endif %}
 
         </div>
     </div>
@@ -85,5 +74,9 @@
     <script src="{% static 'js/jquery.Jcrop.min.js' %}"></script>
     <script src="{% static 'js/picture.js' %}"></script>
     <script type="text/javascript">
+        $(function () {
+            $("#modal-upload-picture").modal();
+            window.history.pushState("", "", "/users/picture/");
+        });
     </script>
 {% endblock modal %}

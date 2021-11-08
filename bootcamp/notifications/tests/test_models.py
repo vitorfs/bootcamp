@@ -38,9 +38,9 @@ class NotificationsModelsTest(TestCase):
         assert isinstance(self.second_notification, Notification)
         assert isinstance(self.third_notification, Notification)
         assert isinstance(self.fourth_notification, Notification)
-        assert str(self.first_notification) == "test_user liked 0 minutes ago"
-        assert str(self.second_notification) == "test_user commented 0 minutes ago"
-        assert str(self.third_notification) == "other_test_user answered 0 minutes ago"
+        assert str(self.first_notification) == "test_user liked... [deleted]"
+        assert str(self.second_notification) == "test_user commented... [deleted]"
+        assert str(self.third_notification) == "other_test_user answered... [deleted]"
         # assert (
         #     str(self.fourth_notification)
         #     == "other_test_user answered This is a short content. 0 minutes ago"

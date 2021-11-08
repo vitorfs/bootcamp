@@ -55,6 +55,10 @@
     color: #eee;
 }
 
+[data-theme="dark"] .nav-item a:hover{
+    color: #d9dadc !important;
+}
+
 [data-theme="dark"] .navbar-custom-style {
     margin-bottom: 10px;
     background: #fff;
