@@ -6,13 +6,14 @@ A Social Network derived from the open source Bootcamp project, with new feature
 Demo: https://www.antisocialnetwork.live
 
 New features include:
-- New design
-- Login with Facebook
-- Content filtering (filter what users post)
-- Add or Follow friends
-- Chat with friends
-- See friends login and posts activity
-- Dark mode
+
+* New design
+* Login with Facebook
+* Content filtering (filter what users post)
+* Add or Follow friends
+* Chat with friends
+* See friends login and posts activity
+* Dark mode
 
 The project has four basic apps:
 
