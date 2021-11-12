@@ -3,6 +3,8 @@ Django Social Network
 
 A Social Network derived from the open source Bootcamp project, with new features and design.
 
+Demo: https://www.antisocialnetwork.live
+
 The project has four basic apps:
 
 * Feed (A Twitter-like microblog)
