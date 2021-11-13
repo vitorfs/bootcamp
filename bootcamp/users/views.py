@@ -67,7 +67,7 @@ class UserListView(LoginRequiredMixin, ListView):
     # These next two lines tell the view to index lookups by username
     slug_field = "username"
     slug_url_kwarg = "username"
-
+    ordering = ['-member_since']
 
 @login_required
 def picture(request):
