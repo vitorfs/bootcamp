@@ -8,17 +8,17 @@ from .base import env
 DEBUG = env.bool("DEBUG", default=True)
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
-SECRET_KEY = env("SECRET_KEY")
+SECRET_KEY = env("SECRET_KEY", default="fOqtAorZrVqWYbuMPOcZnTzw2D5bKeHGpXUwCaNBnvFUmO1njCQZGz05x1BhDG0E")
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = env.list(
-    "ALLOWED_HOSTS", default=["vitor@freitas.com trybootcamp.vitorfs.com"]
+    "ALLOWED_HOSTS", default=["admin@antisocialnetwork.live www.antisocialnetwork.live"]
 )
 
 # DATABASES
 # ------------------------------------------------------------------------------
 DATABASES["default"] = env.db("DATABASE_URL")  # noqa F405
 DATABASES["default"]["ATOMIC_REQUESTS"] = True  # noqa F405
-DATABASES["default"]["CONN_MAX_AGE"] = env.int("CONN_MAX_AGE", default=60)  # noqa F405
+# DATABASES["default"]["CONN_MAX_AGE"] = env.int("CONN_MAX_AGE", default=60)  # noqa F405
 
 # CACHES
 # ------------------------------------------------------------------------------
@@ -43,12 +43,8 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 SECURE_SSL_REDIRECT = env.bool("SECURE_SSL_REDIRECT", default=True)
 # https://docs.djangoproject.com/en/dev/ref/settings/#session-cookie-secure
 SESSION_COOKIE_SECURE = True
-# https://docs.djangoproject.com/en/dev/ref/settings/#session-cookie-httponly
-SESSION_COOKIE_HTTPONLY = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#csrf-cookie-secure
 CSRF_COOKIE_SECURE = True
-# https://docs.djangoproject.com/en/dev/ref/settings/#csrf-cookie-httponly
-CSRF_COOKIE_HTTPONLY = True
 # https://docs.djangoproject.com/en/dev/topics/security/#ssl-https
 # https://docs.djangoproject.com/en/dev/ref/settings/#secure-hsts-seconds
 # TODO: set this to 60 seconds first and then to 518400 once you prove the former works
@@ -86,6 +82,7 @@ _AWS_EXPIRY = 60 * 60 * 24 * 7
 AWS_S3_OBJECT_PARAMETERS = {
     "CacheControl": f"max-age={_AWS_EXPIRY}, s-maxage={_AWS_EXPIRY}, must-revalidate"
 }
+AWS_DEFAULT_ACL = 'public-read'
 
 # STATIC
 # ------------------------
@@ -94,7 +91,7 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # MEDIA
 # ------------------------------------------------------------------------------
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-MEDIA_URL = f"https://s3.amazonaws.com/{AWS_STORAGE_BUCKET_NAME}/"
+MEDIA_URL = 'https://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
 
 # TEMPLATES
 # ------------------------------------------------------------------------------
@@ -114,17 +111,17 @@ TEMPLATES[0]["OPTIONS"]["loaders"] = [  # noqa F405
 # https://docs.djangoproject.com/en/dev/ref/settings/#default-from-email
 DEFAULT_FROM_EMAIL = env(
     "DEFAULT_FROM_EMAIL",
-    default="Bootcamp <noreply@vitor@freitas.com trybootcamp.vitorfs.com>",
+    default="no-reply@antisocialnetwork.live",
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#server-email
 SERVER_EMAIL = env("SERVER_EMAIL", default=DEFAULT_FROM_EMAIL)
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-subject-prefix
-EMAIL_SUBJECT_PREFIX = env("EMAIL_SUBJECT_PREFIX", default="[Bootcamp]")
+EMAIL_SUBJECT_PREFIX = env("EMAIL_SUBJECT_PREFIX", default="[Antisocial Network]")
 
 # ADMIN
 # ------------------------------------------------------------------------------
 # Django Admin URL regex.
-ADMIN_URL = env("ADMIN_URL")
+ADMIN_URL = env("ADMIN_URL", default=r"^admin/")
 
 # Anymail (Mailgun)
 # ------------------------------------------------------------------------------
@@ -135,7 +132,20 @@ EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
 ANYMAIL = {
     "MAILGUN_API_KEY": env("MAILGUN_API_KEY"),
     "MAILGUN_SENDER_DOMAIN": env("MAILGUN_SENDER_DOMAIN"),
+    "MAILGUN_API_URL": env("MAILGUN_API_URL"),
+    # Use MAILGUN_API_URL only if you are using Mailgun’s European region
 }
+
+# Daphne
+# ------------------------------------------------------------------------------
+INSTALLED_APPS += ['daphne']  # noqa F405
+
+
+# Cors headers
+# ------------------------------------------------------------------------------
+# INSTALLED_APPS += ['corsheaders']  # noqa F405
+# MIDDLEWARE = ["corsheaders.middleware.CorsMiddleware"] + MIDDLEWARE  # noqa F405
+# CORS_ORIGIN_ALLOW_ALL = True
 
 # WhiteNoise
 # ------------------------------------------------------------------------------
@@ -159,7 +169,7 @@ SENTRY_CLIENT = env(
 )
 LOGGING = {
     "version": 1,
-    "disable_existing_loggers": True,
+    "disable_existing_loggers": False,
     "root": {"level": "WARNING", "handlers": ["sentry"]},
     "formatters": {
         "verbose": {
@@ -182,7 +192,7 @@ LOGGING = {
         "django.db.backends": {
             "level": "ERROR",
             "handlers": ["console"],
-            "propagate": False,
+            "propagate": True,
         },
         "raven": {"level": "DEBUG", "handlers": ["console"], "propagate": False},
         "sentry.errors": {
@@ -206,3 +216,36 @@ RAVEN_CONFIG = {
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+# site id
+SITE_ID = 2
+
+LOGIN_REDIRECT_URL = "/news"
+# if you succeed in login, you'll be redirected to the main page.
+
+# little options for your page's signup.
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQURIED = True
+
+SOCIALACCOUNT_PROVIDERS = \
+    {'facebook':
+         {'METHOD': 'oauth2',
+          'SCOPE': ['email', 'public_profile'],
+          'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+          'FIELDS': [
+              'id',
+              'email',
+              'name',
+              'first_name',
+              'last_name',
+              'verified',
+              'locale',
+              'timezone',
+              'link',
+              'gender',
+              'updated_time'],
+          'EXCHANGE_TOKEN': True,
+          'LOCALE_FUNC': lambda request: 'kr_KR',
+          'VERIFIED_EMAIL': False,
+          'VERSION': 'v2.4'}}
+

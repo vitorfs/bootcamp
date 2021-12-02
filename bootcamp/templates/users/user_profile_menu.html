@@ -1,0 +1,17 @@
+{% load i18n %}
+{#{% ifequal request.user object %}#}
+<div class="list-group" style="margin-top: 5rem">
+    <a href="{% url 'users:detail' user.username %}"
+       class="list-group-item{% if active == 'user_detail' %} active{% endif %}">{% trans 'Profile' %}</a>
+    <a href="{% url 'users:all_friends' user.username %}"
+       class="list-group-item{% if active == 'user_friends' %} active{% endif %}">{% trans 'Friends' %}</a>
+    <a href="{% url 'users:view_all_followers' user.username %}"
+       class="list-group-item{% if active == 'user_followers' %} active{% endif %}">{% trans 'Followers' %}</a>
+    <a href="{% url 'users:view_following' user.username %}"
+       class="list-group-item{% if active == 'user_following' %} active{% endif %}">{% trans 'Following' %}</a>
+    <a href="{% url 'users:all_message_requests' user.username%}"
+       class="list-group-item{% if active == 'user_friend_requests' %} active{% endif %}">{% trans 'Friend Requests' %}</a>
+</div>
+{#{% endifequal %}#}
+
+

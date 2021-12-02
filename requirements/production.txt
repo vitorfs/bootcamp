@@ -6,9 +6,10 @@ boto3  # pyup: update minor  # https://github.com/boto/boto3
 gevent  # https://github.com/gevent/gevent
 raven  # https://github.com/getsentry/raven-python
 psycopg2  # https://github.com/psycopg/psycopg2
-daphne
 
 # Django
 # ------------------------------------------------------------------------------
 django-anymail  # https://github.com/anymail/django-anymail
 django-storages  # https://github.com/jschneier/django-storages
+daphne
+# django-cors-headers

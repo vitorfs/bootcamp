@@ -1,31 +1,23 @@
-Bootcamp
-========
+Django Social Network
+=====================
 
-An enterprise oriented social network
+A Social Network derived from the open source Bootcamp project, with new features and design.
 
-.. image:: https://travis-ci.org/vitorfs/bootcamp.svg?branch=master
-    :target: https://travis-ci.org/vitorfs/bootcamp
-    :alt: TravisCI Status
+Demo: https://www.antisocialnetwork.live
 
-.. image:: https://coveralls.io/repos/github/vitorfs/bootcamp/badge.svg?branch=master
-    :target: https://coveralls.io/github/vitorfs/bootcamp?branch=master
-    :alt: Coverage
+New features include:
 
-.. image:: https://requires.io/github/vitorfs/bootcamp/requirements.svg?branch=master
-    :target: https://requires.io/github/vitorfs/bootcamp/requirements/?branch=master
-    :alt: Requirements
-
-.. image:: https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg
-    :target: https://github.com/pydanny/cookiecutter-django/
-    :alt: Built with Cookiecutter Django
-
-:License: MIT
-
-Bootcamp is an open source **enterprise social network** of open purpose, on which you can build for your own ends.
+* New design
+* Login with Facebook
+* Content filtering (filter what users post)
+* Add or Follow friends
+* Chat with friends
+* See friends login and posts activity
+* Dark mode
 
 The project has four basic apps:
 
-* News (A Twitter-like microblog)
+* Feed (A Twitter-like microblog)
 * Articles (A collaborative blog)
 * Question & Answers (A Stack Overflow-like platform)
 * Messenger (A basic chat-a-like tool for asynchronous communication.)
@@ -34,7 +26,7 @@ Technology Stack
 ----------------
 
 * Python_ 3.6.x / 3.7.x
-* `Django Web Framework`_ 2.2.x
+* `Django 3`_
 * PostgreSQL_
 * `Redis 5.0`_
 * Daphne_
@@ -42,7 +34,7 @@ Technology Stack
 * Docker_
 * docker-compose_
 * WhiteNoise_
-* `Twitter Bootstrap 4`_
+* `Bootstrap 4`_
 * `jQuery 3`_
 * Django-channels_ (for WebSockets)
 * Sentry_
@@ -50,7 +42,7 @@ Technology Stack
 * Cookiecutter_
 
 .. _Python: https://www.python.org/
-.. _`Django Web Framework`: https://www.djangoproject.com/
+.. _`Django 3`: https://www.djangoproject.com/
 .. _PostgreSQL: https://www.postgresql.org/
 .. _`Redis 5.0`: https://redis.io/documentation
 .. _Daphne: https://github.com/django/daphne/
@@ -58,15 +50,22 @@ Technology Stack
 .. _Docker: https://docs.docker.com/
 .. _docker-compose: https://docs.docker.com/compose/
 .. _WhiteNoise: http://whitenoise.evans.io/en/stable/
-.. _`Twitter Bootstrap 4`: https://getbootstrap.com/docs/4.0/getting-started/introduction/
+.. _`Bootstrap 4`: https://getbootstrap.com/docs/4.5/getting-started/introduction/
 .. _`jQuery 3`: https://api.jquery.com/
 .. _Django-channels: https://channels.readthedocs.io/en/latest/
 .. _Sentry: https://docs.sentry.io/
 .. _Mailgun: https://www.mailgun.com/
 .. _Cookiecutter: http://cookiecutter-django.readthedocs.io/en/latest/index.html
 
-Basic Commands
---------------
+Create tables in DB
+^^^^^^^^^^^^^^^^^^^
+
+    $ python manage.py migrate
+
+Run application
+^^^^^^^^^^^^^^^
+
+    $ python manage.py runserver
 
 Test coverage
 ^^^^^^^^^^^^^
@@ -115,3 +114,10 @@ Docker
 See detailed `cookiecutter-django Docker documentation`_.
 
 .. _`cookiecutter-django Docker documentation`: http://cookiecutter-django.readthedocs.io/en/latest/deployment-with-docker.html
+
+Flat pages
+^^^^^^^^^^
+
+Load initial data for flatpages from fixtures folder:
+
+    $ python manage.py loaddata fixtures/flatpages_data.json

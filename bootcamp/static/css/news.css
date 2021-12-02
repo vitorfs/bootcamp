@@ -6,12 +6,14 @@ ul.stream {
 
 ul.stream li {
   list-style: none;
-  border-bottom: 1px solid #eeeeee;
 }
 
 .infinite-container li {
   list-style: none;
-  border-bottom: 1px solid #eeeeee;
+}
+
+.infinite-item {
+  margin-bottom: 30px;
 }
 
 .stream {
@@ -63,23 +65,13 @@ ul.stream li div.post div.interaction a {
   overflow-x: auto;
 }
 
+.ads-column {
+    margin-top: 78px;
+}
+
 .timestamp {
   font-size: 0.8em;
   color: grey;
-}
-
-.profile-picture {
-  float: left;
-}
-
-.profile-picture img {
-  width: 60px;
-  border-radius: 50%;
-}
-
-.news-body {
-  padding: 0.8rem;
-  overflow-x: auto;
 }
 
 .news-comment {
@@ -88,8 +80,6 @@ ul.stream li div.post div.interaction a {
 }
 
 .interaction {
-  font-size: 1.2em;
-  color: #333333
 }
 
 .interaction a {
@@ -161,6 +151,12 @@ ul.stream li div.post div.interaction a {
 .remove-news:hover {
   color: #333333;
 
+}
+
+.dotsmenu{
+  content: '\2807';
+  font-size: 3em;
+  color: #2e2e2e
 }
 
 .meta.card {

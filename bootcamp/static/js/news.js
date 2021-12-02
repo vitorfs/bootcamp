@@ -63,7 +63,9 @@ $(function () {
 
     $("input, textarea").attr("autocomplete", "off");
 
+    var postNewsForm = $('#postNewsForm');
     $("#postNews").click(function () {
+        var formData = new FormData(postNewsForm[0]);
         // Ajax call after pushing button, to register a News object.
         var last_news = $(".stream li:first-child").attr("news-pk");
         if (last_news == undefined) {
@@ -72,9 +74,13 @@ $(function () {
         $("#postNewsForm input[name='last_news']").val(last_news);
         $.ajax({
             url: '/news/post-news/',
-            data: $("#postNewsForm").serialize(),
             type: 'POST',
+            data: formData,
+            async: false,
             cache: false,
+            contentType: false,
+            enctype: "multipart/form-data",
+            processData: false,
             success: function (data) {
                 $("ul.stream").prepend(data);
                 $("#newsInput").val("");
@@ -86,6 +92,7 @@ $(function () {
             },
         });
     });
+
 
     $("ul.stream").on("click", ".remove-news", function () {
         var li = $(this).closest("li");

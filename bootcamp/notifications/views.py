@@ -25,7 +25,7 @@ class NotificationUnreadListView(LoginRequiredMixin, ListView):
     template_name = "notifications/notification_list.html"
 
     def get_queryset(self, **kwargs):
-        return self.request.user.notifications.unread()
+        return self.request.user.notifications.all()
 
 
 @login_required
@@ -57,7 +57,7 @@ def mark_as_read(request, slug=None):
     messages.add_message(
         request,
         messages.SUCCESS,
-        _(f"The notification {notification.slug} has been marked as read."),
+        _(f"The notification {notification.slug} was marked as read."),
     )
     _next = request.GET.get("next")
 
@@ -86,6 +86,7 @@ def mark_as_read_ajax(request):
 @login_required
 def get_latest_notifications(request):
     notifications = request.user.notifications.get_most_recent()
+    request.user.notifications.mark_all_as_read()
     return render(
         request, "notifications/most_recent.html", {"notifications": notifications}
     )

@@ -24,7 +24,7 @@ try:
         dbname="${POSTGRES_DB}",
         user="${POSTGRES_USER}",
         password="${POSTGRES_PASSWORD}",
-        host="postgres"
+        host="${POSTGRES_HOST}"
     )
 except psycopg2.OperationalError:
     sys.exit(-1)

@@ -5,11 +5,9 @@
      aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <ul class="stream" id="newsContent"></ul>
-            </div>
             <!-- Body -->
             <div class="modal-body">
+                <ul class="stream" id="newsContent"></ul>
                 <form id="replyNewsForm" role="form" method="post" action="#" onsubmit="return false">
                     {% csrf_token %}
                     <input type="hidden" name="parent" value="">
@@ -26,9 +24,7 @@
                 </button>
             </div>
             <!-- Body -->
-
             <ul class="stream" id="threadContent"></ul>
-
         </div>
     </div>
 </div>

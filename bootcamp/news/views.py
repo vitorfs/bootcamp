@@ -1,26 +1,24 @@
+import re
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import (
-    HttpResponse,
-    HttpResponseBadRequest,
-    JsonResponse,
-    HttpResponseForbidden,
-)
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse, HttpResponseForbidden
+from django.shortcuts import get_object_or_404, render
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.http import require_http_methods
 from django.views.generic import ListView, DeleteView
-from django.template.context_processors import csrf
 from bootcamp.helpers import ajax_required, AuthorRequiredMixin
 from bootcamp.news.models import News
+from sightengine.client import SightengineClient
 
 
 class NewsListView(LoginRequiredMixin, ListView):
     """A really simple ListView, with some JS magic on the UI."""
 
     model = News
-    paginate_by = 15
+    paginate_by = 10
 
     def get_queryset(self, **kwargs):
         return News.objects.filter(reply=False)
@@ -34,6 +32,11 @@ class NewsDeleteView(LoginRequiredMixin, AuthorRequiredMixin, DeleteView):
     success_url = reverse_lazy("news:list")
 
 
+def news(request, pk):
+    news = get_object_or_404(News, pk=pk)
+    return render(request, 'news/news_activity.html', {'news': news})
+
+
 @login_required
 @ajax_required
 @require_http_methods(["POST"])
@@ -43,8 +46,37 @@ def post_news(request):
     user = request.user
     post = request.POST["post"]
     post = post.strip()
-    if 0 < len(post) <= 280:
-        posted = News.objects.create(user=user, content=post)
+    r_image = re.compile(r".*\.(jpg|png|gif).*$")
+
+    image = None
+    if request.FILES:
+        image = request.FILES['image']
+        client = SightengineClient('137076993', 'XHSoBHy4jQM2yn8YEn8Y')
+        output = client.check('nudity', 'faces').set_bytes(image.file.read())
+
+        if output['nudity']['raw'] > 0.5:
+            return HttpResponseBadRequest(
+                content=_(
+                    f"The image contains nudity. Please reconsider "
+                    f"your existence in this platform "
+                    f"or you will be banned.")
+            )
+
+    post_url = re.search("(?P<url>https?://[^\s]+)", post)
+    if post_url and r_image.match(post_url.group("url")):
+        client = SightengineClient('137076993', 'XHSoBHy4jQM2yn8YEn8Y')
+        output = client.check('nudity', 'faces').set_url(post_url.group("url"))
+
+        if output['nudity']['raw'] > 0.5:
+            return HttpResponseBadRequest(
+                content=_(
+                    f"The image contains nudity. Please reconsider "
+                    f"your existence in this platform "
+                    f"or you will be banned.")
+            )
+
+    if len(post) <= 280:
+        posted = News.objects.create(user=user, content=post, image=image)
         html = render_to_string(
             "news/news_single.html", {"news": posted, "request": request}
         )
@@ -63,13 +95,10 @@ def post_news(request):
 def remove_news(request):
     try:
         news_id = request.POST["news"]
-        feed = News.objects.get(pk=news_id)
-        if feed.user == request.user:
-            parent = feed.parent
-            feed.delete()
-            if parent:
-                parent.count_thread()
-
+        news = News.objects.get(pk=news_id)
+        if news.user == request.user:
+            # news.delete_notifications() TODO
+            news.delete()
             return HttpResponse()
 
         else:
@@ -84,7 +113,7 @@ def remove_news(request):
 @require_http_methods(["POST"])
 def like(request):
     """Function view to receive AJAX, returns the count of likes a given news
-    has recieved."""
+    has received."""
     news_id = request.POST["news"]
     news = News.objects.get(pk=news_id)
     user = request.user
@@ -130,6 +159,9 @@ def post_comment(request):
 @ajax_required
 @require_http_methods(["POST"])
 def update_interactions(request):
+    """
+    A function view to update the displayed comments and likes.
+    """
     data_point = request.POST["id_value"]
     news = News.objects.get(pk=data_point)
     data = {"likes": news.count_likers(), "comments": news.count_thread()}

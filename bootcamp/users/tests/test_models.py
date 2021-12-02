@@ -12,7 +12,7 @@ class TestUser(TestCase):
         )
 
     def test_get_absolute_url(self):
-        self.assertEqual(self.user.get_absolute_url(), "/users/testuser/")
+        self.assertEqual(self.user.get_absolute_url(), "/testuser/")
 
     def test_get_profile_name(self):
         assert self.user.get_profile_name() == "testuser"

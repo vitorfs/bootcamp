@@ -50,10 +50,10 @@ class Article(models.Model):
         settings.AUTH_USER_MODEL,
         null=True,
         related_name="author",
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
     )
     image = models.ImageField(
-        _("Featured image"), upload_to="articles_pictures/%Y/%m/%d/"
+        _("Featured image"), upload_to="articles_pictures/%Y/%m/"
     )
     timestamp = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=255, null=False, unique=True)

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}<title>Subscription List</title>{% endblock %}
+
+{% block content %}
+
+{#{% include "groups/includes/page_heading.html" with text="Subscription List" %}#}
+<div class="alert alert-light text-center" role="alert">
+  Subscribe interesting groups to populate your home feed with interesting subjects.
+</div>
+{% if subscriptions %}
+  {% include "groups/includes/partial_group.html" with groups=subscriptions %}
+{% else %}
+  <div class="card p-4 my-4 mx-0">
+    <h6 class="text-center">No Subscriptions Found</h6>
+    <div style="margin:0 auto;">
+    <p class="text-muted">You have not subscribed any groups yet.</p>
+    </div>
+  </div>
+{% endif %}
+
+{% endblock %}

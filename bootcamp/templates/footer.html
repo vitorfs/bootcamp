@@ -1,0 +1,12 @@
+
+{% load flatpages %}
+{% get_flatpages as flatpages %}
+
+<div class="text-muted" style="font-size:12px; margin-top:20px; padding:5px;">
+
+  {% for page in flatpages %}
+    <a href="{{ page.url }}">{{ page.title }}</a><span> &middot; </span>
+  {% endfor %}
+  <a href="#">Send Feedback</a><br>
+  <span>Anti-Social Network &copy; 2020. All rights reserved.</span>
+</div>

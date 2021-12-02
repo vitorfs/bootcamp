@@ -1,106 +1,194 @@
 {% extends "base.html" %}
-{% load static i18n %}
-{% load thumbnail %}
+{% load static humanize i18n %}
 
 {% block head_title %}{% trans "Profile" %}{% endblock %}
 
 {% block head %}
     <link href="{% static 'css/user_profile.css' %}?v=1" rel="stylesheet">
+    <link href="{% static 'css/news.css' %}?v=1" rel="stylesheet">
+
 {% endblock head %}
 
 {% block content %}
-    <div class="profile">
-        {% if request.user.username == object.username %}
-            <!-- Data tiles -->
-            <div class="row tile_count">
-                <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
-                            <span class="count_top"><i
-                                    class="glyphicon glyphicon-envelope"></i> {% trans 'News' %}</span>
-                    <div class="count">0</div>
-                </div>
-                <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
-                            <span class="count_top"><i
-                                    class="glyphicon glyphicon-pencil"></i> {% trans 'Articles' %}</span>
-                    <div class="count">0</div>
-                </div>
-                <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
-                            <span class="count_top"><i
-                                    class="glyphicon glyphicon-comment"></i> {% trans 'Comments' %}</span>
-                    <div class="count">0</div>
-                </div>
-                <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
-                    <span class="count_top"><i
-                            class="glyphicon glyphicon-question-sign"></i> {% trans 'Questions' %}</span>
-                    <div class="count">0</div>
-                </div>
-                <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
-                        <span class="count_top"><i
-                                class="glyphicon glyphicon-education"></i> {% trans 'Answers' %}</span>
-                    <div class="count">0</div>
-                </div>
-                <div class="col-md-2 col-sm-3 col-xs-4 tile_stats_count">
-                    <span class="count_top"><i
-                            class="glyphicon glyphicon-fire"></i> {% trans 'Global Interactions' %}</span>
-                    <div class="count">0</div>
-                </div>
-            </div>
-            <!-- /data tiles -->
-        {% endif %}
-
-        <div class="row">
-            <div class="col-md-2 user-profile">
+    {#    {% if request.user.username == object.username %}#}
+    {#    {% endif %}#}
+    <div class="page-header">
+        <h1>{% trans 'Profile' %}</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-3 user-profile" style="text-align:center">
             <img src="{{ object.get_picture }}" class="user-image"
-                                         style="width: 150px; border-radius: 50%;"
-                                         alt="{% trans 'User Image' %}">
-            </div>
-            <div id="contact-info" class="vcard">
-                <h1 class="fn">
-                    {{ object.get_profile_name|title }}
-                    {% if object.short_bio %}
-                        <br/><small style="font-size: 50%">{{ object.short_bio }}</small>
-                    {% endif %}
-                </h1>
-                <p>
-                    <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                    {{ object.username }}
-                    <br/>
-                    <i class="fa fa-envelope" aria-hidden="true"></i><a class="email"
-                                                                        href="mailto:{{ object.email }}">   {{ object.email }}</a><br/>
-                    {% if object.job_title %}
-                        <i class="fa fa-briefcase" aria-hidden="true"></i>  {{ object.job_title }} <br/>
-                    {% endif %}
-                    {% if object.location %}
-                        <i class="fa fa-map-marker" aria-hidden="true"></i>  {{ object.location }} <br/>
-                    {% endif %}
-                </p>
-                <div id="objective"><p>{{ object.bio }}</p></div>
-                <div class="clear"></div>
-                {% if object.personal_url %}
-                    <a href="{{ object.personal_url }}" style="font-size: 2em" title="{% trans 'RSS Channel' %}"><i
-                            class="fa fa-rss"></i> </a>
-                {% endif %}
-                {% if object.twitter_account %}
-                    <a href="{{ object.twitter_account }}" style="font-size: 2em" title="{% trans 'Twitter Profile' %}"><i
-                            class="fa fa-twitter"></i> </a>
-                {% endif %}
-                {% if object.github_account %}
-                    <a href="{{ object.github_account }}" style="font-size: 2em" title="{% trans 'Github Profile' %}"><i
-                            class="fa fa-github"></i> </a>
-                {% endif %}
-                {% if object.linkedin_account %}
-                    <a href="{{ object.linkedin_account }}" style="font-size: 2em"
-                       title="{% trans 'LinkedIn Profile' %}"><i
-                            class="fa fa-linkedin"></i> </a>
-                {% endif %}
-                {% if object.facebook_account %}
-                    <a href="{{ object.facebook_account }}" style="font-size: 2em"
-                       title="{% trans 'Facebook Profile' %}"><i
-                            class="fa fa-facebook"></i> </a>
-                {% endif %}
-            </div>
+                 style="width: 150px; border-radius: 50%;"
+                 alt="{% trans 'User Image' %}">
+            {#            {% include 'users/user_profile_menu.html' with active='user_detail' %}#}
 
+        </div>
+        <div class="col-md-8">
+            <div id="contact-info" class="card" style="margin-bottom: 15px">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        {% ifequal request.user object %}
+                        {% else %}
+                            {% if not request.user in object.contact_list.all %}
+                                {% if request.user in object.pending_list.all %}
+                                    <a href="{% url 'users:send_message_request' object.id %}"
+                                       class="btn btn-primary btn-sm"
+                                       id="send_message_request"
+                                       style="margin-right: 10px;"
+                                       title="Request sent to this users">Request Sent</a>
+                                {% else %}
+                                    <a href="{% url 'users:send_message_request' object.id %}"
+                                       class="btn btn-outline-primary btn-sm"
+                                       id="send_message_request"
+                                       style="margin-right: 10px;"
+                                       title="Send request to this user to start conversation">Send Request</a>
+                                {% endif %}
+                            {% else %}
+                                <!-- Block User Trigger -->
+                                <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal"
+                                        data-target="#blockUserModel">Block
+                                </button>
+
+                                <!-- Block User Modal -->
+                                <div class="modal fade" id="blockUserModel" tabindex="-1" role="dialog"
+                                     aria-labelledby="Block User" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Are you sure?</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h5>Once you block the user, you cannot message him again until he
+                                                    accepts your
+                                                    request.</h5>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary btn-sm"
+                                                        data-dismiss="modal">
+                                                    Cancel
+                                                </button>
+                                                <a href="{% url 'users:block_spammer' object.id %}"
+                                                   class="btn btn-primary btn-sm"
+                                                   id="block_spammer" style="margin-right: 10px;"
+                                                   title="Block this user">Block</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="{% url 'messager:conversation_detail' object.username %}"
+                                   class="btn btn-outline-primary btn-sm"
+                                   id="send_msg" title="Send message to this user"
+                                   style="margin-right: 10px;">Message</a>
+                            {% endif %}
+                        {% endifequal %}
+
+                        {% ifequal request.user object %}
+                        {% else %}
+                            {% if request.user in object.followers.all %}
+                                <a href="{% url 'users:follow_user' object.id %}" class="btn btn-primary btn-sm"
+                                   id="follow_user">Unfollow</a>
+                            {% else %}
+                                <a href="{% url 'users:follow_user' object.id %}"
+                                   class="btn btn-outline-primary btn-sm"
+                                   id="follow_user">Follow</a>
+                            {% endif %}
+                        {% endifequal %}
+                    </h4>
+                    <h1 class="fn">
+                        {{ object.get_profile_name }}
+                        {% ifequal request.user object %}
+                            <a href="{% url 'users:update' %}"
+                               class="btn btn-primary pull-right">{% trans 'Edit Profile' %}</a>
+                        {% endifequal %}
+                    </h1>
+                    <p>
+                        <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                        {{ object.username }}
+                        <br/>
+                        {% if object.job_title %}
+                            <i class="fa fa-briefcase" aria-hidden="true"></i> {{ object.job_title }} <br/>
+                        {% endif %}
+                        {% if object.location %}
+                            <i class="fa fa-map-marker" aria-hidden="true"></i> {{ object.location }} <br/>
+                        {% endif %}
+                        <i class="fa fa-clock-o"></i>{% trans ' Last Login: ' %} <small
+                            class="timestamp">{{ object.last_login|naturaltime }}</small>
+                        <br/>
+                     <i class="fa fa-calendar"></i>{% trans ' Member Since: ' %} <small
+                            class="timestamp">{{ object.member_since|naturaltime }}</small>
+                    </p>
+                    <div id="objective"><p>{{ object.bio }}</p></div>
+                    <div class="clear"></div>
+                    {% if object.personal_url %}
+                        <a href="{{ object.personal_url }}" style="font-size: 2em" title="{% trans 'RSS Channel' %}"><i
+                                class="fa fa-rss"></i> </a>
+                    {% endif %}
+                </div>
+            </div>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#user_activity">Activity</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#user_friends">Friends</a>
+                </li>
+                {% ifequal request.user object %}
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#user_friend_requests">Friend Requests</a>
+                    </li>
+                {% endifequal %}
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#user_followers">Followers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#user_following">Following</a>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div id="user_activity" class="tab-pane active"><br>
+                    {% include 'users/user_activity.html' with user_activity=user_activity %}
+                </div>
+                {% ifequal request.user object %}
+                    <div id="user_friend_requests" class="tab-pane fade"><br>
+                        {% include 'users/user_friend_requests.html' with users=object.pending_list.all %}
+                    </div>
+                {% endifequal %}
+                <div id="user_friends" class="tab-pane fade"><br>
+                    {% include 'users/user_friends.html' with users=object.contact_list.all %}
+                </div>
+                <div id="user_followers" class="tab-pane fade"><br>
+                    {% include 'users/user_followers.html' with users=object.followers.all %}
+                </div>
+                <div id="user_following" class="tab-pane fade"><br>
+                    {% include 'users/user_following.html' %}
+                </div>
+            </div>
         </div>
     </div>
 
-
 {% endblock content %}
+
+{% block modal %}
+    {% include "users/includes/partial_user_js.html" %}
+    <script src="{% static 'js/jquery.waypoints.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/infinite.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/news.js' %}" type="text/javascript"></script>
+    <script>
+        var infinite = new Waypoint.Infinite({
+            element: $('.infinite-container')[0],
+            onBeforePageLoad: function () {
+                $('.load').show();
+            },
+            onAfterPageLoad: function ($items) {
+                $('.load').hide();
+            }
+        });
+    </script>
+{% endblock modal %}

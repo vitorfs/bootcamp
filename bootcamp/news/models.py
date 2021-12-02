@@ -1,3 +1,4 @@
+import os
 import uuid
 
 from django.conf import settings
@@ -9,11 +10,8 @@ from asgiref.sync import async_to_sync
 
 from channels.layers import get_channel_layer
 
-from bootcamp.notifications.models import (
-    Notification,
-    create_notification_handler,
-    delete_notification_handler,
-)
+from bootcamp.groups.models import Group
+from bootcamp.notifications.models import Notification, create_notification_handler, delete_notification_handler
 from bootcamp.helpers import fetch_metadata
 
 
@@ -25,11 +23,16 @@ class News(models.Model):
         settings.AUTH_USER_MODEL,
         null=True,
         related_name="publisher",
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
     )
     parent = models.ForeignKey(
         "self", blank=True, null=True, on_delete=models.CASCADE, related_name="thread"
     )
+    image = models.ImageField(
+        upload_to='news_pictures/%Y/%m/', verbose_name="Add image (optional)",
+        blank=True, null=True
+    )
+    group = models.ForeignKey(Group, related_name='submitted_news', on_delete=models.CASCADE, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     uuid_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     content = models.TextField(max_length=280)
@@ -112,7 +115,7 @@ class News(models.Model):
         :requires:
 
         :param user: The logged in user who is doing the reply.
-        :param content: String with the reply.
+        :param text: String with the reply.
         """
         parent = self.get_parent()
         reply_news = News.objects.create(
@@ -140,3 +143,14 @@ class News(models.Model):
 
     def get_likers(self):
         return self.liked.all()
+
+    def delete_notifications(self):
+        likers = list(self.liked.all())
+        delete_notification_handler(
+            likers,
+            self.user,
+            Notification.LIKED,
+            action_object=self,
+            id_value=str(self.uuid_id),
+            key="social_update",
+        )

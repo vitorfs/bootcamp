@@ -5,16 +5,28 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">{% trans "Share something new!" %}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form id="postNewsForm" role="form" method="post" action="#" onsubmit="return false">
+        <form enctype="multipart/form-data" id="postNewsForm" role="form" method="post" action="">
           {% csrf_token %}
           <div class="form-group">
             <textarea id="newsInput" name="post" rows="3" class="form-control" maxlength="280"></textarea>
             <span id="newsCounter" class="pull-right">280</span>
+
+              <!-- Upload image input-->
+            <div class="input-group mb-3 px-2 py-2 rounded-pill shadow-sm">
+                <input id="imageInput" type="file" name="image" hidden="true" class="form-control border-0">
+                <label id="upload-label" for="imageInput" hidden="true" class="font-weight-light text-muted"></label>
+                <div class="input-group-append">
+                    <label for="imageInput" class="btn btn-light m-0 rounded-pill px-4"> <i class="fa fa-cloud-upload mr-2 text-muted"></i><small class="text-uppercase font-weight-bold text-muted">Upload Image</small></label>
+                </div>
+            </div>
+            <!-- Uploaded image area-->
+            <div class="image-area mt-4"><img id="imageResult" src="#" alt="" class="img-fluid rounded shadow-sm mx-auto d-block"><i class="removeImage fa fa-trash" hidden="true" id="removeImage" aria-hidden="true"></i></div>
+
           </div>
         </form>
       </div>

@@ -48,7 +48,7 @@ class NotificationQuerySet(models.query.QuerySet):
 
     def get_most_recent(self):
         """Returns the most recent unread elements in the queryset"""
-        return self.unread()[:5]
+        return self.all()[:5]
 
 
 class Notification(models.Model):
@@ -66,8 +66,8 @@ class Notification(models.Model):
 
     Examples::
 
-        <Sebastian> <Logged In> <1 minute ago>
-        <Sebastian> <commented> <Article> <2 hours ago>
+        <User> <Logged In> <1 minute ago>
+        <User> <commented> <Article> <2 hours ago>
     """
 
     LIKED = "L"
@@ -83,6 +83,9 @@ class Notification(models.Model):
     SHARED = "S"
     SIGNUP = "U"
     REPLY = "R"
+    FOLLOW = "X"
+    FRIEND_REQUEST = "Y"
+    FRIEND_ACCEPT = "Z"
     NOTIFICATION_TYPES = (
         (LIKED, _("liked")),
         (COMMENTED, _("commented")),
@@ -95,36 +98,25 @@ class Notification(models.Model):
         (LOGGED_OUT, _("logged out")),
         (VOTED, _("voted on")),
         (SHARED, _("shared")),
-        (SIGNUP, _("created an account")),
         (REPLY, _("replied to")),
+        (SIGNUP, _("created an account")),
+        (FOLLOW, _("followed you")),
+        (FRIEND_REQUEST, _("sent you a friend request")),
+        (FRIEND_ACCEPT, _("accepted your friend request")),
     )
-    _LIKED_TEMPLATE = (
-        '<a href="/{0}/">{1}</a> {2} <a href="/news/{3}/">{4}</a>'  # noqa: E501
-    )
-    _COMMENTED_TEMPLATE = (
-        '<a href="/{0}/">{1}</a> {2} <a href="/news/{3}/">{4}</a>'  # noqa: E501
-    )
-    _FAVORITED_TEMPLATE = (
-        '<a href="/{0}/">{1}</a> {2} <a href="/qa/{3}/">{4}</a>'  # noqa: E501
-    )
-    _ANSWERED_TEMPLATE = (
-        '<a href="/{0}/">{1}</a> {2} <a href="/qa/{3}/">{4}</a>'  # noqa: E501
-    )
-    _ACCEPTED_ANSWER_TEMPLATE = (
-        '<a href="/{0}/">{1}</a> {2} <a href="/qa/{3}/">{4}</a>'  # noqa: E501
-    )
-    _UPVOTED_QUESTION_TEMPLATE = (
-        '<a href="/{0}/">{1}</a> {2} <a href="/qa/{3}/">{4}</a>'  # noqa: E501
-    )
-    _UPVOTED_ANSWER_TEMPLATE = (
-        '<a href="/{0}/">{1}</a> {2} <a href="/qa/{3}/">{4}</a>'  # noqa: E501
-    )
-    _EDITED_ARTICLE_TEMPLATE = (
-        '<a href="/{0}/">{1}</a> {2} <a href="/articles/{3}/">{4}</a>'  # noqa: E501
-    )
-    _ALSO_COMMENTED_TEMPLATE = (
-        '<a href="/{0}/">{1}</a> {2} <a href="/news/{3}/">{4}</a>'  # noqa: E501
-    )
+    _LIKED_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/news/{3}/">{4}</a>'  # noqa: E501
+    _REPLIED_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/news/{3}/">{4}</a>'  # noqa: E501
+    _FAVORITED_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/qa/">{4}</a>'  # noqa: E501
+    _ANSWERED_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/qa/">{4}</a>'  # noqa: E501
+    _ACCEPTED_ANSWER_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/qa/">{4}</a>'  # noqa: E501
+    _UPVOTED_QUESTION_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/qa/">{4}</a>'  # noqa: E501
+    _UPVOTED_ANSWER_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/qa/">{4}</a>'  # noqa: E501
+    _EDITED_ARTICLE_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/articles/">{4}</a>'  # noqa: E501
+    _ALSO_COMMENTED_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/articles/">{4}</a>'  # noqa: E501
+    _COMMENTED_TEMPLATE = '<a href="/{0}/">{1}</a> {2} <a href="/articles/">{4}</a>'  # noqa: E501
+    _FOLLOWED_TEMPLATE = '<a href="/{0}/">{1}</a> {2}.'  # noqa: E501
+    _FRIEND_REQUEST_TEMPLATE = '<a href="/{0}/">{1}</a> {2}.'  # noqa: E501
+    _FRIEND_ACCEPT_TEMPLATE = '<a href="/{0}/">{1}</a> {2}.'  # noqa: E501
     _USER_LOGIN_TEMPLATE = '<a href="/{0}/">{1}</a> has just logged in.'  # noqa: E501
     _USER_LOGOUT_TEMPLATE = '<a href="/{0}/">{1}</a> has just logged out.'  # noqa: E501
 
@@ -168,16 +160,16 @@ class Notification(models.Model):
                     escape(self.actor),
                     escape(self.get_verb_display()),
                     self.action_object_object_id,
-                    escape(self.get_summary(self.action_object.content)),
+                    escape(self.get_summary(self.action_object.content))
                 )
 
             elif self.verb == self.REPLY:
-                return self._COMMENTED_TEMPLATE.format(
+                return self._REPLIED_TEMPLATE.format(
                     escape(self.actor),
                     escape(self.actor),
                     escape(self.get_verb_display()),
                     self.action_object_object_id,
-                    escape(self.get_summary(self.action_object.content)),
+                    escape(self.get_summary(self.action_object.content))
                 )
 
             elif self.verb == self.COMMENTED:
@@ -186,7 +178,7 @@ class Notification(models.Model):
                     escape(self.actor),
                     escape(self.get_verb_display()),
                     self.action_object_object_id,
-                    escape(self.get_summary(self.action_object.content)),
+                    escape(self.get_summary(self.action_object.content))
                 )
 
             elif self.verb == self.FAVORITED:
@@ -195,7 +187,7 @@ class Notification(models.Model):
                     escape(self.actor),
                     escape(self.get_verb_display()),
                     self.action_object_object_id,
-                    escape(self.get_summary(self.action_object.content)),
+                    escape(self.get_summary(self.action_object.content))
                 )
 
             elif self.verb == self.ANSWERED:
@@ -204,7 +196,7 @@ class Notification(models.Model):
                     escape(self.actor),
                     escape(self.get_verb_display()),
                     self.action_object_object_id,
-                    escape(self.get_summary(self.action_object.content)),
+                    escape(self.get_summary(self.action_object.content))
                 )
 
             elif self.verb == self.ACCEPTED_ANSWER:
@@ -213,7 +205,7 @@ class Notification(models.Model):
                     escape(self.actor),
                     escape(self.get_verb_display()),
                     self.action_object_object_id,
-                    escape(self.get_summary(self.action_object.content)),
+                    escape(self.get_summary(self.action_object.content))
                 )
 
             elif self.verb == self.EDITED_ARTICLE:
@@ -222,7 +214,7 @@ class Notification(models.Model):
                     escape(self.actor),
                     escape(self.get_verb_display()),
                     self.action_object_object_id,
-                    escape(self.get_summary(self.action_object.content)),
+                    escape(self.get_summary(self.action_object.content))
                 )
 
             elif self.verb == self.ALSO_COMMENTED:
@@ -231,17 +223,43 @@ class Notification(models.Model):
                     escape(self.actor),
                     escape(self.get_verb_display()),
                     self.action_object_object_id,
-                    escape(self.get_summary(self.action_object.content)),
+                    escape(self.get_summary(self.action_object.content))
+                )
+
+            else:
+                return 'Ooops! Something went wrong.'
+        else:
+            if self.verb == self.FOLLOW:
+                return self._FOLLOWED_TEMPLATE.format(
+                    escape(self.actor),
+                    escape(self.actor),
+                    escape(self.get_verb_display()),
+                )
+
+            elif self.verb == self.FRIEND_REQUEST:
+                return self._FRIEND_REQUEST_TEMPLATE.format(
+                    escape(self.actor),
+                    escape(self.actor),
+                    escape(self.get_verb_display()),
+                )
+
+            elif self.verb == self.FRIEND_ACCEPT:
+                return self._FRIEND_ACCEPT_TEMPLATE.format(
+                    escape(self.actor),
+                    escape(self.actor),
+                    escape(self.get_verb_display()),
                 )
 
             elif self.verb == self.LOGGED_IN:
                 return self._USER_LOGIN_TEMPLATE.format(
-                    escape(self.actor), escape(self.actor)
+                    escape(self.actor),
+                    escape(self.actor)
                 )
 
             elif self.verb == self.LOGGED_OUT:
                 return self._USER_LOGOUT_TEMPLATE.format(
-                    escape(self.actor), escape(self.actor)
+                    escape(self.actor),
+                    escape(self.actor)
                 )
 
             elif self.verb == self.VOTED:
@@ -250,18 +268,14 @@ class Notification(models.Model):
                     escape(self.actor),
                     escape(self.get_verb_display()),
                     self.action_object_object_id,
-                    escape(self.get_summary(self.action_object)),
+                    escape(self.get_summary(self.action_object))
                 )
-
-            else:
-                return "Ooops! Something went wrong."
-        else:
-            return f"{self.actor} {self.get_verb_display()} {self.time_since()} ago"
+            return f"{self.actor} {self.get_verb_display()}... [deleted]"
 
     def get_summary(self, value):
         summary_size = 50
         if len(value) > summary_size:
-            return "{0}...".format(value[:summary_size])
+            return '{0}...'.format(value[:summary_size])
 
         else:
             return value
@@ -284,37 +298,6 @@ class Notification(models.Model):
         from django.utils.timesince import timesince
 
         return timesince(self.timestamp, now)
-
-    def get_icon(self):
-        """Model method to validate notification type and return the closest
-        icon to the verb.
-        """
-        if self.verb == "C" or self.verb == "A" or self.verb == "K":
-            return "fa-comment"
-
-        elif self.verb == "I" or self.verb == "U" or self.verb == "O":
-            return "fa-users"
-
-        elif self.verb == "L":
-            return "fa-heart"
-
-        elif self.verb == "F":
-            return "fa-star"
-
-        elif self.verb == "W":
-            return "fa-check-circle"
-
-        elif self.verb == "E":
-            return "fa-pencil"
-
-        elif self.verb == "V":
-            return "fa-plus"
-
-        elif self.verb == "S":
-            return "fa-share-alt"
-
-        elif self.verb == "R":
-            return "fa-reply"
 
     def mark_as_read(self):
         if self.unread:
@@ -405,8 +388,8 @@ def delete_notification_handler(actor, recipient, verb, **kwargs):
             ).delete()
         notification_broadcast(actor, key)
 
-    elif isinstance(recipient, list):
-        for user in recipient:
+    elif isinstance(actor, list):
+        for user in actor:
             Notification.objects.filter(
                 actor=actor,
                 recipient=get_user_model().objects.get(username=user),
@@ -421,10 +404,6 @@ def delete_notification_handler(actor, recipient, verb, **kwargs):
             verb=verb,
             action_object_object_id=id_value,
         ).delete()
-        notification_broadcast(
-            actor, key, id_value=id_value, recipient=recipient.username
-        )
-
     else:
         pass
 
