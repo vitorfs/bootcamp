@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.urls import path
 
 from . import views
 
@@ -12,4 +13,5 @@ urlpatterns = [
         view=views.UserDetailView.as_view(),
         name="detail",
     ),
+    path('signup/',views.UserCreateView.as_view(), name="signup"),
 ]

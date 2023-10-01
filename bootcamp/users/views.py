@@ -1,8 +1,21 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
 from django.urls import reverse
-from django.views.generic import DetailView, ListView, RedirectView, UpdateView
+from django.views.generic import DetailView, ListView, RedirectView, UpdateView, CreateView
 
 from .models import User
+from .forms import *
+from django.contrib.auth import login
+
+class UserCreateView(CreateView):
+    form_class = CustomUserCreationForm
+    template_name = "account/signup.html"
+
+    def form_valid(self, form):
+        # Log the user in upon successful registration
+        user = form.save()
+        login(self.request, user)
+        return redirect("users:detail", username=user.username)
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
